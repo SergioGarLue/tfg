@@ -10,15 +10,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "metodo_pago")
 public class MetodoPago {
 
@@ -44,8 +47,20 @@ public class MetodoPago {
     @Column(nullable = false)
     private Boolean activo;
 
-    @OneToMany(mappedBy = "Usuario")
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
     @JsonIgnore
     private Usuario id_Usuario;
+
+    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimos_digitos,
+            Date fecha_expiracion, Boolean activo, Usuario id_Usuario) {
+        this.proveedor = proveedor;
+        this.tipo = tipo;
+        this.token = token;
+        this.ultimos_digitos = ultimos_digitos;
+        this.fecha_expiracion = fecha_expiracion;
+        this.activo = activo;
+        this.id_Usuario = id_Usuario;
+    }
 
 }

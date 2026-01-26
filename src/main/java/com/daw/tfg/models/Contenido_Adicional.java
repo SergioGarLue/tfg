@@ -3,6 +3,8 @@ package com.daw.tfg.models;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,10 +19,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "contenido_adicional")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Contenido_Adicional {
 @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,28 +52,33 @@ public class Contenido_Adicional {
 
     @OneToMany(mappedBy = "review")
     @Column(name = "review")
+    @JsonIgnore
     private List<Resena> reviews;
 
     @ManyToOne()
     @JoinColumn(name = "id_juego")
     @Column(name = "contenidos_adicionales")
+    @JsonIgnore
     private List<Contenido_Adicional> contenidos_adicionales;
 
     @ManyToMany(mappedBy = "generos")
     @JoinColumn(name = "id_genero")
+    @JsonIgnore
     private List<Genero> genero;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(nullable = false, name = "desarrollador")
-    private String desarrollador;
+    @JsonIgnore
+    private Desarrollador desarrollador;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(nullable = false, name = "editor")
-    private String editor;
+    @JsonIgnore
+    private Editor editor;
 
     public Contenido_Adicional(String titulo, Float precio, String descripcion, Date fechaLanzamiento, Float pesoGb,
             String imagen, String requistos, List<Resena> reviews, List<Contenido_Adicional> contenidos_adicionales,
-            List<Genero> genero, String desarrollador, String editor) {
+            List<Genero> genero, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;

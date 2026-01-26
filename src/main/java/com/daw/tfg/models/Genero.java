@@ -2,6 +2,8 @@ package com.daw.tfg.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,10 +15,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "generos")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Genero {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +30,15 @@ public class Genero {
 
     @ManyToMany(mappedBy = "genero_juegos")
     @JoinColumn(name = "id_juego")
+    @JsonIgnore
     private List<Juego> juegos;
 
     public Genero(String nombre, List<Juego> juegos) {
         this.nombre = nombre;
         this.juegos = juegos;
     }
+
+    
 }
 
 

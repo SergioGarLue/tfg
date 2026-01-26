@@ -15,9 +15,10 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "compra")
 public class Compra {
 
@@ -41,4 +42,14 @@ public class Compra {
     @OneToMany(mappedBy = "metodo_pago")
     @JsonIgnore
     private MetodoPago id_metodo_pago;
+
+    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario id_Usuario, MetodoPago id_metodo_pago) {
+        this.fecha_compra = fecha_compra;
+        this.total = total;
+        this.estado = estado;
+        this.id_Usuario = id_Usuario;
+        this.id_metodo_pago = id_metodo_pago;
+    }
+
+    
 }

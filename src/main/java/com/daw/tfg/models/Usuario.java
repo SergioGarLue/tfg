@@ -11,10 +11,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "usuarios")
 public class Usuario {
 
@@ -34,5 +35,11 @@ public class Usuario {
     @Column(nullable = false)
     private EstadoUsuario estado;
 
+    public Usuario(String nombre_usuario, String contraseña_cifrada, String correo_electronico, EstadoUsuario estado) {
+        this.nombre_usuario = nombre_usuario;
+        this.contraseña_cifrada = contraseña_cifrada;
+        this.correo_electronico = correo_electronico;
+        this.estado = estado;
+    }
 
 }

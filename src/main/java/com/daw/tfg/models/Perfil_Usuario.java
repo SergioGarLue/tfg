@@ -12,10 +12,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "Perfil_Usuario")
 public class Perfil_Usuario {
     @Id
@@ -37,8 +38,17 @@ public class Perfil_Usuario {
     @Column(nullable = false)
     private Boolean estado;
 
-    @OneToOne(mappedBy = "Usuario")
+    @OneToOne(mappedBy = "perfil_usuario")
     @JsonIgnore
     private Usuario id_Usuario;
 
+    public Perfil_Usuario(String imagen_usuario, String imagen_fondo_perfil, String pais, String biografia,
+            Boolean estado, Usuario id_Usuario) {
+        this.imagen_usuario = imagen_usuario;
+        this.imagen_fondo_perfil = imagen_fondo_perfil;
+        this.pais = pais;
+        this.biografia = biografia;
+        this.estado = estado;
+        this.id_Usuario = id_Usuario;
+    }
 }
