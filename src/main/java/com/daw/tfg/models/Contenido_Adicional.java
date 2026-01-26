@@ -19,12 +19,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "juegos")
-@Getter
-@Setter
-@NoArgsConstructor
-public class Juego {
-    @Id
+@Table(name = "contenido_adicional")
+@Getter @Setter @NoArgsConstructor
+public class Contenido_Adicional {
+@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -53,9 +51,10 @@ public class Juego {
     @Column(name = "review")
     private List<Resena> reviews;
 
-    @OneToMany(mappedBy = "contenido_adicional")
-    @Column(name = "contenido_adicional")
-    private List<Contenido_Adicional> contenido_adicional;
+    @ManyToOne()
+    @JoinColumn(name = "id_juego")
+    @Column(name = "contenidos_adicionales")
+    private List<Contenido_Adicional> contenidos_adicionales;
 
     @ManyToMany(mappedBy = "generos")
     @JoinColumn(name = "id_genero")
@@ -69,8 +68,8 @@ public class Juego {
     @Column(nullable = false, name = "editor")
     private String editor;
 
-    public Juego(String titulo, Float precio, String descripcion, Date fechaLanzamiento, Float pesoGb, String imagen,
-            String requistos, List<Resena> reviews, List<Contenido_Adicional> contenido_adicional,
+    public Contenido_Adicional(String titulo, Float precio, String descripcion, Date fechaLanzamiento, Float pesoGb,
+            String imagen, String requistos, List<Resena> reviews, List<Contenido_Adicional> contenidos_adicionales,
             List<Genero> genero, String desarrollador, String editor) {
         this.titulo = titulo;
         this.precio = precio;
@@ -80,10 +79,9 @@ public class Juego {
         this.imagen = imagen;
         this.requistos = requistos;
         this.reviews = reviews;
-        this.contenido_adicional = contenido_adicional;
+        this.contenidos_adicionales = contenidos_adicionales;
         this.genero = genero;
         this.desarrollador = desarrollador;
         this.editor = editor;
     }
-
 }
