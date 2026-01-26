@@ -27,21 +27,19 @@ public class Resena {
     @Column(nullable = false, name = "valoracion")
     private Integer valoracion;
 
-    @ManyToOne()
-    @JoinColumn(name = "id_juego")
-    @Column(name ="juego")
+    @ManyToOne
+    @JoinColumn(name = "id_juego", nullable = false)
     @JsonIgnore
     private Juego juego;
 
-    @ManyToOne()
-    @JoinColumn(name = "id_contenido_adicional")    
-    @Column(name ="contenido_adicional")
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
     @JsonIgnore
-    private Contenido_Adicional contenido_adicional;
+    private Usuario usuario;
 
-    public Resena(Integer valoracion, Juego juego, Contenido_Adicional contenido_adicional) {
+    public Resena(Integer valoracion, Juego juego, Usuario usuario) {
         this.valoracion = valoracion;
         this.juego = juego;
-        this.contenido_adicional = contenido_adicional;
+        this.usuario = usuario;
     }
 }

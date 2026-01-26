@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -28,17 +28,18 @@ public class Genero {
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;
 
-    @ManyToMany(mappedBy = "genero_juegos")
-    @JoinColumn(name = "id_juego")
+    @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Juego> juegos;
+
+    public Genero(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Genero(String nombre, List<Juego> juegos) {
         this.nombre = nombre;
         this.juegos = juegos;
     }
-
-    
 }
 
 

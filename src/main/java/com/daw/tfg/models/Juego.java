@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -47,49 +48,50 @@ public class Juego {
     @Column(nullable = false, name = "imagen")
     private String imagen;
     
-    @Column(nullable = false, name = "requistos")
-    private String requistos;
+    @Column(nullable = false, name = "requisitos")
+    private String requisitos;
 
-    @OneToMany(mappedBy = "review")
-    @Column(name = "review")
+    @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private List<Resena> reviews;
+    private List<Resena> resenas;
 
-    @OneToMany(mappedBy = "contenido_adicional")
-    @Column(name = "contenido_adicional")
+    @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private List<Contenido_Adicional> contenido_adicional;
+    private List<Contenido_Adicional> contenidosAdicionales;
 
-    @ManyToMany(mappedBy = "genero_juegos")
-    @JoinColumn(name = "id_genero")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "juego_genero",
+        joinColumns = @JoinColumn(name = "id_juego"),
+        inverseJoinColumns = @JoinColumn(name = "id_genero")
+    )
     @JsonIgnore
-    private List<Genero> genero;
+    private List<Genero> generos;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(nullable = false, name = "desarrollador")
+    @JoinColumn(name = "id_desarrollador", nullable = false)
     @JsonIgnore
     private Desarrollador desarrollador;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(nullable = false, name = "editor")
+    @JoinColumn(name = "id_editor", nullable = false)
     @JsonIgnore
     private Editor editor;
 
     public Juego(String titulo, Float precio, String descripcion, Date fechaLanzamiento, Float pesoGb, String imagen,
-            String requistos, List<Resena> reviews, List<Contenido_Adicional> contenido_adicional,
-            List<Genero> genero, Desarrollador desarrollador, Editor editor) {
+            String requisitos, List<Resena> resenas, List<Contenido_Adicional> contenidosAdicionales,
+            List<Genero> generos, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
         this.fechaLanzamiento = fechaLanzamiento;
         this.pesoGb = pesoGb;
         this.imagen = imagen;
-        this.requistos = requistos;
-        this.reviews = reviews;
-        this.contenido_adicional = contenido_adicional;
-        this.genero = genero;
+        this.requisitos = requisitos;
+        this.resenas = resenas;
+        this.contenidosAdicionales = contenidosAdicionales;
+        this.generos = generos;
         this.desarrollador = desarrollador;
         this.editor = editor;
     }
-
 }

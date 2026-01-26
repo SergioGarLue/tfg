@@ -34,6 +34,8 @@ public class Usuario {
 
     @Column(nullable = false)
     private EstadoUsuario estado;
+    
+    
 
     public Usuario(String contraseña_cifrada, String correo_electronico, EstadoUsuario estado, Long id, String nombre_usuario) {
         this.contraseña_cifrada = contraseña_cifrada;
