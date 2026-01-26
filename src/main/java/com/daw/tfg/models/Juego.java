@@ -57,7 +57,7 @@ public class Juego {
     @Column(name = "contenido_adicional")
     private List<Contenido_Adicional> contenido_adicional;
 
-    @ManyToMany(mappedBy = "generos")
+    @ManyToMany(mappedBy = "genero_juegos")
     @JoinColumn(name = "id_genero")
     private List<Genero> genero;
 
