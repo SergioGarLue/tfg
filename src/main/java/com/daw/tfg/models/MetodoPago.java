@@ -48,4 +48,14 @@ public class MetodoPago {
     @JsonIgnore
     private Usuario id_Usuario;
 
+    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimos_digitos, Date fecha_expiracion, Boolean activo, Usuario id_Usuario, Long id_metodo_pago) {
+        this.proveedor = proveedor;
+        this.tipo = tipo;
+        this.token = token;
+        this.ultimos_digitos = ultimos_digitos;
+        this.fecha_expiracion = fecha_expiracion;
+        this.activo = activo;
+        this.id_Usuario = id_Usuario;
+        this.id_metodo_pago = id_metodo_pago;
+    }
 }

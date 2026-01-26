@@ -34,5 +34,11 @@ public class Usuario {
     @Column(nullable = false)
     private EstadoUsuario estado;
 
-
+    public Usuario(String contraseña_cifrada, String correo_electronico, EstadoUsuario estado, Long id, String nombre_usuario) {
+        this.contraseña_cifrada = contraseña_cifrada;
+        this.correo_electronico = correo_electronico;
+        this.estado = estado;
+        this.id = id;
+        this.nombre_usuario = nombre_usuario;
+    }
 }
