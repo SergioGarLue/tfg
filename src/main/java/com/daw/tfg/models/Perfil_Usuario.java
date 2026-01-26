@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class Perfil_Usuario {
     @Column(nullable = false)
     private Boolean estado;
 
-    @OneToMany(mappedBy = "Usuario")
+    @OneToOne(mappedBy = "Usuario")
     @JsonIgnore
     private Usuario id_Usuario;
 

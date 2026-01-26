@@ -1,5 +1,50 @@
 package com.daw.tfg.models;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@Entity
+@Getter @Setter @NoArgsConstructor
+@Table(name = "metodo_pago")
 public class MetodoPago {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_metodo_pago;
+
+    @Column(unique = true, nullable = false)
+    private String proveedor;
+
+    @Column(nullable = false)
+    private TipoMetodoPago tipo;
+
+    @Column(unique = true, nullable = false)
+    private String token;
+
+    @Column(nullable = false, length = 4)
+    private String ultimos_digitos;
+
+    @Column(nullable = false)
+    private Date fecha_expiracion;
+
+    @Column(nullable = false)
+    private Boolean activo;
+
+    @OneToMany(mappedBy = "Usuario")
+    @JsonIgnore
+    private Usuario id_Usuario;
 
 }

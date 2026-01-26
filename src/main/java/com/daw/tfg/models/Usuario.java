@@ -29,8 +29,8 @@ public class Usuario {
     @Column(unique = true, nullable = false)
     private String correo_electronico;
 
-    @Column(unique = true, nullable = false)
-    private Boolean estado;
+    @Column(nullable = false)
+    private EstadoUsuario estado;
 
-    
+
 }
