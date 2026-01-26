@@ -1,4 +1,4 @@
-package com.daw.tfg.models;
+package com.daw.tfg.Enums;
 
 public enum EstadoUsuario {
     PENDIENTE,

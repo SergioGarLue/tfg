@@ -2,6 +2,7 @@ package com.daw.tfg.models;
 
 import java.util.Date;
 
+import com.daw.tfg.Enums.EstadoCompra;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

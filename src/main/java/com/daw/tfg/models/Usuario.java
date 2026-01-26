@@ -1,5 +1,7 @@
 package com.daw.tfg.models;
 
+import com.daw.tfg.Enums.EstadoUsuario;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
