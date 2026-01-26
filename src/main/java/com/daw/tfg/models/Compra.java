@@ -43,13 +43,12 @@ public class Compra {
     @JsonIgnore
     private MetodoPago id_metodo_pago;
 
-    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario id_Usuario, MetodoPago id_metodo_pago) {
+    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario id_Usuario, MetodoPago id_metodo_pago, Long id_compra) {
         this.fecha_compra = fecha_compra;
         this.total = total;
         this.estado = estado;
         this.id_Usuario = id_Usuario;
         this.id_metodo_pago = id_metodo_pago;
+        this.id_compra = id_compra;
     }
-
-    
 }

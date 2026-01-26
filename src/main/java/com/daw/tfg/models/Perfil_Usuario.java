@@ -42,13 +42,13 @@ public class Perfil_Usuario {
     @JsonIgnore
     private Usuario id_Usuario;
 
-    public Perfil_Usuario(String imagen_usuario, String imagen_fondo_perfil, String pais, String biografia,
-            Boolean estado, Usuario id_Usuario) {
-        this.imagen_usuario = imagen_usuario;
-        this.imagen_fondo_perfil = imagen_fondo_perfil;
-        this.pais = pais;
+    public Perfil_Usuario(String biografia, Boolean estado, Usuario id_Usuario, Long id_perfil, String imagen_fondo_perfil, String imagen_usuario, String pais) {
         this.biografia = biografia;
         this.estado = estado;
         this.id_Usuario = id_Usuario;
+        this.id_perfil = id_perfil;
+        this.imagen_fondo_perfil = imagen_fondo_perfil;
+        this.imagen_usuario = imagen_usuario;
+        this.pais = pais;
     }
 }
