@@ -7,23 +7,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "compra")
 public class Compra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_compra;
+    private Long id;
 
     @Column(nullable = false)
     private Date fecha_compra;
@@ -34,11 +37,21 @@ public class Compra {
     @Column(nullable = false)
     private EstadoCompra estado;
 
-    @OneToMany(mappedBy = "Usuario")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", nullable = false)
     @JsonIgnore
-    private Usuario id_Usuario;
+    private Usuario usuario;
 
-    @OneToMany(mappedBy = "metodo_pago")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_metodo_pago", nullable = false)
     @JsonIgnore
-    private MetodoPago id_metodo_pago;
+    private MetodoPago metodoPago;
+    
+    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago) {
+        this.fecha_compra = fecha_compra;
+        this.total = total;
+        this.estado = estado;
+        this.usuario = usuario;
+        this.metodoPago = metodoPago;
+    }
 }

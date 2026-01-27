@@ -3,6 +3,8 @@ package com.daw.tfg.models;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,19 +12,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "contenido_adicional")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Contenido_Adicional {
-@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -44,43 +46,34 @@ public class Contenido_Adicional {
     @Column(nullable = false, name = "imagen")
     private String imagen;
     
-    @Column(nullable = false, name = "requistos")
-    private String requistos;
-
-    @OneToMany(mappedBy = "review")
-    @Column(name = "review")
-    private List<Resena> reviews;
-
-    @ManyToOne()
-    @JoinColumn(name = "id_juego")
-    @Column(name = "contenidos_adicionales")
-    private List<Contenido_Adicional> contenidos_adicionales;
-
-    @ManyToMany(mappedBy = "generos")
-    @JoinColumn(name = "id_genero")
-    private List<Genero> genero;
+    @Column(nullable = false, name = "requisitos")
+    private String requisitos;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(nullable = false, name = "desarrollador")
-    private String desarrollador;
+    @JoinColumn(name = "id_juego", nullable = false)
+    @JsonIgnore
+    private Juego juego;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(nullable = false, name = "editor")
-    private String editor;
+    @JoinColumn(name = "id_desarrollador", nullable = false)
+    @JsonIgnore
+    private Desarrollador desarrollador;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_editor", nullable = false)
+    @JsonIgnore
+    private Editor editor;
 
     public Contenido_Adicional(String titulo, Float precio, String descripcion, Date fechaLanzamiento, Float pesoGb,
-            String imagen, String requistos, List<Resena> reviews, List<Contenido_Adicional> contenidos_adicionales,
-            List<Genero> genero, String desarrollador, String editor) {
+            String imagen, String requisitos, Juego juego, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
         this.fechaLanzamiento = fechaLanzamiento;
         this.pesoGb = pesoGb;
         this.imagen = imagen;
-        this.requistos = requistos;
-        this.reviews = reviews;
-        this.contenidos_adicionales = contenidos_adicionales;
-        this.genero = genero;
+        this.requisitos = requisitos;
+        this.juego = juego;
         this.desarrollador = desarrollador;
         this.editor = editor;
     }
