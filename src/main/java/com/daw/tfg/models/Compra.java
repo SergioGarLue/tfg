@@ -36,7 +36,8 @@ public class Compra {
 
     @Column(nullable = false)
     private EstadoCompra estado;
-
+    
+    //Relaciones
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
     @JsonIgnore
@@ -47,6 +48,7 @@ public class Compra {
     @JsonIgnore
     private MetodoPago metodoPago;
     
+    //Constructor
     public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago) {
         this.fecha_compra = fecha_compra;
         this.total = total;

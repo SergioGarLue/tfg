@@ -46,7 +46,8 @@ public class Contenido_Adicional {
     
     @Column(nullable = false, name = "requisitos")
     private String requisitos;
-
+    
+    //Relaciones 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_juego", nullable = false)
     @JsonIgnore
@@ -62,6 +63,7 @@ public class Contenido_Adicional {
     @JsonIgnore
     private Editor editor;
 
+    //Constructor
     public Contenido_Adicional(String titulo, Float precio, String descripcion, Date fechaLanzamiento, Float pesoGb,
             String imagen, String requisitos, Juego juego, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
