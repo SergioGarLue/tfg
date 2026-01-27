@@ -20,7 +20,7 @@ import lombok.ToString;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
-@Table(name = "usuarios")
+@Table(name = "usuario_lista_deseados")
 public class Lista_Deseados {
 
 

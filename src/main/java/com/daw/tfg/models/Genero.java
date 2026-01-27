@@ -18,7 +18,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "generos")
+@Table(name = "genero")
 @Getter @Setter @NoArgsConstructor @ToString
 public class Genero {
     @Id
