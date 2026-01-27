@@ -29,12 +29,12 @@ public class Desarrollador {
 
     @Column(nullable = false, unique = true, name = "imagen")
     private String imagen;
-
-    @OneToMany(mappedBy = "contenido_adicional")
+    // Relaciones
+    @OneToMany(mappedBy = "Desarrollador")
     @JsonIgnore
     private List<Contenido_Adicional> contenidosAdicionales;
 
-    @OneToMany(mappedBy = "Juego")
+    @OneToMany(mappedBy = "Desarrollador")
     @JsonIgnore
     private List<Juego> Juego;
 

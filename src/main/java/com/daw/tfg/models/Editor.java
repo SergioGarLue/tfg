@@ -31,11 +31,12 @@ public class Editor {
     @Column(nullable = false, unique = true, name = "imagen")
     private String imagen;
 
-    @OneToMany(mappedBy = "contenido_adicional")
+    // Relaciones
+    @OneToMany(mappedBy = "Editor")
     @JsonIgnore
     private List<Contenido_Adicional> contenidosAdicionales;
 
-    @OneToMany(mappedBy = "Juego")
+    @OneToMany(mappedBy = "Editor")
     @JsonIgnore
     private List<Juego> Juego;
 
