@@ -37,5 +37,16 @@ public class Coleccion {
 
     // sujeto a cambios, en la tabla favoritos es un Boolean y no tiene sentido deberia de ser una lista
 
-    
+    @OneToMany(mappedBy = "Juego")
+    @Column(name = "id_juego")
+    private List<Juego> JuegoFavoritos;
+
+    public Coleccion(List<com.daw.tfg.models.Juego> juego, List<Contenido_Adicional> contenido_adicional,
+            Date fecha_adquision, List<com.daw.tfg.models.Juego> juegoFavoritos) {
+        Juego = juego;
+        this.contenido_adicional = contenido_adicional;
+        this.fecha_adquision = fecha_adquision;
+        JuegoFavoritos = juegoFavoritos;
+    }
+
 }
