@@ -22,7 +22,7 @@ public class Desarrollador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_desarrollador;
+    private Long id_Desarrollador;
 
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;
@@ -38,14 +38,12 @@ public class Desarrollador {
     @JsonIgnore
     private List<Juego> Juego;
 
-    public Desarrollador(Long id_desarrollador, String nombre, String imagen,
-            List<Contenido_Adicional> contenidosAdicionales, List<com.daw.tfg.models.Juego> juego) {
-        this.id_desarrollador = id_desarrollador;
+    public Desarrollador(String nombre, String imagen, List<Contenido_Adicional> contenidosAdicionales,
+            List<com.daw.tfg.models.Juego> juego) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.contenidosAdicionales = contenidosAdicionales;
         Juego = juego;
     }
 
-    
 }
