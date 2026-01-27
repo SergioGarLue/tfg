@@ -24,7 +24,7 @@ import lombok.ToString;
 public class Contenido_Adicional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_Contenido_Adicional;
 
     @Column(nullable = false, unique = true, name = "titulo")
     private String titulo;

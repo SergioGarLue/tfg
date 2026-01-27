@@ -26,7 +26,7 @@ public class Compra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_Compra;
 
     @Column(nullable = false)
     private Date fecha_compra;

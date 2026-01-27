@@ -20,13 +20,13 @@ import lombok.ToString;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
-@Table(name = "usuarios")
+@Table(name = "usuario_lista_deseados")
 public class Lista_Deseados {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_Lista_Deseados;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -37,7 +37,7 @@ public class Lista_Deseados {
     private List<Juego> id_Juego;
 
     public Lista_Deseados(Long id, Usuario id_Usuario, List<Juego> id_Juego) {
-        this.id = id;
+        this.id_Lista_Deseados = id;
         this.id_Usuario = id_Usuario;
         this.id_Juego = id_Juego;
     }

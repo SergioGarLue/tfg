@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
-@Table(name = "usuarios")
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
@@ -35,7 +35,7 @@ public class Usuario {
     @Column(nullable = false)
     private EstadoUsuario estado;
     
-    
+    //falta relacion con perfil_usuario
 
     public Usuario(String contraseña_cifrada, String correo_electronico, EstadoUsuario estado, Long id, String nombre_usuario) {
         this.contraseña_cifrada = contraseña_cifrada;

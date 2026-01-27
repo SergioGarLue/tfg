@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -19,6 +22,10 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 @Table(name = "Coleccion")
 public class Coleccion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_Coleccion;
 
     @OneToOne(mappedBy = "Usuario")
     @JsonIgnore
@@ -41,12 +48,17 @@ public class Coleccion {
     @Column(name = "id_juego")
     private List<Juego> JuegoFavoritos;
 
-    public Coleccion(List<com.daw.tfg.models.Juego> juego, List<Contenido_Adicional> contenido_adicional,
-            Date fecha_adquision, List<com.daw.tfg.models.Juego> juegoFavoritos) {
+    public Coleccion(Long id_Coleccion, Usuario id_Usuario, List<com.daw.tfg.models.Juego> juego,
+            List<Contenido_Adicional> contenido_adicional, Date fecha_adquision,
+            List<com.daw.tfg.models.Juego> juegoFavoritos) {
+        this.id_Coleccion = id_Coleccion;
+        this.id_Usuario = id_Usuario;
         Juego = juego;
         this.contenido_adicional = contenido_adicional;
         this.fecha_adquision = fecha_adquision;
         JuegoFavoritos = juegoFavoritos;
     }
+
+    
 
 }
