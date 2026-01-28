@@ -37,7 +37,8 @@ public class Compra {
 
     @Column(nullable = false)
     private EstadoCompra estado;
-
+    
+    //Relaciones
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
     @JsonIgnore
