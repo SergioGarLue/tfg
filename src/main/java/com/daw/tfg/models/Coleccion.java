@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -25,38 +26,29 @@ public class Coleccion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Coleccion;
+    private Long id_coleccion;
 
-    @OneToOne(mappedBy = "Usuario")
+    @OneToOne
+    @JoinColumn(name = "id_usuario", nullable = false, unique = true)
     @JsonIgnore
-    private Usuario id_Usuario;
+    private Usuario usuario;
 
-    @OneToMany(mappedBy = "Juego")
-    @Column(name = "id_juego")
-    private List<Juego> Juego;
+    @OneToMany(mappedBy = "coleccion")
+    @JsonIgnore
+    private List<Coleccion_favoritos> juegos;
 
-    @OneToMany(mappedBy = "contenido_adicional")
-    @Column(name = "id_dlc")
-    private List<Contenido_Adicional> contenido_adicional;
+    @OneToMany(mappedBy = "coleccion")
+    @JsonIgnore
+    private List<Contenido_Adicional> contenidosAdicionales;
 
     @Column(nullable = false)
-    private Date fecha_adquision;
+    private Date fecha_adquisicion;
 
-    // sujeto a cambios, en la tabla favoritos es un Boolean y no tiene sentido deberia de ser una lista
-
-    @OneToMany(mappedBy = "Juego")
-    @Column(name = "id_juego")
-    private List<Juego> JuegoFavoritos;
-
-    public Coleccion(Long id_Coleccion, Usuario id_Usuario, List<com.daw.tfg.models.Juego> juego,
-            List<Contenido_Adicional> contenido_adicional, Date fecha_adquision,
-            List<com.daw.tfg.models.Juego> juegoFavoritos) {
-        this.id_Coleccion = id_Coleccion;
-        this.id_Usuario = id_Usuario;
-        Juego = juego;
-        this.contenido_adicional = contenido_adicional;
-        this.fecha_adquision = fecha_adquision;
-        JuegoFavoritos = juegoFavoritos;
+    public Coleccion(Usuario usuario, List<Coleccion_favoritos> juegos, List<Contenido_Adicional> contenidosAdicionales, Date fecha_adquisicion) {
+        this.usuario = usuario;
+        this.juegos = juegos;
+        this.contenidosAdicionales = contenidosAdicionales;
+        this.fecha_adquisicion = fecha_adquisicion;
     }
 
     

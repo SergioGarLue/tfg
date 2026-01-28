@@ -28,7 +28,7 @@ public class MetodoPago {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_metodo_pago;
 
     @Column(unique = true, nullable = false, name = "proveedor")
     private String proveedor;
