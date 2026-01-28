@@ -24,8 +24,8 @@ public class Resena {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_resena;
 
-    @Column(nullable = false, name = "valoracion")
-    private Integer valoracion;
+    @Column(nullable = false, name = "calidadValoraciones")
+    private Integer calidadValoraciones;
 
     @ManyToOne
     @JoinColumn(name = "id_juego", nullable = false)
@@ -37,8 +37,8 @@ public class Resena {
     @JsonIgnore
     private Usuario usuario;
 
-    public Resena(Integer valoracion, Juego juego, Usuario usuario) {
-        this.valoracion = valoracion;
+    public Resena(Integer calidadValoraciones, Juego juego, Usuario usuario) {
+        this.calidadValoraciones = calidadValoraciones;
         this.juego = juego;
         this.usuario = usuario;
     }
