@@ -27,17 +27,18 @@ public class Compra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_compra;
+    private Long idCompra;
 
     @Column(nullable = false)
-    private Date fecha_compra;
+    private Date fechaCompra;
 
     @Column(nullable = false)
     private Double total;
 
     @Column(nullable = false)
     private EstadoCompra estado;
-
+    
+    //Relaciones
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
     @JsonIgnore
@@ -50,14 +51,14 @@ public class Compra {
     
     @OneToOne
     @JoinColumn(name = "id_carrito", nullable = false)
-    private Carrito id_Carrito;
+    private Carrito carrito;
 
-    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago, Carrito id_Carrito) {
-        this.fecha_compra = fecha_compra;
+    public Compra(Date fechaCompra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago, Carrito carrito) {
+        this.fechaCompra = fechaCompra;
         this.total = total;
         this.estado = estado;
         this.usuario = usuario;
         this.metodoPago = metodoPago;
-        this.id_Carrito = id_Carrito;
+        this.carrito = carrito;
     }
 }

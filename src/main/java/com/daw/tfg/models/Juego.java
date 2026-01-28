@@ -28,7 +28,7 @@ import lombok.ToString;
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_juego;
+    private Long idJuego;
 
     @Column(nullable = false, unique = true, name = "titulo")
     private String titulo;

@@ -23,7 +23,7 @@ public class Editor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_editor;
+    private Long idEditor;
 
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;
@@ -40,9 +40,9 @@ public class Editor {
     @JsonIgnore
     private List<Juego> juego;
 
-    public Editor(Long id_editor, String nombre, String imagen, List<Contenido_Adicional> contenidosAdicionales,
+    public Editor(Long idEditor, String nombre, String imagen, List<Contenido_Adicional> contenidosAdicionales,
             List<com.daw.tfg.models.Juego> juego) {
-        this.id_editor = id_editor;
+        this.idEditor = idEditor;
         this.nombre = nombre;
         this.imagen = imagen;
         this.contenidosAdicionales = contenidosAdicionales;

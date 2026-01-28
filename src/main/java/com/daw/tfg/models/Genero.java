@@ -23,7 +23,7 @@ import lombok.ToString;
 public class Genero {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_genero;
+    private Long idGenero;
     
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;

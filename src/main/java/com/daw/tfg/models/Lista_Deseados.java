@@ -17,27 +17,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "usuario_lista_deseados")
 public class Lista_Deseados {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_lista_deseados;
+    private Long idListaDeseados;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario id_Usuario;
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private List<Juego> id_Juego;
+    private List<Juego> juegos;
 
-    public Lista_Deseados(Usuario id_Usuario, List<Juego> id_Juego) {
-        this.id_Usuario = id_Usuario;
-        this.id_Juego = id_Juego;
+    public Lista_Deseados(Usuario usuario, List<Juego> juegos) {
+        this.usuario = usuario;
+        this.juegos = juegos;
     }
 }

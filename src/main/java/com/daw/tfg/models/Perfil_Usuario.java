@@ -22,10 +22,10 @@ public class Perfil_Usuario {
     private Long id_usuario_perfil;
 
     @Column(nullable = false)
-    private String imagen_usuario;
+    private String imagenUsuario;
 
     @Column(nullable = false)
-    private String imagen_fondo_perfil;
+    private String imagenFondoPerfil;
 
     @Column(nullable = false)
     private String pais;
@@ -37,10 +37,10 @@ public class Perfil_Usuario {
     private Boolean estado;
 
 
-    public Perfil_Usuario(String imagen_usuario, String imagen_fondo_perfil, String pais, 
+    public Perfil_Usuario(String imagenUsuario, String imagenFondoPerfil, String pais, 
             String biografia, Boolean estado) {
-        this.imagen_usuario = imagen_usuario;
-        this.imagen_fondo_perfil = imagen_fondo_perfil;
+        this.imagenUsuario = imagenUsuario;
+        this.imagenFondoPerfil = imagenFondoPerfil;
         this.pais = pais;
         this.biografia = biografia;
         this.estado = estado;
