@@ -29,6 +29,7 @@ public class Desarrollador {
 
     @Column(nullable = false, unique = true, name = "imagen")
     private String imagen;
+    
     // Relaciones
     @OneToMany(mappedBy = "Desarrollador")
     @JsonIgnore

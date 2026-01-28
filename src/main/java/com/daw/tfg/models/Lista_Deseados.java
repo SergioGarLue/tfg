@@ -17,12 +17,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "usuario_lista_deseados")
 public class Lista_Deseados {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
