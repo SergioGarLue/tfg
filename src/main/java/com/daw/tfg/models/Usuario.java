@@ -3,9 +3,11 @@ package com.daw.tfg.models;
 import java.util.Set;
 
 import com.daw.tfg.Enums.EstadoUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,11 +55,17 @@ public class Usuario {
     )
     private Set<Amigo> amigos;
 
-    public Usuario(String contraseña_cifrada, String correo_electronico, EstadoUsuario estado, Long id, String nombre_usuario) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario_perfil", nullable = false, unique = true)
+    @JsonIgnore
+    private Perfil_Usuario id_usuario_perfil;
+
+    public Usuario(String contraseña_cifrada, String correo_electronico, EstadoUsuario estado, String nombre_usuario) {
         this.contraseña_cifrada = contraseña_cifrada;
         this.correo_electronico = correo_electronico;
         this.estado = estado;
         this.id_usuario = id;
         this.nombre_usuario = nombre_usuario;
     }
+    
 }

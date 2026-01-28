@@ -24,7 +24,7 @@ import lombok.ToString;
 public class Contenido_Adicional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Contenido_Adicional;
+    private Long id_contenido_adicional;
 
     @Column(nullable = false, unique = true, name = "titulo")
     private String titulo;
@@ -78,3 +78,11 @@ public class Contenido_Adicional {
         this.editor = editor;
     }
 }
+// Posible cuestionamiento conceptual:
+// ⚠️ Las relaciones directo a Desarrollador y Editor pueden ser redundantes. Normalmente:
+
+// Un Contenido_Adicional pertenece a un Juego
+// El Desarrollador y Editor ya están asociados al Juego
+// Pregunta: ¿Un contenido adicional puede tener un Desarrollador/Editor diferente al del Juego al que pertenece? Si la respuesta es no, sería más limpio acceder a través de juego.desarrollador y juego.editor.
+
+// ¿Cuál es la intención del diseño? ¿Estos atributos son necesarios?
