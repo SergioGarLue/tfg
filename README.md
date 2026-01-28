@@ -31,3 +31,27 @@
 - **CSS3**
     - FontAwesome
 - **JavaScript**
+
+
+@Entity
+@Table(name = "ratings")
+public class Rating {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "game_id", nullable = false)
+    private Game game;
+
+    @Column(nullable = false)
+    private Integer score; // Aquí guardas el 1, 2, 3, 4 o 5
+
+    // Opcional: para que un usuario no vote dos veces el mismo juego
+    // @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "game_id"})})
+}
