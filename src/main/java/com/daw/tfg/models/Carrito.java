@@ -1,6 +1,7 @@
 package com.daw.tfg.models;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -30,9 +33,12 @@ public class Carrito {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario id_Usuario;
 
-    @OneToMany(mappedBy = "juego")
+    @ManyToMany
+    @JoinTable(name = "juegos_carrito",
+        joinColumns = @JoinColumn(name = "id_juego"),
+        inverseJoinColumns = @JoinColumn(name = "id_carrito"))
     @JsonIgnore
-    private List<Juego> id_Juego;
+    private Set<Juego> juegos;
 
     @OneToMany(mappedBy = "contenido_adicional")
     @JsonIgnore
@@ -42,9 +48,9 @@ public class Carrito {
     @JoinColumn(name = "id_compra", nullable = false)
     private Compra id_Compra;
 
-    public Carrito(Usuario id_Usuario, List<Juego> id_Juego, List<Contenido_Adicional> id_Contenido_Adicional, Compra id_Compra) {
+    public Carrito(Usuario id_Usuario, Set<Juego> juegos, List<Contenido_Adicional> id_Contenido_Adicional, Compra id_Compra) {
         this.id_Usuario = id_Usuario;
-        this.id_Juego = id_Juego;
+        this.juegos = juegos;
         this.id_Contenido_Adicional = id_Contenido_Adicional;
         this.id_Compra = id_Compra;
     }

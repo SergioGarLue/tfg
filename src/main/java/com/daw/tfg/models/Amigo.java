@@ -1,9 +1,15 @@
 package com.daw.tfg.models;
 
+import java.time.LocalDate;
+
 import com.daw.tfg.Enums.EstadoAmigos;
 
+import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -13,24 +19,31 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "amigo")
+@Table(name = "amistad")
 public class Amigo {
-
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario1", nullable = false)
-    private Usuario usuario1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idAmistad;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario2", nullable = false)
-    private Usuario usuario2;
+    @JoinColumn(name = "id_solicitante", nullable = false)
+    private Usuario solicitante;
+
+    @ManyToOne
+    @JoinColumn(name = "id_destinatario", nullable = false)
+    private Usuario destinatario;
 
     @Column(nullable = false)
     private EstadoAmigos estado;
 
-    public Amigo(Usuario usuario1, Usuario usuario2, EstadoAmigos estado) {
-        this.usuario1 = usuario1;
-        this.usuario2 = usuario2;
+    @Column(name="fecha_peticion")
+    private LocalDate fechaPeticion;
+
+    public Amigo(Usuario solicitante, Usuario destinatario, EstadoAmigos estado) {
+        this.solicitante = solicitante;
+        this.destinatario = destinatario;
         this.estado = estado;
     }
+
+    
 }
