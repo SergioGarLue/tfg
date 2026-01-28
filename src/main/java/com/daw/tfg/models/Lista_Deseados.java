@@ -41,6 +41,4 @@ public class Lista_Deseados {
         this.id_Usuario = id_Usuario;
         this.id_Juego = id_Juego;
     }
-
-    
 }

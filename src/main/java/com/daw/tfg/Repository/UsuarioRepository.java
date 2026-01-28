@@ -1,0 +1,21 @@
+package com.daw.tfg.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+
+import com.daw.tfg.models.Usuario;
+
+
+@Repository
+public interface UsuarioRepository {
+    
+    Optional<Usuario> findByName(String name); // para enconcontrar usuarios y poder agregarlos, tmb para login y reseñas.
+    Optional<Usuario> findByEmail(String email); // para el login
+    // Usuario save(Usuario usuario); para guardar un nuevo usuario
+    // void deleteById(Long id);  para eliminar un usuario por ID
+    // Usuario update(Usuario usuario);  para actualizar la información de un usuario
+    // List<Usuario> findAll();  para obtener todos los usuarios
+    // boolean existsByEmail(String email);  para verificar si un usuario existe por correo
+}
