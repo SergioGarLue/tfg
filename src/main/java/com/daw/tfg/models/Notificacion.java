@@ -22,11 +22,11 @@ public class Notificacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_notificacion;
+    private Long idNotificacion;
 
     @OneToOne
     @JoinColumn(name = "id_compra", nullable = false)
-    private Compra id_Compra;
+    private Compra compra;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -38,8 +38,8 @@ public class Notificacion {
     // @JoinColumn(name = "id_usuario2", nullable = false)
     // private Usuario usuario2;
 
-    public Notificacion(Compra id_Compra, Usuario usuario) {
-        this.id_Compra = id_Compra;
+    public Notificacion(Compra compra, Usuario usuario) {
+        this.compra = compra;
         this.usuario = usuario;
     }
 }

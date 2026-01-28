@@ -27,11 +27,11 @@ public class Carrito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_carrito;
+    private Long idCarrito;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario id_Usuario;
+    private Usuario usuario;
 
     @ManyToMany
     @JoinTable(name = "juegos_carrito",
@@ -42,16 +42,16 @@ public class Carrito {
 
     @OneToMany(mappedBy = "contenido_adicional")
     @JsonIgnore
-    private List<Contenido_Adicional> id_Contenido_Adicional;
+    private List<Contenido_Adicional> contenidosAdicionales;
 
     @OneToOne
     @JoinColumn(name = "id_compra", nullable = false)
-    private Compra id_Compra;
+    private Compra compra;
 
-    public Carrito(Usuario id_Usuario, Set<Juego> juegos, List<Contenido_Adicional> id_Contenido_Adicional, Compra id_Compra) {
-        this.id_Usuario = id_Usuario;
+    public Carrito(Usuario usuario, Set<Juego> juegos, List<Contenido_Adicional> contenidosAdicionales, Compra compra) {
+        this.usuario = usuario;
         this.juegos = juegos;
-        this.id_Contenido_Adicional = id_Contenido_Adicional;
-        this.id_Compra = id_Compra;
+        this.contenidosAdicionales = contenidosAdicionales;
+        this.compra = compra;
     }
 }

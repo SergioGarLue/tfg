@@ -26,7 +26,7 @@ public class Coleccion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_coleccion;
+    private Long idColeccion;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false, unique = true)
@@ -42,13 +42,13 @@ public class Coleccion {
     private List<Contenido_Adicional> contenidosAdicionales;
 
     @Column(nullable = false)
-    private Date fecha_adquisicion;
+    private Date fechaAdquisicion;
 
-    public Coleccion(Usuario usuario, List<Coleccion_favoritos> juegos, List<Contenido_Adicional> contenidosAdicionales, Date fecha_adquisicion) {
+    public Coleccion(Usuario usuario, List<Coleccion_favoritos> juegos, List<Contenido_Adicional> contenidosAdicionales, Date fechaAdquisicion) {
         this.usuario = usuario;
         this.juegos = juegos;
         this.contenidosAdicionales = contenidosAdicionales;
-        this.fecha_adquisicion = fecha_adquisicion;
+        this.fechaAdquisicion = fechaAdquisicion;
     }
 
     

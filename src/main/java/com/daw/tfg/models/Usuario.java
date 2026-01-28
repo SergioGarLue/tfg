@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,16 +29,16 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long idUsuario;
 
     @Column(unique = true, nullable = false)
-    private String nombre_usuario;
+    private String nombreUsuario;
 
     @Column(nullable = false)
-    private String contraseña_cifrada;
+    private String contraseñaCifrada;
 
     @Column(unique = true, nullable = false)
-    private String correo_electronico;
+    private String correoElectronico;
 
     @Column(nullable = false)
     private EstadoUsuario estado;
@@ -58,14 +59,13 @@ public class Usuario {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario_perfil", nullable = false, unique = true)
     @JsonIgnore
-    private Perfil_Usuario id_usuario_perfil;
+    private Perfil_Usuario perfilUsuario;
 
-    public Usuario(String contraseña_cifrada, String correo_electronico, EstadoUsuario estado, String nombre_usuario) {
-        this.contraseña_cifrada = contraseña_cifrada;
-        this.correo_electronico = correo_electronico;
+    public Usuario(String contraseñaCifrada, String correoElectronico, EstadoUsuario estado, String nombreUsuario) {
+        this.contraseñaCifrada = contraseñaCifrada;
+        this.correoElectronico = correoElectronico;
         this.estado = estado;
-        this.id_usuario = id;
-        this.nombre_usuario = nombre_usuario;
+        this.nombreUsuario = nombreUsuario;
     }
     
 }
