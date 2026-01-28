@@ -18,7 +18,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "Editor")
+@Table(name = "editor")
 public class Editor {
 
     @Id
@@ -32,13 +32,13 @@ public class Editor {
     private String imagen;
 
     // Relaciones
-    @OneToMany(mappedBy = "Editor")
+    @OneToMany(mappedBy = "editor")
     @JsonIgnore
     private List<Contenido_Adicional> contenidosAdicionales;
 
-    @OneToMany(mappedBy = "Editor")
+    @OneToMany(mappedBy = "editor")
     @JsonIgnore
-    private List<Juego> Juego;
+    private List<Juego> juego;
 
     public Editor(Long id_editor, String nombre, String imagen, List<Contenido_Adicional> contenidosAdicionales,
             List<com.daw.tfg.models.Juego> juego) {
@@ -46,7 +46,7 @@ public class Editor {
         this.nombre = nombre;
         this.imagen = imagen;
         this.contenidosAdicionales = contenidosAdicionales;
-        Juego = juego;
+        this.juego = juego;
     }
 
     

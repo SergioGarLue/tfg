@@ -17,12 +17,12 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "Desarrollador")
+@Table(name = "desarrollador")
 public class Desarrollador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Desarrollador;
+    private Long id_desarrollador;
 
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;
@@ -30,20 +30,20 @@ public class Desarrollador {
     @Column(nullable = false, unique = true, name = "imagen")
     private String imagen;
     // Relaciones
-    @OneToMany(mappedBy = "Desarrollador")
+    @OneToMany(mappedBy = "desarrollador")
     @JsonIgnore
     private List<Contenido_Adicional> contenidosAdicionales;
 
-    @OneToMany(mappedBy = "Desarrollador")
+    @OneToMany(mappedBy = "desarrollador")
     @JsonIgnore
-    private List<Juego> Juego;
+    private List<Juego> juego;
 
     public Desarrollador(String nombre, String imagen, List<Contenido_Adicional> contenidosAdicionales,
             List<com.daw.tfg.models.Juego> juego) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.contenidosAdicionales = contenidosAdicionales;
-        Juego = juego;
+        this.juego = juego;
     }
 
 }
