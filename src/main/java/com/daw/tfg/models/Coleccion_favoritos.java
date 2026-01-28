@@ -22,7 +22,7 @@ public class Coleccion_favoritos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_coleccion_juego;
+    private Long idColeccionJuego;
 
     @ManyToOne
     @JoinColumn(name = "id_coleccion", nullable = false)
@@ -35,11 +35,11 @@ public class Coleccion_favoritos {
     private Juego juego;
 
     @Column(nullable = false)
-    private Boolean es_favorito = false;
+    private Boolean esFavorito = false;
 
-    public Coleccion_favoritos(Coleccion coleccion, Juego juego, Boolean es_favorito) {
+    public Coleccion_favoritos(Coleccion coleccion, Juego juego, Boolean esFavorito) {
         this.coleccion = coleccion;
         this.juego = juego;
-        this.es_favorito = es_favorito;
+        this.esFavorito = esFavorito;
     }
 }

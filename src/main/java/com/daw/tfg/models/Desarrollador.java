@@ -22,13 +22,14 @@ public class Desarrollador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_desarrollador;
+    private Long idDesarrollador;
 
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;
 
     @Column(nullable = false, unique = true, name = "imagen")
     private String imagen;
+    
     // Relaciones
     @OneToMany(mappedBy = "desarrollador")
     @JsonIgnore

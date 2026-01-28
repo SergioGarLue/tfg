@@ -28,7 +28,7 @@ public class MetodoPago {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_metodo_pago;
+    private Long idMetodoPago;
 
     @Column(unique = true, nullable = false, name = "proveedor")
     private String proveedor;
@@ -40,10 +40,10 @@ public class MetodoPago {
     private String token;
 
     @Column(nullable = false, length = 4, name = "ultimos_digitos")
-    private String ultimos_digitos;
+    private String ultimosDigitos;
 
     @Column(nullable = false, name = "fecha_expiracion")
-    private Date fecha_expiracion;
+    private Date fechaExpiracion;
 
     @Column(nullable = false, name = "activo")
     private Boolean activo;
@@ -57,13 +57,13 @@ public class MetodoPago {
     @JsonIgnore
     private List<Compra> compras;
 
-    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimos_digitos,
-            Date fecha_expiracion, Boolean activo, Usuario usuario) {
+    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimosDigitos,
+            Date fechaExpiracion, Boolean activo, Usuario usuario) {
         this.proveedor = proveedor;
         this.tipo = tipo;
         this.token = token;
-        this.ultimos_digitos = ultimos_digitos;
-        this.fecha_expiracion = fecha_expiracion;
+        this.ultimosDigitos = ultimosDigitos;
+        this.fechaExpiracion = fechaExpiracion;
         this.activo = activo;
         this.usuario = usuario;
     }
