@@ -22,7 +22,7 @@ public class Resena {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_resena;
 
     @Column(nullable = false, name = "valoracion")
     private Integer valoracion;

@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,11 +48,16 @@ public class Compra {
     @JsonIgnore
     private MetodoPago metodoPago;
     
-    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago) {
+    @OneToOne
+    @JoinColumn(name = "id_carrito", nullable = false)
+    private Carrito id_Carrito;
+
+    public Compra(Date fecha_compra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago, Carrito id_Carrito) {
         this.fecha_compra = fecha_compra;
         this.total = total;
         this.estado = estado;
         this.usuario = usuario;
         this.metodoPago = metodoPago;
+        this.id_Carrito = id_Carrito;
     }
 }
