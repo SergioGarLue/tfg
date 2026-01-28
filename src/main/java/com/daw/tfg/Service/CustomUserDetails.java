@@ -12,7 +12,7 @@ import com.daw.tfg.models.Usuario;
 @Service
 public class CustomUserDetails implements UserDetailsService{
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository; // final porque lo pide visual studio code, sino da error(revisar)
 
     public CustomUserDetails(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -23,11 +23,9 @@ public class CustomUserDetails implements UserDetailsService{
         Usuario usuario = usuarioRepository.findByName(username)
                                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado" + username));
         return User.builder()
-                .username(usuario.getNombre_usuario())
-                .password(usuario.getContraseña_cifrada())
-                
+                .username(usuario.getNombreUsuario())
+                .password(usuario.getContraseñaCifrada())
                 .build();
-        
     }
 
 }
