@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>inicio</title>
-    <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
-    <link rel="stylesheet" href="../static/estilos/index.css" />
+  <title>Carrito </title>
+  <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="../static/estilos/carrito.css" />
 </head>
 <body>
 
   <div class="contenedor-principal">
+    
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
@@ -27,21 +28,21 @@
                 <ul class="lista-subitems">
                   <li>Ofertas</li>
                   <li>Populares</li>
-                  <li>Próximamente</li>
                 </ul>
               </div>
             </li>
 
-            <li class="item-desplegable">
+            <li class="item-desplegable"> 
               <div class="cabecera-desplegable" id="boton-coleccion">
-                <i class="fa-solid fa-book-open icono"></i> <span class="texto-enlace">Colección</span>
+                <i class="fa-solid fa-book-open icono"></i>
+                <span class="texto-enlace">Coleccion</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-coleccion">
                 <ul class="lista-subitems">
                   <li>Metroidvania</li>
                   <li>Souls</li>
                   <li>Estrategia</li>
-                  <li class="enlace-mas">Mostrar más <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left:5px;"></i></li>
+                  <li class="enlace-mas">Mostrar mas</li>
                 </ul>
               </div>
             </li>
@@ -60,7 +61,8 @@
           <div class="avatar">
             <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
           </div>
-          <span class="nombre-usuario">Paco Leon</span><div id="conf"><i class="fa-solid fa-gear"></i></div>
+          <span class="nombre-usuario">Paco Leon</span>
+          <div id="conf"><i class="fa-solid fa-gear"></i></div>
         </div>
       </div>
     </aside>
@@ -76,64 +78,61 @@
         </div>
       </header>
 
-      <div class="scroll-contenido">
+      <section class="seccion-carrito">
+        <h2>Carrito</h2>
         
-        <section class="seccion-categoria">
-          <h3>Novedades</h3>
-          <div class="fila-tarjetas">
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-          </div>
-          <div class="separador-guiones">------------</div>
-        </section>
+        <div class="lista-productos">
+            
+            <div class="item-carrito">
+                <div class="imagen-producto"></div>
+                <div class="info-producto">
+                    <span class="nombre-juego">Bigger hunter</span>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad"><</button>
+                    <div class="input-cantidad">1</div>
+                    <button class="btn-cantidad">></button>
+                </div>
+                <div class="precio-producto">59.99€</div>
+            </div>
 
-        <section class="seccion-categoria">
-          <h3>Recomendados para ti</h3>
-          <div class="fila-tarjetas">
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-          </div>
-          <div class="separador-guiones">------------</div>
-        </section>
+            <div class="item-carrito">
+                <div class="imagen-producto"></div>
+                <div class="info-producto">
+                    <span class="nombre-juego">Femboys love</span>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad"><</button>
+                    <div class="input-cantidad">1</div>
+                    <button class="btn-cantidad">></button>
+                </div>
+                <div class="precio-producto">39.99€</div>
+            </div>
+            
 
-        <section class="seccion-categoria">
-          <h3>Jugados recientes</h3>
-          <div class="fila-tarjetas">
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-            <div class="tarjeta"></div>
-          </div>
-          <div class="separador-guiones">------------</div>
-        </section>
+        </div>
 
-      </div>
+        <div class="zona-pago">
+            <div class="total-resumen">
+                <span class="etiqueta-total">Total:</span>
+                <span class="valor-total">99,98€</span>
+            </div>
+            <button class="boton-ir-pago">Ir al pago</button>
+        </div>
+
+      </section>
+
     </main>
   </div>
 
   <script>
-    // Tu Script Original intacto
     document.addEventListener("DOMContentLoaded", () => {
       const Desplegable = (idBoton, idMenu) => {
         const boton = document.getElementById(idBoton);
         const menu = document.getElementById(idMenu);
-    
         if (boton && menu) {
           boton.addEventListener("click", () => {
             menu.classList.toggle("cerrado");     
-            const estaAbierto = !menu.classList.contains("cerrado");
-            const items = menu.querySelectorAll("li"); 
-            items.forEach((item, index) => {
-              if (estaAbierto) {
-                item.style.transitionDelay = `${index * 0.1}s`; 
-              } else {
-                item.style.transitionDelay = "0s";
-              }
-            });
           });
         }
       };

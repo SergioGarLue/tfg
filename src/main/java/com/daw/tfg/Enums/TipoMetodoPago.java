@@ -2,8 +2,8 @@ package com.daw.tfg.Enums;
 
 
 public enum TipoMetodoPago {
-    TARJETA_CREDITO,
-    TARJETA_DEBITO,
-    PAYPAL
+    TARJETA, //DEBITO / CREDITO
+    WALLET, //PAYPAL / BIZUM
+    DOMICILIACION //IBAN cobro bancario
 }
 

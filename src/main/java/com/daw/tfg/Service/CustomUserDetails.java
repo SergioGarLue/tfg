@@ -12,7 +12,7 @@ import com.daw.tfg.models.Usuario;
 @Service
 public class CustomUserDetails implements UserDetailsService{
 
-    private final UsuarioRepository usuarioRepository; // final porque lo pide visual studio code, sino da error(revisar)
+    private UsuarioRepository usuarioRepository;
 
     public CustomUserDetails(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -25,7 +25,10 @@ public class CustomUserDetails implements UserDetailsService{
         return User.builder()
                 .username(usuario.getNombreUsuario())
                 .password(usuario.getContraseñaCifrada())
+                //pasa los roles a 'ROLE_'+nombreDelRol para que Spring enienda los roles   
+                .authorities("ROLE_"+usuario.getRol().name())
                 .build();
+        
     }
 
 }
