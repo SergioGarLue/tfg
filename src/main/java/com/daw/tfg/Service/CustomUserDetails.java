@@ -23,9 +23,10 @@ public class CustomUserDetails implements UserDetailsService{
         Usuario usuario = usuarioRepository.findByName(username)
                                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado" + username));
         return User.builder()
-                .username(usuario.getNombre_usuario())
-                .password(usuario.getContraseña_cifrada())
-                
+                .username(usuario.getNombreUsuario())
+                .password(usuario.getContraseñaCifrada())
+                //pasa los roles a 'ROLE_'+nombreDelRol para que Spring enienda los roles   
+                .authorities("ROLE_"+usuario.getRol().name())
                 .build();
         
     }

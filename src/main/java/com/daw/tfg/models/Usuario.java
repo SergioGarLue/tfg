@@ -2,20 +2,10 @@ package com.daw.tfg.models;
 
 import java.util.Set;
 
-import com.daw.tfg.Enums.EstadoUsuario;
+import com.daw.tfg.Enums.RolesUsuarios;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,18 +21,24 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
+    //almacena el nombre del usuario
     @Column(unique = true, nullable = false)
     private String nombreUsuario;
 
+    //almacenara la contraseña cifrada 
     @Column(nullable = false)
     private String contraseñaCifrada;
 
+    //almacena el correoELectronico del usuario
     @Column(unique = true, nullable = false)
     private String correoElectronico;
 
-    @Column(nullable = false)
-    private EstadoUsuario estado;
-    
+    // Un enum que se pasa como String a la BD con el rol del usuario
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "rol")
+    private RolesUsuarios rol;
+
+
     /*  Relacion para las amistades, Usuario con Usurio 
         pudiendo rechazar, aceptar, estar pendiente la peticion de amistad
         al aceptarla se guardara como Amistad donde aparecera  
@@ -56,15 +52,19 @@ public class Usuario {
     )
     private Set<Amigo> amigos;
 
+    /*
+        Relacion uno a uno con el perfil del usuario enlazando la columna
+        con su perfil para poder acceder a el posteriormente
+    */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario_perfil", nullable = false, unique = true)
     @JsonIgnore
     private Perfil_Usuario perfilUsuario;
 
-    public Usuario(String contraseñaCifrada, String correoElectronico, EstadoUsuario estado, String nombreUsuario) {
+    public Usuario(String contraseñaCifrada, String correoElectronico, RolesUsuarios rol, String nombreUsuario) {
         this.contraseñaCifrada = contraseñaCifrada;
         this.correoElectronico = correoElectronico;
-        this.estado = estado;
+        this.rol = rol;
         this.nombreUsuario = nombreUsuario;
     }
     
