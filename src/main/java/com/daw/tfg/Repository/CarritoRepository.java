@@ -1,5 +1,16 @@
 package com.daw.tfg.Repository;
 
-public interface CarritoRepository {
+import java.util.List;
+import java.util.Optional;
 
-}
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.daw.tfg.models.Carrito;
+import com.daw.tfg.models.Juego;
+import com.daw.tfg.models.Usuario;
+
+public interface CarritoRepository extends JpaRepository<Carrito, Long> {
+    Optional<Carrito> findByUsuario(Usuario usuario);
+    Optional<Carrito> findByIdCarrito(Long idCarrito);
+    List<Carrito> findByJuegosContains(Juego juego);
+} 

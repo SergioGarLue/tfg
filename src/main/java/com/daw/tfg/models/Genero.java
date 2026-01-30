@@ -28,7 +28,7 @@ public class Genero {
     @Column(nullable = false, unique = true, name = "nombre")
     private String nombre;
 
-    @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "genero", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Juego> juegos;
 
