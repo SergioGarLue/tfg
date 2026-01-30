@@ -2,6 +2,7 @@ package com.daw.tfg.models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.daw.tfg.Enums.TipoMetodoPago;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -63,10 +64,10 @@ public class MetodoPago {
     */
     @OneToMany(mappedBy = "metodoPago", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Compra> compras;
+    private Set<Compra> compras;
 
-    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimosDigitos,
-            Date fechaExpiracion, Boolean activo, Usuario usuario) {
+    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimosDigitos, Date fechaExpiracion,
+            Boolean activo, Usuario usuario, Set<Compra> compras) {
         this.proveedor = proveedor;
         this.tipo = tipo;
         this.token = token;
@@ -74,5 +75,8 @@ public class MetodoPago {
         this.fechaExpiracion = fechaExpiracion;
         this.activo = activo;
         this.usuario = usuario;
+        this.compras = compras;
     }
+
+    
 }

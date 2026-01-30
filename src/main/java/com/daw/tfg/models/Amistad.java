@@ -2,7 +2,7 @@ package com.daw.tfg.models;
 
 import java.time.LocalDateTime;
 
-import com.daw.tfg.Enums.EstadoAmigos;
+import com.daw.tfg.Enums.EstadoPeticion;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @Table(name = "amistad")
-public class Amigo {
+public class Amistad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAmistad;
@@ -25,16 +25,16 @@ public class Amigo {
     @JoinColumn(name = "id_destinatario", nullable = false)
     private Usuario destinatario;
 
-    // Un enum que se pasa como String a la BD con el rol del usuario
+    // Un enum que se pasa como String a la BD con el estado de la peticion de amistad
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EstadoAmigos estado;
+    private EstadoPeticion estado;
 
     //fecha en la que se realiza la peticion de amistad
     @Column(name="fecha_peticion")
     private LocalDateTime fechaPeticion;
 
-    public Amigo(Usuario solicitante, Usuario destinatario, EstadoAmigos estado) {
+    public Amistad(Usuario solicitante, Usuario destinatario, EstadoPeticion estado) {
         this.solicitante = solicitante;
         this.destinatario = destinatario;
         this.estado = estado;

@@ -1,7 +1,7 @@
 package com.daw.tfg.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,11 +42,11 @@ public class Juego {
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private List<Resena> resenas;
+    private Set<Resena> resenas;
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private List<Contenido_Adicional> contenidosAdicionales;
+    private Set<Contenido_Adicional> contenidosAdicionales;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -55,7 +55,7 @@ public class Juego {
         inverseJoinColumns = @JoinColumn(name = "id_genero")
     )
     @JsonIgnore
-    private List<Genero> generos;
+    private Set<Genero> generos;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_desarrollador", nullable = false)
@@ -68,8 +68,8 @@ public class Juego {
     private Editor editor;
 
     public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, Float pesoGb, String imagen,
-            String requisitos, List<Resena> resenas, List<Contenido_Adicional> contenidosAdicionales,
-            List<Genero> generos, Desarrollador desarrollador, Editor editor) {
+            String requisitos, Set<Resena> resenas, Set<Contenido_Adicional> contenidosAdicionales,
+            Set<Genero> generos, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
