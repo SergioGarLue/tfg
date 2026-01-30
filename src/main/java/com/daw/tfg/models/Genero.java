@@ -1,6 +1,6 @@
 package com.daw.tfg.models;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,13 +30,13 @@ public class Genero {
 
     @ManyToMany(mappedBy = "genero", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Juego> juegos;
+    private Set<Juego> juegos;
 
     public Genero(String nombre) {
         this.nombre = nombre;
     }
 
-    public Genero(String nombre, List<Juego> juegos) {
+    public Genero(String nombre, Set<Juego> juegos) {
         this.nombre = nombre;
         this.juegos = juegos;
     }

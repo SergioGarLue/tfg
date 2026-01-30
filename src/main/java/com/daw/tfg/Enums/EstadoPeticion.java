@@ -1,6 +1,6 @@
 package com.daw.tfg.Enums;
 
-public enum EstadoAmigos {
+public enum EstadoPeticion {
     PENDIENTE,
     ACEPTADO,
     BLOQUEADO

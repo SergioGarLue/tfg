@@ -1,6 +1,6 @@
 package com.daw.tfg.models;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,9 +32,9 @@ public class Lista_Deseados {
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private List<Juego> juegos;
+    private Set<Juego> juegos;
 
-    public Lista_Deseados(Usuario usuario, List<Juego> juegos) {
+    public Lista_Deseados(Usuario usuario, Set<Juego> juegos) {
         this.usuario = usuario;
         this.juegos = juegos;
     }

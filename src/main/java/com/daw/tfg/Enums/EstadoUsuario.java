@@ -1,7 +1,7 @@
 package com.daw.tfg.Enums;
 
 public enum EstadoUsuario {
-    PENDIENTE,
+    DESCONECTADO,
     ACTIVO,
     AUSENTE
 }

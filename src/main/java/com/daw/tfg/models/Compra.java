@@ -1,6 +1,8 @@
 package com.daw.tfg.models;
 
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
 
 import com.daw.tfg.Enums.EstadoCompra;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +32,7 @@ public class Compra {
     private Long idCompra;
 
     @Column(nullable = false)
-    private Date fechaCompra;
+    private LocalDateTime fechaCompra;
 
     @Column(nullable = false)
     private Double total;
@@ -53,8 +55,8 @@ public class Compra {
     @JoinColumn(name = "id_carrito", nullable = false)
     private Carrito carrito;
 
-    public Compra(Date fechaCompra, Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago, Carrito carrito) {
-        this.fechaCompra = fechaCompra;
+    public Compra(Double total, EstadoCompra estado, Usuario usuario, MetodoPago metodoPago, Carrito carrito) {
+        this.fechaCompra = LocalDateTime.now();
         this.total = total;
         this.estado = estado;
         this.usuario = usuario;

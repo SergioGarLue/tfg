@@ -1,7 +1,6 @@
 package com.daw.tfg.models;
 
-
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,20 +31,21 @@ public class Editor {
     private String imagen;
 
     // Relaciones
-    @OneToMany(mappedBy = "editor")
-    @JsonIgnore
-    private List<Contenido_Adicional> contenidosAdicionales;
+    // @OneToMany(mappedBy = "editor")
+    // @JsonIgnore
+    // private List<Contenido_Adicional> contenidosAdicionales;
 
     @OneToMany(mappedBy = "editor")
     @JsonIgnore
-    private List<Juego> juego;
+    private Set<Juego> juego;
 
-    public Editor(Long idEditor, String nombre, String imagen, List<Contenido_Adicional> contenidosAdicionales,
-            List<com.daw.tfg.models.Juego> juego) {
+    public Editor(Long idEditor, String nombre, String imagen, 
+        // List<Contenido_Adicional> contenidosAdicionales,
+            Set<com.daw.tfg.models.Juego> juego) {
         this.idEditor = idEditor;
         this.nombre = nombre;
         this.imagen = imagen;
-        this.contenidosAdicionales = contenidosAdicionales;
+        // this.contenidosAdicionales = contenidosAdicionales;
         this.juego = juego;
     }
 
