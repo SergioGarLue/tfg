@@ -22,10 +22,11 @@ public class Coleccion_favoritos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_coleccion")
     private Long idColeccionJuego;
 
     @ManyToOne
-    @JoinColumn(name = "id_coleccion", nullable = false)
+    @JoinColumn(name = "id_coleccion", nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Coleccion coleccion;
 

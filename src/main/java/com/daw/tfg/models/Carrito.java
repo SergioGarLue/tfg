@@ -1,6 +1,5 @@
 package com.daw.tfg.models;
 
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
