@@ -39,7 +39,7 @@ public class Carrito {
     @JsonIgnore
     private Set<Juego> juegos;
 
-    @OneToMany(mappedBy = "contenido_adicional")
+    @OneToMany(mappedBy = "carrito")
     @JsonIgnore
     private Set<Contenido_Adicional> contenidosAdicionales;
 

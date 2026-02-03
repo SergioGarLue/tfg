@@ -11,5 +11,5 @@ public interface EditorRepository extends JpaRepository<Editor, Long> {
     Optional<Editor> findByNombre(String nombre);
     List<Editor> findByNombreContainingIgnoreCase(String nombreParte);
     List<Editor> findByJuegoTituloContainingIgnoreCase(String tituloParte);
-    List<Editor> findByJuegoId(Long idJuego);
-} 
+    List<Editor> findByJuegoIdJuego(Long idJuego);
+}

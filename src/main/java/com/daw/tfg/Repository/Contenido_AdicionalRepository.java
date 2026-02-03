@@ -22,7 +22,7 @@ public interface Contenido_AdicionalRepository extends JpaRepository<Contenido_A
 
     // Buscar por juego (por título o por id)
     List<Contenido_Adicional> findByJuegoTituloIgnoreCase(String tituloJuego);
-    List<Contenido_Adicional> findByJuegoId(Long idJuego);
+    List<Contenido_Adicional> findByJuegoIdJuego(Long idJuego);
 
     // Buscar por género del juego (si lo necesitas)
     List<Contenido_Adicional> findByJuegoGenerosNombre(String nombreGenero);

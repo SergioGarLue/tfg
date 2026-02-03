@@ -11,8 +11,8 @@ import com.daw.tfg.models.Usuario;
 
 public interface ResenaRepository extends JpaRepository<Resena, Long> {
     List<Resena> findByJuego(Juego juego);
-    List<Resena> findByJuegoId(Long idJuego);
+    List<Resena> findByJuegoIdJuego(Long idJuego);
     List<Resena> findByUsuario(Usuario usuario);
-    List<Resena> findByUsuarioId(Long idUsuario);
+    List<Resena> findByUsuarioIdUsuario(Long idUsuario);
     List<Resena> findByValoracionBetween(BigDecimal minValor, BigDecimal maxValor);
 } 

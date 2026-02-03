@@ -51,7 +51,7 @@ public class Contenido_Adicional {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_carrito")
     @JsonIgnore
-    private Carrito contenido_adicional;
+    private Carrito carrito;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_coleccion")
@@ -61,7 +61,7 @@ public class Contenido_Adicional {
     // Constructor
     public Contenido_Adicional(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento,
             Float pesoGb,
-            String imagen, String requisitos, Juego juego, Carrito contenido_adicional) {
+            String imagen, String requisitos, Juego juego, Carrito carrito) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
@@ -70,6 +70,6 @@ public class Contenido_Adicional {
         this.imagen = imagen;
         this.requisitos = requisitos;
         this.juego = juego;
-        this.contenido_adicional = contenido_adicional;
+        this.carrito = carrito;
     }
 }

@@ -21,8 +21,6 @@ public class SecurityConfig {
         // creamos los filtros
         http.authorizeHttpRequests(auth -> auth
             .requestMatchers("/").permitAll()   // público
-            .requestMatchers("").hasRole("USER") // privado para usuarios con rol USER
-            .requestMatchers("").hasRole("ADMIN")
             .anyRequest().authenticated()  // cualquier ruta no registrada tiene que ser autenticado
         )
         .formLogin(form ->form
@@ -36,7 +34,6 @@ public class SecurityConfig {
             .logoutSuccessUrl("/?logout=true")
             .invalidateHttpSession(true)
             .clearAuthentication(true)
-            .deleteCookies("")
             .permitAll()
         );
 
