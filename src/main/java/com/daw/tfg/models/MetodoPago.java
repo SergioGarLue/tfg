@@ -1,7 +1,6 @@
 package com.daw.tfg.models;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import com.daw.tfg.Enums.TipoMetodoPago;

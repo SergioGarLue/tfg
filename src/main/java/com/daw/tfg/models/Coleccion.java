@@ -31,11 +31,15 @@ public class Coleccion {
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false, unique = true)
     @JsonIgnore
-    private Usuario usuario;
+    private Usuario idUsuario;
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
-    private List<Coleccion_favoritos> juegos;
+    private List<Juego> juegos;
+
+    @OneToMany(mappedBy = "coleccion")
+    @JsonIgnore
+    private List<Coleccion_favoritos> juegosFavoritos;
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
@@ -44,9 +48,9 @@ public class Coleccion {
     @Column(nullable = false)
     private Date fechaAdquisicion;
 
-    public Coleccion(Usuario usuario, List<Coleccion_favoritos> juegos, List<Contenido_Adicional> contenidosAdicionales, Date fechaAdquisicion) {
-        this.usuario = usuario;
-        this.juegos = juegos;
+    public Coleccion(Usuario idUsuario, List<Coleccion_favoritos> juegosFavoritos, List<Contenido_Adicional> contenidosAdicionales, Date fechaAdquisicion) {
+        this.idUsuario = idUsuario;
+        this.juegosFavoritos = juegosFavoritos;
         this.contenidosAdicionales = contenidosAdicionales;
         this.fechaAdquisicion = fechaAdquisicion;
     }

@@ -30,7 +30,7 @@ public class Carrito {
 
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    private Usuario idUsuario;
 
     @ManyToMany
     @JoinTable(name = "juegos_carrito",
@@ -47,8 +47,8 @@ public class Carrito {
     @JoinColumn(name = "id_compra", nullable = false)
     private Compra compra;
 
-    public Carrito(Usuario usuario, Set<Juego> juegos, Set<Contenido_Adicional> contenidosAdicionales, Compra compra) {
-        this.usuario = usuario;
+    public Carrito(Usuario idUsuario, Set<Juego> juegos, Set<Contenido_Adicional> contenidosAdicionales, Compra compra) {
+        this.idUsuario = idUsuario;
         this.juegos = juegos;
         this.contenidosAdicionales = contenidosAdicionales;
         this.compra = compra;
