@@ -11,5 +11,5 @@ public interface DesarrolladorRepository extends JpaRepository<Desarrollador, Lo
     Optional<Desarrollador> findByNombre(String nombre);
     List<Desarrollador> findByNombreContainingIgnoreCase(String nombreParte);
     List<Desarrollador> findByJuegoTituloContainingIgnoreCase(String tituloParte);
-    List<Desarrollador> findByJuegoId(Long idJuego);
+
 } 

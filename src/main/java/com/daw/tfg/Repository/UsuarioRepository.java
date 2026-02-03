@@ -14,7 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     Optional<Usuario> findByNombreUsuario(String nombreUsuario); // para encontrar usuarios y poder agregarlos, tmb para login y reseñas.
     List<Usuario> findByNombreUsuarioContainingIgnoreCase(String nombreParte); // para buscar nombres parecidos
-    Optional<Usuario> findByEmail(String email); // para el login
+    Optional<Usuario> findByCorreoElectronico(String correoElectronico);
     // Usuario save(Usuario usuario); para guardar un nuevo usuario
     // void deleteById(Long id);  para eliminar un usuario por ID
     // Usuario update(Usuario usuario);  para actualizar la información de un usuario

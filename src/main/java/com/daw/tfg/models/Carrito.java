@@ -1,6 +1,5 @@
 package com.daw.tfg.models;
 
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,7 +39,7 @@ public class Carrito {
     @JsonIgnore
     private Set<Juego> juegos;
 
-    @OneToMany(mappedBy = "contenido_adicional")
+    @OneToMany(mappedBy = "carrito")
     @JsonIgnore
     private Set<Contenido_Adicional> contenidosAdicionales;
 

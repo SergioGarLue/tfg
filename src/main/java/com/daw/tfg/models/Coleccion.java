@@ -33,11 +33,11 @@ public class Coleccion {
     @JsonIgnore
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "coleccion_favoritos")
+    @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
     private List<Coleccion_favoritos> juegos;
 
-    @OneToMany(mappedBy = "coleccion_dlc")
+    @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
     private List<Contenido_Adicional> contenidosAdicionales;
 

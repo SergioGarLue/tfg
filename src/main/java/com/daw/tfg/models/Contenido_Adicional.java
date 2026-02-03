@@ -48,24 +48,20 @@ public class Contenido_Adicional {
     @JsonIgnore
     private Juego juego;
 
-    // Seguramente sean innecesarios se puede acceder a ellos desde el juego al que
-    // pertenece el DLC
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_desarrollador", nullable = false)
-    // @JsonIgnore
-    // private Desarrollador desarrollador;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_carrito")
+    @JsonIgnore
+    private Carrito carrito;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_editor", nullable = false)
-    // @JsonIgnore
-    // private Editor editor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_coleccion")
+    @JsonIgnore
+    private Coleccion coleccion;
 
     // Constructor
     public Contenido_Adicional(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento,
             Float pesoGb,
-            String imagen, String requisitos, Juego juego
-    // ,Desarrollador desarrollador, Editor editor
-    ) {
+            String imagen, String requisitos, Juego juego, Carrito carrito) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
@@ -74,18 +70,6 @@ public class Contenido_Adicional {
         this.imagen = imagen;
         this.requisitos = requisitos;
         this.juego = juego;
-        // this.desarrollador = desarrollador;
-        // this.editor = editor;
+        this.carrito = carrito;
     }
 }
-// Posible cuestionamiento conceptual:
-// ⚠️ Las relaciones directo a Desarrollador y Editor pueden ser redundantes.
-// Normalmente:
-
-// Un Contenido_Adicional pertenece a un Juego
-// El Desarrollador y Editor ya están asociados al Juego
-// Pregunta: ¿Un contenido adicional puede tener un Desarrollador/Editor
-// diferente al del Juego al que pertenece? Si la respuesta es no, sería más
-// limpio acceder a través de juego.desarrollador y juego.editor.
-
-// ¿Cuál es la intención del diseño? ¿Estos atributos son necesarios?
