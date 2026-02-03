@@ -19,5 +19,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // void deleteById(Long id);  para eliminar un usuario por ID
     // Usuario update(Usuario usuario);  para actualizar la información de un usuario
     // List<Usuario> findAll();  para obtener todos los usuarios
-    // boolean existsByEmail(String email);  para verificar si un usuario existe por correo
+    boolean existsByNombreUsuario(String nombreUsuario); // para verificar si un usuario existe por nombre de usuario
+    boolean existsByEmail(String email); // para verificar si un usuario existe por email
 }

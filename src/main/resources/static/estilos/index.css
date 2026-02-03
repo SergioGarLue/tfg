@@ -13,6 +13,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  text-decoration: none;
+}
+
+a {
+  color: inherit;
 }
 
 body {
@@ -200,6 +205,7 @@ i {
   font-size: 1rem;
   outline: none;
 }
+
 
 .boton-carrito {
   background-color: var(--fondo-busqueda);
