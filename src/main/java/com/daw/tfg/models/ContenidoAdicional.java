@@ -16,7 +16,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Contenido_Adicional {
+public class ContenidoAdicional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idContenidoAdicional;
@@ -59,7 +59,7 @@ public class Contenido_Adicional {
     private Coleccion coleccion;
 
     // Constructor
-    public Contenido_Adicional(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento,
+    public ContenidoAdicional(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento,
             Float pesoGb,
             String imagen, String requisitos, Juego juego, Carrito carrito) {
         this.titulo = titulo;

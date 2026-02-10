@@ -46,7 +46,7 @@ public class Juego {
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
-    private Set<Contenido_Adicional> contenidosAdicionales;
+    private Set<ContenidoAdicional> contenidosAdicionales;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -68,7 +68,7 @@ public class Juego {
     private Editor editor;
 
     public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, Float pesoGb, String imagen,
-            String requisitos, Set<Resena> resenas, Set<Contenido_Adicional> contenidosAdicionales,
+            String requisitos, Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
             Set<Genero> generos, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
