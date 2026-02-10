@@ -1,16 +1,18 @@
 package com.daw.tfg.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Coleccion;
+import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.Usuario;
 
+public interface ColeccionRepository extends JpaRepository<Coleccion, Long> {
 
-public interface ColeccionRepository extends JpaRepository<Coleccion, Long>{
-    Optional<Coleccion> findByUsuario(Usuario usuario);
-    List<Coleccion> findByUsuarioAndFechaAdquisicionBetween(Usuario usuario, LocalDate startDate, LocalDate endDate);
+    Optional<Carrito> findByIdUsuario(Usuario idUsuario);
+    Optional<Carrito> findByIdCarrito(Long idCarrito);
+    List<Carrito> findByJuegosContains(Juego juego);
 }

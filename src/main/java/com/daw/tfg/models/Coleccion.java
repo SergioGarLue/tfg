@@ -35,7 +35,11 @@ public class Coleccion {
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
-    private List<ColeccionFavoritos> juegos;
+    private List<Juego> juegos;
+
+    @OneToMany(mappedBy = "coleccion")
+    @JsonIgnore
+    private List<ColeccionFavoritos> coleccionJuegos;
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
@@ -44,9 +48,9 @@ public class Coleccion {
     @Column(nullable = false)
     private Date fechaAdquisicion;
 
-    public Coleccion(Usuario usuario, List<ColeccionFavoritos> juegos, List<ContenidoAdicional> contenidosAdicionales, Date fechaAdquisicion) {
+    public Coleccion(Usuario usuario, List<ColeccionFavoritos> coleccionJuegos, List<ContenidoAdicional> contenidosAdicionales, Date fechaAdquisicion) {
         this.usuario = usuario;
-        this.juegos = juegos;
+        this.coleccionJuegos = coleccionJuegos;
         this.contenidosAdicionales = contenidosAdicionales;
         this.fechaAdquisicion = fechaAdquisicion;
     }
