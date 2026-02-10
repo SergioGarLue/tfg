@@ -35,16 +35,16 @@ public class Coleccion {
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
-    private List<Coleccion_favoritos> juegos;
+    private List<ColeccionFavoritos> juegos;
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
-    private List<Contenido_Adicional> contenidosAdicionales;
+    private List<ContenidoAdicional> contenidosAdicionales;
 
     @Column(nullable = false)
     private Date fechaAdquisicion;
 
-    public Coleccion(Usuario usuario, List<Coleccion_favoritos> juegos, List<Contenido_Adicional> contenidosAdicionales, Date fechaAdquisicion) {
+    public Coleccion(Usuario usuario, List<ColeccionFavoritos> juegos, List<ContenidoAdicional> contenidosAdicionales, Date fechaAdquisicion) {
         this.usuario = usuario;
         this.juegos = juegos;
         this.contenidosAdicionales = contenidosAdicionales;

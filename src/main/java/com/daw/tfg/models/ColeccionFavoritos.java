@@ -18,7 +18,7 @@ import lombok.ToString;
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "coleccion_favoritos")
-public class Coleccion_favoritos {
+public class ColeccionFavoritos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Coleccion_favoritos {
     @Column(nullable = false)
     private Boolean esFavorito = false;
 
-    public Coleccion_favoritos(Coleccion coleccion, Juego juego, Boolean esFavorito) {
+    public ColeccionFavoritos(Coleccion coleccion, Juego juego, Boolean esFavorito) {
         this.coleccion = coleccion;
         this.juego = juego;
         this.esFavorito = esFavorito;

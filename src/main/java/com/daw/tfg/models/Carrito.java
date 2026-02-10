@@ -41,13 +41,13 @@ public class Carrito {
 
     @OneToMany(mappedBy = "carrito")
     @JsonIgnore
-    private Set<Contenido_Adicional> contenidosAdicionales;
+    private Set<ContenidoAdicional> contenidosAdicionales;
 
     @OneToOne
     @JoinColumn(name = "id_compra", nullable = false)
     private Compra compra;
 
-    public Carrito(Usuario usuario, Set<Juego> juegos, Set<Contenido_Adicional> contenidosAdicionales, Compra compra) {
+    public Carrito(Usuario usuario, Set<Juego> juegos, Set<ContenidoAdicional> contenidosAdicionales, Compra compra) {
         this.usuario = usuario;
         this.juegos = juegos;
         this.contenidosAdicionales = contenidosAdicionales;
