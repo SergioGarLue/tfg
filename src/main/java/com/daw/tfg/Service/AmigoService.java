@@ -26,12 +26,12 @@ public class AmigoService {
         return amigoRepository.findById(id);
     }
 
-    public List<Amistad> findByUsuarioOrigen(Usuario u) {
-        return amigoRepository.findByUsuarioOrigen(u);
+    public List<Amistad> findByUsuarioSolicitante(Usuario u) {
+        return amigoRepository.findBySolicitante(u);
     }
 
     public List<Amistad> findByUsuarioDestino(Usuario u) {
-        return amigoRepository.findByUsuarioDestino(u);
+        return amigoRepository.findByDestinatario(u);
     }
 
     public Amistad save(Amistad a) {

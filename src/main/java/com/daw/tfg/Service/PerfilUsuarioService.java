@@ -5,27 +5,27 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.daw.tfg.Repository.Perfil_UsuarioRepository;
-import com.daw.tfg.models.Perfil_Usuario;
+import com.daw.tfg.Repository.PerfilUsuarioRepository;
+import com.daw.tfg.models.PerfilUsuario;
 
 @Service
-public class Perfil_UsuarioService {
+public class PerfilUsuarioService {
 
-    private final Perfil_UsuarioRepository perfilRepository;
+    private final PerfilUsuarioRepository perfilRepository;
 
-    public Perfil_UsuarioService(Perfil_UsuarioRepository perfilRepository) {
+    public PerfilUsuarioService(PerfilUsuarioRepository perfilRepository) {
         this.perfilRepository = perfilRepository;
     }
 
-    public List<Perfil_Usuario> findAll() {
+    public List<PerfilUsuario> findAll() {
         return perfilRepository.findAll();
     }
 
-    public Optional<Perfil_Usuario> findById(Long id) {
+    public Optional<PerfilUsuario> findById(Long id) {
         return perfilRepository.findById(id);
     }
 
-    public Perfil_Usuario save(Perfil_Usuario perfil) {
+    public PerfilUsuario save(PerfilUsuario perfil) {
         return perfilRepository.save(perfil);
     }
 

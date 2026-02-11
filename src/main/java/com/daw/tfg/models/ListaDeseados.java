@@ -13,7 +13,7 @@ import lombok.ToString;
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "usuario_lista_deseados")
-public class Lista_Deseados {
+public class ListaDeseados {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class Lista_Deseados {
     @JsonIgnore
     private Set<Juego> juegos;
 
-    public Lista_Deseados(Usuario usuario, Set<Juego> juegos) {
+    public ListaDeseados(Usuario usuario, Set<Juego> juegos) {
         this.usuario = usuario;
         this.juegos = juegos;
     }
