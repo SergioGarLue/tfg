@@ -122,7 +122,11 @@ public class CarritoService {
         Usuario usuario = usuarioService.findById(usuarioId);
 
         Carrito carrito = findByUsuario(usuario);
-        return carrito.getJuegos().stream().map(Juego::getPrecio).reduce(0.0f, Float::sum);
+        //cambio antes era un .reduce que podia dar nullpointerexception
+        return (float) carrito.getJuegos().stream()
+                .filter(juego -> juego.getPrecio() != null) // evitar errores con nulos
+                .mapToDouble(Juego::getPrecio)
+                .sum();
     }
 
     /**
