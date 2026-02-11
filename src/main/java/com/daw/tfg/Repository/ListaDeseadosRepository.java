@@ -9,7 +9,7 @@ import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.Lista_Deseados;
 import com.daw.tfg.models.Usuario;
 
-public interface Lista_DeseadosRepository extends JpaRepository<Lista_Deseados, Long> {
+public interface ListaDeseadosRepository extends JpaRepository<Lista_Deseados, Long> {
     Optional<Lista_Deseados> findByUsuario(Usuario usuario);
     Optional<Lista_Deseados> findByUsuarioIdUsuario(Long idUsuario);
     List<Lista_Deseados> findByJuegosContains(Juego juego);

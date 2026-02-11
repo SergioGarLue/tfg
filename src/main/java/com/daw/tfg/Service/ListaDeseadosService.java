@@ -5,27 +5,27 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.daw.tfg.Repository.Lista_DeseadosRepository;
-import com.daw.tfg.models.Lista_Deseados;
+import com.daw.tfg.Repository.ListaDeseadosRepository;
+import com.daw.tfg.models.ListaDeseados;
 
 @Service
-public class Lista_DeseadosService {
+public class ListaDeseadosService {
 
-    private final Lista_DeseadosRepository listaRepository;
+    private final ListaDeseadosRepository listaRepository;
 
-    public Lista_DeseadosService(Lista_DeseadosRepository listaRepository) {
+    public ListaDeseadosService(ListaDeseadosRepository listaRepository) {
         this.listaRepository = listaRepository;
     }
 
-    public List<Lista_Deseados> findAll() {
+    public List<ListaDeseados> findAll() {
         return listaRepository.findAll();
     }
 
-    public Optional<Lista_Deseados> findById(Long id) {
+    public Optional<ListaDeseados> findById(Long id) {
         return listaRepository.findById(id);
     }
 
-    public Lista_Deseados save(Lista_Deseados lista) {
+    public ListaDeseados save(ListaDeseados lista) {
         return listaRepository.save(lista);
     }
 
