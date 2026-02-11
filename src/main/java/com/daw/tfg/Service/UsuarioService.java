@@ -12,7 +12,7 @@ import com.daw.tfg.models.Usuario;
 
 @Service
 public class UsuarioService {
-     private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
     private final SecurityConfig securityConfig;
     public UsuarioService(UsuarioRepository usuarioRepository, SecurityConfig securityConfig) {
         this.usuarioRepository = usuarioRepository;
@@ -45,16 +45,30 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> findById(Long id) {
-        return usuarioRepository.findById(id);
+    public Usuario findById(Long id) {
+        Optional<Usuario> user = usuarioRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+        return user.get();
     }
 
-    public Optional<Usuario> findByNombreUsuario(String nombre) {
-        return usuarioRepository.findByNombreUsuario(nombre);
+    public Usuario findByNombreUsuario(String nombre) {
+        Optional<Usuario> user = usuarioRepository.findByNombreUsuario(nombre);
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+        return user.get();
+        
     }
 
-    public Optional<Usuario> findByCorreoElectronico(String correo) {
-        return usuarioRepository.findByCorreoElectronico(correo);
+    public Usuario findByCorreoElectronico(String correo) {
+        Optional<Usuario> user = usuarioRepository.findByCorreoElectronico(correo);
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+        return user.get();
+        
     }
 
     public Usuario save(Usuario u) {
@@ -63,6 +77,41 @@ public class UsuarioService {
 
     public void deleteById(Long id) {
         usuarioRepository.deleteById(id);
+    }
+
+    /**
+     * Authenticates a user by username and password.
+     */
+    public Optional<Usuario> authenticate(String username, String password) {
+        Usuario usuario = findByNombreUsuario(username);
+            if (securityConfig.passwdEncoder().matches(password, usuario.getContraseñaCifrada())) {
+                return Optional.of(usuario);
+            }
+        
+        return Optional.empty();
+    }
+
+    /**
+     * Updates user profile with validations.
+     */
+    public void updateProfile(Long userId, UsuarioDTO userDto) {
+        Usuario usuario = findById(userId);
+        
+        if (userDto.getUsername() != null && !userDto.getUsername().equals(usuario.getNombreUsuario())) {
+            if (usuarioRepository.existsByNombreUsuario(userDto.getUsername())) {
+                throw new IllegalArgumentException("Nombre de usuario ya existe");
+            }
+            usuario.setNombreUsuario(userDto.getUsername());
+        }
+
+        if (userDto.getPasswd() != null) {
+            if (!validaPasswd(userDto.getPasswd())) {
+                throw new IllegalArgumentException("Contraseña inválida");
+            }
+            usuario.setContraseñaCifrada(securityConfig.passwdEncoder().encode(userDto.getPasswd()));
+        }
+
+        save(usuario);
     }
 }
 
