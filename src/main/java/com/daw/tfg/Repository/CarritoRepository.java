@@ -11,6 +11,5 @@ import com.daw.tfg.models.Usuario;
 
 public interface CarritoRepository extends JpaRepository<Carrito, Long> {
     Optional<Carrito> findByIdUsuario(Usuario idUsuario);
-    Optional<Carrito> findByIdCarrito(Long idCarrito);
     List<Carrito> findByJuegosContains(Juego juego);
 } 
