@@ -65,10 +65,10 @@ public class Usuario {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario_perfil", nullable = false, unique = true)
     @JsonIgnore
-    private Perfil_Usuario perfilUsuario;
+    private PerfilUsuario perfilUsuario;
 
     public Usuario(String nombreUsuario, String contraseñaCifrada, String correoElectronico, EstadoUsuario conexion,
-            RolesUsuarios rol, Set<Amistad> amigos, Perfil_Usuario perfilUsuario) {
+            RolesUsuarios rol, Set<Amistad> amigos, PerfilUsuario perfilUsuario) {
         this.nombreUsuario = nombreUsuario;
         this.contraseñaCifrada = contraseñaCifrada;
         this.correoElectronico = correoElectronico;

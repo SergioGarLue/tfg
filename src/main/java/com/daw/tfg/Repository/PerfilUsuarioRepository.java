@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.daw.tfg.models.Perfil_Usuario;
+import com.daw.tfg.models.PerfilUsuario;
 
-public interface PerfilUsuarioRepository extends JpaRepository<Perfil_Usuario, Long>{
-    List<Perfil_Usuario> findByPais(String pais);
-    List<Perfil_Usuario> findByEstado(Boolean estado);
-    List<Perfil_Usuario> findByImagenUsuarioContainingIgnoreCase(String fragmentoImagen);
+public interface PerfilUsuarioRepository extends JpaRepository<PerfilUsuario, Long>{
+    List<PerfilUsuario> findByPais(String pais);
+    List<PerfilUsuario> findByEstado(Boolean estado);
+    List<PerfilUsuario> findByImagenUsuarioContainingIgnoreCase(String fragmentoImagen);
 } 
