@@ -33,8 +33,8 @@ public class ContenidoAdicional {
     @Column(nullable = false, name = "fechaLanzamiento")
     private LocalDateTime fechaLanzamiento;
 
-    @Column(nullable = false, name = "pesoGb")
-    private Float pesoGb;
+    @Column(nullable = false, name = "requerimientos")
+    private String requerimientos;
 
     @Column(nullable = false, name = "imagen")
     private String imagen;
@@ -60,13 +60,13 @@ public class ContenidoAdicional {
 
     // Constructor
     public ContenidoAdicional(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento,
-            Float pesoGb,
+            String requerimientos,
             String imagen, String requisitos, Juego juego, Carrito carrito) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
         this.fechaLanzamiento = fechaLanzamiento;
-        this.pesoGb = pesoGb;
+        this.requerimientos = requerimientos;
         this.imagen = imagen;
         this.requisitos = requisitos;
         this.juego = juego;

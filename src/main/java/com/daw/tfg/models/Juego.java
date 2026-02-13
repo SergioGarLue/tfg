@@ -31,8 +31,8 @@ public class Juego {
     @Column(nullable = false, name = "fechaLanzamiento")
     private LocalDateTime fechaLanzamiento;
 
-    @Column(nullable = false, name = "pesoGb")
-    private Float pesoGb;
+    @Column(nullable = false, name = "requerimientos")
+    private String requerimientos;
 
     @Column(nullable = false, name = "imagen")
     private String imagen;
@@ -67,14 +67,14 @@ public class Juego {
     @JsonIgnore
     private Editor editor;
 
-    public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, Float pesoGb, String imagen,
+    public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, String requerimientos, String imagen,
             String requisitos, Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
             Set<Genero> generos, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
         this.fechaLanzamiento = fechaLanzamiento;
-        this.pesoGb = pesoGb;
+        this.requerimientos = requerimientos;
         this.imagen = imagen;
         this.requisitos = requisitos;
         this.resenas = resenas;

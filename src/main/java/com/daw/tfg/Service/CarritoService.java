@@ -78,11 +78,7 @@ public class CarritoService {
     public void addJuegoToCarrito(Long usuarioId, Long juegoId) {
         Usuario usuario  = usuarioService.findById(usuarioId);
 
-        Optional<Juego> juegoOpt = juegoService.findById(juegoId);
-        if (juegoOpt.isEmpty()) {
-            throw new IllegalArgumentException("Juego no encontrado");
-        }
-        Juego juego = juegoOpt.get();
+        Juego juego = juegoService.findById(juegoId);
 
         Carrito carrito = findByUsuario(usuario);
 
@@ -104,11 +100,8 @@ public class CarritoService {
     public void removeJuegoFromCarrito(Long usuarioId, Long juegoId) {
         Usuario usuario = usuarioService.findById(usuarioId);
 
-        Optional<Juego> juegoOpt = juegoService.findById(juegoId);
-        if (juegoOpt.isEmpty()) {
-            throw new IllegalArgumentException("Juego no encontrado");
-        }
-        Juego juego = juegoOpt.get();
+        Juego juego = juegoService.findById(juegoId);
+
 
         Carrito carrito = findByUsuario(usuario);
         carrito.getJuegos().remove(juego);
