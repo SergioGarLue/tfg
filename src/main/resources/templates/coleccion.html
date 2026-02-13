@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Colección</title>
       <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
-    <link rel="stylesheet" href="../static/estilos/coleccion.css" />
+    <link rel="stylesheet" href="../static/estilos/index.css" />
 </head>
 <body>
 
@@ -18,6 +18,7 @@
         </div>
         
         <nav>
+          
           <ul>
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-tienda">
@@ -73,23 +74,33 @@
       <header class="barra-superior">
         <div class="contenedor-busqueda">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="">
+          <input type="text" placeholder="Buscar en tu colección...">
         </div>
         <div class="boton-carrito">
            <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a>
+           <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
 
-      <section class="seccion-juegos-completa">
-        <h2>Tus juegos</h2>
+      <div class="scroll-contenido">
+        <section class="seccion-juegos-completa">
+          <div class="seccion-categoria">
+             <h3>Tus juegos</h3>
+          </div>
         
-        <div class="cuadricula-grande">
-          <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div>
-          <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div>
-          <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div>
-          <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div> <div class="tarjeta"></div>
-        </div>
-      </section>
+          <div class="cuadricula-grande">
+            <!-- Generamos tarjetas con contenido para que se vea la estética -->
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=10" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Elden Ring</span><div class="etiquetas">Instalado</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=11" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">God of War</span><div class="etiquetas">Listo para jugar</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=12" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Cyberpunk 2077</span><div class="etiquetas">Actualizando...</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=13" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">The Witcher 3</span><div class="etiquetas">Instalado</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=14" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Hades</span><div class="etiquetas">Jugado hoy</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=15" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Stardew Valley</span><div class="etiquetas">Instalado</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=16" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Terraria</span><div class="etiquetas">Sin instalar</div></div></div>
+            <div class="tarjeta"><img src="https://picsum.photos/300/200?random=17" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Minecraft</span><div class="etiquetas">Instalado</div></div></div>
+          </div>
+        </section>
+      </div>
 
     </main>
   </div>
@@ -108,6 +119,19 @@
       };
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
+
+      // Lógica del Carrito (Simulada)
+      const actualizarContadorCarrito = (cantidad) => {
+        const badge = document.getElementById('badge-carrito');
+        if (badge) {
+          if (cantidad > 0) {
+            badge.style.display = 'flex'; badge.textContent = cantidad;
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      };
+      actualizarContadorCarrito(2); // Simulación
     });
   </script>
 </body>

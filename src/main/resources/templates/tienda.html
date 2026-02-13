@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>inicio</title>
-    <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
-    <link rel="stylesheet" href="../static/estilos/index.css" />
+  <title>Tienda</title>
+  <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="../static/estilos/index.css" />
 </head>
 <body>
 
   <div class="contenedor-principal">
+    
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
@@ -17,14 +18,13 @@
         </div>
         
         <nav>
-          
           <ul>
-            <li class="item-desplegable">
+            <li class="item-desplegable activo">
               <div class="cabecera-desplegable" id="boton-tienda">
-              <a href="tienda.html"><i class="fa-solid fa-store icono"></i></a>
+                <a href="tienda.html"><i class="fa-solid fa-store icono"></i></a>
                 <span class="texto-enlace">Tienda</span>
               </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
+              <div class="contenedor-sublista" id="menu-tienda">
                 <ul class="lista-subitems">
                   <li>Ofertas</li>
                   <li>Populares</li>
@@ -35,7 +35,8 @@
 
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a><span class="texto-enlace">Colección</span>
+                <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a>
+                <span class="texto-enlace">Colección</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-coleccion">
                 <ul class="lista-subitems">
@@ -79,18 +80,12 @@
       </header>
 
       <div class="scroll-contenido">
-
-        <!-- Sección Hero Destacada -->
-        <section class="hero-banner">
-          <h2>ELDEN RING</h2>
-          <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
-          <button class="btn-hero">COMPRAR AHORA</button>
-        </section>
         
         <section class="seccion-categoria">
-          <h3>Novedades</h3>
-          <div class="fila-tarjetas">
-            <!-- Tarjeta 1 -->
+          <h3>Catálogo Completo</h3>
+          
+          <div class="cuadricula-grande">
+            
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=1" alt="Juego">
               <div class="info-tarjeta">
@@ -99,16 +94,16 @@
                 <div class="precio-container"><span class="precio">59.99€</span></div>
               </div>
             </div>
-            <!-- Tarjeta 2 -->
+
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=2" alt="Juego">
               <div class="info-tarjeta">
                 <span class="titulo-juego">Space Marine II</span>
-                <div class="etiquetas">Shooter, Co-op</div>
+                <div class="etiquetas">Shooter</div>
                 <div class="precio-container"><span class="precio">49.99€</span></div>
               </div>
             </div>
-            <!-- Tarjeta 3 -->
+
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=3" alt="Juego">
               <div class="info-tarjeta">
@@ -117,7 +112,7 @@
                 <div class="precio-container"><span class="descuento">-50%</span><span class="precio">7.49€</span></div>
               </div>
             </div>
-            <!-- Tarjeta 4 -->
+
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=4" alt="Juego">
               <div class="info-tarjeta">
@@ -126,13 +121,8 @@
                 <div class="precio-container"><span class="precio">13.99€</span></div>
               </div>
             </div>
-          </div>
-        </section>
 
-        <section class="seccion-categoria">
-          <h3>Recomendados para ti</h3>
-          <div class="fila-tarjetas">
-             <div class="tarjeta">
+            <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=5" alt="Juego">
               <div class="info-tarjeta">
                 <span class="titulo-juego">Dark Souls III</span>
@@ -140,6 +130,7 @@
                 <div class="precio-container"><span class="precio">59.99€</span></div>
               </div>
             </div>
+
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=6" alt="Juego">
               <div class="info-tarjeta">
@@ -148,6 +139,7 @@
                 <div class="precio-container"><span class="precio">19.99€</span></div>
               </div>
             </div>
+
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=7" alt="Juego">
               <div class="info-tarjeta">
@@ -156,6 +148,7 @@
                 <div class="precio-container"><span class="precio">9.99€</span></div>
               </div>
             </div>
+
             <div class="tarjeta">
               <img src="https://picsum.photos/300/200?random=8" alt="Juego">
               <div class="info-tarjeta">
@@ -164,15 +157,25 @@
                 <div class="precio-container"><span class="precio">24.99€</span></div>
               </div>
             </div>
-          </div>
-        </section>
 
-        <section class="seccion-categoria">
-          <h3>Jugados recientes</h3>
-          <div class="fila-tarjetas">
-            <!-- Puedes repetir la estructura de tarjetas aquí si lo deseas -->
-             <div class="tarjeta"><img src="https://picsum.photos/300/200?random=9" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Factorio</span></div></div>
-             <div class="tarjeta"><img src="https://picsum.photos/300/200?random=10" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Rust</span></div></div>
+             <div class="tarjeta">
+              <img src="https://picsum.photos/300/200?random=9" alt="Juego">
+              <div class="info-tarjeta">
+                <span class="titulo-juego">Factorio</span>
+                <div class="etiquetas">Estrategia</div>
+                <div class="precio-container"><span class="precio">30.00€</span></div>
+              </div>
+            </div>
+
+             <div class="tarjeta">
+              <img src="https://picsum.photos/300/200?random=10" alt="Juego">
+              <div class="info-tarjeta">
+                <span class="titulo-juego">Rust</span>
+                <div class="etiquetas">Survival</div>
+                <div class="precio-container"><span class="precio">39.99€</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -181,7 +184,6 @@
   </div>
 
   <script>
-    // Tu Script Original intacto
     document.addEventListener("DOMContentLoaded", () => {
       const Desplegable = (idBoton, idMenu) => {
         const boton = document.getElementById(idBoton);
@@ -218,8 +220,7 @@
         }
       };
 
-      // SIMULACIÓN: Aquí pondrías la cantidad real que viene de tu base de datos o localStorage
-      // Por ejemplo, cambiamos el valor a 2 para probar:
+      // SIMULACIÓN
       let itemsEnCarrito = 2; 
       actualizarContadorCarrito(itemsEnCarrito);
     });

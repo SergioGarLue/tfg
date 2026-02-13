@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito </title>
   <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
-  <link rel="stylesheet" href="../static/estilos/carrito.css" />
+  <link rel="stylesheet" href="../static/estilos/index.css" />
 </head>
 <body>
 
@@ -18,6 +18,7 @@
         </div>
         
         <nav>
+          
           <ul>
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-tienda">
@@ -71,20 +72,22 @@
       <header class="barra-superior">
         <div class="contenedor-busqueda">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="">
+          <input type="text" placeholder="Buscar...">
         </div>
         <div class="boton-carrito">
  <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a>
+          <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
 
+      <div class="scroll-contenido">
       <section class="seccion-carrito">
         <h2>Carrito</h2>
         
         <div class="lista-productos">
             
             <div class="item-carrito">
-                <div class="imagen-producto"></div>
+                <div class="imagen-producto" style="background-image: url('https://picsum.photos/120/70?random=20');"></div>
                 <div class="info-producto">
                     <span class="nombre-juego">Bigger hunter</span>
                 </div>
@@ -97,7 +100,7 @@
             </div>
 
             <div class="item-carrito">
-                <div class="imagen-producto"></div>
+                <div class="imagen-producto" style="background-image: url('https://picsum.photos/120/70?random=21');"></div>
                 <div class="info-producto">
                     <span class="nombre-juego">Femboys love</span>
                 </div>
@@ -121,6 +124,7 @@
         </div>
 
       </section>
+      </div>
 
     </main>
   </div>
@@ -138,6 +142,19 @@
       };
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
+
+      // Lógica del Carrito (Simulada)
+      const actualizarContadorCarrito = (cantidad) => {
+        const badge = document.getElementById('badge-carrito');
+        if (badge) {
+          if (cantidad > 0) {
+            badge.style.display = 'flex'; badge.textContent = cantidad;
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      };
+      actualizarContadorCarrito(2); // Simulación
     });
   </script>
 </body>
