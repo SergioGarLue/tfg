@@ -39,9 +39,6 @@ public class ContenidoAdicional {
     @Column(nullable = false, name = "imagen")
     private String imagen;
 
-    @Column(nullable = false, name = "requisitos")
-    private String requisitos;
-
     // Relaciones
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_juego", nullable = false)
@@ -61,14 +58,13 @@ public class ContenidoAdicional {
     // Constructor
     public ContenidoAdicional(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento,
             String requerimientos,
-            String imagen, String requisitos, Juego juego, Carrito carrito) {
+            String imagen, Juego juego, Carrito carrito) {
         this.titulo = titulo;
         this.precio = precio;
         this.descripcion = descripcion;
         this.fechaLanzamiento = fechaLanzamiento;
         this.requerimientos = requerimientos;
         this.imagen = imagen;
-        this.requisitos = requisitos;
         this.juego = juego;
         this.carrito = carrito;
     }

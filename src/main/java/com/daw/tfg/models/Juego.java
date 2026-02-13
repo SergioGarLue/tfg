@@ -36,9 +36,6 @@ public class Juego {
 
     @Column(nullable = false, name = "imagen")
     private String imagen;
-    
-    @Column(nullable = false, name = "requisitos")
-    private String requisitos;
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
@@ -68,7 +65,7 @@ public class Juego {
     private Editor editor;
 
     public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, String requerimientos, String imagen,
-            String requisitos, Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
+        Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
             Set<Genero> generos, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
@@ -76,7 +73,6 @@ public class Juego {
         this.fechaLanzamiento = fechaLanzamiento;
         this.requerimientos = requerimientos;
         this.imagen = imagen;
-        this.requisitos = requisitos;
         this.resenas = resenas;
         this.contenidosAdicionales = contenidosAdicionales;
         this.generos = generos;
