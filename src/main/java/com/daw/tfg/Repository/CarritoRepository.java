@@ -10,6 +10,6 @@ import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.Usuario;
 
 public interface CarritoRepository extends JpaRepository<Carrito, Long> {
-    Optional<Carrito> findByIdUsuario(Usuario idUsuario);
+    Optional<Carrito> findByUsuario(Usuario usuario);
     List<Carrito> findByJuegosContains(Juego juego);
 } 
