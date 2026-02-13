@@ -36,7 +36,7 @@ public class Usuario {
 
     // Un enum que se pasa como String a la BD con el estado de conexion del usuario
     @Enumerated(EnumType.STRING)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private EstadoUsuario conexion;
 
     // Un enum que se pasa como String a la BD con el rol del usuario
@@ -56,7 +56,7 @@ public class Usuario {
         joinColumns= @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_amigo")
     )
-    private Set<Amistad> amigos;
+    private Set<Usuario> amigos;
 
     /*
         Relacion uno a uno con el perfil del usuario enlazando la columna
@@ -68,7 +68,7 @@ public class Usuario {
     private PerfilUsuario perfilUsuario;
 
     public Usuario(String nombreUsuario, String contraseñaCifrada, String correoElectronico, EstadoUsuario conexion,
-            RolesUsuarios rol, Set<Amistad> amigos, PerfilUsuario perfilUsuario) {
+            RolesUsuarios rol, Set<Usuario> amigos, PerfilUsuario perfilUsuario) {
         this.nombreUsuario = nombreUsuario;
         this.contraseñaCifrada = contraseñaCifrada;
         this.correoElectronico = correoElectronico;
