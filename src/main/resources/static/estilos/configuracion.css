@@ -1,0 +1,168 @@
+@import url('index.css');
+
+/* Contenedor principal de la configuración */
+.contenedor-configuracion {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Título principal de la página de configuración */
+.barra-superior h1 {
+    font-size: 1.8rem;
+    color: var(--texto-blanco);
+    font-weight: 600;
+}
+
+/* Estilo para cada sección de configuración (Perfil, Cuenta, etc.) */
+.seccion-config {
+    background-color: var(--steam-card-bg);
+    padding: 25px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    border: 1px solid #2a475e;
+}
+
+.seccion-config h2 {
+    color: var(--steam-light-blue);
+    border-bottom: 1px solid #3a5f7e;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+/* Contenedor para cada par de label-input */
+.grupo-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.grupo-form label {
+    color: var(--steam-text);
+    flex-basis: 40%; /* Asigna un ancho base a las etiquetas */
+}
+
+/* Estilos para los inputs de texto y textarea */
+.grupo-form input[type="text"],
+.grupo-form input[type="email"],
+.grupo-form textarea,
+.grupo-form select {
+    flex-grow: 1;
+    background-color: var(--steam-dark-blue);
+    border: 1px solid #2a475e;
+    border-radius: 3px;
+    padding: 10px;
+    color: var(--steam-text);
+    font-size: 1rem;
+}
+
+.grupo-form textarea {
+    resize: vertical; /* Permite redimensionar solo verticalmente */
+}
+
+/* Botón secundario (ej. Cambiar Contraseña) */
+.btn-secundario {
+    background-color: #483d55;
+    color: var(--texto-blanco);
+    border: 1px solid #5c506d;
+    padding: 10px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secundario:hover {
+    background-color: #5c506d;
+}
+
+/* Estilos para el interruptor (toggle switch) */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3a3f4c;
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--steam-light-blue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+/* Contenedor para los botones de acción finales */
+.acciones-config {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Botón principal para guardar cambios */
+.btn-guardar {
+    background: linear-gradient(90deg, #a4d007 0%, #688e03 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.btn-guardar:hover {
+    background: linear-gradient(90deg, #b6e608 0%, #7aa504 100%);
+}
+
+/* Botón de cerrar sesión (Rojo) */
+.btn-logout {
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-right: auto; /* Empuja el botón a la izquierda */
+}
+
+.btn-logout:hover {
+    background-color: #e74c3c;
+}

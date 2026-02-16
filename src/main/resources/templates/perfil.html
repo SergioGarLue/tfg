@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Solar Sistem</title>
+    <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
+    <link rel="stylesheet" href="../static/estilos/index.css" />
+    <link rel="stylesheet" href="../static/estilos/perfil.css" />
+</head>
+<body>
+
+  <div class="contenedor-principal">
+    
+    <aside class="barra-lateral">
+      <div class="zona-superior">
+        <div class="logo">
+          <a href="index.html"><i class="fa-solid fa-dragon"></i></a>
+        </div>
+        
+        <nav>
+          <ul>
+            <li class="item-desplegable">
+              <div class="cabecera-desplegable" id="boton-tienda">
+             <a href="tienda.html"><i class="fa-solid fa-store icono"></i></a>
+                <span class="texto-enlace">Tienda</span>
+              </div>
+              <div class="contenedor-sublista cerrado" id="menu-tienda">
+                <ul class="lista-subitems">
+                  <li>Ofertas</li>
+                  <li>Populares</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="item-desplegable">
+              <div class="cabecera-desplegable" id="boton-coleccion">
+                <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a>
+                <span class="texto-enlace">Coleccion</span>
+              </div>
+              
+              <div class="contenedor-sublista cerrado" id="menu-coleccion">
+                <div class="rama-arbol">
+                  <span class="titulo-rama">Generos</span>
+                  <ul class="lista-subitems">
+                    <li>Metroidvania</li>
+                    <li>Souls</li>
+                    <li>Estrategia</li>
+                    <li class="enlace-mas">Mostrar mas</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="pie-barra-lateral">
+        <div class="iconos-inferiores">
+          <div><i class="fa-solid fa-bell"></i></div>
+          <div><i class="fa-solid fa-user"></i></div>
+          <div><i class="fa-solid fa-star"></i></div>
+        </div>
+        <div class="separador-lateral"></div>
+        <div class="perfil-usuario">
+          <a href="perfil.html" style="text-decoration: none; color: inherit; display: contents;">
+            <div class="avatar">
+              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
+            </div>
+            <span class="nombre-usuario">Paco Leon</span>
+          </a>
+          <div id="conf"><a href="configuracion.html" style="color: inherit;"><i class="fa-solid fa-gear"></i></a></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="contenido">
+      <header class="barra-superior">
+        <h1>Mi Perfil</h1>
+      </header>
+
+      <div class="scroll-contenido">
+        <div class="profile-container">
+            <aside class="profile-sidebar">
+                <div class="profile-header">
+                    <img src="https://i.pravatar.cc/150?img=11" alt="Avatar de Usuario" class="profile-avatar">
+                    <h2>Paco Leon</h2>
+                    <p>paco.leon@example.com</p>
+                </div>
+                <nav class="profile-nav">
+                    <ul>
+                        <li><a href="#informacion" class="active" data-target="informacion"><i class="fa-solid fa-user-pen"></i> Mi Información</a></li>
+                        <li><a href="#pedidos" data-target="pedidos"><i class="fa-solid fa-receipt"></i> Mis Pedidos</a></li>
+                        <li><a href="#deseados" data-target="deseados"><i class="fa-solid fa-heart"></i> Lista de Deseados</a></li>
+                        <li><a href="#direccion" data-target="direccion"><i class="fa-solid fa-map-location-dot"></i> Direcciones</a></li>
+                        <li><a href="#seguridad" data-target="seguridad"><i class="fa-solid fa-shield-halved"></i> Seguridad</a></li>
+                    </ul>
+                </nav>
+                <div class="profile-logout">
+                    <button class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+                </div>
+            </aside>
+    
+            <main class="profile-content">
+                <!-- Sección de Información Personal -->
+                <section id="informacion" class="profile-section active">
+                    <h2>Mi Información Personal</h2>
+                    <p>Gestiona tu información personal y de contacto.</p>
+                    <div class="avatar-upload-container">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Avatar Actual" class="avatar-preview" id="avatar-preview">
+                        <div class="avatar-info">
+                            <label for="file-upload" class="custom-file-upload">
+                                <i class="fas fa-camera"></i> Subir nueva imagen
+                            </label>
+                            <input id="file-upload" type="file" name="avatar" accept="image/*">
+                        </div>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="nombre">Nombre de Usuario</label>
+                            <input type="text" id="nombre" value="Paco Leon">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" value="paco.leon@example.com" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="biografia">Biografía</label>
+                            <textarea id="biografia" rows="4">Apasionado de los videojuegos y la tecnología.</textarea>
+                        </div>
+                        <button type="submit" class="btn-save">Guardar Cambios</button>
+                    </form>
+                </section>
+    
+                <!-- Sección de Mis Pedidos -->
+                <section id="pedidos" class="profile-section">
+                    <h2>Mis Pedidos</h2>
+                    <p>Aquí puedes ver el historial de tus pedidos.</p>
+                    <div class="order-list">
+                        <p>No tienes pedidos recientes.</p>
+                    </div>
+                </section>
+    
+                <!-- Sección de Lista de Deseados -->
+                <section id="deseados" class="profile-section">
+                    <h2>Lista de Deseados</h2>
+                    <p>Tus productos guardados para más tarde.</p>
+                    <div class="wishlist">
+                        <p>Tu lista de deseados está vacía.</p>
+                    </div>
+                </section>
+                
+                <!-- Sección de Direcciones -->
+                <section id="direccion" class="profile-section">
+                    <h2>Mis Direcciones</h2>
+                    <p>Gestiona tus direcciones de envío y facturación.</p>
+                     <div class="address-list">
+                        <p>No tienes direcciones guardadas.</p>
+                     </div>
+                </section>
+    
+                <!-- Sección de Seguridad -->
+                <section id="seguridad" class="profile-section">
+                    <h2>Seguridad</h2>
+                    <p>Cambia tu contraseña.</p>
+                    <form>
+                        <div class="form-group">
+                            <label for="current-password">Contraseña Actual</label>
+                            <input type="password" id="current-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">Nueva Contraseña</label>
+                            <input type="password" id="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirmar Nueva Contraseña</label>
+                            <input type="password" id="confirm-password">
+                        </div>
+                        <button type="submit" class="btn-save">Cambiar Contraseña</button>
+                    </form>
+                </section>
+            </main>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Script para la navegación de la barra lateral principal
+    document.addEventListener("DOMContentLoaded", () => {
+      const Desplegable = (idBoton, idMenu) => {
+        const boton = document.getElementById(idBoton);
+        const menu = document.getElementById(idMenu);
+        if (boton && menu) {
+          boton.addEventListener("click", () => {
+            menu.classList.toggle("cerrado");     
+          });
+        }
+      };
+      Desplegable("boton-tienda", "menu-tienda");
+      Desplegable("boton-coleccion", "menu-coleccion");
+    });
+    
+    // Script para previsualizar la imagen de perfil al seleccionarla
+    const fileInput = document.getElementById('file-upload');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const sidebarAvatar = document.querySelector('.profile-avatar');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (avatarPreview) avatarPreview.src = e.target.result;
+                    if (sidebarAvatar) sidebarAvatar.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Script para las pestañas del perfil
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.profile-nav a');
+        const sections = document.querySelectorAll('.profile-section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                this.classList.add('active');
+
+                const targetId = this.getAttribute('data-target');
+
+                sections.forEach(section => {
+                    section.classList.toggle('active', section.id === targetId);
+                });
+            });
+        });
+    });
+  </script>
+</body>
+</html>

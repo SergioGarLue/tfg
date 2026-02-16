@@ -131,6 +131,14 @@ i {
   transform: translateY(-10px);
 }
 
+.titulo-rama {
+  margin-left: 65px;
+  display: block;
+  color: var(--texto-gris);
+  margin-top: 10px;
+  font-weight: 600;
+}
+
 /* pie barra lateral */
 .pie-barra-lateral {
   padding: 0 25px;
@@ -395,17 +403,16 @@ i {
 .info-producto { flex-grow: 1; margin-left: 20px; }
 .nombre-juego { font-size: 1.1rem; font-weight: bold; color: white; }
 
-.controles-cantidad {
-  display: flex; align-items: center;
-  background-color: var(--steam-dark-blue);
-  padding: 5px; border-radius: 3px; margin-right: 20px;
+.btn-eliminar {
+  background: transparent;
+  border: none;
+  color: var(--texto-gris);
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 20px;
+  transition: color 0.2s;
 }
-.btn-cantidad {
-  background: none; border: none; color: var(--steam-text);
-  cursor: pointer; padding: 5px 10px; font-weight: bold;
-}
-.btn-cantidad:hover { color: white; }
-.input-cantidad { padding: 0 10px; color: white; }
+.btn-eliminar:hover { color: #c0392b; }
 
 .precio-producto { font-weight: bold; color: var(--steam-light-blue); font-size: 1.1rem; }
 
