@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.daw.tfg.dtos.UsuarioDTO;
 import com.daw.tfg.configuration.SecurityConfig;
+import com.daw.tfg.repository.PerfilUsuarioRepository;
 import com.daw.tfg.repository.UsuarioRepository;
+import com.daw.tfg.models.PerfilUsuario;
 import com.daw.tfg.models.Usuario;
 
 @Service
