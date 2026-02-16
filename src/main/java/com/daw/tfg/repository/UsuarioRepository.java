@@ -24,5 +24,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // List<Usuario> findAll(); para obtener todos los usuarios
     boolean existsByNombreUsuario(String nombreUsuario); // para verificar si un usuario existe por nombre de usuario
 
-    boolean existsByEmail(String email); // para verificar si un usuario existe por email
+    boolean existsByCorreoElectronico(String correoElectronico); // para verificar si un usuario existe por correo electrónico
+
 }

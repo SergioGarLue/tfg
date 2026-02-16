@@ -35,10 +35,6 @@ public class Coleccion {
 
     @OneToMany(mappedBy = "coleccion")
     @JsonIgnore
-    private List<Juego> juegos;
-
-    @OneToMany(mappedBy = "coleccion")
-    @JsonIgnore
     private List<ColeccionFavoritos> coleccionJuegos;
 
 

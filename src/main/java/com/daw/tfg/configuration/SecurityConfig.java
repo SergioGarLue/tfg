@@ -19,10 +19,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         // creamos los filtros
-        http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/").permitAll()   // público
-            .anyRequest().authenticated()  // cualquier ruta no registrada tiene que ser autenticado
+        // problema con los DELETE,PUT Y POST por el csrf deshabilidato para pruebas
+        //posteriormente se deberia cambiar para que compruebe si tienes un JWT(token)
+        // y en caso de tenerlo permitir estos metodos curl (por seguridad)
+        http.csrf(csrf -> csrf.disable())  // esta linea .csrf 
+            .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/**").permitAll()   // público
+            .requestMatchers("/api/carrito/**").permitAll()   // API del carrito - temporalmente público para pruebas
+            .anyRequest().permitAll()  // cualquier ruta no registrada tiene que ser autenticado
         )
+
         .formLogin(form ->form
             .loginPage("/login")
             .loginProcessingUrl("/login")
