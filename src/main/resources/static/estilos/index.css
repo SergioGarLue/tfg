@@ -7,6 +7,12 @@
   --texto-gris: #a09ba6;
   --borde-separador: rgba(255, 255, 255, 0.2);
   --hovers: #a29bfe;
+  --steam-dark: #171a21;
+  --steam-light-blue: #66c0f4;
+  --steam-dark-blue: #1b2838;
+  --steam-card-bg: #2a475e;
+  --steam-text: #c7d5e0;
+  --steam-green: #a4d007;
 }
 
 * {
@@ -22,8 +28,8 @@ a {
 
 body {
   font-family: "Segoe UI", Tahoma, sans-serif;
-  background-color: #1a1820;
-  color: var(--texto-blanco);
+  background-color: var(--steam-dark);
+  color: var(--steam-text);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -41,7 +47,8 @@ body {
 /*barra lateral */
 .barra-lateral {
   width: 260px;
-  background-color: var(--fondo-lateral);
+  background-color: #171a21 !important;
+  border-right: 1px solid #2a475e;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -114,6 +121,11 @@ i {
   color: var(--hovers);
 }
 
+.enlace-mas > i {
+  font-size: 10px;
+  margin-left: 5px;
+}
+
 .contenedor-sublista.cerrado li {
   opacity: 0;
   transform: translateY(-10px);
@@ -183,17 +195,24 @@ i {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  /* Eliminamos el fondo y borde que no aplican bien aquí */
 }
 
 .contenedor-busqueda {
   display: flex;
   align-items: center;
-  background-color: var(--fondo-busqueda);
-  border-radius: 25px;
-  padding: 10px 20px;
-  width: 60%;
-  color: var(--texto-gris);
+  background-color: var(--steam-dark-blue);
+  border-radius: 50px;
+  padding: 8px 12px;
+  flex-grow: 1; /* Para que ocupe el espacio disponible */
+  margin-right: 20px;
+  color: var(--steam-light-blue);
+  transition: background-color 0.2s;
+}
+
+.contenedor-busqueda:focus-within {
+  background-color: #2a475e;
 }
 
 .contenedor-busqueda input {
@@ -201,22 +220,48 @@ i {
   border: none;
   margin-left: 10px;
   width: 100%;
-  color: white;
+  color: var(--steam-text);
   font-size: 1rem;
   outline: none;
 }
 
-
 .boton-carrito {
-  background-color: var(--fondo-busqueda);
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+  color: var(--steam-text);
+  width: 45px;
+  height: 45px;
+  border-radius: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.2rem;
   cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.boton-carrito:hover {
+  background-color: var(--steam-light-blue);
+  color: var(--steam-dark);
+  border-color: var(--steam-light-blue);
+}
+
+.contador-carrito {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: #ff3b30;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  min-width: 16px; /* Ancho mínimo para un solo número */
+  height: 16px;
+  padding: 0 4px;  /* Espacio lateral para números grandes */
+  border-radius: 10px; /* Forma de pastilla */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .scroll-contenido {
@@ -227,33 +272,73 @@ i {
   scrollbar-color: var(--fondo-lateral) transparent;
 }
 
+/* Hero Section */
+.hero-banner {
+  width: 100%;
+  height: 350px;
+  background: linear-gradient(to right, rgba(0,0,0,0.8), transparent), url('https://picsum.photos/1200/400?grayscale');
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.hero-banner h2 { font-size: 3em; color: white; margin: 0 0 10px 0; text-shadow: 2px 2px 4px black; }
+.hero-banner p { font-size: 1.2em; max-width: 600px; color: #eee; text-shadow: 1px 1px 2px black; }
+.btn-hero {
+  background: linear-gradient(90deg, #06BFFF 0%, #2D73FF 100%);
+  color: white; padding: 10px 25px; border: none; border-radius: 3px;
+  font-weight: bold; cursor: pointer; width: fit-content; margin-top: 20px;
+}
+
 .seccion-categoria {
   margin-bottom: 30px;
 }
 
 .seccion-categoria h3 {
-  font-weight: 400;
-  margin-bottom: 20px;
+  border-bottom: 1px solid #2a475e;
+  padding-bottom: 10px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   font-size: 1.1rem;
+  margin-bottom: 20px;
 }
 
 .fila-tarjetas {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-  margin-bottom: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
 }
 
 .tarjeta {
-  background-color: var(--color-tarjeta);
-  border-radius: 15px;
-  aspect-ratio: 16/9; 
+  background-color: var(--steam-card-bg);
+  height: 280px; /* Altura fija */
+  border-radius: 3px;
+  overflow: hidden;
   transition: transform 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 }
 .tarjeta:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
+
+.tarjeta img { width: 100%; height: 150px; object-fit: cover; }
+.info-tarjeta { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.titulo-juego { font-weight: bold; color: white; display: block; margin-bottom: 5px; }
+.etiquetas { font-size: 0.8em; color: #8f98a0; }
+.precio-container { display: flex; justify-content: flex-end; align-items: center; margin-top: 10px; }
+.precio { color: var(--steam-text); font-size: 0.9em; }
+.descuento { background-color: #4c6b22; color: var(--steam-green); padding: 2px 5px; font-size: 0.9em; margin-right: 5px; }
 
 .separador-guiones {
   text-align: center;
@@ -263,3 +348,79 @@ i {
   opacity: 0.5;
   margin-top: 10px;
 }
+
+/* --- Estilos Específicos de Colección --- */
+.cuadricula-grande {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding-bottom: 20px;
+}
+
+/* --- Estilos Específicos del Carrito --- */
+.seccion-carrito h2 {
+  color: white;
+  border-bottom: 1px solid #2a475e;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lista-productos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.item-carrito {
+  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--steam-card-bg);
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.imagen-producto {
+  width: 120px;
+  height: 70px;
+  background-color: #000;
+  background-image: url('https://picsum.photos/120/70'); /* Imagen por defecto */
+  background-size: cover;
+  border-radius: 3px;
+}
+
+.info-producto { flex-grow: 1; margin-left: 20px; }
+.nombre-juego { font-size: 1.1rem; font-weight: bold; color: white; }
+
+.controles-cantidad {
+  display: flex; align-items: center;
+  background-color: var(--steam-dark-blue);
+  padding: 5px; border-radius: 3px; margin-right: 20px;
+}
+.btn-cantidad {
+  background: none; border: none; color: var(--steam-text);
+  cursor: pointer; padding: 5px 10px; font-weight: bold;
+}
+.btn-cantidad:hover { color: white; }
+.input-cantidad { padding: 0 10px; color: white; }
+
+.precio-producto { font-weight: bold; color: var(--steam-light-blue); font-size: 1.1rem; }
+
+.zona-pago {
+  margin-top: 30px;
+  background-color: var(--steam-card-bg);
+  padding: 20px; border-radius: 5px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.etiqueta-total { color: var(--steam-text); font-size: 1.2rem; }
+.valor-total { font-weight: bold; color: white; margin-left: 10px; font-size: 1.5rem; }
+
+.boton-ir-pago {
+  background: linear-gradient(90deg, #a4d007 0%, #688e03 100%);
+  color: white; border: none; padding: 10px 30px; border-radius: 3px;
+  font-weight: bold; cursor: pointer; font-size: 1rem;
+}
+.boton-ir-pago:hover { background: linear-gradient(90deg, #b6e608 0%, #7aa504 100%); }
