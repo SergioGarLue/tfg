@@ -78,8 +78,7 @@ public class CarritoService {
     public void addJuegoToCarrito(Long usuarioId, Long juegoId) {
         Usuario usuario = usuarioService.findById(usuarioId);
 
-        Juego juego = juegoService.findById(juegoId)
-                .orElseThrow(() -> new IllegalArgumentException("Juego no encontrado"));
+        Juego juego = juegoService.findById(juegoId);
 
         // 1. Intentamos buscar el carrito existente o creamos uno nuevo si no existe
         Carrito carrito = carritoRepository.findByUsuario(usuario)
