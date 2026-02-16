@@ -21,8 +21,13 @@ public class JuegoService {
         return juegoRepository.findAll();
     }
 
-    public Optional<Juego> findById(Long id) {
-        return juegoRepository.findById(id);
+    public Juego findById(Long id) {
+        Optional<Juego> juego = juegoRepository.findById(id);
+        if (juego.isPresent()) {
+            return juego.get();
+        } else {
+            throw new RuntimeException("Juego no encontrado con id: " + id);
+        }
     }
 
     public Juego save(Juego juego) {
@@ -34,28 +39,54 @@ public class JuegoService {
     }
 
     // Delegados a repo
-    public Optional<Juego> findByTitulo(String titulo) {
-        return juegoRepository.findByTitulo(titulo);
+    public List<Juego> findByTituloContainingIgnoreCase(String tituloParte) {
+        List<Juego> juego = juegoRepository.findByTituloContainingIgnoreCase(tituloParte);
+        if (juego.isEmpty()) {
+            throw new RuntimeException("No se encontraron juegos con el título que contiene: " + tituloParte);
+        }
+        return juego;
     }
 
     public List<Juego> findByTituloContaining(String fragmento) {
-        return juegoRepository.findByTituloContainingIgnoreCase(fragmento);
+        List<Juego> juego = juegoRepository.findByTituloContainingIgnoreCase(fragmento);
+        if (juego.isEmpty()) {
+            throw new RuntimeException("No se encontraron juegos con el fragmento: " + fragmento);
+        }
+        return juego;
     }
 
-    public List<Juego> findByGeneroNombre(String nombreGenero) {
-        return juegoRepository.findByGenerosNombre(nombreGenero);
+    public List<Juego> findByGenerosNombre(String nombreGenero) {
+        List<Juego> juego = juegoRepository.findByGenerosNombre(nombreGenero);
+        if (juego.isEmpty()) {
+            throw new RuntimeException("No se encontraron juegos con el género: " + nombreGenero);
+        }
+        return juego;
     }
 
     public List<Juego> findByPrecioBetween(Float min, Float max) {
-        return juegoRepository.findByPrecioBetween(min, max);
+        if (min == max) {
+            throw new RuntimeException("El precio mínimo y máximo no pueden ser iguales.");
+        }
+        List<Juego> juego = juegoRepository.findByPrecioBetween(min, max);
+        if (juego.isEmpty()) {
+            throw new RuntimeException("No se encontraron juegos con precio entre: " + min + " y " + max);
+        }
+        return juego;
     }
 
     public List<Juego> findByDesarrolladorNombre(String nombre) {
-        return juegoRepository.findByDesarrolladorNombreIgnoreCase(nombre);
+        List<Juego> juego =  juegoRepository.findByDesarrolladorNombreIgnoreCase(nombre);
+        if(juego.isEmpty()) {
+            throw new RuntimeException("No se encontraron juegos con el desarrollador: " + nombre);
+        }
+        return juego;
     }
 
     public List<Juego> findByEditorNombre(String nombre) {
-        return juegoRepository.findByEditorNombreIgnoreCase(nombre);
+        List<Juego> juego = juegoRepository.findByEditorNombreIgnoreCase(nombre);
+        if(juego.isEmpty()) {
+            throw new RuntimeException("No se encontraron juegos con el desarrollador: " + nombre);
+        }
+        return juego;
     }
 }
-

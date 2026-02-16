@@ -108,11 +108,8 @@ public class CarritoService {
     public void removeJuegoFromCarrito(Long usuarioId, Long juegoId) {
         Usuario usuario = usuarioService.findById(usuarioId);
 
-        Optional<Juego> juegoOpt = juegoService.findById(juegoId);
-        if (juegoOpt.isEmpty()) {
-            throw new IllegalArgumentException("Juego no encontrado");
-        }
-        Juego juego = juegoOpt.get();
+        Juego juego = juegoService.findById(juegoId);
+
 
         Carrito carrito = findByUsuario(usuario);
         carrito.getJuegos().remove(juego);
@@ -126,9 +123,11 @@ public class CarritoService {
         Usuario usuario = usuarioService.findById(usuarioId);
 
         Carrito carrito = findByUsuario(usuario);
-        return (float) carrito.getJuegos().stream().mapToDouble(juego -> juego.getPrecio()
-                                                    .doubleValue()) // Pasamos a DoubleStream
-                                                    .sum();
+        //cambio antes era un .reduce que podia dar nullpointerexception
+        return (float) carrito.getJuegos().stream()
+                .filter(juego -> juego.getPrecio() != null) // evitar errores con nulos
+                .mapToDouble(Juego::getPrecio)
+                .sum();
     }
 
     /**

@@ -11,17 +11,13 @@ import com.daw.tfg.models.Juego;
 @Repository
 public interface JuegoRepository extends JpaRepository<Juego, Long> {
 
-    // Buscar por título exacto
-    Optional<Juego> findByTitulo(String titulo);
-
+    Optional<Juego> findById(Long id);
+    
     // Buscar por título parecido (contiene, case-insensitive)
     List<Juego> findByTituloContainingIgnoreCase(String tituloParte);
 
     // Buscar por género/categoría exacto
     List<Juego> findByGenerosNombre(String nombreGenero);
-
-    // Buscar por género/categoría parecido (contiene, case-insensitive)
-    List<Juego> findByGenerosNombreContainingIgnoreCase(String nombreGeneroParte);
 
     // Buscar entre dos precios (inclusive)
     List<Juego> findByPrecioBetween(Float minPrecio, Float maxPrecio);
