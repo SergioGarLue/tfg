@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.CarritoService;
+import com.daw.tfg.service.CarritoService;
 import com.daw.tfg.models.Carrito;
 import java.util.List;
 

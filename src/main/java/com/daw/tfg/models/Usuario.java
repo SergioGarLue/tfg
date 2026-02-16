@@ -2,8 +2,8 @@ package com.daw.tfg.models;
 
 import java.util.Set;
 
-import com.daw.tfg.Enums.EstadoUsuario;
-import com.daw.tfg.Enums.RolesUsuarios;
+import com.daw.tfg.enums.EstadoUsuario;
+import com.daw.tfg.enums.RolesUsuarios;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;

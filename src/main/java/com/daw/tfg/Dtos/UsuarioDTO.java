@@ -1,4 +1,4 @@
-package com.daw.tfg.Dtos;
+package com.daw.tfg.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

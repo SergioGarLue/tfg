@@ -22,11 +22,11 @@ Este proyecto busca unificar la experiencia de compra con la de una **comunidad 
 ### Backend
 ```
 ├── Configuration    # Clases de configuración general y seguridad
-├── Controllers      # Controladores REST / MVC para endpoints
+├── controllers      # Controladores REST / MVC para endpoints
 ├── Dtos             # Objetos de transferencia de datos (DTOs)
-├── Enums            # Enumeraciones para tipos y estados
-├── Repository       # Interfaces para acceso a base de datos (JPA)
-├── Service          # Lógica de negocio y servicios
+├── enums            # Enumeraciones para tipos y estados
+├── repository       # Interfaces para acceso a base de datos (JPA)
+├── service          # Lógica de negocio y servicios
 └── models           # Entidades / Modelos de base de datos
 ```
 

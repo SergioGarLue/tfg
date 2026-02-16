@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.UsuarioService;
+import com.daw.tfg.service.UsuarioService;
 import com.daw.tfg.models.Usuario;
 import java.util.List;
 

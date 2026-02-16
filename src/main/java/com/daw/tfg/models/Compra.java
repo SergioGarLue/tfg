@@ -4,7 +4,7 @@ package com.daw.tfg.models;
 
 import java.time.LocalDateTime;
 
-import com.daw.tfg.Enums.EstadoCompra;
+import com.daw.tfg.enums.EstadoCompra;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

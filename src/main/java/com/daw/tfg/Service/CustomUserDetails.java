@@ -1,4 +1,4 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.daw.tfg.Repository.UsuarioRepository;
+import com.daw.tfg.repository.UsuarioRepository;
 import com.daw.tfg.models.Usuario;
 
 @Service

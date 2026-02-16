@@ -1,4 +1,4 @@
-package com.daw.tfg.Configuration;
+package com.daw.tfg.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

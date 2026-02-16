@@ -1,4 +1,4 @@
-package com.daw.tfg.Repository;
+package com.daw.tfg.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,4 +32,3 @@ public interface JuegoRepository extends JpaRepository<Juego, Long> {
     // Buscar por editor (exacto o case-insensitive)
     List<Juego> findByEditorNombreIgnoreCase(String nombreEditor);
 }
-

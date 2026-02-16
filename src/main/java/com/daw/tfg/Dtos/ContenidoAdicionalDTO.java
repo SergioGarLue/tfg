@@ -1,4 +1,4 @@
-package com.daw.tfg.Dtos;
+package com.daw.tfg.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,11 +1,11 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.daw.tfg.Repository.ListaDeseadosRepository;
+import com.daw.tfg.repository.ListaDeseadosRepository;
 import com.daw.tfg.models.ListaDeseados;
 
 @Service

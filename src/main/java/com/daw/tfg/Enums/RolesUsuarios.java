@@ -1,4 +1,4 @@
-package com.daw.tfg.Enums;
+package com.daw.tfg.enums;
 
 public enum RolesUsuarios {
     // los anonymous podran acceder a ver los juegos sin iniciar sesion

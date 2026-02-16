@@ -1,13 +1,13 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.daw.tfg.Configuration.SecurityConfig;
-import com.daw.tfg.Dtos.UsuarioDTO;
-import com.daw.tfg.Repository.UsuarioRepository;
+import com.daw.tfg.dtos.UsuarioDTO;
+import com.daw.tfg.configuration.SecurityConfig;
+import com.daw.tfg.repository.UsuarioRepository;
 import com.daw.tfg.models.Usuario;
 
 @Service

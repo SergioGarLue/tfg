@@ -1,4 +1,4 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +7,13 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.daw.tfg.Repository.CarritoRepository;
+import com.daw.tfg.repository.CarritoRepository;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
 import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
-import com.daw.tfg.Enums.EstadoCompra;
+import com.daw.tfg.enums.EstadoCompra;
 
 @Service
 public class CarritoService {
@@ -143,7 +143,7 @@ public class CarritoService {
             throw new IllegalStateException("No se puede finalizar la compra con un carrito vacío");
         }
 
-        // Aquí deberías buscar el método de pago real desde su Service/Repository
+        // Aquí deberías buscar el método de pago real desde su service/repository
         // MetodoPago metodoPago = metodoPagoService.findById(metodoPagoId);
 
         Double total = getTotalPrice(usuarioId).doubleValue();
