@@ -1,4 +1,4 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.daw.tfg.Repository.AmigoRepository;
+import com.daw.tfg.repository.AmigoRepository;
 import com.daw.tfg.models.Amistad;
 import com.daw.tfg.models.Usuario;
-import com.daw.tfg.Enums.EstadoPeticion;
+import com.daw.tfg.enums.EstadoPeticion;
 
 @Service
 public class AmigoService {

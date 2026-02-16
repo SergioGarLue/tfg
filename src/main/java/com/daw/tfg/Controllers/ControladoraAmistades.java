@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.AmigoService;
+import com.daw.tfg.service.AmigoService;
 import com.daw.tfg.models.Amistad;
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.ColeccionService;
+import com.daw.tfg.service.ColeccionService;
 import com.daw.tfg.models.Coleccion;
 import java.util.List;
 

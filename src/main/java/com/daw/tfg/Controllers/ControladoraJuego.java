@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.JuegoService;
+import com.daw.tfg.service.JuegoService;
 import com.daw.tfg.models.Juego;
 import java.util.List;
 

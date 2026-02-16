@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.ListaDeseadosService;
+import com.daw.tfg.service.ListaDeseadosService;
 import com.daw.tfg.models.ListaDeseados;
 import java.util.List;
 

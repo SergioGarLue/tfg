@@ -1,11 +1,11 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.daw.tfg.Repository.ColeccionRepository;
+import com.daw.tfg.repository.ColeccionRepository;
 import com.daw.tfg.models.Coleccion;
 
 @Service

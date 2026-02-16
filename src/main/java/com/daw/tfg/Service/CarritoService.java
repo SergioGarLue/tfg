@@ -1,4 +1,4 @@
-package com.daw.tfg.Service;
+package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +7,13 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.daw.tfg.Repository.CarritoRepository;
+import com.daw.tfg.repository.CarritoRepository;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
 import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
-import com.daw.tfg.Enums.EstadoCompra;
+import com.daw.tfg.enums.EstadoCompra;
 
 @Service
 public class CarritoService {
@@ -46,7 +46,7 @@ public class CarritoService {
     }
 
     public Carrito findByUsuario(Usuario usuario) {
-        Optional<Carrito> carr = carritoRepository.findByIdUsuario(usuario);
+        Optional<Carrito> carr = carritoRepository.findByUsuario(usuario);
         if (carr.isEmpty()) {
             throw new IllegalArgumentException("Carrito no encontrado");
         }
@@ -76,20 +76,28 @@ public class CarritoService {
      */
     @Transactional
     public void addJuegoToCarrito(Long usuarioId, Long juegoId) {
-        Usuario usuario  = usuarioService.findById(usuarioId);
+        Usuario usuario = usuarioService.findById(usuarioId);
 
-        Juego juego = juegoService.findById(juegoId);
+        Juego juego = juegoService.findById(juegoId)
+                .orElseThrow(() -> new IllegalArgumentException("Juego no encontrado"));
 
-        Carrito carrito = findByUsuario(usuario);
+        // 1. Intentamos buscar el carrito existente o creamos uno nuevo si no existe
+        Carrito carrito = carritoRepository.findByUsuario(usuario)
+                .orElseGet(() -> new Carrito());
+        carrito.setUsuario(usuario);
+        carrito.setCompra(null);
 
+        // 2. Verificamos si el juego ya está (importante que Juego tenga
+        // equals/hashCode)
         if (carrito.getJuegos().contains(juego)) {
             throw new IllegalArgumentException("El juego ya está en el carrito");
         }
+
+        // 3. Añadimos el juego a la colección
         carrito.getJuegos().add(juego);
 
-        // crea un nuevo carrito si no existe ninguno
-        carrito = new Carrito(usuario, Set.of(juego), Set.of(), null); // asumiendo que la compra es nula
-
+        // 4. Guardamos (gracias a @Transactional, a veces el save no es obligatorio,
+        // pero es buena práctica para asegurar la persistencia si el carrito es nuevo)
         save(carrito);
     }
 
@@ -128,23 +136,35 @@ public class CarritoService {
     @Transactional
     public void checkout(Long usuarioId, Long metodoPagoId) {
         Usuario usuario = usuarioService.findById(usuarioId);
-
         Carrito carrito = findByUsuario(usuario);
 
-        // asumimos que el metodo de pago ya existe (habira que modificarlo para que se
-        // compruebe)
-        MetodoPago metodoPago = new MetodoPago();
-        metodoPago.setIdMetodoPago(metodoPagoId);
+        if (carrito.getJuegos().isEmpty()) {
+            throw new IllegalStateException("No se puede finalizar la compra con un carrito vacío");
+        }
 
-        Float total = getTotalPrice(usuarioId);
+        // Aquí deberías buscar el método de pago real desde su service/repository
+        // MetodoPago metodoPago = metodoPagoService.findById(metodoPagoId);
 
-        // crea la compra
-        Compra compra = new Compra(total.doubleValue(), EstadoCompra.PENDIENTE, usuario, metodoPago, carrito);
-        compraService.save(compra);
+        Double total = getTotalPrice(usuarioId).doubleValue();
 
-        // vacia el carrito
+        // 1. Creamos la compra
+        Compra compra = new Compra();
+        compra.setTotal(total);
+        compra.setEstado(EstadoCompra.PENDIENTE);
+        compra.setUsuario(usuario);
+        // comp.setMetodoPago(metodoPago); 
+
+        // 2. Guardamos la compra primero
+        compra = compraService.save(compra);
+
+        // 3. Limpiamos el carrito y lo desvinculamos o vinculamos a la compra si es necesario
         carrito.getJuegos().clear();
-        carrito.getContenidosAdicionales().clear();
+        //seguramente lo tengamos que eliminar si cambiamos contenido adicional a Juego
+        carrito.getContenidosAdicionales().clear(); 
+        
+        // Si el carrito debe guardar la última compra realizada:
+        carrito.setCompra(compra); 
+
         save(carrito);
     }
 }

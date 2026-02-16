@@ -3,7 +3,7 @@ package com.daw.tfg.models;
 import java.util.Date;
 import java.util.Set;
 
-import com.daw.tfg.Enums.TipoMetodoPago;
+import com.daw.tfg.enums.TipoMetodoPago;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;

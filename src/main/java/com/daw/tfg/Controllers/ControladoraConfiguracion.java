@@ -1,4 +1,4 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
 

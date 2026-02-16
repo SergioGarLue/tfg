@@ -1,7 +1,7 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import com.daw.tfg.Service.NotificacionService;
+import com.daw.tfg.service.NotificacionService;
 import com.daw.tfg.models.Notificacion;
 import java.util.List;
 
