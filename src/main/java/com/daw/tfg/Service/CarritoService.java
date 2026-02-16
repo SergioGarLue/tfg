@@ -71,7 +71,7 @@ public class CarritoService {
     // Logica de negocio
 
     /**
-     * Añade el jeugo al carrito del usuario comprobadno que el usuario existe
+     * Añade el juego al carrito del usuario comprobadno que el usuario existe
      * si carrito no existe -> crea el carrito asociado a ese user
      */
     @Transactional

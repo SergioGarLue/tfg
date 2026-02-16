@@ -67,7 +67,7 @@ public class AmigoService {
         Usuario solicitante = usuarioService.findById(solicitanteId);
         Usuario destinatario = usuarioService.findById(destinatarioId);
 
-        // Comrpueba que el amigo existe y que la peticion existe
+        // Comprueba que el amigo existe y que la peticion existe
         List<Amistad> existing = amigoRepository.findBySolicitante(solicitante);
         existing.addAll(amigoRepository.findByDestinatario(solicitante));
         existing.addAll(amigoRepository.findBySolicitante(destinatario));
