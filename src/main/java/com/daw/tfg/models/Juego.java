@@ -5,7 +5,18 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,10 +55,6 @@ public class Juego {
     @JsonIgnore
     private Set<Resena> resenas;
 
-    @OneToMany(mappedBy = "juego")
-    @JsonIgnore
-    private Set<ContenidoAdicional> contenidosAdicionales;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "juego_genero", joinColumns = @JoinColumn(name = "id_juego"), inverseJoinColumns = @JoinColumn(name = "id_genero"))
     @JsonIgnore
@@ -67,28 +74,33 @@ public class Juego {
     // determina si un juego es contenido adicional(bolean), ademas da la id del juego padre,
     // esta parte no es nullable = false ya que puede ser nulo.
 
-    // @Column(name = "es_contenido_adicional")
-    // private Boolean esContenidoAdicional = false;
+    @Column(name = "tipo")
+    private String tipo;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_juego_padre")
-    // @JsonIgnore
-    // private Juego juegoPadre;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_juego_padre")
+    @JsonIgnore
+    private Juego juegoPadre;
 
-    public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, String requerimientos,
-            String imagen,
-            Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
-            Set<Genero> generos, Desarrollador desarrollador, Editor editor) {
-        this.titulo = titulo;
-        this.precio = precio;
-        this.descripcion = descripcion;
-        this.fechaLanzamiento = fechaLanzamiento;
-        this.requerimientos = requerimientos;
-        this.imagen = imagen;
-        this.resenas = resenas;
-        this.contenidosAdicionales = contenidosAdicionales;
-        this.generos = generos;
+    public Juego(Desarrollador desarrollador, String descripcion,
+         Editor editor, LocalDateTime fechaLanzamiento, Set<Genero> generos,
+         Long idJuego, String imagen, Juego juegoPadre, Float precio, String requerimientos,
+          Set<Resena> resenas, String tipo, String titulo) {
+            
         this.desarrollador = desarrollador;
+        this.descripcion = descripcion;
         this.editor = editor;
+        this.fechaLanzamiento = fechaLanzamiento;
+        this.generos = generos;
+        this.idJuego = idJuego;
+        this.imagen = imagen;
+        this.juegoPadre = juegoPadre;
+        this.precio = precio;
+        this.requerimientos = requerimientos;
+        this.resenas = resenas;
+        this.tipo = tipo;
+        this.titulo = titulo;
     }
+
+    
 }

@@ -2,18 +2,16 @@ package com.daw.tfg.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.daw.tfg.repository.CarritoRepository;
+import com.daw.tfg.enums.EstadoCompra;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
 import com.daw.tfg.models.Juego;
-import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
-import com.daw.tfg.enums.EstadoCompra;
+import com.daw.tfg.repository.CarritoRepository;
 
 @Service
 public class CarritoService {
@@ -158,8 +156,6 @@ public class CarritoService {
 
         // 3. Limpiamos el carrito y lo desvinculamos o vinculamos a la compra si es necesario
         carrito.getJuegos().clear();
-        //seguramente lo tengamos que eliminar si cambiamos contenido adicional a Juego
-        carrito.getContenidosAdicionales().clear(); 
         
         // Si el carrito debe guardar la última compra realizada:
         carrito.setCompra(compra); 

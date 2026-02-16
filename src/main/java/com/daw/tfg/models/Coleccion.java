@@ -41,17 +41,13 @@ public class Coleccion {
     @JsonIgnore
     private List<ColeccionFavoritos> coleccionJuegos;
 
-    @OneToMany(mappedBy = "coleccion")
-    @JsonIgnore
-    private List<ContenidoAdicional> contenidosAdicionales;
 
     @Column(nullable = false)
     private Date fechaAdquisicion;
 
-    public Coleccion(Usuario usuario, List<ColeccionFavoritos> coleccionJuegos, List<ContenidoAdicional> contenidosAdicionales, Date fechaAdquisicion) {
+    public Coleccion(Usuario usuario, List<ColeccionFavoritos> coleccionJuegos, Date fechaAdquisicion) {
         this.usuario = usuario;
         this.coleccionJuegos = coleccionJuegos;
-        this.contenidosAdicionales = contenidosAdicionales;
         this.fechaAdquisicion = fechaAdquisicion;
     }
 
