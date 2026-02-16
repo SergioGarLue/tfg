@@ -55006,7 +55006,7 @@ ups:
   label: Ups
   search:
     terms:
-      - United Parcel Service
+      - United Parcel service
       - package
       - shipping
   unicode: f7e0

@@ -1,5 +1,23 @@
-package com.daw.tfg.Controllers;
+package com.daw.tfg.controllers;
 
+import org.springframework.web.bind.annotation.*;
+import com.daw.tfg.service.UsuarioService;
+import com.daw.tfg.models.Usuario;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/usuarios")
 public class ControladoraUsuario {
+
+    private final UsuarioService usuarioService;
+
+    public ControladoraUsuario(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @GetMapping
+    public List<Usuario> getAll() {
+        return usuarioService.findAll();
+    }
 
 }

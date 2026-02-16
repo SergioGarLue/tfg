@@ -28,10 +28,10 @@ algolia:
     - algolia
   label: Algolia
   url: 'http://www.algolia.com'
-amazon-web-services:
+amazon-web-service:
   icons:
     - aws
-  label: Amazon Web Services
+  label: Amazon Web service
   url: 'https://aws.amazon.com'
 amilia:
   icons:

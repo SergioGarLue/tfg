@@ -1,7 +1,7 @@
-package com.daw.tfg.Enums;
+package com.daw.tfg.enums;
 
 public enum EstadoPeticion {
     PENDIENTE,
     ACEPTADO,
-    BLOQUEADO
+    RECHAZADA
 }

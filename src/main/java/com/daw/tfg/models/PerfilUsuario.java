@@ -16,7 +16,7 @@ import lombok.ToString;
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "perfil_usuario")
-public class Perfil_Usuario {
+public class PerfilUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario_perfil;
@@ -37,7 +37,7 @@ public class Perfil_Usuario {
     private Boolean estado;
 
 
-    public Perfil_Usuario(String imagenUsuario, String imagenFondoPerfil, String pais, 
+    public PerfilUsuario(String imagenUsuario, String imagenFondoPerfil, String pais, 
             String biografia, Boolean estado) {
         this.imagenUsuario = imagenUsuario;
         this.imagenFondoPerfil = imagenFondoPerfil;

@@ -1,20 +1,11 @@
 package com.daw.tfg.models;
 
-
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +13,10 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "carrito")
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Carrito {
 
     @Id
@@ -35,23 +29,25 @@ public class Carrito {
 
     @ManyToMany
     @JoinTable(name = "juegos_carrito",
-        joinColumns = @JoinColumn(name = "id_juego"),
-        inverseJoinColumns = @JoinColumn(name = "id_carrito"))
+        joinColumns = @JoinColumn(name = "id_carrito"),
+        inverseJoinColumns = @JoinColumn(name = "id_juego")) 
     @JsonIgnore
     private Set<Juego> juegos;
 
-    @OneToMany(mappedBy = "contenido_adicional")
+    @OneToMany(mappedBy = "carrito")
     @JsonIgnore
-    private Set<Contenido_Adicional> contenidosAdicionales;
+    private Set<ContenidoAdicional> contenidosAdicionales;
 
     @OneToOne
-    @JoinColumn(name = "id_compra", nullable = false)
+    @JoinColumn(name = "id_compra", nullable = true)
     private Compra compra;
 
-    public Carrito(Usuario usuario, Set<Juego> juegos, Set<Contenido_Adicional> contenidosAdicionales, Compra compra) {
+    public Carrito(Usuario usuario, Set<Juego> juegos, Set<ContenidoAdicional> contenidosAdicionales) {
         this.usuario = usuario;
         this.juegos = juegos;
         this.contenidosAdicionales = contenidosAdicionales;
-        this.compra = compra;
+        //no tiene compra porque puede ser null, los carritos empiezan sin compra
     }
+
+    
 }

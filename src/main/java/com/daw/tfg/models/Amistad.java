@@ -2,7 +2,7 @@ package com.daw.tfg.models;
 
 import java.time.LocalDateTime;
 
-import com.daw.tfg.Enums.EstadoPeticion;
+import com.daw.tfg.enums.EstadoPeticion;
 
 import jakarta.persistence.*;
 import lombok.Getter;

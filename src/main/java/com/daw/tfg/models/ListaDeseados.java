@@ -4,14 +4,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +13,7 @@ import lombok.ToString;
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
 @Table(name = "usuario_lista_deseados")
-public class Lista_Deseados {
+public class ListaDeseados {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +23,14 @@ public class Lista_Deseados {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "juego")
+    @ManyToMany
+    @JoinTable(name = "lista_deseados_juegos",
+        joinColumns = @JoinColumn(name = "id_lista_deseados"),
+        inverseJoinColumns = @JoinColumn(name = "id_juego"))
     @JsonIgnore
     private Set<Juego> juegos;
 
-    public Lista_Deseados(Usuario usuario, Set<Juego> juegos) {
+    public ListaDeseados(Usuario usuario, Set<Juego> juegos) {
         this.usuario = usuario;
         this.juegos = juegos;
     }

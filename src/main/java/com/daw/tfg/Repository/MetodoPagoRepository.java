@@ -1,4 +1,4 @@
-package com.daw.tfg.Repository;
+package com.daw.tfg.repository;
 
 import java.util.List;
 
