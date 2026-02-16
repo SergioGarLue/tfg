@@ -13,7 +13,10 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "juego")
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,11 +49,7 @@ public class Juego {
     private Set<ContenidoAdicional> contenidosAdicionales;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "juego_genero",
-        joinColumns = @JoinColumn(name = "id_juego"),
-        inverseJoinColumns = @JoinColumn(name = "id_genero")
-    )
+    @JoinTable(name = "juego_genero", joinColumns = @JoinColumn(name = "id_juego"), inverseJoinColumns = @JoinColumn(name = "id_genero"))
     @JsonIgnore
     private Set<Genero> generos;
 
@@ -64,8 +63,21 @@ public class Juego {
     @JsonIgnore
     private Editor editor;
 
-    public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, String requerimientos, String imagen,
-        Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
+
+    // determina si un juego es contenido adicional(bolean), ademas da la id del juego padre,
+    // esta parte no es nullable = false ya que puede ser nulo.
+
+    // @Column(name = "es_contenido_adicional")
+    // private Boolean esContenidoAdicional = false;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "id_juego_padre")
+    // @JsonIgnore
+    // private Juego juegoPadre;
+
+    public Juego(String titulo, Float precio, String descripcion, LocalDateTime fechaLanzamiento, String requerimientos,
+            String imagen,
+            Set<Resena> resenas, Set<ContenidoAdicional> contenidosAdicionales,
             Set<Genero> generos, Desarrollador desarrollador, Editor editor) {
         this.titulo = titulo;
         this.precio = precio;
