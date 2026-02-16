@@ -121,6 +121,11 @@ i {
   color: var(--hovers);
 }
 
+.enlace-mas > i {
+  font-size: 10px;
+  margin-left: 5px;
+}
+
 .contenedor-sublista.cerrado li {
   opacity: 0;
   transform: translateY(-10px);
