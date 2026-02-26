@@ -47,7 +47,7 @@ public class Compra {
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_metodo_pago", nullable = false)
+    @JoinColumn(name = "id_metodo_pago", nullable = true)
     @JsonIgnore
     private MetodoPago metodoPago;
     

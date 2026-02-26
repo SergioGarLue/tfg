@@ -29,6 +29,10 @@ public class ColeccionService {
 
     // CRUD
 
+    public List<ColeccionFavoritos> findAll() {
+        return coleccionFavoritosRepository.findAll();
+    }
+
     public ColeccionFavoritos findById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Id inválido");

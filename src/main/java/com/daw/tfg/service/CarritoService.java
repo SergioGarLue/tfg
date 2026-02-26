@@ -12,6 +12,7 @@ import com.daw.tfg.enums.EstadoCompra;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
 import com.daw.tfg.models.Juego;
+import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.CarritoRepository;
 
@@ -22,13 +23,15 @@ public class CarritoService {
     private final UsuarioService usuarioService;
     private final JuegoService juegoService;
     private final CompraService compraService;
+    private final MetodoPagoService metodoPagoService;
 
     public CarritoService(CarritoRepository carritoRepository, UsuarioService usuarioService, JuegoService juegoService,
-            CompraService compraService) {
+            CompraService compraService, MetodoPagoService metodoPagoService) {
         this.carritoRepository = carritoRepository;
         this.usuarioService = usuarioService;
         this.juegoService = juegoService;
         this.compraService = compraService;
+        this.metodoPagoService = metodoPagoService;
     }
 
     // CRUD
@@ -211,8 +214,11 @@ public class CarritoService {
             throw new IllegalStateException("No se puede finalizar la compra con un carrito vacío");
         }
 
-        // TODO: Aquí deberías buscar el método de pago real desde su service/repository
-        // MetodoPago metodoPago = metodoPagoService.findById(metodoPagoId);
+        // Buscar el método de pago si se proporcionó
+        MetodoPago metodoPago = null;
+        if (metodoPagoId != null) {
+            metodoPago = metodoPagoService.findById(metodoPagoId);
+        }
 
         Double total = getTotalPrice(usuarioId).doubleValue();
 
@@ -221,7 +227,7 @@ public class CarritoService {
         compra.setTotal(total);
         compra.setEstado(EstadoCompra.PENDIENTE);
         compra.setUsuario(usuario);
-        // TODO: Descomentar cuando esté disponible: compra.setMetodoPago(metodoPago); 
+        compra.setMetodoPago(metodoPago);
 
         // 2. Guardamos la compra primero
         compra = compraService.save(compra);
