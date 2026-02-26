@@ -55,9 +55,15 @@ public class UsuarioService {
         usuarioRepository.save(userNuevo);
     }
 
-    // este metodo hay que revisarlo
+    // Pattern: al menos 8 caracteres, 1 número, 1 minúscula, 1 mayúscula, 1 carácter especial
+    private static final String PASSWORD_PATTERN = 
+        "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$";
+
     private boolean validaPasswd(String passwd) {
-        return true;
+        if (passwd == null) {
+            return false;
+        }
+        return passwd.matches(PASSWORD_PATTERN);
     }
 
     // Métodos CRUD
@@ -99,16 +105,13 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    /**
-     * Authenticates a user by username and password.
-     */
     public Optional<Usuario> authenticate(String username, String password) {
-        Usuario usuario = findByNombreUsuario(username);
-            if (securityConfig.passwdEncoder().matches(password, usuario.getContraseñaCifrada())) {
-                return Optional.of(usuario);
-            }
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            return Optional.empty();
+        }
         
-        return Optional.empty();
+        return usuarioRepository.findByNombreUsuario(username)
+            .filter(user -> securityConfig.passwdEncoder().matches(password, user.getContraseñaCifrada()));
     }
 
     /**

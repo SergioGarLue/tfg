@@ -2,7 +2,7 @@ package com.daw.tfg.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import com.daw.tfg.service.ColeccionService;
-import com.daw.tfg.models.Coleccion;
+import com.daw.tfg.models.ColeccionFavoritos;
 import java.util.List;
 
 @RestController
@@ -16,7 +16,7 @@ public class ControladoraBiblioteca {
     }
 
     @GetMapping
-    public List<Coleccion> getAll() {
+    public List<ColeccionFavoritos> getAll() {
         return coleccionService.findAll();
     }
 
