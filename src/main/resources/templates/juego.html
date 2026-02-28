@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configuración</title>
+  <title>Elden Ring - Solar Sistem</title>
   <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
-    <link rel="stylesheet" href="../static/estilos/index.css" />
-    <link rel="stylesheet" href="../static/estilos/configuracion.css" />
+  <link rel="stylesheet" href="../static/estilos/index.css" />
+  <link rel="stylesheet" href="../static/estilos/juego.css" />
 </head>
 <body>
 
   <div class="contenedor-principal">
+    
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
@@ -19,12 +20,12 @@
         
         <nav>
           <ul>
-            <li class="item-desplegable">
+            <li class="item-desplegable activo">
               <div class="cabecera-desplegable" id="boton-tienda">
                 <a href="tienda.html"><i class="fa-solid fa-store icono"></i></a>
-                <span class="texto-enlace" data-lang="nav-store">Tienda</span>
+                <span class="texto-enlace">Tienda</span>
               </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
+              <div class="contenedor-sublista" id="menu-tienda">
                 <ul class="lista-subitems">
                   <li>Ofertas</li>
                   <li>Populares</li>
@@ -35,17 +36,20 @@
 
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a><span class="texto-enlace" data-lang="nav-collection">Colección</span>
+                <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a>
+                <span class="texto-enlace">Coleccion</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-coleccion">
                 <ul class="lista-subitems">
                   <li>Metroidvania</li>
                   <li>Souls</li>
                   <li>Estrategia</li>
-                  <li class="enlace-mas">Mostrar más <i class="fa-solid fa-chevron-down"></i></li>
+                  <li class="enlace-mas">Mostrar mas</li>
                 </ul>
               </div>
             </li>
+
+            
           </ul>
         </nav>
       </div>
@@ -102,52 +106,81 @@
 
     <main class="contenido">
       <header class="barra-superior">
-        <h1 data-lang="header-config">Configuración</h1>
+        <div class="contenedor-busqueda">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar en la tienda...">
+        </div>
+        <div class="boton-carrito">
+          <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a>
+          <span class="contador-carrito" id="badge-carrito">0</span>
+        </div>
       </header>
 
       <div class="scroll-contenido">
-        <div class="contenedor-config">
-          <section class="seccion-config">
-            <h2 data-lang="sect-account">Cuenta</h2>
-            <form class="form-config">
-              <div class="campo-form">
-                <label data-lang="lbl-email">Correo Electrónico</label>
-                <input type="email" value="paco.leon@email.com" readonly>
-              </div>
-              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
-            </form>
-          </section>
+        <div class="contenedor-juego">
+          <div class="galeria-juego">
+            <div class="imagen-principal">
+              <img src="https://picsum.photos/800/450?random=100" alt="Elden Ring">
+            </div>
+            <div class="miniaturas">
+              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
+              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
+              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
+            </div>
+          </div>
 
-          <section class="seccion-config">
-            <h2 data-lang="sect-storage">Almacenamiento</h2>
-            <form class="form-config">
-              <div class="campo-form">
-                <label data-lang="lbl-storage">Ruta de instalación</label>
-                <input type="text" value="C:\Games\SolarSistem">
-              </div>
-              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
-            </form>
-          </section>
+          <aside class="info-juego">
+            <h1 class="titulo-juego">Elden Ring</h1>
+            
+            <div class="desarrollador-juego">
+              <span>Desarrollador:</span>
+              <a href="desarrollador.html">FromSoftware</a>
+            </div>
 
-          <section class="seccion-config">
-            <h2 data-lang="sect-interface">Interfaz</h2>
-            <form class="form-config">
-              <div class="campo-form">
-                <label data-lang="lbl-lang">Idioma</label>
-                <select id="idioma-select">
-                  <option value="es">Español</option>
-                  <option value="en">English</option>
-                </select>
-              </div>
-              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
-            </form>
-          </section>
+            <div class="etiquetas-juego">
+              <span class="etiqueta">Acción</span>
+              <span class="etiqueta">RPG</span>
+              <span class="etiqueta">Mundo Abierto</span>
+            </div>
 
-          <section class="seccion-config">
-            <form class="form-config">
-              <button type="button" class="btn-logout" data-lang="btn-logout">Cerrar Sesión</button>
-            </form>
-          </section>
+            <div class="descripcion-juego">
+              <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
+            </div>
+
+            <div class="capturas-juego">
+              <h3>Capturas</h3>
+              <div class="grid-capturas">
+                <img src="https://picsum.photos/300/170?random=104" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=105" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=106" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=107" alt="Captura">
+              </div>
+            </div>
+
+            <div class="info-fecha">
+              <div class="info-item">
+                <span class="label">Fecha de lanzamiento:</span>
+                <span class="value">25 feb, 2022</span>
+              </div>
+            </div>
+
+            <div class="precios">
+              <span class="precio-original">79.99€</span>
+              <span class="precio-descuento">-25%</span>
+              <span class="precio-final">59.99€</span>
+            </div>
+
+            <div class="botones-compra">
+              <button class="btn-comprar"><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
+              <button class="btn-deseados"><i class="fa-solid fa-heart"></i> Lista de deseados</button>
+            </div>
+
+            <div class="etiquetas-compra">
+              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
+              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -25%</span>
+            </div>
+          </aside>
+
         </div>
       </div>
     </main>
@@ -158,25 +191,20 @@
       const Desplegable = (idBoton, idMenu) => {
         const boton = document.getElementById(idBoton);
         const menu = document.getElementById(idMenu);
-    
         if (boton && menu) {
-          boton.addEventListener("click", (e) => {
-            e.preventDefault();
+          boton.addEventListener("click", () => {
             menu.classList.toggle("cerrado");     
-            const estaAbierto = !menu.classList.contains("cerrado");
-            const items = menu.querySelectorAll("li"); 
-            items.forEach((item, index) => {
-              if (estaAbierto) {
-                item.style.transitionDelay = `${index * 0.1}s`; 
-              } else {
-                item.style.transitionDelay = "0s";
-              }
-            });
           });
         }
       };
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
+
+      // Simulación contador carrito
+      const badge = document.getElementById('badge-carrito');
+      if (badge) {
+        badge.style.display = 'none';
+      }
 
       // --- Lógica de Notificaciones ---
       const botonNotificaciones = document.getElementById('boton-notificaciones');
@@ -202,52 +230,9 @@
           });
         }
       }
-
-      // Lógica de traducción
-      const textos = {
-        es: {
-          "nav-store": "Tienda",
-          "nav-collection": "Colección",
-          "header-config": "Configuración",
-          "sect-account": "Cuenta",
-          "lbl-email": "Correo Electrónico",
-          "sect-storage": "Almacenamiento",
-          "lbl-storage": "Ruta de instalación",
-          "sect-interface": "Interfaz",
-          "lbl-lang": "Idioma",
-          "btn-logout": "Cerrar Sesión",
-          "btn-save": "Guardar Cambios"
-        },
-        en: {
-          "nav-store": "Store",
-          "nav-collection": "Collection",
-          "header-config": "Settings",
-          "sect-account": "Account",
-          "lbl-email": "Email Address",
-          "sect-storage": "Storage",
-          "lbl-storage": "Installation Path",
-          "sect-interface": "Interface",
-          "lbl-lang": "Language",
-          "btn-logout": "Log Out",
-          "btn-save": "Save Changes"
-        }
-      };
-
-      const selectorIdioma = document.getElementById('idioma-select');
-      if (selectorIdioma) {
-        selectorIdioma.addEventListener('change', (e) => {
-          const idioma = e.target.value;
-          const elementos = document.querySelectorAll('[data-lang]');
-          
-          elementos.forEach(el => {
-            const clave = el.getAttribute('data-lang');
-            if (textos[idioma] && textos[idioma][clave]) {
-              el.textContent = textos[idioma][clave];
-            }
-          });
-        });
-      }
     });
   </script>
 </body>
 </html>
+
+

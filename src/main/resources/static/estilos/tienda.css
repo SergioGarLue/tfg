@@ -1,8 +1,10 @@
+/* Tienda styles - extending base index.css */
 
-/* con esto uso ciertos estilos genericos  */
 @import url('index.css');
 
 /* Estilos específicos para la tienda */
+
+/* Cuadrícula grande para los juegos */
 .cuadricula-grande {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
