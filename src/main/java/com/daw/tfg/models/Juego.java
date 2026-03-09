@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,9 +29,11 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long idJuego;
 
     @Column(nullable = false, unique = true, name = "titulo")
@@ -70,7 +73,6 @@ public class Juego {
     @JsonIgnore
     private Editor editor;
 
-
     // determina si un juego es contenido adicional(bolean), ademas da la id del juego padre,
     // esta parte no es nullable = false ya que puede ser nulo.
 
@@ -97,8 +99,6 @@ public class Juego {
         this.juegoPadre = juegoPadre;
         this.precio = precio;
         this.requerimientos = requerimientos;
-        this.resenas = resenas;
-        this.tipo = tipo;
         this.titulo = titulo;
     }
 

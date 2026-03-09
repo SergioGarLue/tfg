@@ -2,13 +2,13 @@ package com.daw.tfg.service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.daw.tfg.enums.EstadoCompra;
+import com.daw.tfg.exception.ResourceNotFoundException;
+import com.daw.tfg.exception.ValidationException;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
 import com.daw.tfg.models.Juego;
@@ -34,26 +34,25 @@ public class CarritoService {
         this.metodoPagoService = metodoPagoService;
     }
 
-    // CRUD
+    // ==================== CRUD ====================
 
     public List<Carrito> findAll() {
         return carritoRepository.findAll();
     }
 
     public Carrito findById(Long id) {
-        Optional<Carrito> carr = carritoRepository.findById(id);
-        if (carr.isEmpty()) {
-            throw new IllegalArgumentException("Carrito no encontrado");
-        }
-        return carr.get();
+        return carritoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Carrito", "id", id));
     }
 
     public Carrito findByUsuario(Usuario usuario) {
-        Optional<Carrito> carr = carritoRepository.findByUsuario(usuario);
-        if (carr.isEmpty()) {
-            throw new IllegalArgumentException("Carrito no encontrado");
-        }
-        return carr.get();
+        return carritoRepository.findByUsuario(usuario)
+                .orElseThrow(() -> new ResourceNotFoundException("Carrito", "usuario", usuario.getIdUsuario()));
+    }
+
+    public Carrito findByUsuarioId(Long usuarioId) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        return findByUsuario(usuario);
     }
 
     public List<Carrito> findByJuegoContains(Juego juego) {
@@ -66,23 +65,18 @@ public class CarritoService {
 
     public void deleteById(Long id) {
         if (carritoRepository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Carrito no encontrado");
+            throw new ResourceNotFoundException("Carrito", "id", id);
         }
         carritoRepository.deleteById(id);
     }
 
-     // Logica de negocio
+    // ==================== Lógica de negocio ====================
 
     /**
      * Obtiene todos los juegos en el carrito de un usuario.
-     * 
-     * @param usuarioId ID del usuario
-     * @return Lista de juegos en el carrito
-     * @throws IllegalArgumentException si el usuario no tiene carrito
      */
     public List<Juego> getAllGamesInCart(Long usuarioId) {
-        Usuario usuario = usuarioService.findById(usuarioId);
-        Carrito carrito = findByUsuario(usuario);
+        Carrito carrito = findByUsuarioId(usuarioId);
         
         if (carrito.getJuegos() == null || carrito.getJuegos().isEmpty()) {
             return List.of();
@@ -92,59 +86,47 @@ public class CarritoService {
     }
 
     /**
-     * Añade el juego al carrito del usuario comprobando que el usuario existe.
-     * Si el carrito no existe, crea uno nuevo asociado a ese usuario.
-     * 
-     * @param usuarioId ID del usuario
-     * @param juegoId ID del juego a añadir
-     * @throws IllegalArgumentException si el usuario o juego no existen, o si el juego ya está en el carrito
+     * Añade el juego al carrito del usuario.
+     * Si el carrito no existe, crea uno nuevo.
      */
     @Transactional
     public void addJuegoToCarrito(Long usuarioId, Long juegoId) {
         Usuario usuario = usuarioService.findById(usuarioId);
         Juego juego = juegoService.findById(juegoId);
 
-        // 1. Intentamos buscar el carrito existente o creamos uno nuevo si no existe
+        // Buscar carrito existente o crear uno nuevo
         Carrito carrito = carritoRepository.findByUsuario(usuario)
                 .orElseGet(() -> {
                     Carrito nuevoCarrito = new Carrito();
                     nuevoCarrito.setUsuario(usuario);
-                    nuevoCarrito.setJuegos(new HashSet<>()); // Inicializar el Set para evitar NullPointerException
+                    nuevoCarrito.setJuegos(new HashSet<>());
                     return nuevoCarrito;
                 });
         
-        // Asegurar que el carrito tiene el usuario asignado (por si se recuperó de BD)
+        // Asegurar que el carrito tiene el usuario asignado
         if (carrito.getUsuario() == null) {
             carrito.setUsuario(usuario);
         }
         
-        // Inicializar juegos si es null (por si el carrito venía de BD sin inicializar)
+        // Inicializar juegos si es null
         if (carrito.getJuegos() == null) {
             carrito.setJuegos(new HashSet<>());
         }
         
         carrito.setCompra(null);
 
-        // 2. Verificamos si el juego ya está en el carrito
+        // Verificar si el juego ya está en el carrito
         if (carrito.getJuegos().contains(juego)) {
-            throw new IllegalArgumentException("El juego ya está en el carrito");
+            throw new ValidationException("El juego ya está en el carrito");
         }
 
-        // 3. Añadimos el juego a la colección
+        // Añadir el juego
         carrito.getJuegos().add(juego);
-
-        // 4. Guardamos el carrito
         save(carrito);
     }
 
-
     /**
      * Elimina un juego del carrito del usuario.
-     * Verifica que el juego exista en el carrito antes de eliminarlo.
-     * 
-     * @param usuarioId ID del usuario
-     * @param juegoId ID del juego a eliminar
-     * @throws IllegalArgumentException si el usuario no tiene carrito o el juego no está en el carrito
      */
     @Transactional
     public void removeJuegoFromCarrito(Long usuarioId, Long juegoId) {
@@ -153,65 +135,47 @@ public class CarritoService {
 
         Carrito carrito = findByUsuario(usuario);
         
-        // Verificar que el carrito tenga juegos inicializados
         if (carrito.getJuegos() == null) {
-            throw new IllegalStateException("Carrito vacio");
+            throw new ValidationException("Carrito vacío");
         }
         
-        // Verificar que el juego esté en el carrito antes de intentar eliminarlo
         if (!carrito.getJuegos().contains(juego)) {
-            throw new IllegalArgumentException("El juego no está en el carrito");
+            throw new ValidationException("El juego no está en el carrito");
         }
         
         carrito.getJuegos().remove(juego);
         save(carrito);
     }
 
-
     /**
      * Calcula el precio total del carrito de un usuario.
-     * 
-     * @param usuarioId ID del usuario
-     * @return Precio total del carrito
-     * @throws IllegalArgumentException si el usuario no tiene carrito
      */
     public Float getTotalPrice(Long usuarioId) {
-        Usuario usuario = usuarioService.findById(usuarioId);
-        Carrito carrito = findByUsuario(usuario);
+        Carrito carrito = findByUsuarioId(usuarioId);
         
-        // Si el carrito no tiene juegos o está vacío, retornar 0
         if (carrito.getJuegos() == null || carrito.getJuegos().isEmpty()) {
             return 0.0f;
         }
         
-        // Calcular total filtrando juegos sin precio para evitar NullPointerException
         return (float) carrito.getJuegos().stream()
                 .filter(juego -> juego.getPrecio() != null)
                 .mapToDouble(Juego::getPrecio)
                 .sum();
     }
 
-
     /**
-     * Procesa el checkout del carrito: crea una compra, vacía el carrito y asocia el método de pago.
-     * 
-     * @param usuarioId ID del usuario
-     * @param metodoPagoId ID del método de pago (puede ser null)
-     * @throws IllegalArgumentException si el usuario no existe o no tiene carrito
-     * @throws IllegalStateException si el carrito está vacío o no tiene juegos inicializados
+     * Procesa el checkout del carrito.
      */
     @Transactional
     public void checkout(Long usuarioId, Long metodoPagoId) {
-        Usuario usuario = usuarioService.findById(usuarioId);
-        Carrito carrito = findByUsuario(usuario);
+        Carrito carrito = findByUsuarioId(usuarioId);
 
-        // Verificar que el carrito tenga juegos inicializados
         if (carrito.getJuegos() == null) {
-            throw new IllegalStateException("El carrito no está correctamente inicializado");
+            throw new ValidationException("El carrito no está correctamente inicializado");
         }
 
         if (carrito.getJuegos().isEmpty()) {
-            throw new IllegalStateException("No se puede finalizar la compra con un carrito vacío");
+            throw new ValidationException("No se puede finalizar la compra con un carrito vacío");
         }
 
         // Buscar el método de pago si se proporcionó
@@ -222,21 +186,19 @@ public class CarritoService {
 
         Double total = getTotalPrice(usuarioId).doubleValue();
 
-        // 1. Creamos la compra
+        // Crear la compra
         Compra compra = new Compra();
         compra.setTotal(total);
         compra.setEstado(EstadoCompra.PENDIENTE);
-        compra.setUsuario(usuario);
+        compra.setUsuario(carrito.getUsuario());
         compra.setMetodoPago(metodoPago);
 
-        // 2. Guardamos la compra primero
+        // Guardar la compra
         compra = compraService.save(compra);
 
-        // 3. Limpiamos el carrito y asociamos la compra
+        // Limpiar el carrito y asociar la compra
         carrito.getJuegos().clear();
         carrito.setCompra(compra); 
-
         save(carrito);
     }
-
 }
