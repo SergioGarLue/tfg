@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito </title>
-  <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
-  <link rel="stylesheet" href="/estilos/index.css" />
+  <title>Elden Ring - Solar Sistem</title>
+  <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="../static/estilos/index.css" />
+  <link rel="stylesheet" href="../static/estilos/juego.css" />
 </head>
 <body>
 
@@ -14,28 +15,28 @@
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
-        <a href="/"><i class="fa-solid fa-dragon"></i></a>
+          <a href="index.html"><i class="fa-solid fa-dragon"></i></a>
         </div>
         
         <nav>
-          
           <ul>
-            <li class="item-desplegable">
+            <li class="item-desplegable activo">
               <div class="cabecera-desplegable" id="boton-tienda">
-                <a href="/tienda"><i class="fa-solid fa-store icono"></i></a>
+                <a href="tienda.html"><i class="fa-solid fa-store icono"></i></a>
                 <span class="texto-enlace">Tienda</span>
               </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
+              <div class="contenedor-sublista" id="menu-tienda">
                 <ul class="lista-subitems">
                   <li>Ofertas</li>
                   <li>Populares</li>
+                  <li>Próximamente</li>
                 </ul>
               </div>
             </li>
 
-            <li class="item-desplegable"> 
+            <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-coleccion">
-               <a href="/coleccion"><i class="fa-solid fa-book-open icono"></i></a>
+                <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a>
                 <span class="texto-enlace">Coleccion</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-coleccion">
@@ -47,6 +48,8 @@
                 </ul>
               </div>
             </li>
+
+            
           </ul>
         </nav>
       </div>
@@ -90,21 +93,13 @@
         </div>
         <div class="separador-lateral"></div>
         <div class="perfil-usuario">
-<<<<<<< HEAD
-          <a href="/perfil" style="text-decoration: none; color: inherit; display: contents;">
-=======
           <a href="perfil.html" style="text-decoration: none; color: inherit; display: contents;">
->>>>>>> origin/main
             <div class="avatar">
               <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
             </div>
             <span class="nombre-usuario">Paco Leon</span>
           </a>
-<<<<<<< HEAD
-          <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
-=======
           <a href="configuracion.html" id="conf"><i class="fa-solid fa-gear"></i></a>
->>>>>>> origin/main
         </div>
       </div>
     </aside>
@@ -116,53 +111,78 @@
           <input type="text" placeholder="Buscar en la tienda...">
         </div>
         <div class="boton-carrito">
-<<<<<<< HEAD
- <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
-=======
           <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a>
->>>>>>> origin/main
           <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
 
       <div class="scroll-contenido">
-      <section class="seccion-carrito">
-        <h2>Carrito</h2>
-        
-        <div class="lista-productos">
+        <div class="contenedor-juego">
+          <div class="galeria-juego">
+            <div class="imagen-principal">
+              <img src="https://picsum.photos/800/450?random=100" alt="Elden Ring">
+            </div>
+            <div class="miniaturas">
+              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
+              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
+              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
+            </div>
+          </div>
+
+          <aside class="info-juego">
+            <h1 class="titulo-juego">Elden Ring</h1>
             
-            <div class="item-carrito">
-                <div class="imagen-producto" style="background-image: url('https://picsum.photos/120/70?random=20');"></div>
-                <div class="info-producto">
-                    <span class="nombre-juego">Bigger hunter</span>
-                </div>
-                <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                <div class="precio-producto">59.99€</div>
+            <div class="desarrollador-juego">
+              <span>Desarrollador:</span>
+              <a href="desarrollador.html">FromSoftware</a>
             </div>
 
-            <div class="item-carrito">
-                <div class="imagen-producto" style="background-image: url('https://picsum.photos/120/70?random=21');"></div>
-                <div class="info-producto">
-                    <span class="nombre-juego">Femboys love</span>
-                </div>
-                <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-                <div class="precio-producto">39.99€</div>
+            <div class="etiquetas-juego">
+              <span class="etiqueta">Acción</span>
+              <span class="etiqueta">RPG</span>
+              <span class="etiqueta">Mundo Abierto</span>
             </div>
-            
+
+            <div class="descripcion-juego">
+              <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
+            </div>
+
+            <div class="capturas-juego">
+              <h3>Capturas</h3>
+              <div class="grid-capturas">
+                <img src="https://picsum.photos/300/170?random=104" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=105" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=106" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=107" alt="Captura">
+              </div>
+            </div>
+
+            <div class="info-fecha">
+              <div class="info-item">
+                <span class="label">Fecha de lanzamiento:</span>
+                <span class="value">25 feb, 2022</span>
+              </div>
+            </div>
+
+            <div class="precios">
+              <span class="precio-original">79.99€</span>
+              <span class="precio-descuento">-25%</span>
+              <span class="precio-final">59.99€</span>
+            </div>
+
+            <div class="botones-compra">
+              <button class="btn-comprar"><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
+              <button class="btn-deseados"><i class="fa-solid fa-heart"></i> Lista de deseados</button>
+            </div>
+
+            <div class="etiquetas-compra">
+              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
+              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -25%</span>
+            </div>
+          </aside>
 
         </div>
-
-        <div class="zona-pago">
-            <div class="total-resumen">
-                <span class="etiqueta-total">Total:</span>
-                <span class="valor-total">99,98€</span>
-            </div>
-            <button class="boton-ir-pago">Ir al pago</button>
-        </div>
-
-      </section>
       </div>
-
     </main>
   </div>
 
@@ -180,18 +200,11 @@
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
 
-      // Lógica del Carrito (Simulada)
-      const actualizarContadorCarrito = (cantidad) => {
-        const badge = document.getElementById('badge-carrito');
-        if (badge) {
-          if (cantidad > 0) {
-            badge.style.display = 'flex'; badge.textContent = cantidad;
-          } else {
-            badge.style.display = 'none';
-          }
-        }
-      };
-      actualizarContadorCarrito(2);
+      // Simulación contador carrito
+      const badge = document.getElementById('badge-carrito');
+      if (badge) {
+        badge.style.display = 'none';
+      }
 
       // --- Lógica de Notificaciones ---
       const botonNotificaciones = document.getElementById('boton-notificaciones');
@@ -221,3 +234,5 @@
   </script>
 </body>
 </html>
+
+

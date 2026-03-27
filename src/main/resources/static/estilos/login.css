@@ -1,0 +1,290 @@
+:root {
+    --steam-dark: #171a21;
+    --steam-light-blue: #66c0f4;
+    --steam-dark-blue: #1b2838;
+    --steam-card-bg: #2a475e;
+    --steam-text: #c7d5e0;
+    --steam-green: #a4d007;
+    --steam-hover: #4c6b22;
+    --fondo-oscuro: #2b2733;
+    --fondo-lateral: #483d55;
+    --texto-blanco: #e0e0e0;
+    --texto-gris: #a09ba6;
+    --hovers: #a29bfe;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background-color: var(--steam-dark);
+    color: var(--steam-text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--steam-dark) 0%, var(--steam-dark-blue) 50%, var(--fondo-oscuro) 100%);
+    overflow: hidden;
+}
+
+.background-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(102, 192, 244, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.login-box {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(180deg, var(--steam-dark-blue) 0%, var(--steam-dark) 100%);
+    border-radius: 8px;
+    padding: 45px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(102, 192, 244, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(102, 192, 244, 0.2);
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo {
+    font-size: 55px;
+    color: var(--hovers);
+    margin-bottom: 15px;
+    text-shadow: 0 0 30px rgba(162, 155, 254, 0.5);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.logo-section h1 {
+    font-size: 28px;
+    color: var(--texto-blanco);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--texto-gris);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: var(--steam-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.input-wrapper {
+    position: relative;
+    display: align-items;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(102, 192, 244, 0.3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--steam-light-blue);
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--texto-gris);
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.input-wrapper:focus-within i {
+    color: var(--steam-light-blue);
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 15px 14px 45px;
+    background: transparent;
+    border: none;
+    color: var(--texto-blanco);
+    font-size: 15px;
+    outline: none;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--texto-gris);
+    opacity: 0.6;
+}
+
+.error-message {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.4);
+    border-radius: 4px;
+    color: #e74c3c;
+    font-size: 13px;
+}
+
+.error-message.logout-message {
+    background-color: rgba(164, 208, 7, 0.15);
+    border-color: rgba(164, 208, 7, 0.4);
+    color: var(--steam-green);
+}
+
+.error-message i {
+    font-size: 16px;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    background: linear-gradient(90deg, #06BFFF 0%, #2D73FF 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(45, 115, 255, 0.3);
+}
+
+.btn-login:hover {
+    background: linear-gradient(90deg, #2D73FF 0%, #06BFFF 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 115, 255, 0.5);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.register-link p {
+    color: var(--texto-gris);
+    font-size: 14px;
+}
+
+.register-link a {
+    color: var(--steam-light-blue);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: var(--hovers);
+    text-decoration: underline;
+}
+
+/* Animations */
+.login-box {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    animation: slideUp 0.6s ease-out backwards;
+}
+
+.form-group:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.form-group:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.btn-login {
+    animation: slideUp 0.6s ease-out backwards;
+    animation-delay: 0.3s;
+}
+
+.register-link {
+    animation: slideUp 0.6s ease-out backwards;
+    animation-delay: 0.4s;
+}

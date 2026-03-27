@@ -4,8 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configuración</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/configuracion.css" />
+=======
+  <link rel="stylesheet" href="../static/fontawesome-free-7.1.0-web/css/all.min.css">
+    <link rel="stylesheet" href="../static/estilos/index.css" />
+    <link rel="stylesheet" href="../static/estilos/configuracion.css" />
+>>>>>>> origin/main
 </head>
 <body>
 
@@ -51,8 +57,39 @@
 
       <div class="pie-barra-lateral">
         <div class="iconos-inferiores">
-          <div><i class="fa-solid fa-bell"></i></div>
-          <div><i class="fa-solid fa-user"></i></div>
+          <div class="contenedor-notificaciones">
+            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
+            <div class="menu-notificaciones" id="menu-notificaciones">
+              <div class="cabecera-notificaciones">
+                <span>Notificaciones</span>
+                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
+              </div>
+              <div class="lista-notificaciones">
+                <div class="notificacion no-leida">
+                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
+                    <span class="tiempo-notificacion">Hace 2 horas</span>
+                  </div>
+                </div>
+                <div class="notificacion no-leida">
+                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
+                    <span class="tiempo-notificacion">Ayer</span>
+                  </div>
+                </div>
+                <div class="notificacion">
+                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
+                    <span class="tiempo-notificacion">Hace 3 días</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div><a href="amigos.html"><i class="fa-solid fa-user"></i></a></div>
           <div><i class="fa-solid fa-star"></i></div>
         <div class="separador-lateral"></div>
         <div class="perfil-usuario">
@@ -72,44 +109,56 @@
       </header>
 
       <div class="scroll-contenido">
-        <div class="contenedor-configuracion">
-          
+        <div class="contenedor-config">
           <section class="seccion-config">
             <h2 data-lang="sect-account">Cuenta</h2>
-            <div class="grupo-form">
-              <label for="email" data-lang="lbl-email">Correo Electrónico</label>
-              <input type="email" id="email" value="paco.leon@example.com">
-            </div>
-         
+            <form class="form-config">
+              <div class="campo-form">
+                <label data-lang="lbl-email">Correo Electrónico</label>
+                <input type="email" value="paco.leon@email.com" readonly>
+              </div>
+              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
+            </form>
           </section>
 
           <section class="seccion-config">
             <h2 data-lang="sect-storage">Almacenamiento</h2>
-            <div class="grupo-form">
-              <label for="ruta-instalacion" data-lang="lbl-storage">Ruta de instalación</label>
-              <select id="ruta-instalacion">
-                <option value="C:">C:\Program Files\GankMeDiddy (Default)</option>
-                <option value="D:">D:\GamesLibrary</option>
-                <option value="E:">E:\AlmacenamientoExterno</option>
-              </select>
-            </div>
+            <form class="form-config">
+              <div class="campo-form">
+                <label data-lang="lbl-storage">Ruta de instalación</label>
+                <input type="text" value="C:\Games\SolarSistem">
+              </div>
+              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
+            </form>
           </section>
 
           <section class="seccion-config">
             <h2 data-lang="sect-interface">Interfaz</h2>
-            <div class="grupo-form">
-              <label for="idioma-select" data-lang="lbl-lang">Idioma</label>
-              <select id="idioma-select">
-                <option value="es">Español</option>
-                <option value="en">English</option>
-              </select>
-            </div>
+            <form class="form-config">
+              <div class="campo-form">
+                <label data-lang="lbl-lang">Idioma</label>
+                <select id="idioma-select">
+                  <option value="es">Español</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
+            </form>
           </section>
 
+<<<<<<< HEAD
           <div class="acciones-config">
             <button class="btn-logout" data-lang="btn-logout">Cerrar Sesión</button>
             <button class="btn-guardar" data-lang="btn-save">Guardar Cambios</button>
           </div>
+=======
+          <section class="seccion-config">
+            <form class="form-config">
+              <button type="button" class="btn-logout" data-lang="btn-logout">Cerrar Sesión</button>
+            </form>
+          </section>
+        </div>
+>>>>>>> origin/main
       </div>
     </main>
   </div>
@@ -138,6 +187,31 @@
       };
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
+
+      // --- Lógica de Notificaciones ---
+      const botonNotificaciones = document.getElementById('boton-notificaciones');
+      const menuNotificaciones = document.getElementById('menu-notificaciones');
+
+      if (botonNotificaciones && menuNotificaciones) {
+        botonNotificaciones.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menuNotificaciones.classList.toggle('activo');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
+            menuNotificaciones.classList.remove('activo');
+          }
+        });
+
+        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
+        if (btnMarcarLeidas) {
+          btnMarcarLeidas.addEventListener('click', () => {
+            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
+            notificaciones.forEach(n => n.classList.remove('no-leida'));
+          });
+        }
+      }
 
       // Lógica de traducción
       const textos = {
