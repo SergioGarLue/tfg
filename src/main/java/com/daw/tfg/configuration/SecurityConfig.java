@@ -11,37 +11,40 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwdEncoder(){
+    public PasswordEncoder passwdEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         // creamos los filtros
         // problema con los DELETE,PUT Y POST por el csrf deshabilidato para pruebas
-        //posteriormente se deberia cambiar para que compruebe si tienes un JWT(token)
+        // posteriormente se deberia cambiar para que compruebe si tienes un JWT(token)
         // y en caso de tenerlo permitir estos metodos curl (por seguridad)
-        http.csrf(csrf -> csrf.disable())  // esta linea .csrf 
-            .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/**").permitAll()   // público
-            .requestMatchers("/api/carrito/**").permitAll()   // API del carrito - temporalmente público para pruebas
-            .anyRequest().permitAll()  // cualquier ruta no registrada tiene que ser autenticado
-        )
+        http
+                .csrf(
+                    csrf -> csrf.disable()
+                ) // esta linea .csrf
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin())
+                    )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/**").permitAll() // público
+                        .anyRequest().permitAll() // cualquier ruta no registrada tiene que ser autenticado
+                )
 
-        .formLogin(form ->form
-            .loginPage("/login")
-            .loginProcessingUrl("/login")
-            .defaultSuccessUrl("/",true)
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/?logout=true")
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .permitAll()
-        );
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/?logout=true")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll());
 
         return http.build(); // devolvemos los filtros que hemos creado
     }
