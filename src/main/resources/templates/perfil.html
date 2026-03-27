@@ -223,46 +223,67 @@
       };
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
-    });
-    
-    // Script para previsualizar la imagen de perfil al seleccionarla
-    const fileInput = document.getElementById('file-upload');
-    const avatarPreview = document.getElementById('avatar-preview');
-    const sidebarAvatar = document.querySelector('.profile-avatar');
 
-    if (fileInput) {
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    if (avatarPreview) avatarPreview.src = e.target.result;
-                    if (sidebarAvatar) sidebarAvatar.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
+      // --- Lógica de Notificaciones ---
+      const botonNotificaciones = document.getElementById('boton-notificaciones');
+      const menuNotificaciones = document.getElementById('menu-notificaciones');
+
+      if (botonNotificaciones && menuNotificaciones) {
+        botonNotificaciones.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menuNotificaciones.classList.toggle('activo');
         });
-    }
 
-    // Script para las pestañas del perfil
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.profile-nav a');
-        const sections = document.querySelectorAll('.profile-section');
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                navLinks.forEach(navLink => navLink.classList.remove('active'));
-                this.classList.add('active');
-
-                const targetId = this.getAttribute('data-target');
-
-                sections.forEach(section => {
-                    section.classList.toggle('active', section.id === targetId);
-                });
-            });
+        document.addEventListener('click', (e) => {
+          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
+            menuNotificaciones.classList.remove('activo');
+          }
         });
+
+        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
+        if (btnMarcarLeidas) {
+          btnMarcarLeidas.addEventListener('click', () => {
+            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
+            notificaciones.forEach(n => n.classList.remove('no-leida'));
+          });
+        }
+      }
+      
+      // Script para previsualizar la imagen de perfil al seleccionarla
+      const fileInput = document.getElementById('file-upload');
+      const avatarPreview = document.getElementById('avatar-preview');
+
+      if (fileInput) {
+          fileInput.addEventListener('change', function(e) {
+              const file = e.target.files[0];
+              if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                      if (avatarPreview) avatarPreview.src = e.target.result;
+                  }
+                  reader.readAsDataURL(file);
+              }
+          });
+      }
+
+      // Script para las pestañas del perfil
+      const navLinks = document.querySelectorAll('.profile-nav a');
+      const sections = document.querySelectorAll('.profile-section');
+
+      navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+              e.preventDefault();
+
+              navLinks.forEach(navLink => navLink.classList.remove('active'));
+              this.classList.add('active');
+
+              const targetId = this.getAttribute('data-target');
+
+              sections.forEach(section => {
+                  section.classList.toggle('active', section.id === targetId);
+              });
+          });
+      });
     });
   </script>
   </body>

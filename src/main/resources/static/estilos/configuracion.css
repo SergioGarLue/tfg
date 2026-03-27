@@ -1,20 +1,20 @@
-@import url('index.css');
+/* Configuración styles - extending base index.css */
 
 /* Contenedor principal de la configuración */
-.contenedor-configuracion {
+.contenedor-config {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Título principal de la página de configuración */
 .barra-superior h1 {
     font-size: 1.8rem;
-    color: var(--texto-blanco);
+    color: white;
     font-weight: 600;
+    margin: 0;
 }
 
-/* Estilo para cada sección de configuración (Perfil, Cuenta, etc.) */
+/* Estilo para cada sección de configuración */
 .seccion-config {
     background-color: var(--steam-card-bg);
     padding: 25px;
@@ -32,53 +32,88 @@
     text-transform: uppercase;
 }
 
-/* Contenedor para cada par de label-input */
-.grupo-form {
+/* Formularios */
+.form-config {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+}
+
+.campo-form {
     margin-bottom: 20px;
 }
 
-.grupo-form label {
+.campo-form label {
+    display: block;
     color: var(--steam-text);
-    flex-basis: 40%; /* Asigna un ancho base a las etiquetas */
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
-/* Estilos para los inputs de texto y textarea */
-.grupo-form input[type="text"],
-.grupo-form input[type="email"],
-.grupo-form textarea,
-.grupo-form select {
-    flex-grow: 1;
+.campo-form input[type="text"],
+.campo-form input[type="email"],
+.campo-form select {
+    width: 100%;
     background-color: var(--steam-dark-blue);
     border: 1px solid #2a475e;
     border-radius: 3px;
-    padding: 10px;
+    padding: 12px;
     color: var(--steam-text);
     font-size: 1rem;
+    box-sizing: border-box;
 }
 
-.grupo-form textarea {
-    resize: vertical; /* Permite redimensionar solo verticalmente */
+.campo-form input:focus,
+.campo-form select:focus {
+    outline: none;
+    border-color: var(--steam-light-blue);
+    box-shadow: 0 0 0 3px rgba(102, 192, 244, 0.2);
 }
 
-/* Botón secundario (ej. Cambiar Contraseña) */
-.btn-secundario {
-    background-color: #483d55;
-    color: var(--texto-blanco);
-    border: 1px solid #5c506d;
-    padding: 10px 15px;
+.campo-form input:readonly {
+    background-color: #111a24;
+    cursor: not-allowed;
+    color: #5c6b7c;
+}
+
+/* Botón guardar */
+.btn-save {
+    background: linear-gradient(90deg, #a4d007 0%, #688e03 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
     border-radius: 3px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background 0.2s;
+    margin-top: 10px;
 }
 
-.btn-secundario:hover {
-    background-color: #5c506d;
+.btn-save:hover {
+    background: linear-gradient(90deg, #b6e608 0%, #7aa504 100%);
 }
 
-/* Estilos para el interruptor (toggle switch) */
+/* Botón cerrar sesión */
+.btn-logout {
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.btn-logout:hover {
+    background-color: #e74c3c;
+}
+
+/* Estilos para interruptor (toggle switch) */
 .toggle-switch {
     position: relative;
     display: inline-block;
@@ -124,45 +159,13 @@ input:checked + .slider:before {
     transform: translateX(22px);
 }
 
-/* Contenedor para los botones de acción finales */
-.acciones-config {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-/* Botón principal para guardar cambios */
-.btn-guardar {
-    background: linear-gradient(90deg, #a4d007 0%, #688e03 100%);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 3px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-    text-transform: uppercase;
-}
-
-.btn-guardar:hover {
-    background: linear-gradient(90deg, #b6e608 0%, #7aa504 100%);
-}
-
-/* Botón de cerrar sesión (Rojo) */
-.btn-logout {
-    background-color: #c0392b;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 3px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-    text-transform: uppercase;
-    margin-right: auto; /* Empuja el botón a la izquierda */
-}
-
-.btn-logout:hover {
-    background-color: #e74c3c;
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor-config {
+        padding: 10px;
+    }
+    
+    .seccion-config {
+        padding: 15px;
+    }
 }

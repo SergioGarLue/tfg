@@ -1,0 +1,253 @@
+/* Juego styles - extending base index.css */
+
+/* Contenedor del juego */
+.contenedor-juego {
+    display: flex;
+    gap: 30px;
+}
+
+/* Galería del juego */
+.galeria-juego {
+    flex: 1;
+}
+
+.imagen-principal {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.imagen-principal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.miniaturas {
+    display: flex;
+    gap: 10px;
+}
+
+.miniaturas img {
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    opacity: 0.7;
+}
+
+.miniaturas img:hover {
+    opacity: 1;
+}
+
+/* Sidebar de información del juego */
+.info-juego {
+    width: 350px;
+    flex-shrink: 0;
+}
+
+.info-juego .titulo-juego {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.desarrollador-juego {
+    margin-bottom: 15px;
+    color: var(--texto-gris);
+}
+
+.desarrollador-juego a {
+    color: var(--steam-light-blue);
+    text-decoration: none;
+}
+
+.desarrollador-juego a:hover {
+    text-decoration: underline;
+}
+
+.etiquetas-juego {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.etiquetas-juego .etiqueta {
+    background-color: rgba(102, 192, 244, 0.2);
+    color: var(--steam-light-blue);
+    padding: 5px 12px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+.descripcion-juego {
+    margin-bottom: 25px;
+    line-height: 1.6;
+    color: var(--steam-text);
+}
+
+/* Capturas */
+.capturas-juego h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.grid-capturas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.grid-capturas img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.grid-capturas img:hover {
+    transform: scale(1.05);
+}
+
+/* Información de fecha */
+.info-fecha {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--steam-card-bg);
+    border-radius: 5px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-item .label {
+    color: var(--texto-gris);
+}
+
+.info-item .value {
+    color: white;
+}
+
+/* Precios */
+.precios {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.precio-original {
+    color: var(--texto-gris);
+    text-decoration: line-through;
+    font-size: 1rem;
+}
+
+.precio-descuento {
+    background-color: #4c6b22;
+    color: var(--steam-green);
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.precio-final {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Botones de compra */
+.botones-compra {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.btn-comprar {
+    background: linear-gradient(90deg, #a4d007 0%, #688e03 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 3px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-comprar:hover {
+    background: linear-gradient(90deg, #b6e608 0%, #7aa504 100%);
+    transform: translateY(-2px);
+}
+
+.btn-deseados {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--steam-text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-deseados:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--steam-light-blue);
+    color: var(--steam-light-blue);
+}
+
+/* Etiquetas de compra */
+.etiquetas-compra {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.etiqueta-compra {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(102, 192, 244, 0.1);
+    color: var(--steam-light-blue);
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .contenedor-juego {
+        flex-direction: column;
+    }
+    
+    .info-juego {
+        width: 100%;
+    }
+    
+    .imagen-principal {
+        height: 300px;
+    }
+}
