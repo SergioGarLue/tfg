@@ -1,4 +1,4 @@
-# 🎮 GankMeDiddy
+# 🎮 Xyron
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
@@ -7,7 +7,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**_GankMeDiddy_** es una plataforma web diseñada para la **compra de videojuegos online**, **gestión de colecciones personales** y **conexión social entre jugadores** 🕹️🌐.  
+**_Xyron_** es una plataforma web diseñada para la **compra de videojuegos online**, **gestión de colecciones personales** y **conexión social entre jugadores** 🕹️🌐.  
 Este proyecto busca unificar la experiencia de compra con la de una **comunidad activa y social**.
 
 ---
@@ -40,7 +40,6 @@ Este proyecto busca unificar la experiencia de compra con la de una **comunidad 
 | Foto                                                                              | Nombre     | GitHub                                          | Entorno   |
 | :-------------------------------------------------------------------------------- | :--------- | :---------------------------------------------- | :-------- |
 | <img src="https://avatars.githubusercontent.com/u/185503875?s=60&v=4" width="50"> | **Sergio** | [SergioGarLue](https://github.com/SergioGarLue) | Full Stack |
-| <img src="https://avatars.githubusercontent.com/u/233250015?v=4" width="50">      | **Eric**   | [elQTeCuento](https://github.com/elQTeCuento)   | Full Stack |
 | <img src="https://avatars.githubusercontent.com/u/185504164?s=60&v=4" width="50"> | **Ian**    | [IanBonilla](https://github.com/IanBonilla)     | Full Stack |
 | <img src="https://avatars.githubusercontent.com/u/112289352?s=60&v=4" width="50"> | **David**  | [Davidterp1](https://github.com/Davidterp1)     | Full Stack |
 
@@ -55,8 +54,7 @@ Este proyecto busca unificar la experiencia de compra con la de una **comunidad 
 - 🛒 **Carrito:** Almacena juegos antes de realizar la compra.
 - 💳 **Método de pago:** Múltiples opciones de pago:
   - PayPal
-  - Debit Card
-  - Credit Card
+  - Stripe
 - 💖 **Wishlist:** Lista de deseados para guardar juegos favoritos.
 - 🏢 **Desarrollador / Editor:** Página dedicada a editores y desarrolladores con sus juegos y DLCs.
 
