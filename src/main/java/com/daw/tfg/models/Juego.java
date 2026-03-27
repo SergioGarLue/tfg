@@ -1,15 +1,15 @@
 package com.daw.tfg.models;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -30,7 +30,6 @@ import lombok.ToString;
 @ToString
 public class Juego {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idJuego;
 
     @Column(nullable = false, unique = true, name = "titulo")
@@ -39,14 +38,22 @@ public class Juego {
     @Column(nullable = false, name = "precio")
     private Float precio;
 
+    @Column(name = "porcentaje")
+    private Float porcentaje;
+
     @Column(length = 1000, name = "descripcion")
     private String descripcion;
 
     @Column(nullable = false, name = "fechaLanzamiento")
-    private LocalDateTime fechaLanzamiento;
+    private String fechaLanzamiento;
 
-    @Column(nullable = false, name = "requerimientos")
-    private String requerimientos;
+    @Column(name = "peso_juego")
+    private Float pesoJuego;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "juego_plataforma", joinColumns = @JoinColumn(name = "id_juego"))
+    @Column(name = "plataforma")
+    private List<String> plataformas;
 
     @Column(nullable = false, name = "imagen")
     private String imagen;
@@ -83,20 +90,22 @@ public class Juego {
     private Juego juegoPadre;
 
     public Juego(Desarrollador desarrollador, String descripcion,
-         Editor editor, LocalDateTime fechaLanzamiento, Set<Genero> generos,
-         Long idJuego, String imagen, Juego juegoPadre, Float precio, String requerimientos,
+         Editor editor, String fechaLanzamiento, Float pesoJuego, List<String> plataformas, Set<Genero> generos,
+         Long idJuego, String imagen, Juego juegoPadre, Float precio, Float porcentaje,
           Set<Resena> resenas, String tipo, String titulo) {
             
         this.desarrollador = desarrollador;
         this.descripcion = descripcion;
         this.editor = editor;
         this.fechaLanzamiento = fechaLanzamiento;
+        this.pesoJuego = pesoJuego;
+        this.plataformas = plataformas;
         this.generos = generos;
         this.idJuego = idJuego;
         this.imagen = imagen;
         this.juegoPadre = juegoPadre;
         this.precio = precio;
-        this.requerimientos = requerimientos;
+        this.porcentaje = porcentaje;
         this.resenas = resenas;
         this.tipo = tipo;
         this.titulo = titulo;

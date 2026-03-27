@@ -1,10 +1,27 @@
-# Task: Fix Navigation Links in Templates
+# TFG JuegoDTO Implementation Plan
 
-## TODO List:
-- [ ] `src/main/resources/templates/index.html` - Add "Amigos" link to sidebar
-- [ ] `src/main/resources/templates/perfil.html` - Add "Amigos" link to sidebar
-- [ ] `src/main/resources/templates/coleccion.html` - Add "Amigos" link to sidebar and fix settings link
-- [ ] `src/main/resources/templates/carrito.html` - Add "Amigos" link to sidebar, wrap user avatar/name in `<a>` tags, and add link to settings
-- [ ] `src/main/resources/templates/configuracion.html` - Add "Amigos" link to sidebar
+## Status: ✅ In Progress
 
-## Completed:
+### 1. [✅ COMPLETED] Create/Update JuegoDTO.java
+   - Match Steam JSON structure exactly
+   - Nested DTOs: PriceDTO, PlatformsDTO  
+   - Lombok annotations matching project style
+
+### 2. [⬜ PENDING] Test JSON Deserialization
+   - Add test in JuegoService to parse steam_top_1000_sellers.json
+   - Verify ObjectMapper.readValue() works with JuegoDTO
+
+### 3. [⬜ PENDING] Map DTO to Entity
+   - Create mapper method: JuegoDTO → Juego entity
+   - Handle developer/editor lookup by name (create if missing)
+
+### 4. [⬜ PENDING] Import Steam Data
+   - Service method to read JSON → List<JuegoDTO> → List<Juego> → saveAll()
+   - Handle duplicates by appid
+
+### 5. [⬜ PENDING] Validation
+   - Test full pipeline: JSON → DTO → Entity → DB
+   - `mvn clean compile test`
+
+**Next Step**: Test deserialization after DTO creation.
+

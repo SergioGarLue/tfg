@@ -152,8 +152,11 @@ public class JuegoService {
         if (cambios.getImagen() != null) {
             existente.setImagen(cambios.getImagen());
         }
-        if (cambios.getRequerimientos() != null) {
-            existente.setRequerimientos(cambios.getRequerimientos());
+        if (cambios.getPesoJuego() != null) {
+            existente.setPesoJuego(cambios.getPesoJuego());
+        }
+        if (cambios.getPlataformas() != null) {
+            existente.setPlataformas(cambios.getPlataformas());
         }
         if (cambios.getGeneros() != null) {
             existente.setGeneros(cambios.getGeneros());
