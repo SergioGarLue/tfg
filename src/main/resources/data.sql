@@ -13,10 +13,14 @@ VALUES (1, 1, '$2a$10$N9qo8uLOickgx2ZMRZoMy.MqrqQzBZN0UfGNEKjN.Kq0T4QAKYw9C', 't
 -- 3. Insertar Desarrollador
 INSERT INTO desarrollador (id_desarrollador, imagen, nombre) 
 VALUES (1, 'dev_logo.jpg', 'GameStudio Inc.');
+INSERT INTO desarrollador (id_desarrollador, imagen, nombre) 
+VALUES (2, 'dev2_logo.jpg', 'EA Inc.');
 
 -- 4. Insertar Editor
 INSERT INTO editor (id_editor, imagen, nombre) 
 VALUES (1, 'editor_logo.jpg', 'SuperGames Publishing');
+INSERT INTO editor (id_editor, imagen, nombre) 
+VALUES (2, 'editor2_logo.jpg', 'GamingEdit Pub.');
 
 -- 5. Insertar Géneros
 INSERT INTO genero (id_genero, nombre) VALUES (1, 'Acción');
@@ -24,14 +28,17 @@ INSERT INTO genero (id_genero, nombre) VALUES (2, 'Aventura');
 INSERT INTO genero (id_genero, nombre) VALUES (3, 'RPG');
 
 -- 6. Insertar Juegos
-INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, precio, requerimientos, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
-VALUES (1, 'Juego de acción épico con gráficos increíbles', '2024-01-15 00:00:00', 'game1.jpg', 59.99, 'Windows 10, 8GB RAM, GTX 1060', 'BASE', 'Epic Adventure', 1, 1, NULL);
+-- INSERT 1: Juego base principal
+INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
+VALUES (1, 'Juego de acción épico con gráficos increíbles', '2024-01-15', 'game1.jpg', 85.5, 0.0, 59.99, 'BASE', 'Epic Adventure', 1, 1, NULL);
 
-INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, precio, requerimientos, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
-VALUES (2, 'DLC con nuevas misiones y personajes', '2024-03-20 00:00:00', 'dlc1.jpg', 19.99, 'Windows 10, 8GB RAM, GTX 1060', 'DLC', 'Epic Adventure - DLC Pack', 1, 1, 1);
+-- INSERT 2: DLC del juego principal (tipo ADICIONAL)
+INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
+VALUES (2, 'Expansión épica con nueva historia y zonas', '2024-06-20', 'dlc1.jpg', 25.3, 25.0, 29.99, 'ADICIONAL', 'Epic Adventure: Shadows', 1, 1, 1);
 
-INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, precio, requerimientos, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
-VALUES (3, 'Juego RPG con mundo abierto', '2024-02-10 00:00:00', 'game2.jpg', 49.99, 'Windows 10, 16GB RAM, RTX 2060', 'BASE', 'Fantasy RPG', 1, 1, NULL);
+-- INSERT 3: Juego independiente con descuento
+INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
+VALUES (3, 'RPG de mundo abierto con sistema de clases único', '2023-11-10', 'game2.jpg', 120.0, 40.0, 44.99, 'BASE', 'Dragon Saga Chronicles', 2, 2, NULL);
 
 -- 7. Relacionar Juegos con Géneros
 INSERT INTO juego_genero (id_juego, id_genero) VALUES (1, 1);
