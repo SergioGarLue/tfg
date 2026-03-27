@@ -53,19 +53,50 @@
 
       <div class="pie-barra-lateral">
         <div class="iconos-inferiores">
-          <div><i class="fa-solid fa-bell"></i></div>
-          <div><i class="fa-solid fa-user"></i></div>
+          <div class="contenedor-notificaciones">
+            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
+            <div class="menu-notificaciones" id="menu-notificaciones">
+              <div class="cabecera-notificaciones">
+                <span>Notificaciones</span>
+                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
+              </div>
+              <div class="lista-notificaciones">
+                <div class="notificacion no-leida">
+                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
+                    <span class="tiempo-notificacion">Hace 2 horas</span>
+                  </div>
+                </div>
+                <div class="notificacion no-leida">
+                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
+                    <span class="tiempo-notificacion">Ayer</span>
+                  </div>
+                </div>
+                <div class="notificacion">
+                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
+                    <span class="tiempo-notificacion">Hace 3 días</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div><a href="amigos.html"><i class="fa-solid fa-user"></i></a></div>
           <div><i class="fa-solid fa-star"></i></div>
         </div>
         <div class="separador-lateral"></div>
         <div class="perfil-usuario">
-          <a href="/perfil" style="text-decoration: none; color: inherit; display: contents;">
+          <a href="perfil.html" style="text-decoration: none; color: inherit; display: contents;">
             <div class="avatar">
               <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
             </div>
             <span class="nombre-usuario">Paco Leon</span>
           </a>
-          <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
+          <a href="configuracion.html" id="conf"><i class="fa-solid fa-gear"></i></a>
         </div>
       </div>
     </aside>
@@ -74,10 +105,10 @@
       <header class="barra-superior">
         <div class="contenedor-busqueda">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar...">
+          <input type="text" placeholder="Buscar en la tienda...">
         </div>
         <div class="boton-carrito">
- <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a>
           <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
@@ -148,7 +179,32 @@
           }
         }
       };
-      actualizarContadorCarrito(2); // Simulación
+      actualizarContadorCarrito(2);
+
+      // --- Lógica de Notificaciones ---
+      const botonNotificaciones = document.getElementById('boton-notificaciones');
+      const menuNotificaciones = document.getElementById('menu-notificaciones');
+
+      if (botonNotificaciones && menuNotificaciones) {
+        botonNotificaciones.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menuNotificaciones.classList.toggle('activo');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
+            menuNotificaciones.classList.remove('activo');
+          }
+        });
+
+        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
+        if (btnMarcarLeidas) {
+          btnMarcarLeidas.addEventListener('click', () => {
+            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
+            notificaciones.forEach(n => n.classList.remove('no-leida'));
+          });
+        }
+      }
     });
   </script>
 </body>

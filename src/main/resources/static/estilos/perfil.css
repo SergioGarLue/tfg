@@ -1,181 +1,132 @@
-@import url('index.css');
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #171a21;
-    color: #c7d5e0;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Perfil styles - extending base index.css */
+
+/* Contenedor del perfil */
+.contenedor-perfil {
+    padding: 20px;
 }
 
-.profile-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    background-color: #171a21;
-    box-shadow: none;
-    border-radius: 0;
-    overflow: hidden;
-}
-
-/* --- Barra lateral del perfil --- */
-.profile-sidebar {
-    width: 280px;
-    flex-shrink: 0;
-    background-color: #1b2838;
-    color: #c7d5e0;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid #2a475e;
-}
-
-.profile-header {
-    text-align: center;
-    margin-bottom: 35px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #2a475e;
-}
-
-.profile-avatar {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 4px solid #66c0f4;
-    margin: 0 auto 15px;
-    object-fit: cover;
-    display: block;
-}
-
-/* --- Nuevo apartado para cambiar avatar (en el contenido principal) --- */
-.avatar-upload-container {
+.cabecera-perfil {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 30px;
     margin-bottom: 30px;
-    padding: 20px;
-    background-color: #1b2838;
-    border: 1px solid #2a475e;
-    border-radius: 4px;
+    padding: 25px;
+    background-color: var(--steam-dark-blue);
+    border-radius: 5px;
 }
 
-.avatar-preview {
-    width: 100px;
-    height: 100px;
+.avatar-grande {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+}
+
+.avatar-grande img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    border: 3px solid #66c0f4;
     object-fit: cover;
+    border: 4px solid var(--steam-light-blue);
 }
 
-.avatar-info {
+.btn-cambiar-avatar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--steam-light-blue);
+    color: var(--steam-dark);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-cambiar-avatar:hover {
+    background-color: var(--hovers);
+}
+
+.info-usuario {
     flex-grow: 1;
 }
 
-.custom-file-upload {
-    display: inline-block;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, #2a475e 0%, #1b2838 100%);
-    color: #66c0f4;
-    border: 1px solid #66c0f4;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s;
+.info-usuario .nombre-usuario {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 5px;
 }
 
-.custom-file-upload:hover {
-    background: #66c0f4;
-    color: #1b2838;
+.correo-usuario {
+    color: var(--texto-gris);
+    margin-bottom: 20px;
 }
 
-input[type="file"] {
-    display: none;
+.estadisticas-usuario {
+    display: flex;
+    gap: 40px;
 }
 
-.profile-header h2 {
-    margin: 10px 0 5px;
-    color: #c7d5e0;
-    font-size: 1.2em;
+.estadistica {
+    text-align: center;
 }
 
-.profile-header p {
-    font-size: 0.85em;
-    color: #8f98a0;
-    margin: 0;
-    word-break: break-all;
+.valor-estadistica {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--steam-light-blue);
+}
+
+.etiqueta-estadistica {
+    font-size: 0.9rem;
+    color: var(--texto-gris);
 }
 
 /* Navegación del perfil */
 .profile-nav {
-    flex-grow: 1;
+    display: flex;
+    gap: 5px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--steam-card-bg);
+    padding-bottom: 0;
 }
 
-.profile-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.profile-nav li a {
+.profile-nav a {
     display: block;
-    padding: 14px 18px;
-    color: #c7d5e0;
+    padding: 12px 20px;
+    color: var(--texto-gris);
     text-decoration: none;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    font-weight: 500;
-    transition: background-color 0.2s ease-in-out, padding-left 0.2s ease-in-out;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    margin-bottom: -1px;
 }
 
-.profile-nav li a:hover {
-    background-color: #2a475e;
-    padding-left: 25px;
-    color: #fff;
+.profile-nav a:hover {
+    color: var(--steam-text);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.profile-nav li a.active {
-    background-color: #66c0f4;
-    color: #1b2838;
-    font-weight: 600;
+.profile-nav a.active {
+    color: var(--steam-light-blue);
+    border-bottom-color: var(--steam-light-blue);
 }
 
-/* Botón de cerrar sesión */
-.profile-logout {
-    margin-top: 20px;
-}
-
-.logout-btn {
-    width: 100%;
-    padding: 14px;
-    background-color: #c0392b;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.logout-btn:hover {
-    background-color: #e74c3c;
-}
-
-/* --- Contenido principal del perfil --- */
-.profile-content {
-    flex-grow: 1;
-    padding: 30px 40px;
-    color: #c7d5e0;
+/* Secciones del perfil */
+.contenido-secciones {
+    min-height: 400px;
 }
 
 .profile-section {
-    display: none; /* Ocultar secciones por defecto */
-    animation: fadeIn 0.5s;
+    display: none;
+    animation: fadeIn 0.3s ease;
 }
 
 .profile-section.active {
-    display: block; /* Mostrar la sección activa */
+    display: block;
 }
 
 @keyframes fadeIn {
@@ -183,110 +134,143 @@ input[type="file"] {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.profile-content h1 {
-    color: #66c0f4;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 2em;
-}
-
-.profile-content p {
-    color: #8f98a0;
-    margin-bottom: 30px;
-    font-size: 1.1em;
-}
-
-/* Formularios */
-.form-group {
-    margin-bottom: 25px;
-}
-
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #c7d5e0;
-}
-
-form input[type="text"],
-form input[type="email"],
-form input[type="tel"],
-form input[type="password"],
-form textarea {
-    width: 100%;
-    padding: 12px;
-    background-color: #1b2838;
-    border: 1px solid #2a475e;
-    border-radius: 3px;
-    color: #c7d5e0;
-    font-size: 1em;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-form input:focus, form textarea:focus {
-    outline: none;
-    border-color: #66c0f4;
-    box-shadow: 0 0 0 3px rgba(102, 192, 244, 0.2);
-}
-
-form input:disabled {
-    background-color: #111a24;
-    cursor: not-allowed;
-    color: #5c6b7c;
-}
-
-.btn-save {
-    background: linear-gradient(90deg, #a4d007 0%, #688e03 100%);
+.profile-section h3 {
     color: white;
-    padding: 12px 25px;
-    border: none;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+/* Actividad reciente */
+.actividad-reciente {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.juego-actividad {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: var(--steam-card-bg);
+    border-radius: 5px;
+    transition: transform 0.2s;
+}
+
+.juego-actividad:hover {
+    transform: translateX(5px);
+}
+
+.juego-actividad img {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
     border-radius: 3px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: all 0.2s ease-in-out;
 }
 
-.btn-save:hover {
-    background: linear-gradient(90deg, #b6e608 0%, #7aa504 100%);
+.info-actividad {
+    display: flex;
+    flex-direction: column;
 }
 
-/* Estilos para placeholders de otras secciones */
-.order-list, .wishlist, .address-list {
-    padding: 20px;
-    background-color: rgba(0,0,0,0.2);
-    border: 1px dashed #2a475e;
+.info-actividad .titulo-juego {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.detalle-actividad {
+    color: var(--texto-gris);
+    font-size: 0.9rem;
+}
+
+/* Logros */
+.logros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.logro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background-color: var(--steam-card-bg);
     border-radius: 5px;
     text-align: center;
-    color: #8f98a0;
+    transition: transform 0.2s;
 }
 
-/* --- Responsive Design --- */
-@media (max-width: 992px) {
-    .profile-container {
-        flex-direction: column;
-    }
-
-    .profile-sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #2a475e;
-    }
-
-    .profile-content {
-        padding: 20px;
-    }
+.logro:hover {
+    transform: translateY(-5px);
 }
 
+.logro i {
+    font-size: 2.5rem;
+    color: #f1c40f;
+    margin-bottom: 15px;
+}
+
+.logro span {
+    color: var(--steam-text);
+    font-size: 0.95rem;
+}
+
+/* Reseñas */
+.resenas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.resena {
+    padding: 20px;
+    background-color: var(--steam-card-bg);
+    border-radius: 5px;
+}
+
+.cabecera-resena {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.juego-resena {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.puntuacion {
+    color: #f1c40f;
+}
+
+.texto-resena {
+    color: var(--texto-gris);
+    line-height: 1.6;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    body {
-        padding: 0;
+    .cabecera-perfil {
+        flex-direction: column;
+        text-align: center;
     }
-    .profile-container {
-        margin: 0;
-        border-radius: 0;
-        min-height: 100vh;
+    
+    .estadisticas-usuario {
+        justify-content: center;
+    }
+    
+    .profile-nav {
+        flex-wrap: wrap;
+    }
+    
+    .profile-nav a {
+        flex: 1;
+        text-align: center;
+        min-width: 100px;
     }
 }

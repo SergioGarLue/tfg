@@ -1,0 +1,325 @@
+:root {
+    --steam-dark: #171a21;
+    --steam-light-blue: #66c0f4;
+    --steam-dark-blue: #1b2838;
+    --steam-card-bg: #2a475e;
+    --steam-text: #c7d5e0;
+    --steam-green: #a4d007;
+    --steam-hover: #4c6b22;
+    --fondo-oscuro: #2b2733;
+    --fondo-lateral: #483d55;
+    --texto-blanco: #e0e0e0;
+    --texto-gris: #a09ba6;
+    --hovers: #a29bfe;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background-color: var(--steam-dark);
+    color: var(--steam-text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registro-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--steam-dark) 0%, var(--steam-dark-blue) 50%, var(--fondo-oscuro) 100%);
+    overflow: hidden;
+    padding: 40px 20px;
+}
+
+.background-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(162, 155, 254, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.registro-box {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 450px;
+    background: linear-gradient(180deg, var(--steam-dark-blue) 0%, var(--steam-dark) 100%);
+    border-radius: 8px;
+    padding: 40px 35px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(162, 155, 254, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(162, 155, 254, 0.2);
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 50px;
+    color: var(--hovers);
+    margin-bottom: 12px;
+    text-shadow: 0 0 30px rgba(162, 155, 254, 0.5);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.logo-section h1 {
+    font-size: 24px;
+    color: var(--texto-blanco);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--texto-gris);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.registro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: var(--steam-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(162, 155, 254, 0.3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--hovers);
+    box-shadow: 0 0 15px rgba(162, 155, 254, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 15px;
+    color: var(--texto-gris);
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.input-wrapper:focus-within i {
+    color: var(--hovers);
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 15px 14px 45px;
+    background: transparent;
+    border: none;
+    color: var(--texto-blanco);
+    font-size: 15px;
+    outline: none;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--texto-gris);
+    opacity: 0.6;
+}
+
+.help-text {
+    font-size: 11px;
+    color: var(--texto-gris);
+    opacity: 0.7;
+}
+
+.error-message {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.4);
+    border-radius: 4px;
+    color: #e74c3c;
+    font-size: 13px;
+}
+
+.error-message i {
+    font-size: 16px;
+}
+
+.success-message {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: rgba(164, 208, 7, 0.15);
+    border: 1px solid rgba(164, 208, 7, 0.4);
+    border-radius: 4px;
+    color: var(--steam-green);
+    font-size: 13px;
+}
+
+.success-message i {
+    font-size: 16px;
+}
+
+.btn-registro {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    background: linear-gradient(90deg, #a29bfe 0%, #6c5ce7 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.btn-registro:hover {
+    background: linear-gradient(90deg, #6c5ce7 0%, #a29bfe 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.5);
+}
+
+.btn-registro:active {
+    transform: translateY(0);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-link p {
+    color: var(--texto-gris);
+    font-size: 14px;
+}
+
+.login-link a {
+    color: var(--hovers);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: var(--steam-light-blue);
+    text-decoration: underline;
+}
+
+/* Animations */
+.registro-box {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    animation: slideUp 0.6s ease-out backwards;
+}
+
+.form-group:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.form-group:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.form-group:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.btn-registro {
+    animation: slideUp 0.6s ease-out backwards;
+    animation-delay: 0.4s;
+}
+
+.login-link {
+    animation: slideUp 0.6s ease-out backwards;
+    animation-delay: 0.5s;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .registro-box {
+        padding: 30px 25px;
+    }
+    
+    .logo-section h1 {
+        font-size: 20px;
+    }
+    
+    .logo {
+        font-size: 40px;
+    }
+}
