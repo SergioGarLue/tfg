@@ -11,18 +11,24 @@ import com.daw.tfg.dtos.UsuarioDTO;
 import com.daw.tfg.configuration.SecurityConfig;
 import com.daw.tfg.repository.PerfilUsuarioRepository;
 import com.daw.tfg.repository.UsuarioRepository;
+import com.daw.tfg.enums.EstadoUsuario;
+import com.daw.tfg.enums.RolesUsuarios;
 import com.daw.tfg.models.PerfilUsuario;
+import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Usuario;
+import com.daw.tfg.repository.CarritoRepository;
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
-    private final PerfilUsuarioRepository perfilUsuarioRepository;
+private final PerfilUsuarioRepository perfilUsuarioRepository;
+    private final CarritoRepository carritoRepository;
     private final SecurityConfig securityConfig;
     
-    public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository, SecurityConfig securityConfig) {
+public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository, CarritoRepository carritoRepository, SecurityConfig securityConfig) {
         this.usuarioRepository = usuarioRepository;
         this.perfilUsuarioRepository = perfilUsuarioRepository;
+        this.carritoRepository = carritoRepository;
         this.securityConfig = securityConfig;
     }
 
@@ -41,7 +47,7 @@ public class UsuarioService {
             "default_avatar.png",  // imagenUsuario
             "default_background.jpg",  // imagenFondoPerfil
             "España",  // pais
-            "Bienvenido a tu nuevo perfil!",  // biografia
+            "Bienvenido " + userDto.getUsername() + "!",  // biografia única
             true  // estado (activo)
         );
         
@@ -50,7 +56,10 @@ public class UsuarioService {
 
         Usuario userNuevo = new Usuario();
         userNuevo.setNombreUsuario(userDto.getUsername());
+        userNuevo.setCorreoElectronico(userDto.getCorreoElectronico());
         userNuevo.setContraseñaCifrada(securityConfig.passwdEncoder().encode(userDto.getPasswd()));
+        userNuevo.setConexion(EstadoUsuario.DESCONECTADO);
+        userNuevo.setRol(RolesUsuarios.USER);
         userNuevo.setPerfilUsuario(perfilNuevo);
 
         usuarioRepository.save(userNuevo);
@@ -102,8 +111,16 @@ public class UsuarioService {
         return usuarioRepository.save(u);
     }
 
+@Transactional
     public void deleteById(Long id) {
-        usuarioRepository.deleteById(id);
+        Usuario usuario = findById(id);
+        
+        // Delete associated Carrito first to avoid FK constraint
+        Optional<Carrito> carritoOpt = carritoRepository.findByUsuario(usuario);
+        carritoOpt.ifPresent(carritoRepository::delete);
+        
+        // Now delete Usuario (cascades PerfilUsuario)
+        usuarioRepository.delete(usuario);
     }
 
     public Optional<Usuario> authenticate(String username, String password) {
@@ -141,6 +158,7 @@ public class UsuarioService {
     /**
      * Obtiene el perfil del usuario por ID de usuario.
      */
+    @Transactional(readOnly = true)
     public PerfilUsuario getPerfilByUsuarioId(Long userId) {
         Usuario usuario = findById(userId);
         return usuario.getPerfilUsuario();
