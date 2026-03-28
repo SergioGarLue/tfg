@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.daw.tfg.dtos.Perfil_UsuarioDTO;
 import com.daw.tfg.dtos.UsuarioDTO;
 import com.daw.tfg.configuration.SecurityConfig;
 import com.daw.tfg.repository.PerfilUsuarioRepository;
@@ -135,6 +136,30 @@ public class UsuarioService {
         }
 
         save(usuario);
+    }
+
+    /**
+     * Obtiene el perfil del usuario por ID de usuario.
+     */
+    public PerfilUsuario getPerfilByUsuarioId(Long userId) {
+        Usuario usuario = findById(userId);
+        return usuario.getPerfilUsuario();
+    }
+
+    /**
+     * Actualiza el perfil del usuario usando DTO.
+     */
+    public void updatePerfilUsuario(Long userId, Perfil_UsuarioDTO dto) {
+        Usuario usuario = findById(userId);
+        PerfilUsuario perfil = usuario.getPerfilUsuario();
+        
+        perfil.setImagenUsuario(dto.getImagenUsuario());
+        perfil.setImagenFondoPerfil(dto.getImagenFondoPerfil());
+        perfil.setPais(dto.getPais());
+        perfil.setBiografia(dto.getBiografia());
+        perfil.setEstado(dto.getEstado());
+        
+        perfilUsuarioRepository.save(perfil);
     }
 }
 
