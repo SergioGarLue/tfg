@@ -50,6 +50,7 @@ public class Usuario {
         al aceptarla se guardara como Amistad donde aparecera  
         fecha de peticion, un id unico de cada amistad,  y los dos usuarios que la componen
     */
+@JsonIgnore
     @ManyToMany
     @JoinTable(
         name="amistad",
