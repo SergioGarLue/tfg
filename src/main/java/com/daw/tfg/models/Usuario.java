@@ -50,6 +50,7 @@ public class Usuario {
         al aceptarla se guardara como Amistad donde aparecera  
         fecha de peticion, un id unico de cada amistad,  y los dos usuarios que la componen
     */
+@JsonIgnore
     @ManyToMany
     @JoinTable(
         name="amistad",
@@ -62,7 +63,7 @@ public class Usuario {
         Relacion uno a uno con el perfil del usuario enlazando la columna
         con su perfil para poder acceder a el posteriormente
     */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_usuario_perfil", nullable = false, unique = true)
     @JsonIgnore
     private PerfilUsuario perfilUsuario;
