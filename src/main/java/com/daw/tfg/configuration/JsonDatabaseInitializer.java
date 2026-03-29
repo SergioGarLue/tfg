@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.daw.tfg.dtos.JuegoDTO;
+import com.daw.tfg.mappers.DtoMapper;
 import com.daw.tfg.models.Desarrollador;
 import com.daw.tfg.models.Editor;
 import com.daw.tfg.models.Genero;
@@ -51,6 +52,8 @@ public class JsonDatabaseInitializer {
     public ApplicationRunner initDatabaseFromJson() {
         return args -> {
             Resource resource = new ClassPathResource("static/JSON/steam_top_1000_sellers.json");
+            Double precio = 0.0;
+            Integer porcentaje = 0;
 
             if (!resource.exists()) {
                 logger.warn("No se encontró steam_top_1000_sellers.json en static/JSON");
@@ -61,7 +64,8 @@ public class JsonDatabaseInitializer {
             List<JuegoDTO> juegosDto;
 
             try {
-                juegosDto = mapper.readValue(resource.getInputStream(), new TypeReference<List<JuegoDTO>>() {});
+                juegosDto = mapper.readValue(resource.getInputStream(), new TypeReference<List<JuegoDTO>>() {
+                });
             } catch (IOException e) {
                 logger.error("Error leyendo JSON de juegos", e);
                 return;
@@ -84,8 +88,6 @@ public class JsonDatabaseInitializer {
                         continue;
                     }
 
-                    Double precio = 0.0;
-                    Integer porcentaje = 0;
                     if (dto.getPrice() != null) {
                         if (dto.getPrice().getFinalPrice() != null) {
                             precio = dto.getPrice().getFinalPrice();
@@ -119,7 +121,8 @@ public class JsonDatabaseInitializer {
                     Set<Genero> generos = new HashSet<>();
                     if (dto.getGenres() != null) {
                         dto.getGenres().forEach(genreName -> {
-                            if (genreName == null || genreName.isBlank()) return;
+                            if (genreName == null || genreName.isBlank())
+                                return;
                             generoService.findByNombre(genreName)
                                     .ifPresentOrElse(generos::add, () -> {
                                         Genero nuevoGenero = new Genero();
@@ -142,16 +145,7 @@ public class JsonDatabaseInitializer {
                         }
                     }
 
-                    Juego juego = new Juego();
-                    juego.setIdJuego(dto.getIdJuego());
-                    juego.setTitulo(titulo);
-                    juego.setDescripcion(dto.getDescription());
-                    juego.setFechaLanzamiento(dto.getFechaLanzamiento());
-                    juego.setImagen(dto.getImagen());
-                    juego.setPesoJuego(dto.getPesoJuego());
-                    juego.setPrecio(precio);
-                    juego.setPorcentaje(porcentaje);
-                    juego.setTipo(dto.getType());
+                    Juego juego = DtoMapper.fromJuegoDTO(dto);
                     juego.setDesarrollador(desarrollador);
                     juego.setEditor(editor);
                     juego.setGeneros(generos);
