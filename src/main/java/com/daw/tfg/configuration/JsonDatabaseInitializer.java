@@ -106,8 +106,8 @@ public class JsonDatabaseInitializer {
                     }
 
                     Editor editor = null;
-                    if (dto.getDeveloper() != null && !dto.getDeveloper().isBlank()) {
-                        String editorNombre = dto.getDeveloper();
+                    if (dto.getPublisher() != null && !dto.getPublisher().isBlank()) {
+                        String editorNombre = dto.getPublisher();
                         editor = editorService.findByNombre(editorNombre)
                                 .orElseGet(() -> {
                                     Editor nuevo = new Editor();

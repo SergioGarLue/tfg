@@ -42,6 +42,10 @@ public class EditorService {
     }
 
     public Editor save(Editor editor) {
+        String imagenDefault = "default_editor_" + System.currentTimeMillis() + ".jpg";
+        if (editor.getImagen() == null || editor.getImagen().isEmpty()) {
+            editor.setImagen(imagenDefault);
+        }
         return editorRepository.save(editor);
     }
 

@@ -3,6 +3,7 @@ package com.daw.tfg.dtos;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class JuegoDTO {
     @JsonProperty("appid")
     private Long idJuego;
@@ -41,10 +43,11 @@ public class JuegoDTO {
 
     private PlatformsDTO platforms;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PriceDTO {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public static class PriceDTO {
         @JsonProperty("final")
         private Double finalPrice;
 
@@ -52,10 +55,11 @@ public class JuegoDTO {
         private Integer porcentaje;
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PlatformsDTO {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public static class PlatformsDTO {
         private Boolean windows;
         private Boolean mac;
         private Boolean linux;

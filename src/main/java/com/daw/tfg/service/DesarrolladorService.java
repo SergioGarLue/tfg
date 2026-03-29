@@ -34,6 +34,10 @@ public class DesarrolladorService {
     }
 
     public Desarrollador save(Desarrollador d) {
+        String imagenDefault = "default_dev_" + System.currentTimeMillis() + ".jpg";
+        if (d.getImagen() == null || d.getImagen().isEmpty()) {
+            d.setImagen(imagenDefault);
+        }
         return desarrolladorRepository.save(d);
     }
 

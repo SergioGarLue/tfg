@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/index.html", "/templates/**", "/static/**", "/h2-console/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/usuarios").permitAll()
+                        .requestMatchers("/api/juego").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
