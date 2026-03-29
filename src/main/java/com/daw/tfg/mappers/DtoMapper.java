@@ -131,5 +131,9 @@ public class DtoMapper {
         return usuarios.stream().map(DtoMapper::toUsuarioDTO).collect(Collectors.toList());
     }
 
+    public static List<CompraDTO> toCompraDTOList(List<Compra> compras) {
+        return compras.stream().map(DtoMapper::toCompraDTO).collect(Collectors.toList());
+    }
+
     // Add more as needed (Amigo, ListaDeseados, etc.)
 }
