@@ -98,6 +98,30 @@ public class DtoMapper {
         return compra;
     }
 
+    // PerfilUsuario mappings
+    public static PerfilUsuario fromPerfilUsuarioDTO(Perfil_UsuarioDTO dto) {
+        if (dto == null) return null;
+        // use setters or constructor
+        PerfilUsuario perfil = new PerfilUsuario();
+        perfil.setImagenUsuario(dto.getImagenUsuario());
+        perfil.setImagenFondoPerfil(dto.getImagenFondoPerfil());
+        perfil.setPais(dto.getPais());
+        perfil.setBiografia(dto.getBiografia());
+        perfil.setEstado(dto.getEstado());
+        return perfil;
+    }
+
+    public static Perfil_UsuarioDTO toPerfilUsuarioDTO(PerfilUsuario perfil) {
+        if (perfil == null) return null;
+        Perfil_UsuarioDTO dto = new Perfil_UsuarioDTO();
+        dto.setImagenUsuario(perfil.getImagenUsuario());
+        dto.setImagenFondoPerfil(perfil.getImagenFondoPerfil());
+        dto.setPais(perfil.getPais());
+        dto.setBiografia(perfil.getBiografia());
+        dto.setEstado(perfil.getEstado());
+        return dto;
+    }
+
     // List variants
     public static List<JuegoDTO> toJuegoDTOList(List<Juego> juegos) {
         return juegos.stream().map(DtoMapper::toJuegoDTO).collect(Collectors.toList());

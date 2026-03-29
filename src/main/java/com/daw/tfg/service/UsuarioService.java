@@ -13,11 +13,11 @@ import com.daw.tfg.repository.PerfilUsuarioRepository;
 import com.daw.tfg.repository.UsuarioRepository;
 import com.daw.tfg.enums.EstadoUsuario;
 import com.daw.tfg.enums.RolesUsuarios;
+import com.daw.tfg.mappers.DtoMapper;
 import com.daw.tfg.models.PerfilUsuario;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.CarritoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
@@ -27,14 +27,16 @@ private final PerfilUsuarioRepository perfilUsuarioRepository;
     private final CarritoRepository carritoRepository;
 private final PasswordEncoder passwordEncoder;
     
-public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository, CarritoRepository carritoRepository, PasswordEncoder passwordEncoder) {
+
+    public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository, CarritoRepository carritoRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.perfilUsuarioRepository = perfilUsuarioRepository;
         this.carritoRepository = carritoRepository;
         this.passwordEncoder = passwordEncoder;
+        
     }
 
-    @Transactional
+@Transactional
     public void registrar(UsuarioDTO userDto) {
 
         if (usuarioRepository.existsByNombreUsuario(userDto.getUsername())) {
@@ -44,22 +46,18 @@ throw new IllegalArgumentException("El usuario ya existe");
             throw new IllegalArgumentException("Contraseña invalida/incorrecta");
         }
 
-        // Crear el perfil de usuario automáticamente con valores por defecto
+        // Create default profile
         PerfilUsuario perfilNuevo = new PerfilUsuario(
-            "default_avatar.png",  // imagenUsuario
-            "default_background.jpg",  // imagenFondoPerfil
-            "España",  // pais
-            "Bienvenido " + userDto.getUsername() + "!",  // biografia única
-            true  // estado (activo)
+            "default_avatar.png",
+            "default_background.jpg", 
+            "España",
+            "Bienvenido " + userDto.getUsername() + "!",
+            true
         );
-        
-        // Guardar primero el perfil para obtener su ID
         perfilNuevo = perfilUsuarioRepository.save(perfilNuevo);
 
-        Usuario userNuevo = new Usuario();
-        userNuevo.setNombreUsuario(userDto.getUsername());
-        userNuevo.setCorreoElectronico(userDto.getCorreoElectronico());
-        userNuevo.setContraseñaCifrada(passwordEncoder.encode(userDto.getPasswd()));
+        Usuario userNuevo = DtoMapper.fromUsuarioDTO(userDto);
+        userNuevo.setContraseñaCifrada(passwordEncoder.encode(userDto.getPasswd())); // override
         userNuevo.setConexion(EstadoUsuario.DESCONECTADO);
         userNuevo.setRol(RolesUsuarios.USER);
         userNuevo.setPerfilUsuario(perfilNuevo);
@@ -144,8 +142,11 @@ throw new IllegalArgumentException("El usuario ya existe");
             if (usuarioRepository.existsByNombreUsuario(userDto.getUsername())) {
                 throw new IllegalArgumentException("Nombre de usuario ya existe");
             }
-            usuario.setNombreUsuario(userDto.getUsername());
         }
+
+        Usuario updated = DtoMapper.fromUsuarioDTO(userDto);
+        usuario.setNombreUsuario(updated.getNombreUsuario());
+        usuario.setCorreoElectronico(updated.getCorreoElectronico());
 
         if (userDto.getPasswd() != null) {
             if (!validaPasswd(userDto.getPasswd())) {
@@ -173,11 +174,12 @@ throw new IllegalArgumentException("El usuario ya existe");
         Usuario usuario = findById(userId);
         PerfilUsuario perfil = usuario.getPerfilUsuario();
         
-        perfil.setImagenUsuario(dto.getImagenUsuario());
-        perfil.setImagenFondoPerfil(dto.getImagenFondoPerfil());
-        perfil.setPais(dto.getPais());
-        perfil.setBiografia(dto.getBiografia());
-        perfil.setEstado(dto.getEstado());
+        PerfilUsuario updatedPerfil = DtoMapper.fromPerfilUsuarioDTO(dto);
+        perfil.setImagenUsuario(updatedPerfil.getImagenUsuario());
+        perfil.setImagenFondoPerfil(updatedPerfil.getImagenFondoPerfil());
+        perfil.setPais(updatedPerfil.getPais());
+        perfil.setBiografia(updatedPerfil.getBiografia());
+        perfil.setEstado(updatedPerfil.getEstado());
         
         perfilUsuarioRepository.save(perfil);
     }
