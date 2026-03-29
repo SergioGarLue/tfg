@@ -34,15 +34,7 @@ public class ControladoraUsuario {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody UsuarioDTO userDto) {
-        try {
-            usuarioService.registrar(userDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado correctamente");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody UsuarioDTO userDto) {

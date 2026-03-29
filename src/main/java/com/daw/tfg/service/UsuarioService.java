@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.daw.tfg.dtos.Perfil_UsuarioDTO;
 import com.daw.tfg.dtos.UsuarioDTO;
-import com.daw.tfg.configuration.SecurityConfig;
+
 import com.daw.tfg.repository.PerfilUsuarioRepository;
 import com.daw.tfg.repository.UsuarioRepository;
 import com.daw.tfg.enums.EstadoUsuario;
@@ -17,26 +17,28 @@ import com.daw.tfg.models.PerfilUsuario;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.CarritoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 private final PerfilUsuarioRepository perfilUsuarioRepository;
     private final CarritoRepository carritoRepository;
-    private final SecurityConfig securityConfig;
+private final PasswordEncoder passwordEncoder;
     
-public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository, CarritoRepository carritoRepository, SecurityConfig securityConfig) {
+public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository, CarritoRepository carritoRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.perfilUsuarioRepository = perfilUsuarioRepository;
         this.carritoRepository = carritoRepository;
-        this.securityConfig = securityConfig;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public void registrar(UsuarioDTO userDto) {
 
         if (usuarioRepository.existsByNombreUsuario(userDto.getUsername())) {
-            throw new IllegalArgumentException("El usuario ya exsite");
+throw new IllegalArgumentException("El usuario ya existe");
         }
         if (!validaPasswd(userDto.getPasswd())) {
             throw new IllegalArgumentException("Contraseña invalida/incorrecta");
@@ -57,7 +59,7 @@ public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioReposito
         Usuario userNuevo = new Usuario();
         userNuevo.setNombreUsuario(userDto.getUsername());
         userNuevo.setCorreoElectronico(userDto.getCorreoElectronico());
-        userNuevo.setContraseñaCifrada(securityConfig.passwdEncoder().encode(userDto.getPasswd()));
+        userNuevo.setContraseñaCifrada(passwordEncoder.encode(userDto.getPasswd()));
         userNuevo.setConexion(EstadoUsuario.DESCONECTADO);
         userNuevo.setRol(RolesUsuarios.USER);
         userNuevo.setPerfilUsuario(perfilNuevo);
@@ -129,7 +131,7 @@ public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioReposito
         }
         
         return usuarioRepository.findByNombreUsuario(username)
-            .filter(user -> securityConfig.passwdEncoder().matches(password, user.getContraseñaCifrada()));
+            .filter(user -> passwordEncoder.matches(password, user.getContraseñaCifrada()));
     }
 
     /**
@@ -149,7 +151,7 @@ public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioReposito
             if (!validaPasswd(userDto.getPasswd())) {
                 throw new IllegalArgumentException("Contraseña inválida");
             }
-            usuario.setContraseñaCifrada(securityConfig.passwdEncoder().encode(userDto.getPasswd()));
+            usuario.setContraseñaCifrada(passwordEncoder.encode(userDto.getPasswd()));
         }
 
         save(usuario);
