@@ -36,10 +36,10 @@ public class Juego {
     private String titulo;
 
     @Column(nullable = false, name = "precio")
-    private Float precio;
+    private Double precio;
 
     @Column(name = "porcentaje")
-    private Float porcentaje;
+    private Integer porcentaje;
 
     @Column(length = 1000, name = "descripcion")
     private String descripcion;
@@ -73,7 +73,7 @@ public class Juego {
     private Desarrollador desarrollador;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_editor", nullable = false)
+    @JoinColumn(name = "id_editor", nullable = true)
     @JsonIgnore
     private Editor editor;
 
@@ -91,7 +91,7 @@ public class Juego {
 
     public Juego(Desarrollador desarrollador, String descripcion,
          Editor editor, String fechaLanzamiento, Float pesoJuego, List<String> plataformas, Set<Genero> generos,
-         Long idJuego, String imagen, Juego juegoPadre, Float precio, Float porcentaje,
+         Long idJuego, String imagen, Juego juegoPadre, Double precio, Integer porcentaje,
           Set<Resena> resenas, String tipo, String titulo) {
             
         this.desarrollador = desarrollador;

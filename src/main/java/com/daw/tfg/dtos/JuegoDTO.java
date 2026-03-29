@@ -40,24 +40,24 @@ public class JuegoDTO {
     private PriceDTO price;
 
     private PlatformsDTO platforms;
-}
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class PriceDTO {
-    private String currency;
-    private Double initial;
-    private Double finalPrice;
-    @JsonProperty("discount_percent")
-    private Integer porcentaje;
-}
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PriceDTO {
+        @JsonProperty("final")
+        private Double finalPrice;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class PlatformsDTO {
-    private Boolean windows;
-    private Boolean mac;
-    private Boolean linux;
+        @JsonProperty("discount_percent")
+        private Integer porcentaje;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PlatformsDTO {
+        private Boolean windows;
+        private Boolean mac;
+        private Boolean linux;
+    }
 }

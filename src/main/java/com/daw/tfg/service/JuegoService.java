@@ -43,10 +43,12 @@ public class JuegoService {
         if (juego.getDesarrollador() == null) {
             throw new IllegalArgumentException("Desarrollador obligatorio");
         }
-        if (juego.getEditor() == null) {
-            throw new IllegalArgumentException("Editor obligatorio");
-        }
+        // Editor ahora es opcional para importación JSON inicial
         return juegoRepository.save(juego);
+    }
+
+    public boolean existsById(Long id) {
+        return juegoRepository.existsById(id);
     }
 
     public void deleteById(Long id) {
@@ -86,7 +88,7 @@ public class JuegoService {
         return juego;
     }
 
-    public List<Juego> findByPrecioBetween(Float min, Float max) {
+    public List<Juego> findByPrecioBetween(Double min, Double max) {
         if (min == null || max == null) {
             throw new IllegalArgumentException("Rango de precio inválido");
         }

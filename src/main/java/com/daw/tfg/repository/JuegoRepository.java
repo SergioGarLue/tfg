@@ -20,7 +20,7 @@ public interface JuegoRepository extends JpaRepository<Juego, Long> {
     List<Juego> findByGenerosNombre(String nombreGenero);
 
     // Buscar entre dos precios (inclusive)
-    List<Juego> findByPrecioBetween(Float minPrecio, Float maxPrecio);
+    List<Juego> findByPrecioBetween(Double minPrecio, Double maxPrecio);
 
     // Buscar por desarrollador (exacto o case-insensitive)
     List<Juego> findByDesarrolladorNombreIgnoreCase(String nombreDesarrollador);
