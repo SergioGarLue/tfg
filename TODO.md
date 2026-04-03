@@ -1,27 +1,23 @@
-# TFG JuegoDTO Implementation Plan
+# Backend Fixes - TFG Improvements
+No @Autowired, constructor injection + doc comments.
 
-## Status: ✅ In Progress
+## High Priority
+1. [✅] Refactor RefreshTokenService ✅ (compiles now)
+2. [✅] Enhance tests (comments + TODO)
 
-### 1. [✅ COMPLETED] Create/Update JuegoDTO.java
-   - Match Steam JSON structure exactly
-   - Nested DTOs: PriceDTO, PlatformsDTO  
-   - Lombok annotations matching project style
+3. [ ] Add auth/cart integration tests
+3. [ ] Add full integration tests (auth/cart)
+4. [ ] MySQL prod profile + indexes
 
-### 2. [⬜ PENDING] Test JSON Deserialization
-   - Add test in JuegoService to parse steam_top_1000_sellers.json
-   - Verify ObjectMapper.readValue() works with JuegoDTO
+## Medium 
+5. [ ] Constructor injection all services
+6. [ ] @PreAuthorize on controllers
+7. [ ] Pagination
 
-### 3. [⬜ PENDING] Map DTO to Entity
-   - Create mapper method: JuegoDTO → Juego entity
-   - Handle developer/editor lookup by name (create if missing)
+## Low
+8. [ ] Payment Stripe
+9. [ ] English comments
 
-### 4. [⬜ PENDING] Import Steam Data
-   - Service method to read JSON → List<JuegoDTO> → List<Juego> → saveAll()
-   - Handle duplicates by appid
+Next: Full tests + security.
 
-### 5. [⬜ PENDING] Validation
-   - Test full pipeline: JSON → DTO → Entity → DB
-   - `mvn clean compile test`
-
-**Next Step**: Test deserialization after DTO creation.
 
