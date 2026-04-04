@@ -40,9 +40,8 @@ public class SecurityConfig {
                 )
 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index.html", "/templates/**", "/static/**", "/h2-console/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/usuarios").permitAll()
-                        .requestMatchers("/api/juego").permitAll()
+                        .requestMatchers("/estilos/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
