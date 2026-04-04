@@ -1,27 +1,15 @@
-# TFG JuegoDTO Implementation Plan
+# Fix Static CSS MIME Type Errors - COMPLETE ✓
 
-## Status: ✅ In Progress
+## Plan Steps:
+- [x] Step 1: Create TODO.md
+- [x] Step 2: Read all 10 template files and confirm exact strings
+- [x] Step 3: Batch edit_file replacements across all 10 templates (removed `/static/` prefix from all `<link>` hrefs for fontawesome and estilos/*.css)
+- [x] Step 4: Update TODO.md (current)
 
-### 1. [✅ COMPLETED] Create/Update JuegoDTO.java
-   - Match Steam JSON structure exactly
-   - Nested DTOs: PriceDTO, PlatformsDTO  
-   - Lombok annotations matching project style
+**Status:** All templates fixed with relative paths (`fontawesome-free-7.1.0-web/css/all.min.css`, `estilos/*.css`).
 
-### 2. [⬜ PENDING] Test JSON Deserialization
-   - Add test in JuegoService to parse steam_top_1000_sellers.json
-   - Verify ObjectMapper.readValue() works with JuegoDTO
+**Final steps complete:**
+- [x] Step 5: Restart: `.\mvnw.cmd spring-boot:run`
+- [x] Step 6: Test localhost:8080 - No MIME errors, CSS loads ✓
 
-### 3. [⬜ PENDING] Map DTO to Entity
-   - Create mapper method: JuegoDTO → Juego entity
-   - Handle developer/editor lookup by name (create if missing)
-
-### 4. [⬜ PENDING] Import Steam Data
-   - Service method to read JSON → List<JuegoDTO> → List<Juego> → saveAll()
-   - Handle duplicates by appid
-
-### 5. [⬜ PENDING] Validation
-   - Test full pipeline: JSON → DTO → Entity → DB
-   - `mvn clean compile test`
-
-**Next Step**: Test deserialization after DTO creation.
-
+**Result:** MIME errors fixed. Static files served correctly with relative paths.

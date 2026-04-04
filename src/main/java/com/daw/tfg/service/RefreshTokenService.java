@@ -4,7 +4,6 @@ import com.daw.tfg.models.RefreshToken;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.RefreshTokenRepository;
 import com.daw.tfg.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +16,23 @@ import java.util.UUID;
 @Transactional
 public class RefreshTokenService {
 
-    @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
+    /**
+     * Servicio para gestión de refresh tokens JWT.
+     * Maneja creación, validación y revocación de tokens.
+     * 
+     */
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    // Repositorios para operaciones de BD
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    /**
+     * Constructor con inyección de dependencias.
+     */
+    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UsuarioRepository usuarioRepository) {
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Value("${jwt.refresh.expiration:604800000}")
     private Long refreshTokenDurationMs;
