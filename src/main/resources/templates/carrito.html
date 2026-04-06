@@ -1,160 +1,176 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito </title>
-<link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
-  <link rel="stylesheet" href="/estilos/index.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito </title>
+    <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
+    <link rel="stylesheet" href="/estilos/index.css" />
+  </head>
+  <body>
 
-  <div class="contenedor-principal">
-    
-    <aside class="barra-lateral">
-      <div class="zona-superior">
-        <div class="logo">
-        <a href="index.html"><i class="fa-solid fa-dragon"></i></a>
-        </div>
-        
-        <nav>
-          
-          <ul>
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-tienda">
-                <a href="tienda.html"><i class="fa-solid fa-store icono"></i></a>
-                <span class="texto-enlace">Tienda</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
-                <ul class="lista-subitems">
-                  <li>Ofertas</li>
-                  <li>Populares</li>
-                </ul>
-              </div>
-            </li>
+    <div class="contenedor-principal">
 
-            <li class="item-desplegable"> 
-              <div class="cabecera-desplegable" id="boton-coleccion">
-               <a href="coleccion.html"><i class="fa-solid fa-book-open icono"></i></a>
-                <span class="texto-enlace">Coleccion</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-coleccion">
-                <ul class="lista-subitems">
-                  <li>Metroidvania</li>
-                  <li>Souls</li>
-                  <li>Estrategia</li>
-                  <li class="enlace-mas">Mostrar mas</li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="pie-barra-lateral">
-        <div class="iconos-inferiores">
-          <div class="contenedor-notificaciones">
-            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
-            <div class="menu-notificaciones" id="menu-notificaciones">
-              <div class="cabecera-notificaciones">
-                <span>Notificaciones</span>
-                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
-              </div>
-              <div class="lista-notificaciones">
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
-                    <span class="tiempo-notificacion">Hace 2 horas</span>
-                  </div>
-                </div>
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
-                    <span class="tiempo-notificacion">Ayer</span>
-                  </div>
-                </div>
-                <div class="notificacion">
-                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
-                    <span class="tiempo-notificacion">Hace 3 días</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <aside class="barra-lateral">
+        <div class="zona-superior">
+          <div class="logo">
+<a href="/"><i class="fa-solid fa-dragon"></i></a>
           </div>
-          <div><a href="amigos.html"><i class="fa-solid fa-user"></i></a></div>
-          <div><i class="fa-solid fa-star"></i></div>
-        </div>
-        <div class="separador-lateral"></div>
-        <div class="perfil-usuario">
-          <a href="perfil.html" style="text-decoration: none; color: inherit; display: contents;">
-            <div class="avatar">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
-            </div>
-            <span class="nombre-usuario">Paco Leon</span>
-          </a>
-          <a href="configuracion.html" id="conf"><i class="fa-solid fa-gear"></i></a>
-        </div>
-      </div>
-    </aside>
 
-    <main class="contenido">
-      <header class="barra-superior">
-        <div class="contenedor-busqueda">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar en la tienda...">
-        </div>
-        <div class="boton-carrito">
-          <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a>
-          <span class="contador-carrito" id="badge-carrito">0</span>
-        </div>
-      </header>
+          <nav>
 
-      <div class="scroll-contenido">
-      <section class="seccion-carrito">
-        <h2>Carrito</h2>
-        
-        <div class="lista-productos">
-            
-            <div class="item-carrito">
-                <div class="imagen-producto" style="background-image: url('https://picsum.photos/120/70?random=20');"></div>
-                <div class="info-producto">
-                    <span class="nombre-juego">Bigger hunter</span>
+            <ul>
+              <li class="item-desplegable">
+                <div class="cabecera-desplegable" id="boton-tienda">
+                  <a href="tienda"><i
+                      class="fa-solid fa-store icono"></i></a>
+                  <span class="texto-enlace">Tienda</span>
                 </div>
-                <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                <div class="contenedor-sublista cerrado" id="menu-tienda">
+                  <ul class="lista-subitems">
+                    <li>Ofertas</li>
+                    <li>Populares</li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="item-desplegable">
+                <div class="cabecera-desplegable" id="boton-coleccion">
+                  <a href="coleccion"><i
+                      class="fa-solid fa-book-open icono"></i></a>
+                  <span class="texto-enlace">Coleccion</span>
+                </div>
+                <div class="contenedor-sublista cerrado" id="menu-coleccion">
+                  <ul class="lista-subitems">
+                    <li>Metroidvania</li>
+                    <li>Souls</li>
+                    <li>Estrategia</li>
+                    <li class="enlace-mas">Mostrar mas</li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="pie-barra-lateral">
+          <div class="iconos-inferiores">
+            <div class="contenedor-notificaciones">
+              <button id="boton-notificaciones" class="boton-notificaciones"><i
+                  class="fa-solid fa-bell"></i></button>
+              <div class="menu-notificaciones" id="menu-notificaciones">
+                <div class="cabecera-notificaciones">
+                  <span>Notificaciones</span>
+                  <button class="btn-marcar-leidas">Marcar todas como
+                    leídas</button>
+                </div>
+                <div class="lista-notificaciones">
+                  <div class="notificacion no-leida">
+                    <div class="icono-notificacion"><i
+                        class="fa-solid fa-gift"></i></div>
+                    <div class="contenido-notificacion">
+                      <p class="texto-notificacion">¡Oferta especial! 50% de
+                        descuento en Dark Souls III</p>
+                      <span class="tiempo-notificacion">Hace 2 horas</span>
+                    </div>
+                  </div>
+                  <div class="notificacion no-leida">
+                    <div class="icono-notificacion"><i
+                        class="fa-solid fa-user-plus"></i></div>
+                    <div class="contenido-notificacion">
+                      <p class="texto-notificacion">María García te ha enviado
+                        una solicitud de amistad</p>
+                      <span class="tiempo-notificacion">Ayer</span>
+                    </div>
+                  </div>
+                  <div class="notificacion">
+                    <div class="icono-notificacion"><i
+                        class="fa-solid fa-check-circle"></i></div>
+                    <div class="contenido-notificacion">
+                      <p class="texto-notificacion">Tu compra de Elden Ring se
+                        ha completado</p>
+                      <span class="tiempo-notificacion">Hace 3 días</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div><a href="amigos"><i
+                  class="fa-solid fa-user"></i></a></div>
+            <div><i class="fa-solid fa-star"></i></div>
+          </div>
+          <div class="separador-lateral"></div>
+          <div class="perfil-usuario">
+            <a href="perfil"
+              style="text-decoration: none; color: inherit; display: contents;">
+              <div class="avatar">
+                <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
+              </div>
+              <span class="nombre-usuario">Paco Leon</span>
+            </a>
+            <a href="configuracion" id="conf"><i
+                class="fa-solid fa-gear"></i></a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="contenido">
+        <header class="barra-superior">
+          <div class="contenedor-busqueda">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Buscar en la tienda...">
+          </div>
+          <div class="boton-carrito">
+            <a href="carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+            <span class="contador-carrito" id="badge-carrito">0</span>
+          </div>
+        </header>
+
+        <div class="scroll-contenido">
+          <section class="seccion-carrito">
+            <h2>Carrito</h2>
+
+            <div class="lista-productos">
+
+              <div class="item-carrito">
+                <div class="imagen-producto"
+                  style="background-image: url('https://picsum.photos/120/70?random=20');"></div>
+                <div class="info-producto">
+                  <span class="nombre-juego">Bigger hunter</span>
+                </div>
+                <button class="btn-eliminar"><i
+                    class="fa-solid fa-trash"></i></button>
                 <div class="precio-producto">59.99€</div>
-            </div>
+              </div>
 
-            <div class="item-carrito">
-                <div class="imagen-producto" style="background-image: url('https://picsum.photos/120/70?random=21');"></div>
+              <div class="item-carrito">
+                <div class="imagen-producto"
+                  style="background-image: url('https://picsum.photos/120/70?random=21');"></div>
                 <div class="info-producto">
-                    <span class="nombre-juego">Femboys love</span>
+                  <span class="nombre-juego">Femboys love</span>
                 </div>
-                <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn-eliminar"><i
+                    class="fa-solid fa-trash"></i></button>
                 <div class="precio-producto">39.99€</div>
+              </div>
+
             </div>
-            
 
-        </div>
-
-        <div class="zona-pago">
-            <div class="total-resumen">
+            <div class="zona-pago">
+              <div class="total-resumen">
                 <span class="etiqueta-total">Total:</span>
                 <span class="valor-total">99,98€</span>
+              </div>
+              <button class="boton-ir-pago">Ir al pago</button>
             </div>
-            <button class="boton-ir-pago">Ir al pago</button>
+
+          </section>
         </div>
 
-      </section>
-      </div>
+      </main>
+    </div>
 
-    </main>
-  </div>
-
-  <script>
+    <script>
     document.addEventListener("DOMContentLoaded", () => {
       const Desplegable = (idBoton, idMenu) => {
         const boton = document.getElementById(idBoton);
@@ -207,5 +223,5 @@
       }
     });
   </script>
-</body>
+  </body>
 </html>
