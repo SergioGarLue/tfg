@@ -29,30 +29,30 @@ INSERT INTO genero (id_genero, nombre) VALUES (3, 'RPG');
 
 -- 6. Insertar Juegos
 -- INSERT 1: Juego base principal
-INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
-VALUES (1, 'Juego de acción épico con gráficos increíbles', '2024-01-15', 'game1.jpg', 85.5, 0.0, 59.99, 'BASE', 'Epic Adventure', 1, 1, NULL);
+-- INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
+-- VALUES (1, 'Juego de acción épico con gráficos increíbles', '2024-01-15', 'game1.jpg', 85.5, 0.0, 59.99, 'BASE', 'Epic Adventure', 1, 1, NULL);
 
--- INSERT 2: DLC del juego principal (tipo ADICIONAL)
-INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
-VALUES (2, 'Expansión épica con nueva historia y zonas', '2024-06-20', 'dlc1.jpg', 25.3, 25.0, 29.99, 'ADICIONAL', 'Epic Adventure: Shadows', 1, 1, 1);
+-- -- INSERT 2: DLC del juego principal (tipo ADICIONAL)
+-- INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
+-- VALUES (2, 'Expansión épica con nueva historia y zonas', '2024-06-20', 'dlc1.jpg', 25.3, 25.0, 29.99, 'ADICIONAL', 'Epic Adventure: Shadows', 1, 1, 1);
 
--- INSERT 3: Juego independiente con descuento
-INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
-VALUES (3, 'RPG de mundo abierto con sistema de clases único', '2023-11-10', 'game2.jpg', 120.0, 40.0, 44.99, 'BASE', 'Dragon Saga Chronicles', 2, 2, NULL);
+-- -- INSERT 3: Juego independiente con descuento
+-- INSERT INTO juego (id_juego, descripcion, fecha_lanzamiento, imagen, peso_juego, porcentaje, precio, tipo, titulo, id_desarrollador, id_editor, id_juego_padre) 
+-- VALUES (3, 'RPG de mundo abierto con sistema de clases único', '2023-11-10', 'game2.jpg', 120.0, 40.0, 44.99, 'BASE', 'Dragon Saga Chronicles', 2, 2, NULL);
 
--- 7. Relacionar Juegos con Géneros
-INSERT INTO juego_genero (id_juego, id_genero) VALUES (1, 1);
-INSERT INTO juego_genero (id_juego, id_genero) VALUES (1, 2);
-INSERT INTO juego_genero (id_juego, id_genero) VALUES (2, 1);
-INSERT INTO juego_genero (id_juego, id_genero) VALUES (3, 3);
+-- -- 7. Relacionar Juegos con Géneros
+-- INSERT INTO juego_genero (id_juego, id_genero) VALUES (1, 1);
+-- INSERT INTO juego_genero (id_juego, id_genero) VALUES (1, 2);
+-- INSERT INTO juego_genero (id_juego, id_genero) VALUES (2, 1);
+-- INSERT INTO juego_genero (id_juego, id_genero) VALUES (3, 3);
 
 -- 8. Insertar Carrito (sin compra inicialmente)
 INSERT INTO carrito (id_carrito, id_compra, id_usuario) 
 VALUES (1, NULL, 1);
 
--- 9. Insertar Juegos en el Carrito
-INSERT INTO juegos_carrito (id_carrito, id_juego) VALUES (1, 1);
-INSERT INTO juegos_carrito (id_carrito, id_juego) VALUES (1, 3);
+-- -- 9. Insertar Juegos en el Carrito
+-- INSERT INTO juegos_carrito (id_carrito, id_juego) VALUES (1, 1);
+-- INSERT INTO juegos_carrito (id_carrito, id_juego) VALUES (1, 3);
 
 -- ============================================
 -- Datos de prueba listos!
