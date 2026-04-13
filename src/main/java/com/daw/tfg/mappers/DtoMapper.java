@@ -24,6 +24,7 @@ public class DtoMapper {
         dto.setFechaLanzamiento(juego.getFechaLanzamiento());
         dto.setDescription(juego.getDescripcion());
         dto.setImagen(juego.getImagen());
+        dto.setScreenshots(juego.getScreenshots());
         dto.setPesoJuego(juego.getPesoJuego());
         dto.setPrice(new JuegoDTO.PriceDTO(juego.getPrecio(), juego.getPorcentaje()));
 
@@ -52,6 +53,7 @@ public class DtoMapper {
         juego.setFechaLanzamiento(dto.getFechaLanzamiento());
         juego.setPesoJuego(dto.getPesoJuego());
         juego.setImagen(dto.getImagen());
+        juego.setScreenshots(dto.getScreenshots());
         juego.setTipo(dto.getType());
         // relaciones null
         return juego;

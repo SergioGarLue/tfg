@@ -58,6 +58,11 @@ public class Juego {
     @Column(nullable = false, name = "imagen")
     private String imagen;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "juego_screenshot", joinColumns = @JoinColumn(name = "id_juego"))
+    @Column(name = "screenshot")
+    private List<String> screenshots;
+
     @OneToMany(mappedBy = "juego")
     @JsonIgnore
     private Set<Resena> resenas;

@@ -2,8 +2,9 @@ package com.daw.tfg.dtos;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,8 @@ public class JuegoDTO {
     @JsonProperty("header_image")
     private String imagen;
 
+    private List<String> screenshots;
+
     @JsonProperty("storage_gb")
     private Float pesoJuego;
 
@@ -48,7 +51,8 @@ public class JuegoDTO {
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public static class PriceDTO {
-        @JsonProperty("final")
+            @JsonProperty("final")
+        @JsonDeserialize(using = LenientDoubleDeserializer.class)
         private Double finalPrice;
 
         @JsonProperty("discount_percent")

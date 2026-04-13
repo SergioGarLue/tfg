@@ -154,6 +154,9 @@ public class JuegoService {
         if (cambios.getImagen() != null) {
             existente.setImagen(cambios.getImagen());
         }
+        if (cambios.getScreenshots() != null) {
+            existente.setScreenshots(cambios.getScreenshots());
+        }
         if (cambios.getPesoJuego() != null) {
             existente.setPesoJuego(cambios.getPesoJuego());
         }
