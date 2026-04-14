@@ -124,9 +124,12 @@
 
         <!-- Sección Hero Destacada -->
         <section class="hero-banner">
-          <h2>ELDEN RING</h2>
-          <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
-          <button class="btn-hero">COMPRAR AHORA</button>
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h2>ELDEN RING</h2>
+            <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
+            <button class="btn-hero">COMPRAR AHORA</button>
+          </div>
         </section>
         
         <section class="seccion-categoria">
@@ -281,11 +284,11 @@
           `;
 
           // Distribuir juegos en las secciones (ejemplo simple por índice)
-          if (index < 4) {
+          if (index < 7) {
             contenedorNovedades.innerHTML += tarjetaHTML;
-          } else if (index < 8) {
+          } else if (index < 14) {
             contenedorRecomendados.innerHTML += tarjetaHTML;
-          } else if (index < 12) {
+          } else if (index < 21) {
             contenedorRecientes.innerHTML += tarjetaHTML;
           }
         });

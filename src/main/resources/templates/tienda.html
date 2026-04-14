@@ -38,16 +38,19 @@
       }
       .games-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 25px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 20px;
         padding: 20px;
       }
       .games-grid .tarjeta {
-        transition: transform 0.3s, box-shadow 0.3s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(102, 192, 244, 0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       }
       .games-grid .tarjeta:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 28px rgba(6,191,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+        border-color: rgba(102, 192, 244, 0.3);
       }
       .loading {
         text-align: center;
@@ -237,7 +240,7 @@
       // NEW: Tienda Games Fetch + Pagination
       const gamesContainer = document.getElementById('games-container');
       const paginationContainer = document.getElementById('pagination');
-      const PAGE_SIZE = 12;
+      const PAGE_SIZE = 18;
       let allGames = [];
 
       // Parse URL param page
