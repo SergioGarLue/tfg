@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-juego-title="Elden Ring - Solar Sistem">Elden Ring - Solar Sistem</title>
+<link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
+<link rel="stylesheet" href="/estilos/index.css" />
+<link rel="stylesheet" href="/estilos/juego.css" />
+</head>
+<body>
+
+  <div class="contenedor-principal">
+    
+    <aside class="barra-lateral">
+      <div class="zona-superior">
+        <div class="logo">
+          <a href="/"><i class="fa-solid fa-dragon"></i></a>
+        </div>
+        
+        <nav>
+          <ul>
+            <li class="item-desplegable activo">
+              <div class="cabecera-desplegable" id="boton-tienda">
+                <a href="/tienda"><i class="fa-solid fa-store icono"></i></a>
+                <span class="texto-enlace">Tienda</span>
+              </div>
+              <div class="contenedor-sublista" id="menu-tienda">
+                <ul class="lista-subitems">
+                  <li>Ofertas</li>
+                  <li>Populares</li>
+                  <li>Próximamente</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="item-desplegable">
+              <div class="cabecera-desplegable" id="boton-coleccion">
+                <a href="/coleccion"><i class="fa-solid fa-book-open icono"></i></a>
+                <span class="texto-enlace">Coleccion</span>
+              </div>
+              <div class="contenedor-sublista cerrado" id="menu-coleccion">
+                <ul class="lista-subitems">
+                  <li>Metroidvania</li>
+                  <li>Souls</li>
+                  <li>Estrategia</li>
+                  <li class="enlace-mas">Mostrar mas</li>
+                </ul>
+              </div>
+            </li>
+
+            
+          </ul>
+        </nav>
+      </div>
+
+      <div class="pie-barra-lateral">
+        <div class="iconos-inferiores">
+          <div class="contenedor-notificaciones">
+            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
+            <div class="menu-notificaciones" id="menu-notificaciones">
+              <div class="cabecera-notificaciones">
+                <span>Notificaciones</span>
+                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
+              </div>
+              <div class="lista-notificaciones">
+                <div class="notificacion no-leida">
+                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
+                    <span class="tiempo-notificacion">Hace 2 horas</span>
+                  </div>
+                </div>
+                <div class="notificacion no-leida">
+                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
+                    <span class="tiempo-notificacion">Ayer</span>
+                  </div>
+                </div>
+                <div class="notificacion">
+                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
+                  <div class="contenido-notificacion">
+                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
+                    <span class="tiempo-notificacion">Hace 3 días</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div><a href="/amigos"><i class="fa-solid fa-user"></i></a></div>
+          <div><i class="fa-solid fa-star"></i></div>
+        </div>
+        <div class="separador-lateral"></div>
+        <div class="perfil-usuario">
+          <a href="/perfil" style="text-decoration: none; color: inherit; display: contents;">
+            <div class="avatar">
+              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
+            </div>
+            <span class="nombre-usuario">Paco Leon</span>
+          </a>
+          <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="contenido">
+      <header class="barra-superior">
+        <div class="contenedor-busqueda">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar en la tienda...">
+        </div>
+        <div class="boton-carrito">
+          <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <span class="contador-carrito" id="badge-carrito">0</span>
+        </div>
+      </header>
+
+      <div class="scroll-contenido">
+        <div class="contenedor-juego">
+          <div class="galeria-juego">
+            <div class="imagen-principal">
+              <img data-juego-img-principal src="https://picsum.photos/800/450?random=100" alt="Juego">
+            </div>
+            <div class="miniaturas" id="miniaturas">
+              <img data-juego-thumb="1" src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
+              <img data-juego-thumb="2" src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
+              <img data-juego-thumb="3" src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
+            </div>
+          </div>
+
+          <aside class="info-juego">
+            <h1 data-juego-titulo class="titulo-juego">Elden Ring</h1>
+            
+            <div class="desarrollador-juego" data-juego-desarrollador>
+              <span>Desarrollador:</span>
+              <a href="/desarrollador" data-juego-dev-name>FromSoftware</a>
+            </div>
+
+            <div class="etiquetas-juego" id="etiquetas-juego">
+              <span class="etiqueta">Acción</span>
+              <span class="etiqueta">RPG</span>
+              <span class="etiqueta">Mundo Abierto</span>
+            </div>
+
+            <div class="descripcion-juego" data-juego-descripcion>
+              <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
+            </div>
+
+            <div class="capturas-juego">
+              <h3>Capturas</h3>
+              <div class="grid-capturas" id="grid-capturas">
+                <img src="https://picsum.photos/300/170?random=104" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=105" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=106" alt="Captura">
+                <img src="https://picsum.photos/300/170?random=107" alt="Captura">
+              </div>
+            </div>
+
+            <div class="info-fecha" data-juego-fecha>
+              <div class="info-item">
+                <span class="label">Fecha de lanzamiento:</span>
+                <span class="value">25 feb, 2022</span>
+              </div>
+            </div>
+
+            <div class="precios" data-juego-precio>
+              <span class="precio-original">79.99€</span>
+              <span class="precio-descuento">-25%</span>
+              <span class="precio-final">59.99€</span>
+            </div>
+
+            <div class="botones-compra">
+              <button class="btn-comprar" data-juego-add-cart><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
+              <button class="btn-deseados" data-juego-wishlist><i class="fa-solid fa-heart"></i> Lista de deseados</button>
+            </div>
+
+            <div class="etiquetas-compra" data-juego-oferta>
+              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
+              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -25%</span>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Existing script (menús, notificaciones)
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Existing functionality
+      const Desplegable = (idBoton, idMenu) => {
+        const boton = document.getElementById(idBoton);
+        const menu = document.getElementById(idMenu);
+        if (boton && menu) {
+          boton.addEventListener("click", () => {
+            menu.classList.toggle("cerrado");     
+          });
+        }
+      };
+      Desplegable("boton-tienda", "menu-tienda");
+      Desplegable("boton-coleccion", "menu-coleccion");
+
+      const badge = document.getElementById('badge-carrito');
+      if (badge) {
+        badge.style.display = 'none';
+      }
+
+      const botonNotificaciones = document.getElementById('boton-notificaciones');
+      const menuNotificaciones = document.getElementById('menu-notificaciones');
+      if (botonNotificaciones && menuNotificaciones) {
+        botonNotificaciones.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menuNotificaciones.classList.toggle('activo');
+        });
+        document.addEventListener('click', (e) => {
+          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
+            menuNotificaciones.classList.remove('activo');
+          }
+        });
+        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
+        if (btnMarcarLeidas) {
+          btnMarcarLeidas.addEventListener('click', () => {
+            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
+            notificaciones.forEach(n => n.classList.remove('no-leida'));
+          });
+        }
+      }
+
+      // NEW: Async/await para cargar datos del juego
+      try {
+        const path = window.location.pathname;
+        const match = path.match(/\/juego\/(\d+)/);
+        if (match) {
+          const id = match[1];
+          console.log(`Cargando juego ID: ${id}`);
+          
+          const response = await fetch(`/api/juego/${id}`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          
+          const juego = await response.json();
+          console.log('Juego cargado:', juego);
+          
+          // Actualizar elementos DOM (ajustar campos según modelo Juego)
+          document.querySelector('[data-juego-titulo]').textContent = juego.titulo || 'Juego desconocido';
+          document.title = `${juego.titulo || 'Juego'} - Solar Sistem`;
+          
+          const imgPrincipal = document.querySelector('[data-juego-img-principal]');
+          if (juego.imagenPrincipal) imgPrincipal.src = juego.imagenPrincipal;
+          
+          document.querySelector('[data-juego-descripcion] p').textContent = juego.descripcion || 'Sin descripción';
+          
+          const devLink = document.querySelector('[data-juego-dev-name]');
+          if (juego.desarrollador?.nombre) {
+            devLink.textContent = juego.desarrollador.nombre;
+            devLink.href = `/desarrollador/${encodeURIComponent(juego.desarrollador.nombre)}`;
+          }
+          
+          // Etiquetas (asumiendo generos array)
+          const etiquetasContainer = document.getElementById('etiquetas-juego');
+          if (juego.generos && Array.isArray(juego.generos)) {
+            etiquetasContainer.innerHTML = juego.generos.map(g => `<span class="etiqueta">${g.nombre}</span>`).join('');
+          }
+          
+          // Precio
+          const precioContainer = document.querySelector('[data-juego-precio]');
+          if (juego.precio) {
+            precioContainer.innerHTML = `
+              <span class="precio-original">${juego.precio}€</span>
+              ${juego.precioDescuento ? `<span class="precio-descuento">${juego.precioDescuento}%</span>` : ''}
+              <span class="precio-final">${(juego.precio * (1 - (juego.precioDescuento || 0)/100)).toFixed(2)}€</span>
+            `;
+          }
+          
+          // Fecha
+          if (juego.fechaLanzamiento) {
+            document.querySelector('[data-juego-fecha] .value').textContent = new Date(juego.fechaLanzamiento).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+          }
+          
+          // Oferta badges
+          const ofertaContainer = document.querySelector('[data-juego-oferta]');
+          if (juego.precioDescuento && juego.precioDescuento > 0) {
+            ofertaContainer.innerHTML = `
+              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
+              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -${juego.precioDescuento}%</span>
+            `;
+          }
+          
+          // Event listeners para botones (ejemplo)
+          document.querySelector('[data-juego-add-cart]').addEventListener('click', () => {
+            // TODO: POST /api/carrito/add
+            console.log(`Añadir ${juego.titulo} al carrito`);
+          });
+
+        } else {
+          console.log('No se encontró ID de juego en URL');
+        }
+      } catch (error) {
+        console.error('Error cargando juego:', error);
+        // Fallback a mock data
+      }
+    });
+  </script>
+</body>
+</html>
