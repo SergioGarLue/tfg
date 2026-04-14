@@ -3,9 +3,9 @@ package com.daw.tfg.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
-import org.springframework.ui.Model;
 import com.daw.tfg.dtos.UsuarioDTO;
 
 @Controller
@@ -68,7 +68,8 @@ public class VistaController {
     }
 
     @GetMapping("/juego/{id}")
-    public String juego() {
+    public String juego(@PathVariable("id") int juegoId, Model model) {
+        model.addAttribute("juegoId", juegoId);
         return "juego";
     }
 
