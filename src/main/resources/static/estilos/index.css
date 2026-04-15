@@ -44,6 +44,11 @@ body {
   overflow: hidden;
 }
 
+#sidebar-container {
+  display: flex;
+  height: 100%;
+}
+
 /*barra lateral */
 .barra-lateral {
   width: 260px;
@@ -54,6 +59,7 @@ body {
   justify-content: space-between;
   padding: 25px 0;
   flex-shrink: 0; 
+  height: 100%;
 }
 
 .zona-superior {
@@ -84,6 +90,40 @@ body {
 
 .cabecera-desplegable:hover {
   color: var(--hovers);
+}
+
+.link-icon {
+  cursor: pointer;
+}
+
+.nav-link {
+  text-decoration: none;
+}
+
+.texto-link {
+  display: flex;
+  align-items: center;
+}
+
+.flecha-dropdown {
+  pointer-events: none;
+  margin-left: 5px;
+}
+
+
+.flecha-dropdown {
+  margin-left: 8px;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.flecha-dropdown.activo {
+  transform: rotate(180deg);
+}
+
+.cabecera-desplegable .texto-enlace {
+  font-weight: 600;
 }
 .cabecera-desplegable .icono {
   margin-right: 15px;
