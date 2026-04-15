@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Colección</title>
-      <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
-    <link rel="stylesheet" href="/estilos/index.css" />
+  <title>Mi Lista de Deseados</title>
+  <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="/estilos/index.css" />
 </head>
 <body>
 
@@ -14,15 +14,14 @@
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
-           <a th:href="@{/}"><i class="fa-solid fa-dragon"></i></a>
+           <a href="/"><i class="fa-solid fa-dragon"></i></a>
         </div>
         
         <nav>
-          
           <ul>
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-tienda">
-             <a href="/tienda"><i class="fa-solid fa-store icono"></i></a>
+                <a href="/tienda"><i class="fa-solid fa-store icono"></i></a>
                 <span class="texto-enlace">Tienda</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-tienda">
@@ -33,12 +32,13 @@
               </div>
             </li>
 
-            <li class="item-desplegable activo"> <div class="cabecera-desplegable" id="boton-coleccion">
+            <li class="item-desplegable">
+              <div class="cabecera-desplegable" id="boton-coleccion">
                 <a href="/coleccion"><i class="fa-solid fa-book-open icono"></i></a>
                 <span class="texto-enlace">Coleccion</span>
               </div>
               
-              <div class="contenedor-sublista" id="menu-coleccion">
+              <div class="contenedor-sublista cerrado" id="menu-coleccion">
                 <div class="rama-arbol">
                   <span class="titulo-rama">Generos</span>
                   <ul class="lista-subitems">
@@ -50,8 +50,6 @@
                 </div>
               </div>
             </li>
-
-            
           </ul>
         </nav>
       </div>
@@ -90,8 +88,8 @@
               </div>
             </div>
           </div>
-          <div><a href="/amigos"><i class="fa-solid fa-user"></i></a></div>
-          <div><a href="/deseados"><i class="fa-solid fa-star"></i></a></div>
+          <a href="/amigos"><i class="fa-solid fa-user"></i></a>
+          <a href="/deseados"><i class="fa-solid fa-star"></i></a>
         </div>
         <div class="separador-lateral"></div>
         <div class="perfil-usuario">
@@ -110,22 +108,22 @@
       <header class="barra-superior">
         <div class="contenedor-busqueda">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar en tu colección...">
+          <input type="text" placeholder="Buscar en tu lista de deseados...">
         </div>
         <div class="boton-carrito">
-           <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
-           <span class="contador-carrito" id="badge-carrito">0</span>
+          <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
 
       <div class="scroll-contenido">
         <section class="seccion-juegos-completa">
           <div class="seccion-categoria">
-             <h3>Tus juegos</h3>
+             <h3>Tu Lista de Deseados</h3>
           </div>
         
-          <div class="cuadricula-grande" id="coleccion-juegos">
-            <!-- Los juegos se cargarán dinámicamente desde el JSON -->
+          <div class="cuadricula-grande" id="deseados-juegos">
+            <!-- Los juegos deseados se cargarán dinámicamente -->
           </div>
         </section>
       </div>
@@ -147,78 +145,97 @@
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
 
-      // --- Cargar juegos para la colección ---
-      const cargarColeccionJuegos = async () => {
-        try {
-          const response = await fetch('JSON/steam_top_1000_sellers.json');
-          if (!response.ok) throw new Error("Error al cargar el JSON");
-          const juegos = await response.json();
-          
-          // Seleccionar 5 juegos específicos por nombre
-          const nombresJuegos = ["ELDEN RING", "Baldur's Gate 3", "Palworld", "Cyberpunk 2077", "Counter-Strike 2"];
-          const juegosSeleccionados = [];
-          
-          nombresJuegos.forEach(nombre => {
-            const juego = juegos.find(j => j.name === nombre);
-            if (juego) {
-              juegosSeleccionados.push(juego);
-            }
-          });
-          
-          // Si no encontramos suficientes, agregamos los primeros disponibles
-          if (juegosSeleccionados.length < 5) {
-            const diferencia = 5 - juegosSeleccionados.length;
-            for (let i = 0; i < diferencia && i < juegos.length; i++) {
-              if (!juegosSeleccionados.some(j => j.appid === juegos[i].appid)) {
-                juegosSeleccionados.push(juegos[i]);
-              }
-            }
-          }
-          
-          // Guardar los IDs en localStorage
-          const idsColeccion = juegosSeleccionados.map(j => j.appid);
-          localStorage.setItem('coleccionJuegos', JSON.stringify(idsColeccion));
-          console.log('Colección guardada en localStorage:', idsColeccion);
-          
-          // Renderizar los juegos
-          const contenedor = document.getElementById('coleccion-juegos');
-          if (contenedor) {
-            contenedor.innerHTML = '';
-            juegosSeleccionados.forEach(juego => {
-              const imagenUrl = juego.header_image || `https://cdn.akamai.steamstatic.com/steam/apps/${juego.appid}/header.jpg`;
-              const tarjeta = document.createElement('a');
-              tarjeta.href = `/juego/${juego.appid}`;
-              tarjeta.className = 'tarjeta';
-              tarjeta.innerHTML = `
-                <img src="${imagenUrl}" alt="${juego.name}">
-                <div class="info-tarjeta">
-                  <span class="titulo-juego">${juego.name}</span>
-                  <div class="etiquetas">Instalado</div>
-                </div>
-              `;
-              contenedor.appendChild(tarjeta);
-            });
-          }
-        } catch (error) {
-          console.error("Error al cargar la colección:", error);
-        }
-      };
-      
-      // Llamar la función
-      cargarColeccionJuegos();
-
-      // Lógica del Carrito (Simulada)
+      // Lógica del Carrito
       const actualizarContadorCarrito = (cantidad) => {
         const badge = document.getElementById('badge-carrito');
         if (badge) {
           if (cantidad > 0) {
-            badge.style.display = 'flex'; badge.textContent = cantidad;
+            badge.style.display = 'flex';
+            badge.textContent = cantidad;
           } else {
             badge.style.display = 'none';
           }
         }
       };
-      actualizarContadorCarrito(2);
+      actualizarContadorCarrito(0);
+
+      // --- Cargar juegos de la lista de deseados ---
+      const cargarDeseados = async () => {
+        try {
+          // Obtener los IDs guardados en localStorage
+          const idsDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+          console.log('IDs deseados:', idsDeseados);
+          
+          const contenedor = document.getElementById('deseados-juegos');
+          
+          if (idsDeseados.length === 0) {
+            contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No tienes juegos en tu lista de deseados</p>';
+            return;
+          }
+          
+          // Cargar el JSON
+          const response = await fetch('/JSON/steam_top_1000_sellers.json');
+          if (!response.ok) throw new Error("Error al cargar el JSON");
+          const juegos = await response.json();
+          
+          // Filtrar juegos que están en la lista de deseados
+          const juegosDeseados = juegos.filter(j => idsDeseados.includes(j.appid));
+          console.log('Juegos deseados encontrados:', juegosDeseados.length);
+          
+          // Renderizar los juegos
+          contenedor.innerHTML = '';
+          if (juegosDeseados.length === 0) {
+            contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No tienes juegos en tu lista de deseados</p>';
+          } else {
+            juegosDeseados.forEach(juego => {
+              const imagenUrl = juego.header_image || `https://cdn.akamai.steamstatic.com/steam/apps/${juego.appid}/header.jpg`;
+              const tarjetaDiv = document.createElement('div');
+              tarjetaDiv.className = 'tarjeta-deseado';
+              tarjetaDiv.style.position = 'relative';
+              tarjetaDiv.innerHTML = `
+                <a href="/juego/${juego.appid}" class="tarjeta" style="text-decoration: none; color: inherit;">
+                  <img src="${imagenUrl}" alt="${juego.name}">
+                  <div class="info-tarjeta">
+                    <span class="titulo-juego">${juego.name}</span>
+                    <div class="etiquetas">${juego.price?.final === 0 ? 'Gratis' : (juego.price?.final || 'N/A') + '€'}</div>
+                  </div>
+                </a>
+                <button class="btn-eliminar-deseado" data-appid="${juego.appid}" style="position: absolute; top: 10px; right: 10px; background: rgba(220, 53, 69, 0.9); color: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              `;
+              contenedor.appendChild(tarjetaDiv);
+            });
+            
+            // Agregar eventos a los botones de eliminar
+            document.querySelectorAll('.btn-eliminar-deseado').forEach(btn => {
+              btn.addEventListener('mouseover', () => {
+                btn.style.background = 'rgba(220, 53, 69, 1)';
+                btn.style.transform = 'scale(1.1)';
+              });
+              btn.addEventListener('mouseout', () => {
+                btn.style.background = 'rgba(220, 53, 69, 0.9)';
+                btn.style.transform = 'scale(1)';
+              });
+              btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const appid = parseInt(btn.getAttribute('data-appid'));
+                let listaDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+                listaDeseados = listaDeseados.filter(id => id !== appid);
+                localStorage.setItem('listaDeseados', JSON.stringify(listaDeseados));
+                console.log('Juego eliminado de deseados:', appid);
+                cargarDeseados(); // Recargar la lista
+              });
+            });
+          }
+        } catch (error) {
+          console.error("Error al cargar deseados:", error);
+        }
+      };
+      
+      // Llamar la función
+      cargarDeseados();
 
       // --- Lógica de Notificaciones ---
       const botonNotificaciones = document.getElementById('boton-notificaciones');
@@ -248,4 +265,3 @@
   </script>
 </body>
 </html>
-

@@ -16,4 +16,9 @@ public class ViewController {
         // Devuelve el template, los datos se cargan con fetch en el cliente
         return "juego";
     }
+
+    @GetMapping("/deseados")
+    public String deseados() {
+        return "deseados";
+    }
 }

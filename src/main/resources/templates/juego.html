@@ -89,7 +89,7 @@
             </div>
           </div>
           <div><a href="/amigos"><i class="fa-solid fa-user"></i></a></div>
-          <div><i class="fa-solid fa-star"></i></div>
+          <div><a href="/deseados"><i class="fa-solid fa-star"></i></a></div>
         </div>
         <div class="separador-lateral"></div>
         <div class="perfil-usuario">
@@ -377,23 +377,73 @@
           });
         }
         
+        // Verificar si el juego ya está en la colección
+        const coleccionJuegos = JSON.parse(localStorage.getItem('coleccionJuegos')) || [];
+        const juegoEnColeccion = coleccionJuegos.includes(juego.appid);
+        console.log('Juego en colección:', juegoEnColeccion, 'Colección:', coleccionJuegos);
+        
         // Bind buttons
         const btnComprar = document.querySelector('.btn-comprar');
         if (btnComprar && juego) {
-          btnComprar.onclick = () => {
-            addToCart(juego);
-            btnComprar.textContent = '✓ Añadido';
-            btnComprar.style.background = '#28a745';
-            setTimeout(() => {
-              btnComprar.textContent = 'Añadir al carrito';
-              btnComprar.style.background = '';
-            }, 2000);
-          };
+          if (juegoEnColeccion) {
+            // Si ya está en la colección, deshabilitar el botón
+            btnComprar.disabled = true;
+            btnComprar.innerHTML = '<i class="fa-solid fa-check"></i> Ya está en tu colección';
+            btnComprar.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            btnComprar.style.cursor = 'not-allowed';
+            btnComprar.style.opacity = '0.7';
+          } else {
+            // Si no está, permitir la compra
+            btnComprar.onclick = () => {
+              addToCart(juego);
+              btnComprar.textContent = '✓ Añadido';
+              btnComprar.style.background = '#28a745';
+              setTimeout(() => {
+                btnComprar.textContent = 'Añadir al carrito';
+                btnComprar.style.background = '';
+              }, 2000);
+            };
+          }
         }
 
         const btnDeseados = document.querySelector('.btn-deseados');
         if (btnDeseados) {
-          btnDeseados.onclick = () => alert(`"${juego.name}" añadido a deseados`);
+          // Verificar si el juego ya está en deseados al cargar
+          const listaDeseadosInit = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+          const estaEnDeseados = listaDeseadosInit.includes(juego.appid);
+          
+          if (estaEnDeseados) {
+            btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Quitar de deseados';
+            btnDeseados.style.background = '#ffc107';
+          }
+          
+          btnDeseados.onclick = () => {
+            // Obtener la lista actual de deseados
+            const listaDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+            
+            // Verificar si ya está en la lista
+            if (!listaDeseados.includes(juego.appid)) {
+              // Agregar a deseados
+              listaDeseados.push(juego.appid);
+              localStorage.setItem('listaDeseados', JSON.stringify(listaDeseados));
+              btnDeseados.innerHTML = '<i class="fa-solid fa-check"></i> Añadido a deseados';
+              btnDeseados.style.background = '#ffc107';
+              setTimeout(() => {
+                btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Quitar de deseados';
+                btnDeseados.style.background = '#ffc107';
+              }, 2000);
+            } else {
+              // Eliminar de deseados
+              const listaActualizada = listaDeseados.filter(id => id !== juego.appid);
+              localStorage.setItem('listaDeseados', JSON.stringify(listaActualizada));
+              btnDeseados.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminado';
+              btnDeseados.style.background = '#dc3545';
+              setTimeout(() => {
+                btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Añadir a deseados';
+                btnDeseados.style.background = '';
+              }, 2000);
+            }
+          };
         }
 
         // Init badge

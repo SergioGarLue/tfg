@@ -21,7 +21,7 @@
           <ul>
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-tienda">
-              <a href="tienda"><i class="fa-solid fa-store icono"></i></a>
+              <a href="/tienda"><i class="fa-solid fa-store icono"></i></a>
                 <span class="texto-enlace">Tienda</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-tienda">
@@ -35,7 +35,7 @@
 
             <li class="item-desplegable">
               <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="coleccion"><i class="fa-solid fa-book-open icono"></i></a><span class="texto-enlace">Colección</span>
+                <a href="/coleccion"><i class="fa-solid fa-book-open icono"></i></a><span class="texto-enlace">Colección</span>
               </div>
               <div class="contenedor-sublista cerrado" id="menu-coleccion">
                 <ul class="lista-subitems">
@@ -92,18 +92,18 @@
               </div>
             </div>
           </div>
-          <a href="amigos"><i class="fa-solid fa-user"></i></a>
-          <div><i class="fa-solid fa-star"></i></div>
+          <a href="/amigos"><i class="fa-solid fa-user"></i></a>
+          <div><a href="/deseados"><i class="fa-solid fa-star"></i></a></div>
         </div>
         <div class="separador-lateral"></div>
         <div class="perfil-usuario">
-          <a href="perfil" style="text-decoration: none; color: inherit; display: contents;">
+          <a href="/perfil" style="text-decoration: none; color: inherit; display: contents;">
             <div class="avatar">
               <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
             </div>
             <span class="nombre-usuario">Paco Leon</span>
           </a>
-          <a href="configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
+          <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
         </div>
       </div>
     </aside>
@@ -115,7 +115,7 @@
           <input type="text" placeholder="Buscar en la tienda...">
         </div>
         <div class="boton-carrito">
-          <a href="carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
           <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
@@ -123,7 +123,7 @@
       <div class="scroll-contenido">
 
         <!-- Sección Hero Destacada -->
-        <section class="hero-banner">
+        <section class="hero-banner" id="hero-elden-ring">
           <div class="hero-overlay"></div>
           <div class="hero-content">
             <h2>ELDEN RING</h2>
@@ -160,6 +160,51 @@
   <script>
     // Tu Script Original intacto
     document.addEventListener("DOMContentLoaded", () => {
+      
+      // --- Cargar imagen de Elden Ring en el hero ---
+      const cargarImagenEldenRing = async () => {
+        try {
+          const response = await fetch('JSON/steam_top_1000_sellers.json');
+          if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+          const juegos = await response.json();
+          
+          console.log("JSON cargado. Total juegos:", juegos.length);
+          
+          // Buscar Elden Ring en el JSON
+          const eldenRing = juegos.find(juego => juego.name === "ELDEN RING");
+          console.log("Elden Ring encontrado:", eldenRing);
+          
+          if (eldenRing && eldenRing.header_image) {
+            const heroSection = document.getElementById('hero-elden-ring');
+            console.log("Hero section encontrada:", heroSection);
+            if (heroSection) {
+              // Aplicar la imagen como background
+              const bgUrl = eldenRing.header_image;
+              console.log("Aplicando imagen:", bgUrl);
+              heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(27,40,56,0.3) 0%, rgba(10,14,39,0.4) 100%), url('${bgUrl}')`;
+              heroSection.style.backgroundSize = 'cover';
+              heroSection.style.backgroundPosition = 'center';
+              heroSection.style.backgroundAttachment = 'fixed';
+              
+              // Configurar el botón para llevar a la página del juego
+              const btnHero = heroSection.querySelector('.btn-hero');
+              if (btnHero && eldenRing.appid) {
+                btnHero.onclick = () => {
+                  window.location.href = `/juego/${eldenRing.appid}`;
+                };
+              }
+            }
+          } else {
+            console.warn("Elden Ring no encontrado en el JSON o sin header_image");
+          }
+        } catch (error) {
+          console.error("Error al cargar la imagen de Elden Ring:", error);
+        }
+      };
+      
+      // Llamar la función
+      cargarImagenEldenRing();
+      
       const Desplegable = (idBoton, idMenu) => {
         const boton = document.getElementById(idBoton);
         const menu = document.getElementById(idMenu);
