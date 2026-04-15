@@ -1,16 +1,14 @@
-# Tienda Dynamic Games (Fetch JSON + Pagination 12/page)
+# Carrito funcional completo
 
-## Steps:
-- [x] 1. Create TODO.md (current)
-- [x] 2. Edit src/main/resources/templates/tienda.html:
-      - Remove hardcoded .seccion-categoria + .fila-tarjetas
-      - Add #games-container.games-grid
-      - Add #pagination
-      - Add <script> for fetch, paginate 12/page, render cards, URL params (?page=)
-- [ ] 3. Test implementation:
-      - mvn spring-boot:run
-      - Visit /tienda → see 12 real Steam games
-      - Pagination works (next/prev/?page=2)
-      - Cards show img/name/tags/price/discount
-- [ ] 4. attempt_completion
+## Plan ejecutado:
+- [x] Ocultar barra búsqueda en juego.html (th:if)
+- [x] Carrito icono derecha arriba en juego.html (flexbox)
 
+## Nueva tarea: Carrito real
+- [ ] 1. Common JS functions: addToCart(), updateBadges(), renderCart()
+- [ ] 2. Update juego.html: .btn-comprar → addToCart(juego)
+- [ ] 3. Update carrito.html: Dynamic .lista-productos + total
+- [ ] 4. Update all headers: Live badge update
+- [ ] 5. Test: Add from juego → see in carrito + badge++
+
+**Próximo: Editar scripts en juego.html y carrito.html con localStorage.**

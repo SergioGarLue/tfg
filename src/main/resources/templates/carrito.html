@@ -14,7 +14,7 @@
       <aside class="barra-lateral">
         <div class="zona-superior">
           <div class="logo">
-<a href="/"><i class="fa-solid fa-dragon"></i></a>
+<a th:href="@{/}"><i class="fa-solid fa-dragon"></i></a>
           </div>
 
           <nav>
@@ -184,18 +184,87 @@
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
 
-      // Lógica del Carrito (Simulada)
-      const actualizarContadorCarrito = (cantidad) => {
-        const badge = document.getElementById('badge-carrito');
-        if (badge) {
-          if (cantidad > 0) {
-            badge.style.display = 'flex'; badge.textContent = cantidad;
+      // Carrito funcional con localStorage
+      const CARRITO_KEY = 'solarSistemCart';
+      
+      function getCart() {
+        return JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+      }
+      
+      function saveCart(cart) {
+        localStorage.setItem(CARRITO_KEY, JSON.stringify(cart));
+        updateBadges();
+      }
+      
+      function updateBadges() {
+        const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0, 0);
+        document.querySelectorAll('#badge-carrito').forEach(badge => {
+          if (totalItems > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = totalItems;
           } else {
             badge.style.display = 'none';
           }
+        });
+      }
+      
+      function removeFromCart(appid) {
+        let cart = getCart();
+        cart = cart.filter(item => item.appid !== appid);
+        saveCart(cart);
+        renderCart();
+      }
+      
+      function renderCart() {
+        const listaProductos = document.querySelector('.lista-productos');
+        const valorTotal = document.querySelector('.valor-total');
+        const cart = getCart();
+        
+        if (cart.length === 0) {
+          listaProductos.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Carrito vacío</p>';
+          valorTotal.textContent = '0€';
+          return;
+        }
+        
+        listaProductos.innerHTML = cart.map(item => `
+          <div class="item-carrito">
+            <div class="imagen-producto" style="background-image: url('${item.header_image || 'https://picsum.photos/120/70?random=20'}');"></div>
+            <div class="info-producto">
+              <span class="nombre-juego">${item.name}</span>
+              <div style="margin-top: 0.5rem;">
+                <button onclick="changeQuantity(${item.appid}, -1)" style="padding: 0.25rem 0.5rem; font-size: 0.9rem; margin-right: 0.5rem;">-</button>
+                <span style="font-weight: bold; margin: 0 0.5rem;">${item.quantity}</span>
+                <button onclick="changeQuantity(${item.appid}, 1)" style="padding: 0.25rem 0.5rem; font-size: 0.9rem;">+</button>
+              </div>
+            </div>
+            <button class="btn-eliminar" onclick="removeFromCart(${item.appid})"><i class="fa-solid fa-trash"></i></button>
+            <div class="precio-producto">${(item.finalPrice * item.quantity).toFixed(2)}€</div>
+          </div>
+        `).join('');
+        
+        const total = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+        valorTotal.textContent = `${total.toFixed(2)}€`;
+      }
+      
+      window.changeQuantity = function(appid, delta) {
+        let cart = getCart();
+        const item = cart.find(i => i.appid === appid);
+        if (item) {
+          item.quantity += delta;
+          if (item.quantity <= 0) {
+            cart = cart.filter(i => i.appid !== appid);
+          } else {
+            saveCart(cart);
+          }
+          renderCart();
         }
       };
-      actualizarContadorCarrito(2);
+      
+      window.removeFromCart = removeFromCart;
+      
+      // Init
+      updateBadges();
+      renderCart();
 
       // --- Lógica de Notificaciones ---
       const botonNotificaciones = document.getElementById('boton-notificaciones');

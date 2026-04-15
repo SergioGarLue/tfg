@@ -15,7 +15,7 @@
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
-          <a href="/index"><i class="fa-solid fa-dragon"></i></a>
+          <a th:href="@{/}"><i class="fa-solid fa-dragon"></i></a>
         </div>
         
         <nav>
@@ -105,11 +105,7 @@
     </aside>
 
     <main class="contenido">
-      <header class="barra-superior">
-        <div class="contenedor-busqueda">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar en la tienda...">
-        </div>
+      <header class="barra-superior" style="display: flex; justify-content: flex-end; align-items: center; padding: 1rem;">
         <div class="boton-carrito">
           <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
           <span class="contador-carrito" id="badge-carrito">0</span>
@@ -122,10 +118,13 @@
             <div class="imagen-principal">
               <img src="https://picsum.photos/800/450?random=100" alt="Juego">
             </div>
-            <div class="miniaturas">
-              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
-              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
-              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
+            <div class="miniaturas" id="miniaturas-container">
+              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1" class="miniatura">
+              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2" class="miniatura">
+              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3" class="miniatura">
+            </div>
+            <div class="descripcion-juego">
+              <p>Cargando descripción...</p>
             </div>
           </div>
 
@@ -143,13 +142,9 @@
               <span class="etiqueta">Mundo Abierto</span>
             </div>
 
-            <div class="descripcion-juego">
-              <p>Cargando descripción...</p>
-            </div>
-
             <div class="capturas-juego">
               <h3>Capturas</h3>
-              <div class="grid-capturas">
+              <div class="grid-capturas" id="capturas-container">
                 <img src="https://picsum.photos/300/170?random=104" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=105" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=106" alt="Captura">
@@ -173,11 +168,6 @@
             <div class="botones-compra">
               <button class="btn-comprar"><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
               <button class="btn-deseados"><i class="fa-solid fa-heart"></i> Lista de deseados</button>
-            </div>
-
-            <div class="etiquetas-compra">
-              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
-              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -25%</span>
             </div>
           </aside>
 
@@ -270,11 +260,21 @@
         const imgPrincipal = document.querySelector('.imagen-principal img');
         if (imgPrincipal) imgPrincipal.src = juego.header_image;
 
-        const miniaturasContainer = document.querySelector('.miniaturas');
+        const miniaturasContainer = document.querySelector('#miniaturas-container');
         if (juego.screenshots && juego.screenshots.length > 0) {
-          miniaturasContainer.innerHTML = juego.screenshots.slice(0, 3).map(src => 
-            `<img src="${src}" alt="Miniatura" loading="lazy">`
+          const miniaturasHTML = juego.screenshots.slice(0, 3).map((src, idx) => 
+            `<img src="${src}" alt="Miniatura ${idx + 1}" class="miniatura ${idx === 0 ? 'active' : ''}" loading="lazy">`
           ).join('');
+          miniaturasContainer.innerHTML = miniaturasHTML;
+          
+          // Agregar eventos de click a las miniaturas
+          document.querySelectorAll('.miniatura').forEach((img, index) => {
+            img.addEventListener('click', () => {
+              imgPrincipal.src = img.src;
+              document.querySelectorAll('.miniatura').forEach(m => m.classList.remove('active'));
+              img.classList.add('active');
+            });
+          });
         }
 
         const devLink = document.querySelector('.desarrollador-juego a');
@@ -290,9 +290,13 @@
         const descContainer = document.querySelector('.descripcion-juego p');
         if (descContainer) descContainer.textContent = juego.description || 'Sin descripción';
 
-        const gridCapturas = document.querySelector('.grid-capturas');
-        if (juego.screenshots && juego.screenshots.length > 0) {
-          gridCapturas.innerHTML = juego.screenshots.slice(0, 4).map(src => 
+        const gridCapturas = document.querySelector('#capturas-container');
+        if (juego.screenshots && juego.screenshots.length > 3) {
+          gridCapturas.innerHTML = juego.screenshots.slice(3, 7).map(src => 
+            `<img src="${src}" alt="Captura" loading="lazy">`
+          ).join('');
+        } else if (juego.screenshots && juego.screenshots.length > 0) {
+          gridCapturas.innerHTML = juego.screenshots.map(src => 
             `<img src="${src}" alt="Captura" loading="lazy">`
           ).join('');
         }
@@ -332,9 +336,59 @@
           }
         }
 
+        // Funciones comunes carrito
+        const CARRITO_KEY = 'solarSistemCart';
+        
+        function getCart() {
+          return JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+        }
+        
+        function saveCart(cart) {
+          localStorage.setItem(CARRITO_KEY, JSON.stringify(cart));
+          updateBadges();
+        }
+        
+        function addToCart(juego) {
+          let cart = getCart();
+          const existing = cart.find(item => item.appid === juego.appid);
+          if (existing) {
+            existing.quantity += 1;
+          } else {
+            cart.push({
+              appid: juego.appid,
+              name: juego.name,
+              header_image: juego.header_image,
+              finalPrice: Number(juego.price?.final || 0),
+              quantity: 1
+            });
+          }
+          saveCart(cart);
+        }
+        
+        function updateBadges() {
+          const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
+          document.querySelectorAll('#badge-carrito').forEach(badge => {
+            if (totalItems > 0) {
+              badge.style.display = 'flex';
+              badge.textContent = totalItems;
+            } else {
+              badge.style.display = 'none';
+            }
+          });
+        }
+        
+        // Bind buttons
         const btnComprar = document.querySelector('.btn-comprar');
-        if (btnComprar) {
-          btnComprar.onclick = () => alert(`"${juego.name}" añadido al carrito`);
+        if (btnComprar && juego) {
+          btnComprar.onclick = () => {
+            addToCart(juego);
+            btnComprar.textContent = '✓ Añadido';
+            btnComprar.style.background = '#28a745';
+            setTimeout(() => {
+              btnComprar.textContent = 'Añadir al carrito';
+              btnComprar.style.background = '';
+            }, 2000);
+          };
         }
 
         const btnDeseados = document.querySelector('.btn-deseados');
@@ -342,6 +396,8 @@
           btnDeseados.onclick = () => alert(`"${juego.name}" añadido a deseados`);
         }
 
+        // Init badge
+        updateBadges();
         console.log('✅ Juego cargado correctamente');
 
       } catch (error) {
