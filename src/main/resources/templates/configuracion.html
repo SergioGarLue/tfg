@@ -68,54 +68,6 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-    
-        if (boton && menu) {
-          boton.addEventListener("click", (e) => {
-            e.preventDefault();
-            menu.classList.toggle("cerrado");     
-            const estaAbierto = !menu.classList.contains("cerrado");
-            const items = menu.querySelectorAll("li"); 
-            items.forEach((item, index) => {
-              if (estaAbierto) {
-                item.style.transitionDelay = `${index * 0.1}s`; 
-              } else {
-                item.style.transitionDelay = "0s";
-              }
-            });
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
-
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
-      }
-
       // Lógica de traducción
       const textos = {
         es: {
@@ -165,4 +117,5 @@
   <script src='/js/script.js'></script>
 </body>
 </html>
+
 

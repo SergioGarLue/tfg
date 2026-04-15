@@ -13,6 +13,8 @@ async function loadSidebar() {
     const html = await response.text();
     container.innerHTML = html;
     initSidebarDropdowns();
+    initSidebarMobileToggle();
+    initSidebarIconButtons();
   } catch (error) {
     console.error('Error cargando sidebar.html:', error);
     container.innerHTML = '<div class="sidebar-error">No se pudo cargar el sidebar. Vuelve a intentarlo.</div>';
@@ -74,6 +76,29 @@ const initSidebarDropdowns = () => {
       subitems.forEach((subitem, index) => {
         subitem.style.transitionDelay = estaAbierto ? `${index * 0.1}s` : '0s';
       });
+    });
+  });
+};
+
+const initSidebarMobileToggle = () => {
+  const sidebar = document.querySelector('.barra-lateral');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (!sidebar || !toggle) return;
+
+  toggle.addEventListener('click', () => {
+    const expanded = sidebar.classList.toggle('sidebar-open');
+    toggle.setAttribute('aria-expanded', expanded);
+  });
+};
+
+const initSidebarIconButtons = () => {
+  const buttons = document.querySelectorAll('.sidebar-icon[data-href]');
+  buttons.forEach((button) => {
+    const href = button.getAttribute('data-href');
+    if (!href) return;
+
+    button.addEventListener('click', () => {
+      window.location.href = href;
     });
   });
 };

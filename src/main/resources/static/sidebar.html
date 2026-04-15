@@ -3,6 +3,9 @@
     <div class="logo">
       <a href="/"><i class="fa-solid fa-dragon"></i></a>
     </div>
+    <button class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Abrir menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
     <nav>
     <ul>
@@ -47,7 +50,7 @@
   <div class="pie-barra-lateral">
     <div class="iconos-inferiores">
       <div class="contenedor-notificaciones">
-        <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
+        <button id="boton-notificaciones" class="boton-notificaciones sidebar-icon" aria-label="Notificaciones"><i class="fa-solid fa-bell"></i></button>
         <div class="menu-notificaciones" id="menu-notificaciones">
           <div class="cabecera-notificaciones">
             <span>Notificaciones</span>
@@ -85,12 +88,12 @@
           </div>
         </div>
       </div>
-      <a href="/amigos"><i class="fa-solid fa-user"></i></a>
-      <div><a href="/deseados"><i class="fa-solid fa-star"></i></a></div>
+      <button class="sidebar-icon" data-href="/amigos" aria-label="Amigos"><i class="fa-solid fa-user"></i></button>
+      <button class="sidebar-icon" data-href="/deseados" aria-label="Deseados"><i class="fa-solid fa-star"></i></button>
     </div>
     <div class="separador-lateral"></div>
     <div class="perfil-usuario">
-      <a href="/perfil" style="text-decoration: none; color: inherit; display: contents;">
+      <a href="/perfil" class="perfil-link">
         <div class="avatar">
           <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
         </div>

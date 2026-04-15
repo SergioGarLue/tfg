@@ -89,49 +89,10 @@
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // --- Lógica de Menús Desplegables ---
-      const Desplegable = (idBoton, idMenu) => {
-        const flecha = document.querySelector(`#${idBoton} .flecha-dropdown`);
-        const menu = document.getElementById(idMenu);
-        if (flecha && menu) {
-          flecha.addEventListener("click", (e) => {
-            e.stopPropagation();
-            menu.classList.toggle("cerrado");
-            flecha.classList.toggle("activo");
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
-
       // Simulación contador carrito
       const badge = document.getElementById('badge-carrito');
       if (badge) {
         badge.style.display = 'none';
-      }
-
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
       }
 
       // CARGAR DATOS DEL JUEGO
@@ -372,4 +333,5 @@
   <script src='/js/script.js'></script>
 </body>
 </html>
+
 

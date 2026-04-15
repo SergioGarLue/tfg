@@ -90,30 +90,6 @@
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // Existing code
-      const Desplegable = (idBoton, idMenu) => {
-        const flecha = document.querySelector(`#${idBoton} .flecha-dropdown`);
-        const menu = document.getElementById(idMenu);
-    
-        if (flecha && menu) {
-          flecha.addEventListener("click", (e) => {
-            e.stopPropagation();
-            menu.classList.toggle("cerrado");
-            flecha.classList.toggle("activo");
-            const estaAbierto = !menu.classList.contains("cerrado");
-            const items = menu.querySelectorAll("li"); 
-            items.forEach((item, index) => {
-              if (estaAbierto) {
-                item.style.transitionDelay = `${index * 0.1}s`; 
-              } else {
-                item.style.transitionDelay = "0s";
-              }
-            });
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
-
       const actualizarContadorCarrito = (cantidad) => {
         const badge = document.getElementById('badge-carrito');
         if (badge) {
@@ -128,28 +104,6 @@
 
       let itemsEnCarrito = 2; 
       actualizarContadorCarrito(itemsEnCarrito);
-
-      // Notificaciones
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
-      }
 
       // NEW: Tienda Games Fetch + Pagination
       const gamesContainer = document.getElementById('games-container');
@@ -248,4 +202,5 @@
   <script src='/js/script.js'></script>
 </body>
 </html>
+
 

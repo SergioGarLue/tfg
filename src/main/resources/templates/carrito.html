@@ -71,18 +71,6 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-        if (boton && menu) {
-          boton.addEventListener("click", () => {
-            menu.classList.toggle("cerrado");     
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
-
       // Carrito funcional con localStorage
       const CARRITO_KEY = 'solarSistemCart';
       
@@ -165,33 +153,10 @@
       updateBadges();
       renderCart();
 
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
-      }
     });
   </script>
     <script src='/js/script.js'></script>
 </body>
 </html>
+
 
