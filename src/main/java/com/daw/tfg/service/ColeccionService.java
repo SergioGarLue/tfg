@@ -117,6 +117,23 @@ public class ColeccionService {
         addJuegoToCollection(usuarioId, juegoId, new Date());
     }
 
+    @Transactional
+    public void addJuegoToCollectionIfAbsent(Long usuarioId, Long juegoId, Date fechaAdquisicion) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        Juego juego = juegoService.findById(juegoId);
+
+        if (fechaAdquisicion == null) {
+            fechaAdquisicion = new Date();
+        }
+
+        if (coleccionFavoritosRepository.findByUsuarioAndJuego(usuario, juego).isPresent()) {
+            return;
+        }
+
+        ColeccionFavoritos item = new ColeccionFavoritos(usuario, juego, fechaAdquisicion);
+        save(item);
+    }
+
     /**
      * Añade un juego a la colección del usuario con fecha específica.
      * 

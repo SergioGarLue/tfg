@@ -197,13 +197,14 @@ public class CarritoService {
      * el método de pago.
      * 
      * @param usuarioId    ID del usuario
-     * @param metodoPagoId ID del método de pago (puede ser null)
+     * @param metodoPagoId    ID del método de pago (puede ser null)
+     * @param paymentIntentId ID de Stripe PaymentIntent (opcional)
      * @throws IllegalArgumentException si el usuario no existe o no tiene carrito
      * @throws IllegalStateException    si el carrito está vacío o no tiene juegos
      *                                  inicializados
      */
     @Transactional
-    public void checkout(Long usuarioId, Long metodoPagoId) {
+    public void checkout(Long usuarioId, Long metodoPagoId, String paymentIntentId) {
         Usuario usuario = usuarioService.findById(usuarioId);
         Carrito carrito = findByUsuario(usuario);
 
@@ -230,6 +231,7 @@ public class CarritoService {
         compra.setEstado(EstadoCompra.PENDIENTE);
         compra.setUsuario(usuario);
         compra.setMetodoPago(metodoPago);
+        compra.setPaymentIntentId(paymentIntentId);
 
         // 2. Guardamos la compra primero
         compra = compraServiceImpl.save(compra);

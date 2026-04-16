@@ -52,6 +52,11 @@ public class MetodoPagoService {
         return metodoPagoRepository.findByActivo(activo);
     }
 
+    /**
+     * @deprecated Uso de métodos de pago manuales para tarjetas en desuso.
+     *             Se recomienda migrar a Stripe PaymentIntent y tokens seguros.
+     */
+    @Deprecated
     public MetodoPago save(MetodoPago metodoPago) {
         if (metodoPago == null) {
             throw new IllegalArgumentException("MetodoPago inválido");

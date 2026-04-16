@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -98,6 +99,41 @@ public class CompraServiceImpl implements ICompraService {
     // CRUD básico mantenido opcional
     public Compra save(Compra compra) {
         return compraRepository.save(compra);
+    }
+
+    @Transactional
+    public Compra actualizarEstadoCompraPorPaymentIntent(String paymentIntentId, EstadoCompra estado) {
+        if (paymentIntentId == null || paymentIntentId.isBlank()) {
+            throw new BadRequestException("paymentIntentId es obligatorio para actualizar el estado de la compra");
+        }
+
+        Compra compra = compraRepository.findByPaymentIntentId(paymentIntentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Compra no encontrada para paymentIntentId: " + paymentIntentId));
+
+        if (compra.getEstado() == EstadoCompra.COMPLETADA) {
+            return compra;
+        }
+
+        if (estado == EstadoCompra.COMPLETADA) {
+            entregarJuegosDeCompra(compra);
+        }
+
+        compra.setEstado(estado);
+        return compraRepository.save(compra);
+    }
+
+    private void entregarJuegosDeCompra(Compra compra) {
+        if (compra == null || compra.getUsuario() == null || compra.getCarrito() == null) {
+            throw new BadRequestException("Compra inválida para entregar juegos");
+        }
+
+        List<Juego> juegos = compra.getCarrito().getJuegos() == null
+                ? List.of()
+                : compra.getCarrito().getJuegos().stream().toList();
+
+        for (Juego juego : juegos) {
+            coleccionService.addJuegoToCollectionIfAbsent(compra.getUsuario().getIdUsuario(), juego.getIdJuego(), null);
+        }
     }
 }
 

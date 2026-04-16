@@ -39,6 +39,9 @@ public class Compra {
 
     @Column(nullable = false)
     private EstadoCompra estado;
+
+    @Column(name = "payment_intent_id", unique = true)
+    private String paymentIntentId;
     
     //Relaciones
     @ManyToOne(fetch = FetchType.LAZY)
