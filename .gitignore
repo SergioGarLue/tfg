@@ -35,3 +35,4 @@ build/
 
 ### Files ###
 *.txt
+.env

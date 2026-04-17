@@ -15,8 +15,9 @@ import java.util.List;
  * Controladora REST para la gestión del carrito de compras.
  * Proporciona endpoints para operaciones CRUD y lógica de negocio del carrito.
  */
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/carrito")
+@RequestMapping("/api/v1/carrito")
 public class ControladoraCarrito {
 
     private final CarritoService carritoService;
