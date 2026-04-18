@@ -225,8 +225,11 @@
           let cart = getCart();
           const existing = cart.find(item => item.appid === juego.appid);
           if (existing) {
-            existing.quantity += 1;
+            // No permitir duplicados - el juego ya está en el carrito
+            console.log('El juego ya está en el carrito');
+            return false;
           } else {
+            // Agregar con cantidad siempre = 1
             cart.push({
               appid: juego.appid,
               name: juego.name,
@@ -236,10 +239,11 @@
             });
           }
           saveCart(cart);
+          return true;
         }
         
         function updateBadges() {
-          const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
+          const totalItems = getCart().length; // Contar solo items, no cantidad
           document.querySelectorAll('#badge-carrito').forEach(badge => {
             if (totalItems > 0) {
               badge.style.display = 'flex';
@@ -268,13 +272,20 @@
           } else {
             // Si no está, permitir la compra
             btnComprar.onclick = () => {
-              addToCart(juego);
-              btnComprar.textContent = '✓ Añadido';
-              btnComprar.style.background = '#28a745';
-              setTimeout(() => {
-                btnComprar.textContent = 'Añadir al carrito';
-                btnComprar.style.background = '';
-              }, 2000);
+              const added = addToCart(juego);
+              if (added) {
+                btnComprar.textContent = '✓ Añadido';
+                btnComprar.style.background = '#28a745';
+                btnComprar.disabled = true;
+                setTimeout(() => {
+                  btnComprar.textContent = 'Añadir al carrito';
+                  btnComprar.style.background = '';
+                  btnComprar.disabled = false;
+                }, 2000);
+              } else {
+                // Juego ya está en el carrito
+                alert('Este juego ya está en tu carrito');
+              }
             };
           }
         }

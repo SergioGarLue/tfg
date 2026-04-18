@@ -5,10 +5,12 @@ import com.daw.tfg.dtos.StripeCheckoutSessionRequest;
 import com.daw.tfg.dtos.StripeCheckoutSessionResponse;
 import com.daw.tfg.dtos.StripePaymentIntentRequest;
 import com.daw.tfg.dtos.StripePaymentIntentResponse;
+import com.daw.tfg.dtos.CheckoutSessionRequest;
 import com.daw.tfg.enums.EstadoCompra;
 import com.daw.tfg.models.Juego;
 import com.daw.tfg.service.CarritoService;
 import com.daw.tfg.service.CompraServiceImpl;
+import com.daw.tfg.service.JuegoService;
 import com.daw.tfg.service.StripeService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
@@ -42,11 +44,13 @@ public class StripePaymentController {
     private final StripeService stripeService;
     private final CompraServiceImpl compraService;
     private final CarritoService carritoService;
+    private final JuegoService juegoService;
 
-    public StripePaymentController(StripeService stripeService, CompraServiceImpl compraService, CarritoService carritoService) {
+    public StripePaymentController(StripeService stripeService, CompraServiceImpl compraService, CarritoService carritoService, JuegoService juegoService) {
         this.stripeService = stripeService;
         this.compraService = compraService;
         this.carritoService = carritoService;
+        this.juegoService = juegoService;
     }
 
     @PostMapping("/create-intent")
@@ -87,6 +91,51 @@ public class StripePaymentController {
         } catch (StripeException e) {
             logger.error("Error Stripe checkout: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Error procesando pago con Stripe"));
+        }
+    }
+
+    /**
+     * Endpoint específico para crear sesión de checkout con los juegos exactos del carrito del frontend.
+     * El frontend envía los productos específicos que tiene en localStorage.
+     */
+    @PostMapping("/create-checkout-session-v2")
+    public ResponseEntity<Object> createCheckoutSessionV2(
+            @Valid @RequestBody CheckoutSessionRequest request) {
+        try {
+            if (request.getProductos() == null || request.getProductos().isEmpty()) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("El carrito está vacío"));
+            }
+
+            // Obtener los juegos específicos enviados por el frontend
+            List<Juego> juegos = request.getProductos().stream()
+                    .map(producto -> juegoService.findById(producto.getJuegoId()))
+                    .toList();
+
+            if (juegos.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("No se encontraron los juegos del carrito"));
+            }
+
+            logger.info("Creando sesión de checkout para usuario {} con {} juego(s)", 
+                    request.getUsuarioId(), juegos.size());
+            juegos.forEach(j -> logger.info("  - {} (${} )", j.getTitulo(), j.getPrecio()));
+
+            String finalSuccessUrl = request.getSuccessUrl() != null ? request.getSuccessUrl() : "http://localhost:8080/pago-exitoso";
+            String finalCancelUrl = request.getCancelUrl() != null ? request.getCancelUrl() : "http://localhost:8080/carrito";
+            
+            Session session = stripeService.createCheckoutSession(juegos, finalSuccessUrl, finalCancelUrl);
+            StripeCheckoutSessionResponse response = new StripeCheckoutSessionResponse(session.getId(), session.getUrl());
+            
+            logger.info("Sesión de Stripe creada: {}", session.getId());
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            logger.error("Error validación checkout: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        } catch (StripeException e) {
+            logger.error("Error Stripe checkout: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Error procesando pago con Stripe"));
+        } catch (Exception e) {
+            logger.error("Error inesperado en checkout: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Error procesando el pago"));
         }
     }
 

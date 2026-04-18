@@ -54,7 +54,12 @@
           }
         }
       };
-      actualizarContadorCarrito(0);
+      
+      // Obtener cantidad de items del carrito (solo contar items, no cantidad)
+      const CARRITO_KEY = 'solarSistemCart';
+      const cart = JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+      const itemsEnCarrito = cart.length;
+      actualizarContadorCarrito(itemsEnCarrito);
 
       // --- Cargar juegos de la lista de deseados ---
       const cargarDeseados = async () => {
