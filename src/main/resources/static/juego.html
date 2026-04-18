@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego - Solar Sistem</title>
+  <title data-juego-title="Elden Ring - Solar Sistem">Elden Ring - Solar Sistem</title>
 <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
 <link rel="stylesheet" href="/estilos/index.css" />
 <link rel="stylesheet" href="/estilos/juego.css" />
@@ -15,7 +15,7 @@
     <aside class="barra-lateral">
       <div class="zona-superior">
         <div class="logo">
-          <a href="/index"><i class="fa-solid fa-dragon"></i></a>
+          <a href="/"><i class="fa-solid fa-dragon"></i></a>
         </div>
         
         <nav>
@@ -120,36 +120,36 @@
         <div class="contenedor-juego">
           <div class="galeria-juego">
             <div class="imagen-principal">
-              <img src="https://picsum.photos/800/450?random=100" alt="Juego">
+              <img data-juego-img-principal src="https://picsum.photos/800/450?random=100" alt="Juego">
             </div>
-            <div class="miniaturas">
-              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
-              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
-              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
+            <div class="miniaturas" id="miniaturas">
+              <img data-juego-thumb="1" src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
+              <img data-juego-thumb="2" src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
+              <img data-juego-thumb="3" src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
             </div>
           </div>
 
           <aside class="info-juego">
-            <h1 class="titulo-juego">Cargando...</h1>
+            <h1 data-juego-titulo class="titulo-juego">Elden Ring</h1>
             
-            <div class="desarrollador-juego">
+            <div class="desarrollador-juego" data-juego-desarrollador>
               <span>Desarrollador:</span>
-              <a href="#">Por cargar</a>
+              <a href="/desarrollador" data-juego-dev-name>FromSoftware</a>
             </div>
 
-            <div class="etiquetas-juego">
+            <div class="etiquetas-juego" id="etiquetas-juego">
               <span class="etiqueta">Acción</span>
               <span class="etiqueta">RPG</span>
               <span class="etiqueta">Mundo Abierto</span>
             </div>
 
-            <div class="descripcion-juego">
-              <p>Cargando descripción...</p>
+            <div class="descripcion-juego" data-juego-descripcion>
+              <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
             </div>
 
             <div class="capturas-juego">
               <h3>Capturas</h3>
-              <div class="grid-capturas">
+              <div class="grid-capturas" id="grid-capturas">
                 <img src="https://picsum.photos/300/170?random=104" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=105" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=106" alt="Captura">
@@ -157,25 +157,25 @@
               </div>
             </div>
 
-            <div class="info-fecha">
+            <div class="info-fecha" data-juego-fecha>
               <div class="info-item">
                 <span class="label">Fecha de lanzamiento:</span>
-                <span class="value">Por cargar</span>
+                <span class="value">25 feb, 2022</span>
               </div>
             </div>
 
-            <div class="precios">
+            <div class="precios" data-juego-precio>
               <span class="precio-original">79.99€</span>
               <span class="precio-descuento">-25%</span>
               <span class="precio-final">59.99€</span>
             </div>
 
             <div class="botones-compra">
-              <button class="btn-comprar"><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
-              <button class="btn-deseados"><i class="fa-solid fa-heart"></i> Lista de deseados</button>
+              <button class="btn-comprar" data-juego-add-cart><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
+              <button class="btn-deseados" data-juego-wishlist><i class="fa-solid fa-heart"></i> Lista de deseados</button>
             </div>
 
-            <div class="etiquetas-compra">
+            <div class="etiquetas-compra" data-juego-oferta>
               <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
               <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -25%</span>
             </div>
@@ -187,8 +187,9 @@
   </div>
 
   <script>
+    // Existing script (menús, notificaciones)
     document.addEventListener("DOMContentLoaded", async () => {
-      // --- Lógica de Menús Desplegables ---
+      // Existing functionality
       const Desplegable = (idBoton, idMenu) => {
         const boton = document.getElementById(idBoton);
         const menu = document.getElementById(idMenu);
@@ -201,28 +202,23 @@
       Desplegable("boton-tienda", "menu-tienda");
       Desplegable("boton-coleccion", "menu-coleccion");
 
-      // Simulación contador carrito
       const badge = document.getElementById('badge-carrito');
       if (badge) {
         badge.style.display = 'none';
       }
 
-      // --- Lógica de Notificaciones ---
       const botonNotificaciones = document.getElementById('boton-notificaciones');
       const menuNotificaciones = document.getElementById('menu-notificaciones');
-
       if (botonNotificaciones && menuNotificaciones) {
         botonNotificaciones.addEventListener('click', (e) => {
           e.stopPropagation();
           menuNotificaciones.classList.toggle('activo');
         });
-
         document.addEventListener('click', (e) => {
           if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
             menuNotificaciones.classList.remove('activo');
           }
         });
-
         const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
         if (btnMarcarLeidas) {
           btnMarcarLeidas.addEventListener('click', () => {
@@ -232,124 +228,79 @@
         }
       }
 
-      // CARGAR DATOS DEL JUEGO
+      // NEW: Async/await para cargar datos del juego
       try {
-        const pathParts = window.location.pathname.split('/').filter(p => p);
-        const juegoAppId = parseInt(pathParts[pathParts.length - 1]);
-        console.log('Buscando juego con ID:', juegoAppId);
-
-        if (isNaN(juegoAppId) || juegoAppId <= 0) {
-          document.querySelector('.titulo-juego').textContent = 'ID inválido';
-          return;
-        }
-
-        // FETCH JSON
-        const response = await fetch('/JSON/steam_top_1000_sellers.json');
-        if (!response.ok) throw new Error('No se pudo cargar el JSON');
-        
-        const juegos = await response.json();
-        console.log('Juegos cargados:', juegos.length);
-
-        // BUSCAR JUEGO
-        const juego = juegos.find(j => {
-          return j && j.appid && Number(j.appid) === Number(juegoAppId);
-        });
-
-        if (!juego) {
-          console.error('Juego no encontrado:', juegoAppId);
-          document.querySelector('.titulo-juego').textContent = 'Juego no encontrado';
-          return;
-        }
-
-        console.log('Juego encontrado:', juego.name);
-
-        // RENDERIZAR DATOS
-        document.querySelector('.titulo-juego').textContent = juego.name;
-        document.title = `${juego.name} - Solar Sistem`;
-
-        const imgPrincipal = document.querySelector('.imagen-principal img');
-        if (imgPrincipal) imgPrincipal.src = juego.header_image;
-
-        const miniaturasContainer = document.querySelector('.miniaturas');
-        if (juego.screenshots && juego.screenshots.length > 0) {
-          miniaturasContainer.innerHTML = juego.screenshots.slice(0, 3).map(src => 
-            `<img src="${src}" alt="Miniatura" loading="lazy">`
-          ).join('');
-        }
-
-        const devLink = document.querySelector('.desarrollador-juego a');
-        if (devLink && juego.developer) devLink.textContent = juego.developer;
-
-        const etiquetasContainer = document.querySelector('.etiquetas-juego');
-        if (juego.genres && juego.genres.length > 0) {
-          etiquetasContainer.innerHTML = juego.genres.map(g => 
-            `<span class="etiqueta">${g}</span>`
-          ).join('');
-        }
-
-        const descContainer = document.querySelector('.descripcion-juego p');
-        if (descContainer) descContainer.textContent = juego.description || 'Sin descripción';
-
-        const gridCapturas = document.querySelector('.grid-capturas');
-        if (juego.screenshots && juego.screenshots.length > 0) {
-          gridCapturas.innerHTML = juego.screenshots.slice(0, 4).map(src => 
-            `<img src="${src}" alt="Captura" loading="lazy">`
-          ).join('');
-        }
-
-        const fechaElement = document.querySelector('.info-fecha .value');
-        if (fechaElement) fechaElement.textContent = juego.release_date || 'Por confirmar';
-
-        const price = juego.price || { final: 0, discount_percent: 0 };
-        const finalPrice = Number(price.final) || 0;
-        const discount = Number(price.discount_percent) || 0;
-
-        const priceFinalElem = document.querySelector('.precio-final');
-        const priceOriginalElem = document.querySelector('.precio-original');
-        const discountElem = document.querySelector('.precio-descuento');
-
-        if (priceFinalElem) {
-          if (finalPrice === 0) {
-            priceFinalElem.textContent = 'Gratis';
-            if (priceOriginalElem) priceOriginalElem.style.display = 'none';
-            if (discountElem) discountElem.style.display = 'none';
-          } else {
-            priceFinalElem.textContent = `${finalPrice.toFixed(2)}€`;
-            if (discount > 0) {
-              const original = finalPrice / (1 - discount / 100);
-              if (priceOriginalElem) {
-                priceOriginalElem.textContent = `${original.toFixed(2)}€`;
-                priceOriginalElem.style.display = 'inline';
-              }
-              if (discountElem) {
-                discountElem.textContent = `-${discount}%`;
-                discountElem.style.display = 'inline';
-              }
-            } else {
-              if (priceOriginalElem) priceOriginalElem.style.display = 'none';
-              if (discountElem) discountElem.style.display = 'none';
-            }
+        const path = window.location.pathname;
+        const match = path.match(/\/juego\/(\d+)/);
+        if (match) {
+          const id = match[1];
+          console.log(`Cargando juego ID: ${id}`);
+          
+          const response = await fetch(`/api/juego/${id}`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          
+          const juego = await response.json();
+          console.log('Juego cargado:', juego);
+          
+          // Actualizar elementos DOM (ajustar campos según modelo Juego)
+          document.querySelector('[data-juego-titulo]').textContent = juego.titulo || 'Juego desconocido';
+          document.title = `${juego.titulo || 'Juego'} - Solar Sistem`;
+          
+          const imgPrincipal = document.querySelector('[data-juego-img-principal]');
+          if (juego.imagenPrincipal) imgPrincipal.src = juego.imagenPrincipal;
+          
+          document.querySelector('[data-juego-descripcion] p').textContent = juego.descripcion || 'Sin descripción';
+          
+          const devLink = document.querySelector('[data-juego-dev-name]');
+          if (juego.desarrollador?.nombre) {
+            devLink.textContent = juego.desarrollador.nombre;
+            devLink.href = `/desarrollador/${encodeURIComponent(juego.desarrollador.nombre)}`;
           }
+          
+          // Etiquetas (asumiendo generos array)
+          const etiquetasContainer = document.getElementById('etiquetas-juego');
+          if (juego.generos && Array.isArray(juego.generos)) {
+            etiquetasContainer.innerHTML = juego.generos.map(g => `<span class="etiqueta">${g.nombre}</span>`).join('');
+          }
+          
+          // Precio
+          const precioContainer = document.querySelector('[data-juego-precio]');
+          if (juego.precio) {
+            precioContainer.innerHTML = `
+              <span class="precio-original">${juego.precio}€</span>
+              ${juego.precioDescuento ? `<span class="precio-descuento">${juego.precioDescuento}%</span>` : ''}
+              <span class="precio-final">${(juego.precio * (1 - (juego.precioDescuento || 0)/100)).toFixed(2)}€</span>
+            `;
+          }
+          
+          // Fecha
+          if (juego.fechaLanzamiento) {
+            document.querySelector('[data-juego-fecha] .value').textContent = new Date(juego.fechaLanzamiento).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+          }
+          
+          // Oferta badges
+          const ofertaContainer = document.querySelector('[data-juego-oferta]');
+          if (juego.precioDescuento && juego.precioDescuento > 0) {
+            ofertaContainer.innerHTML = `
+              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
+              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -${juego.precioDescuento}%</span>
+            `;
+          }
+          
+          // Event listeners para botones (ejemplo)
+          document.querySelector('[data-juego-add-cart]').addEventListener('click', () => {
+            // TODO: POST /api/carrito/add
+            console.log(`Añadir ${juego.titulo} al carrito`);
+          });
+
+        } else {
+          console.log('No se encontró ID de juego en URL');
         }
-
-        const btnComprar = document.querySelector('.btn-comprar');
-        if (btnComprar) {
-          btnComprar.onclick = () => alert(`"${juego.name}" añadido al carrito`);
-        }
-
-        const btnDeseados = document.querySelector('.btn-deseados');
-        if (btnDeseados) {
-          btnDeseados.onclick = () => alert(`"${juego.name}" añadido a deseados`);
-        }
-
-        console.log('✅ Juego cargado correctamente');
-
       } catch (error) {
-        console.error('Error:', error);
-        document.querySelector('.titulo-juego').textContent = 'Error: ' + error.message;
+        console.error('Error cargando juego:', error);
+        // Fallback a mock data
       }
     });
   </script>
-
 </body>
 </html>

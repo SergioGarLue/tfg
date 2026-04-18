@@ -67,12 +67,12 @@ public class Juego {
     @JsonIgnore
     private Set<Resena> resenas;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "juego_genero", joinColumns = @JoinColumn(name = "id_juego"), inverseJoinColumns = @JoinColumn(name = "id_genero"))
     @JsonIgnore
     private Set<Genero> generos;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_desarrollador", nullable = false)
     @JsonIgnore
     private Desarrollador desarrollador;
