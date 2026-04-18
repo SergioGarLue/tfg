@@ -6,6 +6,15 @@
     <title>Carrito </title>
     <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/index.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      // Configuración de Stripe - Reemplaza con tu clave pública real
+      const stripePublishableKey = 'pk_test_51TMrrrIb8MnvXMnGCxTXQKV35JpANjDfGEWjYLJdzimX70cACNpLvIMkDE02YRy36ozQ09X1LkOTXTlEGMOl0JVt00iRjprsD4'; // Clave pública de Stripe
+      const stripe = Stripe(stripePublishableKey);
+      
+      // Asumiendo que el usuarioId está disponible (puedes obtenerlo de localStorage, una variable global, o un endpoint)
+      const usuarioId = 1; // Reemplaza con el ID real del usuario logueado
+    </script>
   </head>
   <body>
 
@@ -148,6 +157,41 @@
       };
       
       window.removeFromCart = removeFromCart;
+      
+      // Event listener para el botón de pago
+      document.querySelector('.boton-ir-pago').addEventListener('click', async () => {
+        try {
+          const response = await fetch('/api/v1/payments/create-checkout-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              usuarioId: usuarioId,
+              successUrl: window.location.origin + '/success', // URL de éxito
+              cancelUrl: window.location.origin + '/carrito' // URL de cancelación
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error('Error al crear la sesión de pago');
+          }
+          
+          const data = await response.json();
+          
+          // Redirigir a Stripe Checkout
+          const result = await stripe.redirectToCheckout({
+            sessionId: data.sessionId
+          });
+          
+          if (result.error) {
+            alert(result.error.message);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al procesar el pago: ' + error.message);
+        }
+      });
       
       // Init
       updateBadges();

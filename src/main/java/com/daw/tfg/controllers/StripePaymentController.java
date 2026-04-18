@@ -1,8 +1,13 @@
 package com.daw.tfg.controllers;
 
+import com.daw.tfg.dtos.ErrorResponse;
+import com.daw.tfg.dtos.StripeCheckoutSessionRequest;
+import com.daw.tfg.dtos.StripeCheckoutSessionResponse;
 import com.daw.tfg.dtos.StripePaymentIntentRequest;
 import com.daw.tfg.dtos.StripePaymentIntentResponse;
 import com.daw.tfg.enums.EstadoCompra;
+import com.daw.tfg.models.Juego;
+import com.daw.tfg.service.CarritoService;
 import com.daw.tfg.service.CompraServiceImpl;
 import com.daw.tfg.service.StripeService;
 import com.stripe.exception.SignatureVerificationException;
@@ -10,6 +15,10 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.PaymentIntent;
+import com.stripe.model.checkout.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,16 +37,20 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/payments")
 public class StripePaymentController {
 
+    private static final Logger logger = LoggerFactory.getLogger(StripePaymentController.class);
+
     private final StripeService stripeService;
     private final CompraServiceImpl compraService;
+    private final CarritoService carritoService;
 
-    public StripePaymentController(StripeService stripeService, CompraServiceImpl compraService) {
+    public StripePaymentController(StripeService stripeService, CompraServiceImpl compraService, CarritoService carritoService) {
         this.stripeService = stripeService;
         this.compraService = compraService;
+        this.carritoService = carritoService;
     }
 
     @PostMapping("/create-intent")
-    public ResponseEntity<StripePaymentIntentResponse> createPaymentIntent(
+    public ResponseEntity<Object> createPaymentIntent(
             @Valid @RequestBody StripePaymentIntentRequest request) {
         try {
             PaymentIntent paymentIntent = stripeService.createPaymentIntent(request.getMonto(), request.getCurrency(), request.getDescripcion());
@@ -49,39 +62,79 @@ public class StripePaymentController {
             );
             return ResponseEntity.ok(response);
         } catch (StripeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            logger.error("Error Stripe intent: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Error procesando PaymentIntent con Stripe"));
+        }
+    }
+
+    @PostMapping("/create-checkout-session")
+    public ResponseEntity<Object> createCheckoutSession(
+            @Valid @RequestBody StripeCheckoutSessionRequest request) {
+        try {
+            List<Juego> juegos = carritoService.getAllGamesInCart(request.getUsuarioId());
+            if (juegos.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("El carrito está vacío"));
+            }
+
+            String finalSuccessUrl = request.getSuccessUrl() != null ? request.getSuccessUrl() : "http://localhost:8080/pago-exitoso";
+            String finalCancelUrl = request.getCancelUrl() != null ? request.getCancelUrl() : "http://localhost:8080/carrito";
+            Session session = stripeService.createCheckoutSession(juegos, finalSuccessUrl, finalCancelUrl);
+            StripeCheckoutSessionResponse response = new StripeCheckoutSessionResponse(session.getId(), session.getUrl());
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            logger.error("Error validación checkout: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        } catch (StripeException e) {
+            logger.error("Error Stripe checkout: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Error procesando pago con Stripe"));
         }
     }
 
     @PostMapping("/webhook")
-    public ResponseEntity<String> handleWebhook(@RequestHeader("Stripe-Signature") String signatureHeader,
-                                                @RequestBody String payload) {
+    public ResponseEntity<String> handleWebhook(@RequestHeader(value = "Stripe-Signature", required = false) String signatureHeader,
+                                                @RequestBody(required = false) String payload) {
+        if (payload == null || payload.isBlank()) {
+            logger.warn("Stripe webhook received empty payload");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Empty webhook payload");
+        }
+        if (signatureHeader == null || signatureHeader.isBlank()) {
+            logger.warn("Stripe webhook missing signature header");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing Stripe-Signature header");
+        }
+
         try {
             Event event = stripeService.constructEvent(payload, signatureHeader);
             String eventType = event.getType();
+            EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
 
-            if ("payment_intent.succeeded".equals(eventType)) {
-                EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
-                if (dataObjectDeserializer.getObject().isPresent()) {
-                    PaymentIntent paymentIntent = (PaymentIntent) dataObjectDeserializer.getObject().get();
-                    compraService.actualizarEstadoCompraPorPaymentIntent(paymentIntent.getId(), EstadoCompra.COMPLETADA);
-                    return ResponseEntity.ok("PaymentIntent succeeded: " + paymentIntent.getId());
-                }
-            } else if ("payment_intent.payment_failed".equals(eventType)
-                    || "payment_intent.canceled".equals(eventType)) {
-                EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
-                if (dataObjectDeserializer.getObject().isPresent()) {
-                    PaymentIntent paymentIntent = (PaymentIntent) dataObjectDeserializer.getObject().get();
-                    compraService.actualizarEstadoCompraPorPaymentIntent(paymentIntent.getId(), EstadoCompra.CANCELADA);
-                    return ResponseEntity.ok("PaymentIntent failed/canceled: " + paymentIntent.getId());
-                }
+            if (!dataObjectDeserializer.getObject().isPresent()) {
+                logger.warn("Stripe event data object is missing for event type: {}", eventType);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Event data missing");
             }
 
+            PaymentIntent paymentIntent = (PaymentIntent) dataObjectDeserializer.getObject().get();
+            String paymentIntentId = paymentIntent.getId();
+
+            if ("payment_intent.succeeded".equals(eventType)) {
+                compraService.actualizarEstadoCompraPorPaymentIntent(paymentIntentId, EstadoCompra.COMPLETADA);
+                return ResponseEntity.ok("PaymentIntent succeeded: " + paymentIntentId);
+            } else if ("payment_intent.payment_failed".equals(eventType)
+                    || "payment_intent.canceled".equals(eventType)) {
+                compraService.actualizarEstadoCompraPorPaymentIntent(paymentIntentId, EstadoCompra.CANCELADA);
+                return ResponseEntity.ok("PaymentIntent failed/canceled: " + paymentIntentId);
+            }
+
+            logger.info("Stripe webhook ignored event type: {}", eventType);
             return ResponseEntity.ok("Event received: " + eventType);
         } catch (SignatureVerificationException e) {
+            logger.warn("Invalid Stripe webhook signature", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Stripe webhook signature");
         } catch (StripeException e) {
+            logger.error("Stripe event construction failed", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Stripe webhook event");
+        } catch (Exception e) {
+            logger.error("Unexpected error processing Stripe webhook", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing webhook");
         }
     }
 }

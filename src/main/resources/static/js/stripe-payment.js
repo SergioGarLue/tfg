@@ -1,4 +1,4 @@
-const stripePublicKey = 'pk_test_XXXXXXXXXXXXXXXXXXXXXXXX'; // Reemplaza con tu clave de prueba Stripe
+const stripePublicKey = 'pk_test_51TMrrrIb8MnvXMnGCxTXQKV35JpANjDfGEWjYLJdzimX70cACNpLvIMkDE02YRy36ozQ09X1LkOTXTlEGMOl0JVt00iRjprsD4'; // Reemplaza con tu clave de prueba Stripe
 const backendBaseUrl = 'http://localhost:8080';
 
 const paymentForm = document.getElementById('payment-form');
@@ -101,7 +101,7 @@ async function handlePaymentSubmit(event) {
 
     const intentData = await intentResponse.json();
     const clientSecret = intentData.clientSecret;
-    const paymentIntentId = intentData.id;
+    const paymentIntentId = intentData.paymentIntentId;
 
     const result = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {

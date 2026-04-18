@@ -3,6 +3,7 @@ package com.daw.tfg.models;
 import java.util.Date;
 import java.util.Set;
 
+import com.daw.tfg.enums.ProveedorMetodoPago;
 import com.daw.tfg.enums.TipoMetodoPago;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,35 +22,36 @@ public class MetodoPago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMetodoPago;
 
-    
-    @Column(unique = true, nullable = false, name = "proveedor")
-    private String proveedor;
+    // Proveedor de la pasarela de pago
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "proveedor")
+    private ProveedorMetodoPago proveedor;
 
-    //Pasa el metodo de pago recogido de un enum como string a la BD
+    // Tipo de método de pago
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "tipo")
     private TipoMetodoPago tipo;
 
     /*
-        Almacena el token del metodo de pago para no almacenar datos sensibles como el CVV
-        o la contraseña en PayPal, haciendo seguras las compras mediante una pasarela de pago
+        Referencia externa segura proporcionada por la pasarela (ej. paymentMethodId de Stripe)
+        No almacena datos sensibles como tokens o números de tarjeta.
     */
-    @Column(unique = true, nullable = false, name = "token")
-    private String token;
+    @Column(nullable = true, name = "referencia_externa")
+    private String referenciaExterna;
 
-    //solo para tarjetas de credito almacena los 4 ultimos digitos de esta 
-    @Column(nullable = true, length = 4, name = "ultimos_digitos")
-    private String ultimosDigitos;
-
-    //solo para tarjetas almacena la fecha en la que expira la tarjeta 
-    @Column(nullable = false, name = "fecha_expiracion")
-    private Date fechaExpiracion;
+    // Descripción opcional para identificar el método (ej. "**** 1234")
+    @Column(nullable = true, name = "descripcion")
+    private String descripcion;
 
     @Column(nullable = false, name = "activo")
     private Boolean activo;
 
-    /* 
-        Relacion que enlaza los metodos de pago con un usuario 
+    // Fecha de creación o última actualización
+    @Column(nullable = false, name = "fecha_creacion")
+    private Date fechaCreacion;
+
+    /*
+        Relacion que enlaza los metodos de pago con un usuario
         dado que un Usuario puede tener multiples metodos diferentes
     */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,25 +59,22 @@ public class MetodoPago {
     @JsonIgnore
     private Usuario usuario;
 
-    /* 
+    /*
         Relacion que enlaza los metodos de pago con las compras
-        dado que los metodos de pago pueden ser utilizados en multiples compras   
+        dado que los metodos de pago pueden ser utilizados en multiples compras
     */
     @OneToMany(mappedBy = "metodoPago", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Compra> compras;
 
-    public MetodoPago(String proveedor, TipoMetodoPago tipo, String token, String ultimosDigitos, Date fechaExpiracion,
-            Boolean activo, Usuario usuario, Set<Compra> compras) {
+    public MetodoPago(ProveedorMetodoPago proveedor, TipoMetodoPago tipo, String referenciaExterna,
+                      String descripcion, Boolean activo, Usuario usuario) {
         this.proveedor = proveedor;
         this.tipo = tipo;
-        this.token = token;
-        this.ultimosDigitos = ultimosDigitos;
-        this.fechaExpiracion = fechaExpiracion;
+        this.referenciaExterna = referenciaExterna;
+        this.descripcion = descripcion;
         this.activo = activo;
+        this.fechaCreacion = new Date();
         this.usuario = usuario;
-        this.compras = compras;
     }
-
-    
 }

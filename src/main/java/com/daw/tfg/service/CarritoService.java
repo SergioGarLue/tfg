@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.daw.tfg.enums.EstadoCompra;
+import com.daw.tfg.enums.ProveedorMetodoPago;
+import com.daw.tfg.enums.TipoMetodoPago;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
-import com.daw.tfg.service.CompraServiceImpl;
 import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
@@ -81,6 +82,7 @@ public class CarritoService {
      * @return Lista de juegos en el carrito
      * @throws IllegalArgumentException si el usuario no tiene carrito
      */
+    @Transactional
     public List<Juego> getAllGamesInCart(Long usuarioId) {
         Usuario usuario = usuarioService.findById(usuarioId);
         Carrito carrito = findByUsuario(usuario);
@@ -221,6 +223,10 @@ public class CarritoService {
         MetodoPago metodoPago = null;
         if (metodoPagoId != null) {
             metodoPago = metodoPagoService.findById(metodoPagoId);
+        } else if (paymentIntentId != null) {
+            // Para pagos con Stripe, crear un MetodoPago genérico si no se proporciona uno
+            metodoPago = new MetodoPago(ProveedorMetodoPago.STRIPE, TipoMetodoPago.TARJETA, null, "Pago con Stripe", true, usuario);
+            metodoPago = metodoPagoService.save(metodoPago);
         }
 
         Double total = getTotalPrice(usuarioId).doubleValue();

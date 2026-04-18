@@ -32,6 +32,11 @@ public class CompraServiceImpl implements ICompraService {
     private final ColeccionService coleccionService;
     private final DtoMapper dtoMapper;
 
+    /**
+     * @deprecated Este método procesa la compra inmediatamente y entrega juegos.
+     *             Para pagos con pasarelas como Stripe, usar checkout y esperar confirmación vía webhook.
+     */
+    @Deprecated
     @Override
     @Transactional
     public CompraDTO procesarCompra(Long usuarioId) {

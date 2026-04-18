@@ -14,6 +14,26 @@ Este proyecto busca unificar la experiencia de compra con la de una **comunidad 
 
 ## ⚙️ Instalación
 
+### Prerrequisitos
+- Java 21
+- Maven 3.6+
+- Cuenta de Stripe (para pagos)
+
+### Configuración de Variables de Entorno
+1. Copia el archivo `.env.example` a `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Rellena las variables en `.env` con tus claves de Stripe:
+   - `STRIPE_SECRET_KEY`: Obtén de [Stripe Dashboard > API Keys](https://dashboard.stripe.com/test/apikeys)
+   - `STRIPE_WEBHOOK_SECRET`: Configura un webhook en [Stripe Dashboard > Webhooks](https://dashboard.stripe.com/test/webhooks) apuntando a `http://localhost:8080/api/v1/payments/webhook`
+
+### Ejecutar la Aplicación
+```bash
+mvn spring-boot:run
+```
+
 > 🚧 Sección en desarrollo (configuración de entorno local y base de datos)
 
 ---
