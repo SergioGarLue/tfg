@@ -1,6 +1,8 @@
 package com.daw.tfg.controllers;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -119,7 +121,7 @@ public class AdminController {
      * @return ResponseEntity con la lista de usuarios
      */
     @GetMapping("/usuarios")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
         try {
             List<Usuario> usuarios = usuarioService.findAll();
