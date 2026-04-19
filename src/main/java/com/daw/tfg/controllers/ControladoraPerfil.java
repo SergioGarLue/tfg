@@ -59,4 +59,20 @@ public class ControladoraPerfil {
         usuarioService.updatePerfilUsuario(user.getIdUsuario(), dto);
         return ResponseEntity.ok("Perfil actualizado correctamente");
     }
+
+    /**
+     * Actualiza solo la imagen de avatar (base64)
+     */
+    @PutMapping("/avatar")
+    public ResponseEntity<String> updateAvatar(@RequestBody String imagenBase64, Authentication auth) {
+        if (auth == null || !auth.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+        String username = auth.getName();
+        Usuario user = usuarioService.findByNombreUsuario(username);
+        Perfil_UsuarioDTO dto = new Perfil_UsuarioDTO();
+        dto.setImagenUsuario(imagenBase64);
+        usuarioService.updatePerfilUsuario(user.getIdUsuario(), dto);
+        return ResponseEntity.ok("Avatar actualizado correctamente");
+    }
 }

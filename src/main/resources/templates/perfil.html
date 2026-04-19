@@ -136,17 +136,40 @@
     document.addEventListener("DOMContentLoaded", () => {
 
       
-      // Script para previsualizar la imagen de perfil al seleccionarla
+      // Script para previsualizar y guardar imagen de perfil al seleccionarla
       const fileInput = document.getElementById('file-upload');
       const avatarPreview = document.getElementById('avatar-preview');
 
       if (fileInput) {
-          fileInput.addEventListener('change', function(e) {
+          fileInput.addEventListener('change', async function(e) {
               const file = e.target.files[0];
-              if (file) {
+              if (file && avatarPreview) {
                   const reader = new FileReader();
-                  reader.onload = function(e) {
-                      if (avatarPreview) avatarPreview.src = e.target.result;
+                  reader.onload = async function(readerEvent) {
+                      avatarPreview.src = readerEvent.target.result;
+                      const base64Image = readerEvent.target.result.split(',')[1]; // remove data:image header
+                      
+                      try {
+                          const response = await fetch('/api/perfil/avatar', {
+                              method: 'PUT',
+                              headers: {
+                                  'Content-Type': 'text/plain',
+                              },
+                              body: base64Image
+                          });
+                          if (response.ok) {
+                              console.log('Avatar guardado en servidor');
+                              // Update localStorage
+                              const usuario = getUsuarioLogueado() || {};
+                              usuario.imagen = readerEvent.target.result;
+                              saveUsuarioLogueado(usuario);
+                          } else {
+                              alert('Error al guardar avatar');
+                          }
+                      } catch (error) {
+                          console.error('Error saving avatar:', error);
+                          alert('Error al guardar avatar');
+                      }
                   }
                   reader.readAsDataURL(file);
               }

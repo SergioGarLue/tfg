@@ -91,12 +91,28 @@ const getAvatarUrl = (usuario) => {
   return 'https://i.pravatar.cc/150?img=11';
 };
 
-const renderSidebarUserState = () => {
+const renderSidebarUserState = async () => {
   const usuario = getUsuarioLogueado();
   const avatar = document.getElementById('sidebar-avatar');
   const username = document.getElementById('sidebar-username');
   const profileLink = document.getElementById('sidebar-profile-link');
   const authButton = document.getElementById('sidebar-auth-button');
+
+  // Load latest profile from server if logged
+  if (!usuario) {
+    // guest logic
+  } else {
+    try {
+      const response = await fetch('/api/perfil');
+      if (response.ok) {
+        const perfil = await response.json();
+        usuario.imagen = perfil.imagenUsuario; // update with DB
+        saveUsuarioLogueado(usuario);
+      }
+    } catch (e) {
+      console.log('No load profile, use local');
+    }
+  }
 
   if (avatar) {
     avatar.src = getAvatarUrl(usuario);
