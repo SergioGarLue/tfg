@@ -4,11 +4,11 @@
 
 -- 1. Insertar Perfil de Usuario
 INSERT INTO perfil_usuario (id_usuario_perfil, biografia, estado, imagen_fondo_perfil, imagen_usuario, pais) 
-VALUES (1, 'Usuario de prueba para carrito', true, 'fondo_default.jpg', 'avatar_default.jpg', 'España');
+VALUES (1, 'Usuario de prueba para carrito', true, 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500&fit=crop&crop=center', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png', 'España');
 
 -- 2. Insertar Usuario
 INSERT INTO usuario (id_usuario, id_usuario_perfil, contraseña_cifrada, correo_electronico, nombre_usuario, conexion, rol) 
-VALUES (1, 1, '$2a$10$N9qo8uLOickgx2ZMRZoMy.MqrqQzBZN0UfGNEKjN.Kq0T4QAKYw9C', 'test@example.com', 'testuser', 'ACTIVO', 'USER');
+VALUES (1, 1, 'passw@123', 'test@example.com', 'testuser', 'ACTIVO', 'USER');
 
 -- 3. Insertar Desarrollador
 INSERT INTO desarrollador (id_desarrollador, imagen, nombre) 
@@ -53,6 +53,15 @@ VALUES (1, NULL, 1);
 -- 9. Insertar Juegos en el Carrito
 INSERT INTO juegos_carrito (id_carrito, id_juego) VALUES (1, 1);
 INSERT INTO juegos_carrito (id_carrito, id_juego) VALUES (1, 3);
+
+-- Reiniciar secuencias IDENTITY para evitar conflictos tras las inserciones manuales
+ALTER TABLE perfil_usuario ALTER COLUMN id_usuario_perfil RESTART WITH 2;
+ALTER TABLE usuario ALTER COLUMN id_usuario RESTART WITH 2;
+ALTER TABLE desarrollador ALTER COLUMN id_desarrollador RESTART WITH 3;
+ALTER TABLE editor ALTER COLUMN id_editor RESTART WITH 3;
+ALTER TABLE genero ALTER COLUMN id_genero RESTART WITH 4;
+ALTER TABLE juego ALTER COLUMN id_juego RESTART WITH 4;
+ALTER TABLE carrito ALTER COLUMN id_carrito RESTART WITH 2;
 
 -- ============================================
 -- Datos de prueba listos!

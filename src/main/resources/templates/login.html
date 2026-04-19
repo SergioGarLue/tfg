@@ -18,7 +18,7 @@
                 <p class="subtitle">Tu plataforma de juegos</p>
             </div>
 
-            <form class="login-form" th:action="@{/login}" method="post">
+            <form id="login-form" class="login-form">
                 <div class="form-group">
                     <label for="username">Nombre de usuario</label>
                     <div class="input-wrapper">
@@ -35,12 +35,12 @@
                     </div>
                 </div>
 
-                <div class="error-message" th:if="${param.error}">
+                <div id="error-message" class="error-message" style="display: none;">
                     <i class="fa-solid fa-circle-exclamation"></i>
-                    <span>Nombre de usuario o contraseña incorrectos</span>
+                    <span id="error-text"></span>
                 </div>
 
-                <div class="error-message logout-message" th:if="${param.logout}">
+                <div id="logout-message" class="error-message logout-message" style="display: none;">
                     <i class="fa-solid fa-check-circle"></i>
                     <span>Sesión cerrada correctamente</span>
                 </div>
@@ -49,42 +49,58 @@
             </form>
 
             <div class="register-link">
-                <p>¿No tienes cuenta? <a th:href="@{/registro}">Regístrate aquí</a></p>
+                <p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
             </div>
         </div>
 
         <div class="background-glow"></div>
     </div>
 
+    <!-- Scripts de autenticación -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/fetch-interceptor.js"></script>
+    <script src="/js/route-protection.js"></script>
+
     <script>
-        const USER_STORAGE_KEY = 'usuarioLogueado';
-
-        const clearLoginSessionOnError = () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verificar si se viene de logout
             const params = new URLSearchParams(window.location.search);
-            if (params.has('error')) {
-                localStorage.removeItem(USER_STORAGE_KEY);
+            if (params.has('logout')) {
+                document.getElementById('logout-message').style.display = 'flex';
             }
-        };
 
-        const saveLoginUser = () => {
-            const form = document.querySelector('.login-form');
-            if (!form) return;
-            form.addEventListener('submit', () => {
-                const username = document.getElementById('username')?.value.trim();
-                if (username) {
-                    const usuario = {
-                        nombre: username,
-                        imagen: '/images/profile-default.png',
-                        email: `${username}@example.com`
-                    };
-                    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(usuario));
+            // Si ya está autenticado, redirigir a inicio
+            if (AUTH.isAuthenticated()) {
+                window.location.href = '/';
+            }
+
+            // Manejar el formulario de login
+            const form = document.getElementById('login-form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const errorDiv = document.getElementById('error-message');
+                const errorText = document.getElementById('error-text');
+
+                try {
+                    // Limpiar error anterior
+                    errorDiv.style.display = 'none';
+                    errorText.textContent = '';
+
+                    // Llamar a la función de login
+                    const usuario = await AUTH.login(username, password);
+                    console.log('Login exitoso:', usuario);
+
+                    // Redirigir a la página de inicio
+                    window.location.href = '/';
+                } catch (error) {
+                    console.error('Error en login:', error);
+                    errorDiv.style.display = 'flex';
+                    errorText.textContent = error.message || 'Usuario o contraseña incorrectos';
                 }
             });
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            clearLoginSessionOnError();
-            saveLoginUser();
         });
     </script>
 </body>

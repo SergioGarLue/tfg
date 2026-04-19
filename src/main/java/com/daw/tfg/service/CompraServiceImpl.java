@@ -11,7 +11,6 @@ import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.CarritoRepository;
 import com.daw.tfg.repository.CompraRepository;
-import com.daw.tfg.repository.JuegoRepository;
 import com.daw.tfg.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +25,8 @@ public class CompraServiceImpl implements ICompraService {
 
     private final CompraRepository compraRepository;
     private final UsuarioRepository usuarioRepository;
-    private final JuegoRepository juegoRepository;
     private final CarritoRepository carritoRepository;
     private final ColeccionService coleccionService;
-    private final DtoMapper dtoMapper;
 
     /**
      * @deprecated Este método procesa la compra inmediatamente y entrega juegos.
@@ -83,7 +79,7 @@ public class CompraServiceImpl implements ICompraService {
         carrito.getJuegos().clear();
         carritoRepository.save(carrito);
 
-        return dtoMapper.toCompraDTO(compra);
+        return DtoMapper.toCompraDTO(compra);
     }
 
     @Override
@@ -91,14 +87,14 @@ public class CompraServiceImpl implements ICompraService {
         usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         List<Compra> compras = compraRepository.findByUsuarioIdUsuario(usuarioId);
-        return dtoMapper.toCompraDTOList(compras); // será agregado en mapper
+        return DtoMapper.toCompraDTOList(compras);
     }
 
     @Override
     public CompraDTO getDetalleCompra(Long compraId) {
         Compra compra = compraRepository.findById(compraId)
                 .orElseThrow(() -> new ResourceNotFoundException("Compra no encontrada con ID: " + compraId));
-        return dtoMapper.toCompraDTO(compra);
+        return DtoMapper.toCompraDTO(compra);
     }
 
     // CRUD básico mantenido opcional

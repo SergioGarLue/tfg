@@ -48,13 +48,12 @@ throw new IllegalArgumentException("El usuario ya existe");
 
         // Create default profile
         PerfilUsuario perfilNuevo = new PerfilUsuario(
-            "default_avatar.png",
-            "default_background.jpg", 
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png",
+            "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500&fit=crop&crop=center",
             "España",
             "Bienvenido " + userDto.getUsername() + "!",
             true
         );
-        perfilNuevo = perfilUsuarioRepository.save(perfilNuevo);
 
         Usuario userNuevo = DtoMapper.fromUsuarioDTO(userDto);
         userNuevo.setContraseñaCifrada(passwordEncoder.encode(userDto.getPasswd())); // override
@@ -89,12 +88,18 @@ throw new IllegalArgumentException("El usuario ya existe");
         return user.get();
     }
 
+    @Transactional(readOnly = true)
     public Usuario findByNombreUsuario(String nombre) {
         Optional<Usuario> user = usuarioRepository.findByNombreUsuario(nombre);
         if (user.isEmpty()) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
-        return user.get();
+        Usuario usuario = user.get();
+        // Inicializar el perfil para evitar proxy detached al acceder después de cerrar la sesión
+        if (usuario.getPerfilUsuario() != null) {
+            usuario.getPerfilUsuario().getImagenUsuario();
+        }
+        return usuario;
         
     }
 

@@ -52,8 +52,6 @@ public class JsonDatabaseInitializer {
     public ApplicationRunner initDatabaseFromJson() {
         return args -> {
             Resource resource = new ClassPathResource("static/JSON/steam_top_1000_sellers.json");
-            Double precio = 0.0;
-            Integer porcentaje = 0;
 
             if (!resource.exists()) {
                 logger.warn("No se encontró steam_top_1000_sellers.json en static/JSON");
@@ -89,12 +87,7 @@ public class JsonDatabaseInitializer {
                     }
 
                     if (dto.getPrice() != null) {
-                        if (dto.getPrice().getFinalPrice() != null) {
-                            precio = dto.getPrice().getFinalPrice();
-                        }
-                        if (dto.getPrice().getPorcentaje() != null) {
-                            porcentaje = dto.getPrice().getPorcentaje();
-                        }
+                        // Precios disponibles en dto.getPrice()
                     }
 
                     Desarrollador desarrollador = null;

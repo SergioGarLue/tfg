@@ -59,36 +59,30 @@ async function cargarImagenEldenRing() {
   }
 }
 
-const USER_STORAGE_KEY = 'usuarioLogueado';
-
+// Funciones de autenticación integradas con JWT
 const getUsuarioLogueado = () => {
-  try {
-    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY));
-  } catch (error) {
-    console.warn('No se pudo leer el usuario logueado desde localStorage:', error);
-    return null;
+  if (typeof AUTH !== 'undefined' && AUTH && typeof AUTH.getAuthenticatedUser === 'function') {
+    return AUTH.getAuthenticatedUser();
   }
-};
-
-const saveUsuarioLogueado = (usuario) => {
-  if (!usuario) return;
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(usuario));
-};
-
-const clearUsuarioLogueado = () => {
-  localStorage.removeItem(USER_STORAGE_KEY);
+  return null;
 };
 
 const logoutUsuario = () => {
-  clearUsuarioLogueado();
-  window.location.href = '/login';
+  if (typeof AUTH !== 'undefined' && AUTH && typeof AUTH.logout === 'function') {
+    AUTH.logout();
+  }
+  window.location.href = '/login?logout=true';
 };
 
+const DEFAULT_AVATAR = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png';
 const getAvatarUrl = (usuario) => {
+  if (usuario?.imagenUsuario) {
+    return usuario.imagenUsuario;
+  }
   if (usuario?.imagen) {
     return usuario.imagen;
   }
-  return 'https://i.pravatar.cc/150?img=11';
+  return DEFAULT_AVATAR;
 };
 
 const renderSidebarUserState = async () => {
@@ -97,33 +91,33 @@ const renderSidebarUserState = async () => {
   const username = document.getElementById('sidebar-username');
   const profileLink = document.getElementById('sidebar-profile-link');
   const authButton = document.getElementById('sidebar-auth-button');
-
-  // Load latest profile from server if logged
-  if (!usuario) {
-    // guest logic
-  } else {
-    try {
-      const response = await fetch('/api/perfil');
-      if (response.ok) {
-        const perfil = await response.json();
-        usuario.imagen = perfil.imagenUsuario; // update with DB
-        saveUsuarioLogueado(usuario);
-      }
-    } catch (e) {
-      console.log('No load profile, use local');
-    }
-  }
+  const adminLink = document.getElementById('admin-link');
+  const adminSection = document.getElementById('admin-section');
+  const isAdmin = typeof AUTH !== 'undefined' && AUTH && typeof AUTH.hasRole === 'function' && AUTH.hasRole('ROLE_ADMIN');
 
   if (avatar) {
     avatar.src = getAvatarUrl(usuario);
+    avatar.alt = usuario?.nombreUsuario || 'Invitado';
   }
 
   if (username) {
-    username.textContent = usuario?.nombre || 'Invitado';
+    username.textContent = usuario?.nombreUsuario || 'Invitado';
   }
 
   if (profileLink) {
     profileLink.href = usuario ? '/perfil' : '/login';
+  }
+
+  // Mostrar/ocultar enlace admin según rol
+  if (adminSection) {
+    if (usuario && isAdmin) {
+      adminSection.style.display = 'block';
+      if (adminLink) {
+        adminLink.href = '/admin';
+      }
+    } else {
+      adminSection.style.display = 'none';
+    }
   }
 
   if (authButton) {
@@ -144,20 +138,19 @@ const renderSidebarUserState = async () => {
 
 const renderProfileUsuario = () => {
   const usuario = getUsuarioLogueado();
-  if (!usuario) return;
-
   const avatarPreview = document.getElementById('avatar-preview');
   const nombreUsuario = document.getElementById('perfil-nombre-usuario');
   const correoUsuario = document.getElementById('perfil-correo-usuario');
 
   if (avatarPreview) {
     avatarPreview.src = getAvatarUrl(usuario);
+    avatarPreview.alt = usuario?.nombreUsuario || 'Usuario';
   }
   if (nombreUsuario) {
-    nombreUsuario.textContent = usuario.nombre || 'Usuario';
+    nombreUsuario.textContent = usuario?.nombreUsuario || 'Usuario';
   }
   if (correoUsuario) {
-    correoUsuario.textContent = usuario.email || 'usuario@ejemplo.com';
+    correoUsuario.textContent = usuario?.correoElectronico || 'usuario@ejemplo.com';
   }
 };
 
@@ -302,8 +295,12 @@ const renderizarJuegos = (juegos) => {
 };
 
 async function main() {
+  // Ensure AUTH is available before user-dependent renders
+  if (typeof AUTH === 'undefined') {
+    console.warn('AUTH module not loaded, skipping user state renders');
+  }
   await loadSidebar();
-    renderProfileUsuario();
+  renderProfileUsuario();
   actualizarContadorCarrito(2);
   setupNotificaciones();
   fetchJuegos();

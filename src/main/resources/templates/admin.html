@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración - Panel de Control</title>
+  <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="/estilos/index.css">
+  <style>
+    .admin-panel {
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(27,40,56,0.8) 0%, rgba(10,14,39,0.9) 100%);
+      border-radius: 8px;
+      margin: 2rem;
+    }
+    .admin-panel h2 {
+      color: #cbbde8;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .admin-card {
+      background: rgba(50, 40, 80, 0.5);
+      border: 1px solid #6d5ba8;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .admin-card:hover {
+      background: rgba(70, 50, 100, 0.7);
+      border-color: #cbbde8;
+      transform: translateY(-4px);
+    }
+    .admin-card i {
+      font-size: 2.5rem;
+      color: #cbbde8;
+      margin-bottom: 1rem;
+    }
+    .admin-card h3 {
+      color: #e0e0e0;
+      margin-bottom: 0.5rem;
+    }
+    .admin-card p {
+      color: #b0b0b0;
+      font-size: 0.9rem;
+    }
+    .admin-stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      flex: 1;
+      min-width: 150px;
+      background: rgba(50, 40, 80, 0.5);
+      border-left: 4px solid #cbbde8;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+    .stat-number {
+      font-size: 2rem;
+      color: #cbbde8;
+      font-weight: bold;
+    }
+    .stat-label {
+      color: #b0b0b0;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    .btn-admin {
+      background: linear-gradient(135deg, #6d5ba8 0%, #8b73c7 100%);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-admin:hover {
+      background: linear-gradient(135deg, #8b73c7 0%, #a891e0 100%);
+      transform: translateY(-2px);
+    }
+    .warning-section {
+      background: rgba(255, 152, 0, 0.1);
+      border-left: 4px solid #ff9800;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 2rem;
+    }
+    .warning-section h3 {
+      color: #ff9800;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor-principal">
+    <div id="sidebar-container"></div>
+
+    <main class="contenido">
+      <header class="barra-superior">
+        <div class="contenedor-busqueda">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar en la tienda...">
+        </div>
+        <div class="boton-carrito">
+          <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <span class="contador-carrito" id="badge-carrito">0</span>
+        </div>
+      </header>
+
+      <div class="scroll-contenido">
+        <div class="admin-panel">
+          <h2>
+            <i class="fa-solid fa-gauge"></i>
+            Panel de Control - Administración
+          </h2>
+
+          <!-- Estadísticas -->
+          <div class="admin-stats">
+            <div class="stat-box">
+              <div class="stat-number" id="total-usuarios">0</div>
+              <div class="stat-label">Usuarios Totales</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number" id="total-juegos">0</div>
+              <div class="stat-label">Juegos en Catálogo</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number" id="total-ventas">0</div>
+              <div class="stat-label">Ventas Totales</div>
+            </div>
+          </div>
+
+          <!-- Opciones de Administración -->
+          <h3 style="color: #cbbde8; margin-bottom: 1rem;">
+            <i class="fa-solid fa-tools"></i> Herramientas de Administración
+          </h3>
+
+          <div class="admin-grid">
+            <div class="admin-card" onclick="window.location.href='/admin/usuarios'">
+              <i class="fa-solid fa-users"></i>
+              <h3>Gestionar Usuarios</h3>
+              <p>Ver, editar y eliminar usuarios del sistema</p>
+            </div>
+
+            <div class="admin-card" onclick="window.location.href='/admin/juegos'">
+              <i class="fa-solid fa-gamepad"></i>
+              <h3>Gestionar Juegos</h3>
+              <p>Agregar, editar o eliminar juegos del catálogo</p>
+            </div>
+
+            <div class="admin-card" onclick="window.location.href='/admin/reportes'">
+              <i class="fa-solid fa-chart-pie"></i>
+              <h3>Reportes</h3>
+              <p>Ver estadísticas y reportes del sistema</p>
+            </div>
+
+            <div class="admin-card" onclick="window.location.href='/admin/transacciones'">
+              <i class="fa-solid fa-money-bill"></i>
+              <h3>Transacciones</h3>
+              <p>Consultar historial de pagos y compras</p>
+            </div>
+
+            <div class="admin-card" onclick="window.location.href='/admin/moderacion'">
+              <i class="fa-solid fa-shield"></i>
+              <h3>Moderación</h3>
+              <p>Gestionar contenido y reportes de usuarios</p>
+            </div>
+
+            <div class="admin-card" onclick="window.location.href='/admin/configuracion'">
+              <i class="fa-solid fa-sliders"></i>
+              <h3>Configuración</h3>
+              <p>Ajustar parámetros del sistema</p>
+            </div>
+          </div>
+
+          <!-- Sección de advertencia -->
+          <div class="warning-section">
+            <h3><i class="fa-solid fa-triangle-exclamation"></i> Importante</h3>
+            <p>Eres administrador del sistema. Ten cuidado con las acciones que realices aquí, ya que pueden afectar a todos los usuarios y datos de la plataforma. Todas las acciones son registradas para auditoría.</p>
+          </div>
+
+          <!-- Botón de logout -->
+          <div style="margin-top: 2rem; text-align: center;">
+            <button class="btn-admin" onclick="logoutAdmin()">
+              <i class="fa-solid fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts de autenticación JWT -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
+  <script src="/js/script.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Verificar que el usuario es admin
+      const usuario = AUTH.getAuthenticatedUser();
+      if (!usuario || !AUTH.hasRole('ROLE_ADMIN')) {
+        console.error('No tienes permisos para acceder a esta página');
+        window.location.href = '/';
+        return;
+      }
+
+      // Cargar sidebar
+      loadSidebar();
+
+      // Cargar estadísticas (ejemplo básico)
+      try {
+        // Simulando carga de datos
+        // En un caso real, estas serían llamadas a endpoints específicos
+        document.getElementById('total-usuarios').textContent = '12'; // Placeholder
+        document.getElementById('total-juegos').textContent = '1000+'; // Placeholder
+        document.getElementById('total-ventas').textContent = '$45,320'; // Placeholder
+      } catch (error) {
+        console.error('Error cargando estadísticas:', error);
+      }
+    });
+
+    function logoutAdmin() {
+      logoutUsuario();
+    }
+  </script>
+</body>
+</html>
