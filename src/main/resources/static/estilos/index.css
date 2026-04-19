@@ -84,10 +84,16 @@ body {
 }
 
 .logo {
-  font-size: 35px;
-  margin-left: 30px;
+  margin-left: 0px;
   margin-bottom: 40px;
-  color: #cbbde8; 
+  text-align: left;
+}
+
+.logo img {
+  max-height: 70px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 /* desplegable y navegacion*/

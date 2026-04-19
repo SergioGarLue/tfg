@@ -15,6 +15,7 @@ async function loadSidebar() {
     initSidebarDropdowns();
     initSidebarMobileToggle();
     initSidebarIconButtons();
+    renderSidebarUserState();
   } catch (error) {
     console.error('Error cargando sidebar.html:', error);
     container.innerHTML = '<div class="sidebar-error">No se pudo cargar el sidebar. Vuelve a intentarlo.</div>';
@@ -57,6 +58,92 @@ async function cargarImagenEldenRing() {
     console.error('Error al cargar la imagen de Elden Ring:', error);
   }
 }
+
+const USER_STORAGE_KEY = 'usuarioLogueado';
+
+const getUsuarioLogueado = () => {
+  try {
+    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY));
+  } catch (error) {
+    console.warn('No se pudo leer el usuario logueado desde localStorage:', error);
+    return null;
+  }
+};
+
+const saveUsuarioLogueado = (usuario) => {
+  if (!usuario) return;
+  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(usuario));
+};
+
+const clearUsuarioLogueado = () => {
+  localStorage.removeItem(USER_STORAGE_KEY);
+};
+
+const logoutUsuario = () => {
+  clearUsuarioLogueado();
+  window.location.href = '/login';
+};
+
+const getAvatarUrl = (usuario) => {
+  if (usuario?.imagen) {
+    return usuario.imagen;
+  }
+  return 'https://i.pravatar.cc/150?img=11';
+};
+
+const renderSidebarUserState = () => {
+  const usuario = getUsuarioLogueado();
+  const avatar = document.getElementById('sidebar-avatar');
+  const username = document.getElementById('sidebar-username');
+  const profileLink = document.getElementById('sidebar-profile-link');
+  const authButton = document.getElementById('sidebar-auth-button');
+
+  if (avatar) {
+    avatar.src = getAvatarUrl(usuario);
+  }
+
+  if (username) {
+    username.textContent = usuario?.nombre || 'Invitado';
+  }
+
+  if (profileLink) {
+    profileLink.href = usuario ? '/perfil' : '/login';
+  }
+
+  if (authButton) {
+    authButton.removeEventListener('click', logoutUsuario);
+    if (usuario) {
+      authButton.textContent = 'Cerrar sesión';
+      authButton.href = '#';
+      authButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        logoutUsuario();
+      });
+    } else {
+      authButton.textContent = 'Iniciar sesión';
+      authButton.href = '/login';
+    }
+  }
+};
+
+const renderProfileUsuario = () => {
+  const usuario = getUsuarioLogueado();
+  if (!usuario) return;
+
+  const avatarPreview = document.getElementById('avatar-preview');
+  const nombreUsuario = document.getElementById('perfil-nombre-usuario');
+  const correoUsuario = document.getElementById('perfil-correo-usuario');
+
+  if (avatarPreview) {
+    avatarPreview.src = getAvatarUrl(usuario);
+  }
+  if (nombreUsuario) {
+    nombreUsuario.textContent = usuario.nombre || 'Usuario';
+  }
+  if (correoUsuario) {
+    correoUsuario.textContent = usuario.email || 'usuario@ejemplo.com';
+  }
+};
 
 const initSidebarDropdowns = () => {
   const sidebarItems = document.querySelectorAll('.item-desplegable');
@@ -200,7 +287,7 @@ const renderizarJuegos = (juegos) => {
 
 async function main() {
   await loadSidebar();
-  cargarImagenEldenRing();
+    renderProfileUsuario();
   actualizarContadorCarrito(2);
   setupNotificaciones();
   fetchJuegos();

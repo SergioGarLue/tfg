@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/coleccion")
+@RequestMapping({"/api/v1/coleccion", "/api/coleccion"})
 @CrossOrigin(origins = "*")
 public class ColeccionController {
 
@@ -90,6 +90,34 @@ public class ColeccionController {
             logger.error("Error inesperado al añadir juegos gratuitos: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error procesando la solicitud"));
+        }
+    }
+
+    @PostMapping("/usuario/{usuarioId}/juego/{juegoId}")
+    public ResponseEntity<Object> addJuegoAUsuario(@PathVariable Long usuarioId, @PathVariable Long juegoId) {
+        try {
+            coleccionService.añadirJuegoAColeccion(usuarioId, juegoId);
+            return ResponseEntity.ok(new HashMap<String, String>() {{
+                put("message", "Juego añadido a la colección correctamente");
+            }});
+        } catch (IllegalArgumentException e) {
+            logger.warn("Error al añadir juego a colección: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error inesperado al añadir juego a colección: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error procesando la solicitud"));
+        }
+    }
+
+    @GetMapping("/{usuarioId}")
+    public ResponseEntity<List<Juego>> getJuegosPorUsuario(@PathVariable Long usuarioId) {
+        try {
+            List<Juego> juegos = coleccionService.getAllGamesInCollection(usuarioId);
+            return ResponseEntity.ok(juegos);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Colección no encontrada para usuario {}: {}", usuarioId, e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 }

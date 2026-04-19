@@ -134,6 +134,10 @@ public class ColeccionService {
         save(item);
     }
 
+    public void añadirJuegoAColeccion(Long usuarioId, Long juegoId) {
+        addJuegoToCollection(usuarioId, juegoId);
+    }
+
     /**
      * Añade un juego a la colección del usuario con fecha específica.
      * 

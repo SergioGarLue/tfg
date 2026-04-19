@@ -1,7 +1,7 @@
 <aside class="barra-lateral">
   <div class="zona-superior">
     <div class="logo">
-      <a href="/"><i class="fa-solid fa-dragon"></i></a>
+      <a href="/" class="logo-link"><img src="/images/logo.png" alt="XYRON"></a>
     </div>
     <button class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Abrir menú">
       <i class="fa-solid fa-bars"></i>
@@ -92,14 +92,16 @@
       <button class="sidebar-icon" data-href="/deseados" aria-label="Deseados"><i class="fa-solid fa-star"></i></button>
     </div>
     <div class="separador-lateral"></div>
-    <div class="perfil-usuario">
-      <a href="/perfil" class="perfil-link">
+    <div class="perfil-usuario" id="sidebar-user-card">
+      <a href="/login" class="perfil-link" id="sidebar-profile-link">
         <div class="avatar">
-          <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
+          <img id="sidebar-avatar" src="https://i.pravatar.cc/150?img=11" alt="Usuario">
         </div>
-        <span class="nombre-usuario">Paco Leon</span>
+        <span class="nombre-usuario" id="sidebar-username">Iniciar sesion</span>
       </a>
-      <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
+      <div class="perfil-acciones">
+        <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
+      </div>
     </div>
   </div>
 </aside>

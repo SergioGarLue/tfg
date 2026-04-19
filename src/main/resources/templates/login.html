@@ -55,5 +55,37 @@
 
         <div class="background-glow"></div>
     </div>
+
+    <script>
+        const USER_STORAGE_KEY = 'usuarioLogueado';
+
+        const clearLoginSessionOnError = () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('error')) {
+                localStorage.removeItem(USER_STORAGE_KEY);
+            }
+        };
+
+        const saveLoginUser = () => {
+            const form = document.querySelector('.login-form');
+            if (!form) return;
+            form.addEventListener('submit', () => {
+                const username = document.getElementById('username')?.value.trim();
+                if (username) {
+                    const usuario = {
+                        nombre: username,
+                        imagen: '/images/profile-default.png',
+                        email: `${username}@example.com`
+                    };
+                    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(usuario));
+                }
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            clearLoginSessionOnError();
+            saveLoginUser();
+        });
+    </script>
 </body>
 </html>
