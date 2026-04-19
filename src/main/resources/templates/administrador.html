@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/estilos/administrador.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Admin Panel</h1>
+                <nav class="nav-admin">
+                    <a href="/" class="btn-nav"><i class="fas fa-home"></i> Home</a>
+                    <a href="/tienda.html" class="btn-nav"><i class="fas fa-store"></i> Store</a>
+                    <button onclick="cerrarSesion()" class="btn-nav logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <!-- Steam Scraper Section -->
+            <section class="admin-section scraper-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-robot"></i> Steam Scraper</h2>
+                    <p>Execute the script to fetch and import games from Steam</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="section-info">
+                        ⚠️ This process may take several minutes. Keep this page open while running.
+                    </div>
+                    
+                    <button onclick="ejecutarSteamScraper()" class="btn btn-primary btn-lg" id="btnScraperStart">
+                        <i class="fas fa-play"></i> Start
+                    </button>
+                    <button onclick="detenerSteamScraper()" class="btn btn-danger" id="btnScraperStop" style="display:none;">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+
+                    <div id="scraperOutput" class="output-box" style="display:none;">
+                        <div class="output-header">
+                            <h3>Output</h3>
+                            <button onclick="limpiarOutput('scraperOutput')" class="btn-small"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <pre id="scraperContent"></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section class="admin-section users-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> User Management</h2>
+                    <p>Search and delete users from the system</p>
+                </div>
+
+                <div class="section-content">
+                    <!-- Search by Name -->
+                    <div class="subsection">
+                        <h3><i class="fas fa-search"></i> Search by Name</h3>
+                        
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <div class="input-group">
+                                <input 
+                                    type="text" 
+                                    id="username" 
+                                    placeholder="john_doe" 
+                                    class="form-control"
+                                >
+                                <button onclick="buscarUsuario()" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="searchResult" class="result-box" style="display:none;">
+                            <div class="result-header">
+                                <h4>Result</h4>
+                                <button onclick="limpiarResult('searchResult')" class="btn-small"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div id="searchContent" class="result-content"></div>
+                        </div>
+                    </div>
+
+                    <!-- Search by ID -->
+                    <div class="subsection">
+                        <h3><i class="fas fa-id-card"></i> Search by ID</h3>
+                        
+                        <div class="form-group">
+                            <label for="usuarioId">User ID:</label>
+                            <div class="input-group">
+                                <input 
+                                    type="number" 
+                                    id="usuarioId" 
+                                    placeholder="1" 
+                                    class="form-control"
+                                    min="1"
+                                >
+                                <button onclick="buscarUsuarioPorId()" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="idSearchResult" class="result-box" style="display:none;">
+                            <div class="result-header">
+                                <h4>User Info</h4>
+                                <button onclick="limpiarResult('idSearchResult')" class="btn-small"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div id="idSearchContent" class="result-content"></div>
+                        </div>
+                    </div>
+
+                    <!-- Delete User -->
+                    <div class="subsection">
+                        <h3><i class="fas fa-trash-alt"></i> Delete User</h3>
+                        
+                        <div class="form-group">
+                            <label for="usuarioIdDelete">User ID:</label>
+                            <div class="input-group">
+                                <input 
+                                    type="number" 
+                                    id="usuarioIdDelete" 
+                                    placeholder="1" 
+                                    class="form-control"
+                                    min="1"
+                                >
+                                <button onclick="eliminarUsuario()" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="deleteResult" class="result-box" style="display:none;">
+                            <div class="result-header">
+                                <h4>Delete Result</h4>
+                                <button onclick="limpiarResult('deleteResult')" class="btn-small"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div id="deleteContent" class="result-content"></div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3><i class="fas fa-list"></i> All Users</h3>
+                        <div class="form-group">
+                            <button onclick="cargarUsuarios()" class="btn btn-primary">
+                                <i class="fas fa-sync-alt"></i> Refresh list
+                            </button>
+                        </div>
+
+                        <div id="userListResult" class="result-box">
+                            <div class="result-header">
+                                <h4>User List</h4>
+                            </div>
+                            <div id="userListContent" class="result-content">
+                                <div class="table-wrapper">
+                                    <table class="user-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Username</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="userListBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Modal -->
+        <div id="loadingModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <div class="spinner"></div>
+                <p id="loadingText">Processing...</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/admin';
+
+        // ============ STEAM SCRAPER ============
+        async function ejecutarSteamScraper() {
+            const btn = document.getElementById('btnScraperStart');
+            const btnStop = document.getElementById('btnScraperStop');
+            const output = document.getElementById('scraperOutput');
+            const content = document.getElementById('scraperContent');
+
+            btn.disabled = true;
+            btnStop.style.display = 'inline-flex';
+            output.style.display = 'flex';
+            content.textContent = '⏳ Starting scraper...\n';
+
+            try {
+                const response = await fetch(`${API_BASE}/steam-scraper`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+
+                const result = await response.text();
+                content.textContent = result;
+                mostrarToast('✅ Scraper completed successfully', 'success');
+            } catch (error) {
+                content.textContent += `\n❌ Error: ${error.message}`;
+                mostrarToast('❌ Scraper execution error', 'error');
+            } finally {
+                btn.disabled = false;
+                btnStop.style.display = 'none';
+            }
+        }
+
+        function detenerSteamScraper() {
+            mostrarToast('⚠️ Scraper continues running on server', 'warning');
+        }
+
+        // ============ USER MANAGEMENT ============
+        async function buscarUsuario() {
+            const username = document.getElementById('username').value.trim();
+            
+            if (!username) {
+                mostrarToast('Please enter a username', 'warning');
+                return;
+            }
+
+            mostrarLoading('Searching user...');
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/usuario/buscar?nombreUsuario=${encodeURIComponent(username)}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${getToken()}`
+                        }
+                    }
+                );
+
+                const resultBox = document.getElementById('searchResult');
+                const resultContent = document.getElementById('searchContent');
+
+                if (!response.ok) {
+                    resultContent.innerHTML = `<p class="error">❌ User not found</p>`;
+                    resultBox.style.display = 'block';
+                    mostrarToast('User not found', 'error');
+                } else {
+                    const usuario = await response.json();
+                    mostrarUsuario(usuario, resultContent);
+                    resultBox.style.display = 'block';
+                    mostrarToast('✅ User found', 'success');
+                }
+            } catch (error) {
+                mostrarToast(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                ocultarLoading();
+            }
+        }
+
+        async function buscarUsuarioPorId() {
+            const id = document.getElementById('usuarioId').value.trim();
+            
+            if (!id || id <= 0) {
+                mostrarToast('Please enter a valid ID', 'warning');
+                return;
+            }
+
+            mostrarLoading('Searching user...');
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/usuario/${id}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${getToken()}`
+                        }
+                    }
+                );
+
+                const resultBox = document.getElementById('idSearchResult');
+                const resultContent = document.getElementById('idSearchContent');
+
+                if (!response.ok) {
+                    resultContent.innerHTML = `<p class="error">❌ User not found</p>`;
+                    resultBox.style.display = 'block';
+                    mostrarToast('User not found', 'error');
+                } else {
+                    const usuario = await response.json();
+                    mostrarUsuario(usuario, resultContent);
+                    resultBox.style.display = 'block';
+                    mostrarToast('✅ User found', 'success');
+                }
+            } catch (error) {
+                mostrarToast(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                ocultarLoading();
+            }
+        }
+
+        async function eliminarUsuario() {
+            const id = document.getElementById('usuarioIdDelete').value.trim();
+            
+            if (!id || id <= 0) {
+                mostrarToast('Please enter a valid ID', 'warning');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to delete user with ID ${id}? This action cannot be undone.`)) {
+                return;
+            }
+
+            mostrarLoading('Deleting user...');
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/usuario/${id}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${getToken()}`
+                        }
+                    }
+                );
+
+                const resultBox = document.getElementById('deleteResult');
+                const resultContent = document.getElementById('deleteContent');
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    resultContent.innerHTML = `<p class="error">❌ ${error}</p>`;
+                    mostrarToast('❌ Error deleting user', 'error');
+                } else {
+                    const mensaje = await response.text();
+                    resultContent.innerHTML = `<p class="success">${mensaje}</p>`;
+                    document.getElementById('usuarioIdDelete').value = '';
+                    mostrarToast('✅ User deleted successfully', 'success');
+                    cargarUsuarios();
+                }
+                resultBox.style.display = 'block';
+            } catch (error) {
+                mostrarToast(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                ocultarLoading();
+            }
+        }
+
+        async function cargarUsuarios() {
+            const listBody = document.getElementById('userListBody');
+            listBody.innerHTML = '<tr><td colspan="5">Loading users...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_BASE}/usuarios`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+
+                const usuarios = await response.json();
+                renderUserList(usuarios);
+            } catch (error) {
+                listBody.innerHTML = `<tr><td colspan="5" class="error">❌ ${error.message}</td></tr>`;
+                mostrarToast('❌ Unable to load user list', 'error');
+            }
+        }
+
+        async function eliminarUsuarioById(id) {
+            if (!confirm(`Are you sure you want to delete user with ID ${id}? This action cannot be undone.`)) {
+                return;
+            }
+
+            mostrarLoading('Deleting user...');
+
+            try {
+                const response = await fetch(`${API_BASE}/usuario/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    mostrarToast(`❌ ${error}`, 'error');
+                } else {
+                    mostrarToast('✅ User deleted successfully', 'success');
+                    cargarUsuarios();
+                }
+            } catch (error) {
+                mostrarToast(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                ocultarLoading();
+            }
+        }
+
+        function renderUserList(usuarios) {
+            const listBody = document.getElementById('userListBody');
+            if (!usuarios || usuarios.length === 0) {
+                listBody.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
+                return;
+            }
+
+            listBody.innerHTML = usuarios.map(usuario => `
+                <tr>
+                    <td>${usuario.idUsuario}</td>
+                    <td><a class="profile-link" href="/perfil?usuarioId=${usuario.idUsuario}">${usuario.nombreUsuario}</a></td>
+                    <td>${usuario.correoElectronico}</td>
+                    <td>${usuario.rol}</td>
+                    <td><button class="btn btn-danger btn-small" onclick="eliminarUsuarioById(${usuario.idUsuario})"><i class="fas fa-trash"></i></button></td>
+                </tr>
+            `).join('');
+        }
+
+        // ============ HELPER FUNCTIONS ============
+        function mostrarUsuario(usuario, container) {
+            container.innerHTML = `
+                <div class="user-card">
+                    <div class="user-info">
+                        <p><strong>ID:</strong> <span>${usuario.idUsuario}</span></p>
+                        <p><strong>Username:</strong> <span>${usuario.nombreUsuario}</span></p>
+                        <p><strong>Email:</strong> <span>${usuario.correoElectronico}</span></p>
+                        <p><strong>Role:</strong> <span class="badge badge-${usuario.rol.toLowerCase()}">${usuario.rol}</span></p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function limpiarResult(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        function limpiarOutput(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+            document.getElementById(elementId.replace('Output', 'Content')).textContent = '';
+        }
+
+        function mostrarLoading(texto = 'Processing...') {
+            const modal = document.getElementById('loadingModal');
+            document.getElementById('loadingText').textContent = texto;
+            modal.style.display = 'flex';
+        }
+
+        function ocultarLoading() {
+            document.getElementById('loadingModal').style.display = 'none';
+        }
+
+        function mostrarToast(mensaje, tipo = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensaje;
+            toast.className = `toast toast-${tipo} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function getToken() {
+            return localStorage.getItem('token') || '';
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            validarAdministrador();
+        });
+
+        async function validarAdministrador() {
+            try {
+                const response = await fetch(`${API_BASE}/usuario/1`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+
+                if (response.status === 403) {
+                    mostrarToast('⛔ You do not have admin permissions', 'error');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                    return;
+                }
+
+                if (response.ok) {
+                    cargarUsuarios();
+                }
+            } catch (error) {
+                console.error('Error validating admin:', error);
+            }
+        }
+    </script>
+</body>
+</html>
