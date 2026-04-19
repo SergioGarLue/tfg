@@ -17,10 +17,9 @@ public class ViewController {
         return "deseados";
     }
 
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+@GetMapping("/admin")
     public String admin() {
-        return "admin";
+        return "administrador";
     }
 
     @GetMapping("/perfil")
