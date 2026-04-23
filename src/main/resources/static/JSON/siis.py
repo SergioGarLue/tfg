@@ -1,8 +1,13 @@
+import sys
 import requests
 import json
 import time
 import re
 import os
+
+# Forzar salida UTF-8 en Windows para evitar errores con caracteres Unicode
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # --- CONFIGURACIÓN ---
 LIMITE_JUEGOS = 1000
