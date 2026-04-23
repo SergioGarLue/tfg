@@ -175,18 +175,42 @@ throw new IllegalArgumentException("El usuario ya existe");
     /**
      * Actualiza el perfil del usuario usando DTO.
      */
+    @Transactional
     public void updatePerfilUsuario(Long userId, Perfil_UsuarioDTO dto) {
         Usuario usuario = findById(userId);
         PerfilUsuario perfil = usuario.getPerfilUsuario();
         
-        PerfilUsuario updatedPerfil = DtoMapper.fromPerfilUsuarioDTO(dto);
-        perfil.setImagenUsuario(updatedPerfil.getImagenUsuario());
-        perfil.setImagenFondoPerfil(updatedPerfil.getImagenFondoPerfil());
-        perfil.setPais(updatedPerfil.getPais());
-        perfil.setBiografia(updatedPerfil.getBiografia());
-        perfil.setEstado(updatedPerfil.getEstado());
-        
-        perfilUsuarioRepository.save(perfil);
+        if (perfil == null) {
+            // Crear perfil si no existe
+            perfil = new PerfilUsuario(
+                dto.getImagenUsuario() != null ? dto.getImagenUsuario() : "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500&fit=crop&crop=center",
+                dto.getImagenFondoPerfil() != null ? dto.getImagenFondoPerfil() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=400&fit=crop",
+                dto.getPais() != null ? dto.getPais() : "España",
+                dto.getBiografia() != null ? dto.getBiografia() : "¡Hola! Soy un nuevo usuario de Solar Sistem.",
+                dto.getEstado() != null ? dto.getEstado() : true
+            );
+            usuario.setPerfilUsuario(perfil);
+            perfilUsuarioRepository.save(perfil);
+            usuarioRepository.save(usuario);
+        } else {
+            if (dto.getImagenUsuario() != null) {
+                perfil.setImagenUsuario(dto.getImagenUsuario());
+            }
+            if (dto.getImagenFondoPerfil() != null) {
+                perfil.setImagenFondoPerfil(dto.getImagenFondoPerfil());
+            }
+            if (dto.getPais() != null) {
+                perfil.setPais(dto.getPais());
+            }
+            if (dto.getBiografia() != null) {
+                perfil.setBiografia(dto.getBiografia());
+            }
+            if (dto.getEstado() != null) {
+                perfil.setEstado(dto.getEstado());
+            }
+            
+            perfilUsuarioRepository.save(perfil);
+        }
     }
 }
 

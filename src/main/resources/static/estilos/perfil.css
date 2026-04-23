@@ -50,6 +50,25 @@
     background-color: var(--hovers);
 }
 
+.btn-confirmar-avatar {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--steam-light-blue);
+    color: var(--steam-dark);
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-confirmar-avatar:hover {
+    background-color: var(--hovers);
+}
+
 .info-usuario {
     flex-grow: 1;
 }

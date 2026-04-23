@@ -20,7 +20,7 @@ window.fetch = async function(...args) {
   }
 
   // Asegurar que tenemos Content-Type para peticiones con body
-  if (config.body && !config.headers['Content-Type']) {
+  if (config.body && !config.headers['Content-Type'] && !(config.body instanceof FormData)) {
     config.headers['Content-Type'] = 'application/json';
   }
 
@@ -28,7 +28,8 @@ window.fetch = async function(...args) {
     let response = await originalFetch.call(this, resource, config);
 
     // Si obtenemos 401 (no autorizado), intentar renovar el token
-    if (response.status === 401) {
+    // Pero no para el endpoint de refresh para evitar bucles
+    if (response.status === 401 && !resource.includes('/api/auth/refresh')) {
       console.warn('Token expirado, intentando renovar...');
       
       const refreshed = await AUTH.refreshAccessToken();

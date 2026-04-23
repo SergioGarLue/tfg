@@ -67,6 +67,18 @@ const getUsuarioLogueado = () => {
   return null;
 };
 
+const saveUsuarioLogueado = (usuario) => {
+  if (typeof AUTH !== 'undefined' && AUTH && typeof AUTH.saveTokens === 'function') {
+    // Para actualizar solo el usuario, necesitamos los tokens actuales
+    const accessToken = AUTH.getAccessToken();
+    const refreshToken = AUTH.getRefreshToken();
+    AUTH.saveTokens(accessToken, refreshToken, usuario);
+  } else {
+    // Fallback: guardar directamente en localStorage
+    localStorage.setItem('user', JSON.stringify(usuario));
+  }
+};
+
 const logoutUsuario = () => {
   if (typeof AUTH !== 'undefined' && AUTH && typeof AUTH.logout === 'function') {
     AUTH.logout();

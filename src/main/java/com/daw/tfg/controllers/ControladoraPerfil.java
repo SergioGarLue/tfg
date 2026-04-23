@@ -8,6 +8,8 @@ import com.daw.tfg.service.UsuarioService;
 import com.daw.tfg.models.PerfilUsuario;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.dtos.Perfil_UsuarioDTO;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/perfil")
@@ -61,18 +63,29 @@ public class ControladoraPerfil {
     }
 
     /**
-     * Actualiza solo la imagen de avatar (base64)
+     * Actualiza solo la imagen de avatar (multipart file)
      */
     @PutMapping("/avatar")
-    public ResponseEntity<String> updateAvatar(@RequestBody String imagenBase64, Authentication auth) {
+    public ResponseEntity<String> updateAvatar(@RequestParam("avatar") MultipartFile file, Authentication auth) {
         if (auth == null || !auth.isAuthenticated()) {
             return ResponseEntity.status(401).build();
         }
         String username = auth.getName();
         Usuario user = usuarioService.findByNombreUsuario(username);
-        Perfil_UsuarioDTO dto = new Perfil_UsuarioDTO();
-        dto.setImagenUsuario(imagenBase64);
-        usuarioService.updatePerfilUsuario(user.getIdUsuario(), dto);
-        return ResponseEntity.ok("Avatar actualizado correctamente");
+        
+        try {
+            // Convert file to base64
+            byte[] bytes = file.getBytes();
+            String base64 = Base64.getEncoder().encodeToString(bytes);
+            String mimeType = file.getContentType() != null ? file.getContentType() : "image/png";
+            String dataUrl = "data:" + mimeType + ";base64," + base64;
+            
+            Perfil_UsuarioDTO dto = new Perfil_UsuarioDTO();
+            dto.setImagenUsuario(dataUrl);
+            usuarioService.updatePerfilUsuario(user.getIdUsuario(), dto);
+            return ResponseEntity.ok("Avatar actualizado correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al procesar la imagen: " + e.getMessage());
+        }
     }
 }

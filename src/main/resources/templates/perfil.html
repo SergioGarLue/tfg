@@ -35,6 +35,7 @@
                         <i class="fa-solid fa-camera"></i>
                     </label>
                     <input type="file" id="file-upload" accept="image/*" style="display: none;">
+                    <button id="confirm-avatar" class="btn-confirmar-avatar" style="display: none;">Confirmar Cambio</button>
                 </div>
                 <div class="info-usuario">
                     <h1 id="perfil-nombre-usuario" class="nombre-usuario">Paco Leon</h1>
@@ -139,39 +140,56 @@
       // Script para previsualizar y guardar imagen de perfil al seleccionarla
       const fileInput = document.getElementById('file-upload');
       const avatarPreview = document.getElementById('avatar-preview');
+      const confirmButton = document.getElementById('confirm-avatar');
+      let selectedImageData = null;
 
       if (fileInput) {
-          fileInput.addEventListener('change', async function(e) {
+          fileInput.addEventListener('change', function(e) {
               const file = e.target.files[0];
               if (file && avatarPreview) {
                   const reader = new FileReader();
-                  reader.onload = async function(readerEvent) {
+                  reader.onload = function(readerEvent) {
                       avatarPreview.src = readerEvent.target.result;
-                      const base64Image = readerEvent.target.result.split(',')[1]; // remove data:image header
-                      
-                      try {
-                          const response = await fetch('/api/perfil/avatar', {
-                              method: 'PUT',
-                              headers: {
-                                  'Content-Type': 'text/plain',
-                              },
-                              body: base64Image
-                          });
-                          if (response.ok) {
-                              console.log('Avatar guardado en servidor');
-                              // Update localStorage
-                              const usuario = getUsuarioLogueado() || {};
-                              usuario.imagen = readerEvent.target.result;
-                              saveUsuarioLogueado(usuario);
-                          } else {
-                              alert('Error al guardar avatar');
-                          }
-                      } catch (error) {
-                          console.error('Error saving avatar:', error);
-                          alert('Error al guardar avatar');
-                      }
+                      selectedImageData = readerEvent.target.result;
+                      confirmButton.style.display = 'block'; // Show confirm button
                   }
                   reader.readAsDataURL(file);
+              }
+          });
+      }
+
+      if (confirmButton) {
+          confirmButton.addEventListener('click', async function() {
+              if (!selectedImageData) return;
+
+              const fileInput = document.getElementById('file-upload');
+              const file = fileInput.files[0];
+              if (!file) return;
+
+              const formData = new FormData();
+              formData.append('avatar', file);
+
+              try {
+                  const response = await fetch('/api/perfil/avatar', {
+                      method: 'PUT',
+                      body: formData
+                  });
+                  if (response.ok) {
+                      console.log('Avatar guardado en servidor');
+                      // Update localStorage
+                      const usuario = getUsuarioLogueado() || {};
+                      usuario.imagenUsuario = selectedImageData;
+                      saveUsuarioLogueado(usuario);
+                      confirmButton.style.display = 'none'; // Hide confirm button
+                      selectedImageData = null;
+                      alert('Avatar actualizado correctamente');
+                  } else {
+                      const errorText = await response.text();
+                      alert('Error al guardar avatar: ' + errorText);
+                  }
+              } catch (error) {
+                  console.error('Error saving avatar:', error);
+                  alert('Error al guardar avatar');
               }
           });
       }
@@ -196,6 +214,10 @@
       });
     });
   </script>
+  <!-- Scripts de autenticación JWT -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
   <script src='/js/script.js'></script>
 </body>
 </html>
