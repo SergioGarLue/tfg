@@ -149,8 +149,32 @@ const renderSidebarUserState = async () => {
   }
 };
 
-const renderProfileUsuario = () => {
-  const usuario = getUsuarioLogueado();
+const renderProfileUsuario = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const profileId = urlParams.get('id');
+  const currentUser = getUsuarioLogueado();
+  const currentUserId = currentUser ? parseInt(currentUser.idUsuario, 10) : null;
+  
+  let usuario = currentUser;
+  
+  // If viewing another user's profile
+  if (profileId && (!currentUserId || parseInt(profileId, 10) !== currentUserId)) {
+    try {
+      const response = await fetch(`/api/usuarios/${profileId}`, {
+        headers: { 'Authorization': `Bearer ${AUTH.getAccessToken()}` }
+      });
+      if (response.ok) {
+        usuario = await response.json();
+        document.body.classList.add('perfil-externo');
+        document.title = `${usuario.nombreUsuario} - Perfil - Solar Sistem`;
+      } else {
+        console.error('Error cargando perfil externo:', response.status);
+      }
+    } catch (error) {
+      console.error('Error cargando perfil externo:', error);
+    }
+  }
+  
   const avatarPreview = document.getElementById('avatar-preview');
   const nombreUsuario = document.getElementById('perfil-nombre-usuario');
   const correoUsuario = document.getElementById('perfil-correo-usuario');
@@ -165,7 +189,21 @@ const renderProfileUsuario = () => {
   if (correoUsuario) {
     correoUsuario.textContent = usuario?.correoElectronico || 'usuario@ejemplo.com';
   }
+
+  // Update section headings when viewing another user's profile
+  if (document.body.classList.contains('perfil-externo')) {
+    const actividadHeader = document.querySelector('#actividad h3');
+    if (actividadHeader) actividadHeader.textContent = 'Actividad reciente';
+
+    const logrosHeader = document.querySelector('#logros h3');
+    if (logrosHeader) logrosHeader.textContent = 'Logros';
+
+    const resenasHeader = document.querySelector('#resenas h3');
+    if (resenasHeader) resenasHeader.textContent = 'Reseñas';
+  }
 };
+
+
 
 const initSidebarDropdowns = () => {
   const sidebarItems = document.querySelectorAll('.item-desplegable');
@@ -448,10 +486,11 @@ async function main() {
     console.warn('AUTH module not loaded, skipping user state renders');
   }
   await loadSidebar();
-  renderProfileUsuario();
+  await renderProfileUsuario();
   actualizarContadorCarrito(getCartCount());
   setupNotificaciones();
   fetchJuegos();
 }
+
 
 document.addEventListener('DOMContentLoaded', main);

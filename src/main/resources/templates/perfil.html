@@ -6,8 +6,17 @@
 <title>Mi Perfil - Solar Sistem</title>
     <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/index.css" />
-    <link rel="stylesheet" href="/estilos/perfil.css" />
+  <link rel="stylesheet" href="/estilos/perfil.css" />
+  <style>
+    /* Hide edit controls when viewing another user's profile */
+    body.perfil-externo .btn-cambiar-avatar,
+    body.perfil-externo #file-upload,
+    body.perfil-externo #confirm-avatar {
+      display: none !important;
+    }
+  </style>
 </head>
+
 <body>
 
   <div class="contenedor-principal">
@@ -221,7 +230,3 @@
   <script src='/js/script.js'></script>
 </body>
 </html>
-
-
-
-
