@@ -105,9 +105,7 @@ function mostrarAmigosAceptados(amigos) {
     }
 }
 
-function getAvatarUrl(usuario) {
-    return usuario?.imagenUsuario || 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png';
-}
+
 
 function crearGrupoAmigos(titulo, amigos, claseEstado) {
     const grupo = document.createElement('div');

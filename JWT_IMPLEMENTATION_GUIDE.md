@@ -357,7 +357,7 @@ curl -X POST http://localhost:8080/api/auth/register \
   -d '{
     "username": "testuser",
     "correoElectronico": "test@example.com",
-    "passwd": "Password123!"
+    "passwd": "Test@123!"
   }'
 
 # 2. Test de Login
@@ -365,7 +365,7 @@ curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "username": "testuser",
-    "password": "Password123!"
+    "password": "Test@123!"
   }'
 
 # 3. Test de Acceso a API Protegida
