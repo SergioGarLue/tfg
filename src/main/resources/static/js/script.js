@@ -211,6 +211,13 @@ const initSidebarIconButtons = () => {
   });
 };
 
+const CARRITO_KEY = 'solarSistemCart';
+
+const getCartCount = () => {
+  const cart = JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+  return cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+};
+
 const actualizarContadorCarrito = (cantidad) => {
   const badge = document.getElementById('badge-carrito');
   if (badge) {
@@ -222,6 +229,15 @@ const actualizarContadorCarrito = (cantidad) => {
     }
   }
 };
+
+window.actualizarContadorCarrito = actualizarContadorCarrito;
+window.getCartCount = getCartCount;
+
+window.addEventListener('storage', (event) => {
+  if (event.key === CARRITO_KEY) {
+    actualizarContadorCarrito(getCartCount());
+  }
+});
 
 const setupNotificaciones = () => {
   const botonNotificaciones = document.getElementById('boton-notificaciones');
@@ -313,7 +329,7 @@ async function main() {
   }
   await loadSidebar();
   renderProfileUsuario();
-  actualizarContadorCarrito(2);
+  actualizarContadorCarrito(getCartCount());
   setupNotificaciones();
   fetchJuegos();
 }
