@@ -18,29 +18,33 @@ public class AdminInitializer {
     @PostConstruct
     @Transactional
     public void initAdmin() {
-        String adminUsername = "admin";
-        if (usuarioService.findAll().stream().noneMatch(u -> u.getNombreUsuario().equals(adminUsername))) {
-            try {
-                UsuarioDTO adminDto = new UsuarioDTO();
-                adminDto.setUsername(adminUsername);
-                adminDto.setCorreoElectronico("admin@platform.com");
-                adminDto.setPasswd("Admin@123!");
+        // Crear admin
+        crearUsuarioSiNoExiste("admin", "admin@platform.com", "Admin@123!", RolesUsuarios.ADMIN);
+        // Crear usuario de prueba para testear amistades
+        crearUsuarioSiNoExiste("testuser", "test@platform.com", "Test@123!", RolesUsuarios.USER);
+        crearUsuarioSiNoExiste("testuser1", "test1@platform.com", "Test@123!", RolesUsuarios.USER);
+    }
 
-                usuarioService.registrar(adminDto);
-                // Force rol ADMIN (service defaults USER, override via save)
-                Usuario admin = usuarioService.findByNombreUsuario(adminUsername);
-                admin.setRol(RolesUsuarios.ADMIN);
-                usuarioService.save(admin);
+    private void crearUsuarioSiNoExiste(String username, String email, String password, RolesUsuarios rol) {
+        if (usuarioService.findAll().stream().noneMatch(u -> u.getNombreUsuario().equals(username))) {
+            try {
+                UsuarioDTO dto = new UsuarioDTO();
+                dto.setUsername(username);
+                dto.setCorreoElectronico(email);
+                dto.setPasswd(password);
+
+                usuarioService.registrar(dto);
+                // Forzar rol correcto
+                Usuario usuario = usuarioService.findByNombreUsuario(username);
+                usuario.setRol(rol);
+                usuarioService.save(usuario);
                 
-                System.out.println("✅ ADMIN creado programáticamente: " + adminUsername + " / admin@123!");
+                System.out.println("✅ Usuario creado: " + username + " / " + password + " (rol: " + rol + ")");
             } catch (Exception e) {
-                System.err.println("❌ Error creando admin: " + e.getMessage());
+                System.err.println("❌ Error creando " + username + ": " + e.getMessage());
             }
         } else {
-            System.out.println("ℹ️ Admin '" + adminUsername + "' ya existe.");
+            System.out.println("ℹ️ Usuario '" + username + "' ya existe.");
         }
     }
 }
-
-// -- **Credentials** (plain PW - no BCrypt warning):
-// -- Username: admin | Password: admin@123!

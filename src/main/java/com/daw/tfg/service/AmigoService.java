@@ -73,8 +73,9 @@ public class AmigoService {
         existing.addAll(amigoRepository.findBySolicitante(destinatario));
         existing.addAll(amigoRepository.findByDestinatario(destinatario));
         boolean hasRelation = existing.stream()
-                .anyMatch(a -> (a.getSolicitante().equals(solicitante) && a.getDestinatario().equals(destinatario)) ||
-                        (a.getSolicitante().equals(destinatario) && a.getDestinatario().equals(solicitante)));
+                .anyMatch(a -> (a.getSolicitante().getIdUsuario().equals(solicitanteId) && a.getDestinatario().getIdUsuario().equals(destinatarioId)) ||
+                        (a.getSolicitante().getIdUsuario().equals(destinatarioId) && a.getDestinatario().getIdUsuario().equals(solicitanteId)));
+
         if (hasRelation) {
             throw new IllegalArgumentException("Ya existe una solicitud o amistad entre estos usuarios");
         }
@@ -127,16 +128,26 @@ public class AmigoService {
      * Obtener lista de amigos aceptados de un usuario
      */
     public List<Usuario> obtenerAmigosAceptados(Long usuarioId) {
-        Usuario usuario = usuarioService.findById(usuarioId);
         List<Amistad> amistades = amigoRepository.findAll().stream()
             .filter(a -> a.getEstado().equals(EstadoPeticion.ACEPTADO))
-            .filter(a -> a.getSolicitante().equals(usuario) || a.getDestinatario().equals(usuario))
+            .filter(a -> a.getSolicitante().getIdUsuario().equals(usuarioId) || a.getDestinatario().getIdUsuario().equals(usuarioId))
             .toList();
 
-        return amistades.stream()
-            .map(a -> a.getSolicitante().equals(usuario) ? a.getDestinatario() : a.getSolicitante())
+        List<Usuario> amigos = amistades.stream()
+            .map(a -> a.getSolicitante().getIdUsuario().equals(usuarioId) ? a.getDestinatario() : a.getSolicitante())
             .toList();
+        
+        // Force load perfilUsuario to avoid LazyInitializationException during JSON serialization
+        amigos.forEach(u -> {
+            if (u.getPerfilUsuario() != null) {
+                u.getPerfilUsuario().getImagenUsuario();
+            }
+        });
+        
+        return amigos;
     }
+
+
 
     /**
      * Obtener solicitudes pendientes recibidas por un usuario

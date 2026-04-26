@@ -151,12 +151,6 @@ public class ControladoraAmistades {
             return ResponseEntity.ok(solicitudes);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
-        try {
-            amigoService.deleteById(id);
-            return ResponseEntity.ok("Amistad eliminada correctamente");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno al eliminar la amistad");
         }
     }
 }

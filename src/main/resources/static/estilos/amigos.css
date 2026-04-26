@@ -188,6 +188,157 @@
     color: white;
 }
 
+/* Sección solicitudes pendientes */
+.seccion-solicitudes {
+    margin-bottom: 30px;
+}
+
+.seccion-solicitudes h3 {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--steam-card-bg);
+    padding-bottom: 10px;
+}
+
+.lista-solicitudes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tarjeta-solicitud {
+    background-color: var(--steam-card-bg);
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.tarjeta-solicitud:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.info-solicitud {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.info-solicitud img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--steam-light-blue);
+}
+
+.info-solicitud p {
+    color: white;
+    margin: 0;
+}
+
+.info-solicitud small {
+    color: var(--texto-gris);
+}
+
+.acciones-solicitud {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-aceptar, .btn-rechazar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-aceptar {
+    background: linear-gradient(90deg, #66c0f4 0%, #2a75b3 100%);
+    color: white;
+}
+
+.btn-aceptar:hover {
+    background: linear-gradient(90deg, #8ad4ff 0%, #4a8cc7 100%);
+}
+
+.btn-rechazar {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--steam-text);
+}
+
+.btn-rechazar:hover {
+    background-color: #c0392b;
+    color: white;
+}
+
+/* Botón agregar amigo en resultados de búsqueda */
+.btn-agregar-amigo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: linear-gradient(90deg, #66c0f4 0%, #2a75b3 100%);
+    color: white;
+    white-space: nowrap;
+}
+
+.btn-agregar-amigo:hover {
+    background: linear-gradient(90deg, #8ad4ff 0%, #4a8cc7 100%);
+    transform: scale(1.05);
+}
+
+.sin-amigos, .sin-solicitudes {
+
+    color: var(--texto-gris);
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Resultados de búsqueda */
+.resultados-busqueda {
+    margin-top: 20px;
+}
+
+.resultados-busqueda h3 {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--steam-card-bg);
+    padding-bottom: 10px;
+}
+
+/* Badge en sidebar */
+.badge-sidebar {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #c0392b;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+}
+
+.sidebar-icon {
+    position: relative;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .buscar-amigos {
@@ -204,5 +355,15 @@
     
     .lista-amigos {
         grid-template-columns: 1fr;
+    }
+
+    .tarjeta-solicitud {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .info-solicitud {
+        flex-direction: column;
     }
 }

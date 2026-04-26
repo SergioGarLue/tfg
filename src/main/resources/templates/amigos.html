@@ -11,8 +11,7 @@
 <body>
 
   <div class="contenedor-principal">
-    
-        <div id="sidebar-container"></div>
+    <div id="sidebar-container"></div>
 
     <main class="contenido">
       <header class="barra-superior">
@@ -27,114 +26,30 @@
       </header>
 
       <div class="scroll-contenido">
-        <!-- Sección de Amigos -->
         <section class="seccion-amigos">
           <h2>Mis Amigos</h2>
-          
+
+          <!-- Buscador de usuarios -->
           <div class="buscar-amigos">
             <i class="fa-solid fa-search"></i>
             <input type="text" placeholder="Buscar por nombre de usuario...">
             <button class="btn-buscar">Buscar</button>
           </div>
 
+          <!-- Solicitudes pendientes -->
+          <div class="seccion-solicitudes">
+            <h3>Solicitudes pendientes</h3>
+            <div id="contenedor-solicitudes" class="lista-solicitudes">
+              <p class="sin-solicitudes">Cargando solicitudes...</p>
+            </div>
+          </div>
+
+          <!-- Lista de amigos (dinámica) -->
           <div class="seccion-tarjetas-amigos">
-            <h3>En línea (3)</h3>
-            <div class="lista-amigos">
-              <!-- Amigo 1 -->
-              <div class="tarjeta-amigo">
-                <div class="avatar-amigo">
-                  <img src="https://i.pravatar.cc/150?img=68" alt="Amigo">
-                  <div class="estado-online"></div>
-                </div>
-                <div class="info-amigo">
-                  <span class="nombre-amigo">Carlos Rodriguez</span>
-                  <span class="estado-amigo">En línea</span>
-                </div>
-                <div class="acciones-amigo">
-                  <button class="btn-accion-amigo" title="Enviar mensaje"><i class="fa-solid fa-message"></i></button>
-                  <button class="btn-accion-amigo" title="Ver perfil"><i class="fa-solid fa-user"></i></button>
-                  <button class="btn-accion-amigo btn-eliminar-amigo" title="Eliminar amigo"><i class="fa-solid fa-user-xmark"></i></button>
-                </div>
-              </div>
+            <p class="sin-amigos">Cargando amigos...</p>
+          </div>
 
-              <!-- Amigo 2 -->
-              <div class="tarjeta-amigo">
-                <div class="avatar-amigo">
-                  <img src="https://i.pravatar.cc/150?img=32" alt="Amigo">
-                  <div class="estado-online"></div>
-                </div>
-                <div class="info-amigo">
-                  <span class="nombre-amigo">Ana López</span>
-                  <span class="estado-amigo">En línea - Jugando</span>
-                </div>
-                <div class="acciones-amigo">
-                  <button class="btn-accion-amigo" title="Enviar mensaje"><i class="fa-solid fa-message"></i></button>
-                  <button class="btn-accion-amigo" title="Ver perfil"><i class="fa-solid fa-user"></i></button>
-                  <button class="btn-accion-amigo btn-eliminar-amigo" title="Eliminar amigo"><i class="fa-solid fa-user-xmark"></i></button>
-                </div>
-              </div>
-
-              <!-- Amigo 3 -->
-              <div class="tarjeta-amigo">
-                <div class="avatar-amigo">
-                  <img src="https://i.pravatar.cc/150?img=12" alt="Amigo">
-                  <div class="estado-online"></div>
-                </div>
-                <div class="info-amigo">
-                  <span class="nombre-amigo">Pedro Sánchez</span>
-                  <span class="estado-amigo">En línea</span>
-                </div>
-                <div class="acciones-amigo">
-                  <button class="btn-accion-amigo" title="Enviar mensaje"><i class="fa-solid fa-message"></i></button>
-                  <button class="btn-accion-amigo" title="Ver perfil"><i class="fa-solid fa-user"></i></button>
-                  <button class="btn-accion-amigo btn-eliminar-amigo" title="Eliminar amigo"><i class="fa-solid fa-user-xmark"></i></button>
-                </div>
-              </div>
-            </div>
-
-            <h3>Ausentes (1)</h3>
-            <div class="lista-amigos">
-              <!-- Amigo 4 -->
-              <div class="tarjeta-amigo">
-                <div class="avatar-amigo">
-                  <img src="https://i.pravatar.cc/150?img=44" alt="Amigo">
-                  <div class="estado-away"></div>
-                </div>
-                <div class="info-amigo">
-                  <span class="nombre-amigo">Laura Martinez</span>
-                  <span class="estado-amigo">Ausente</span>
-                </div>
-                <div class="acciones-amigo">
-                  <button class="btn-accion-amigo" title="Enviar mensaje"><i class="fa-solid fa-message"></i></button>
-                  <button class="btn-accion-amigo" title="Ver perfil"><i class="fa-solid fa-user"></i></button>
-                  <button class="btn-accion-amigo btn-eliminar-amigo" title="Eliminar amigo"><i class="fa-solid fa-user-xmark"></i></button>
-                </div>
-              </div>
-            </div>
-
-            <h3>Desconectados (1)</h3>
-            <div class="lista-amigos">
-              <!-- Amigo 5 -->
-              <div class="tarjeta-amigo">
-                <div class="avatar-amigo">
-                  <img src="https://i.pravatar.cc/150?img=27" alt="Amigo">
-                  <div class="estado-offline"></div>
-                </div>
-                <div class="info-amigo">
-                  <span class="nombre-amigo">Miguel Torres</span>
-                  <span class="estado-amigo">Desconectado</span>
-                </div>
-                <div class="acciones-amigo">
-                  <button class="btn-accion-amigo" title="Enviar mensaje"><i class="fa-solid fa-message"></i></button>
-                  <button class="btn-accion-amigo" title="Ver perfil"><i class="fa-solid fa-user"></i></button>
-                  <button class="btn-accion-amigo btn-eliminar-amigo" title="Eliminar amigo"><i class="fa-solid fa-user-xmark"></i></button>
-                </div>
-              </div>
-            </div>
-
-          </section>
-
-        </div>
+        </section>
       </div>
     </main>
   </div>
@@ -143,7 +58,7 @@
   <script src="/js/fetch-interceptor.js"></script>
   <script src="/js/route-protection.js"></script>
   <script src='/js/script.js'></script>
+
+  <script src="/js/amigos.js"></script>
 </body>
 </html>
-
-

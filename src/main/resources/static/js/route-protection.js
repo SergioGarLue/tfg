@@ -59,10 +59,12 @@ const ROUTE_PROTECTION = (() => {
       return true;
     }
 
-    // Si no está autenticado, no permitir
-    if (!AUTH.isAuthenticated()) {
+    // Si no está autenticado y no hay refresh token, no permitir
+    // Si hay refresh token, dejar que el fetch interceptor maneje la renovación
+    if (!AUTH.isAuthenticated() && !AUTH.getRefreshToken()) {
       return false;
     }
+
 
     // Verificar protección por rol
     const requiredRoles = getRoleRequirementForRoute(route);
