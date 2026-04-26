@@ -16,6 +16,7 @@ async function loadSidebar() {
     initSidebarMobileToggle();
     initSidebarIconButtons();
     renderSidebarUserState();
+    document.dispatchEvent(new CustomEvent('sidebarLoaded'));
   } catch (error) {
     console.error('Error cargando sidebar.html:', error);
     container.innerHTML = '<div class="sidebar-error">No se pudo cargar el sidebar. Vuelve a intentarlo.</div>';
