@@ -16,6 +16,7 @@ async function loadSidebar() {
     initSidebarMobileToggle();
     initSidebarIconButtons();
     renderSidebarUserState();
+    document.dispatchEvent(new CustomEvent('sidebarLoaded'));
   } catch (error) {
     console.error('Error cargando sidebar.html:', error);
     container.innerHTML = '<div class="sidebar-error">No se pudo cargar el sidebar. Vuelve a intentarlo.</div>';
@@ -211,6 +212,13 @@ const initSidebarIconButtons = () => {
   });
 };
 
+const CARRITO_KEY = 'solarSistemCart';
+
+const getCartCount = () => {
+  const cart = JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+  return cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+};
+
 const actualizarContadorCarrito = (cantidad) => {
   const badge = document.getElementById('badge-carrito');
   if (badge) {
@@ -223,7 +231,120 @@ const actualizarContadorCarrito = (cantidad) => {
   }
 };
 
-const setupNotificaciones = () => {
+window.actualizarContadorCarrito = actualizarContadorCarrito;
+window.getCartCount = getCartCount;
+
+window.addEventListener('storage', (event) => {
+  if (event.key === CARRITO_KEY) {
+    actualizarContadorCarrito(getCartCount());
+  }
+});
+
+const buildNotificationHTML = ({ icon, title, time, unread, url }) => `
+  <div class="notificacion ${unread ? 'no-leida' : ''}" ${url ? `data-url="${url}"` : ''}>
+    <div class="icono-notificacion"><i class="fa-solid ${icon}"></i></div>
+    <div class="contenido-notificacion">
+      <p class="texto-notificacion">${title}</p>
+      <span class="tiempo-notificacion">${time}</span>
+    </div>
+  </div>
+`;
+
+const getFriendList = () => {
+  const storedFriends = JSON.parse(localStorage.getItem('listaAmigos')) || [];
+  return Array.isArray(storedFriends) ? storedFriends : [];
+};
+
+const getFriendName = (friend) => {
+  if (typeof friend === 'string') return friend;
+  if (typeof friend === 'object' && friend !== null) {
+    return friend.nombre || friend.name || friend.username || friend.usuario || 'Amigo';
+  }
+  return 'Amigo';
+};
+
+const getFriendCollectionGames = (friend) => {
+  if (!friend || typeof friend !== 'object') return [];
+  const candidateCollections = [friend.coleccion, friend.coleccionJuegos, friend.games, friend.juegos, friend.collection];
+  const collection = candidateCollections.find(Array.isArray);
+  if (!Array.isArray(collection)) return [];
+  return collection
+    .map((item) => {
+      if (!item) return null;
+      if (typeof item === 'string') {
+        return { name: item };
+      }
+      if (typeof item === 'object') {
+        return item;
+      }
+      return null;
+    })
+    .filter(Boolean);
+};
+
+const getRandomItem = (items) => items[Math.floor(Math.random() * items.length)];
+
+const loadDynamicNotificaciones = async () => {
+  const listaNotificaciones = document.querySelector('.lista-notificaciones');
+  if (!listaNotificaciones) return;
+
+  const friends = getFriendList();
+
+  let juegos = [];
+  try {
+    const response = await fetch('/JSON/steam_top_1000_sellers.json');
+    if (response.ok) {
+      juegos = await response.json();
+    }
+  } catch (error) {
+    console.warn('No se pudo cargar el JSON de juegos para notificaciones:', error);
+  }
+
+  const juegosConOferta = juegos.filter(juego => Number(juego.price?.discount_percent) > 0);
+  const ofertaJuego = juegosConOferta.length ? getRandomItem(juegosConOferta) : getRandomItem(juegos);
+  const ofertaTitulo = ofertaJuego
+    ? `¡Oferta especial! ${ofertaJuego.name || ofertaJuego.titulo || ofertaJuego.title} está ${Number(ofertaJuego.price?.discount_percent) || 0}% más barato`
+    : '¡Hay una oferta nueva en la tienda!';
+  const ofertaUrl = ofertaJuego?.appid ? `/juego/${ofertaJuego.appid}` : '';
+
+  const notificaciones = [
+    {
+      icon: 'fa-tag',
+      title: ofertaTitulo,
+      time: 'Hace unos minutos',
+      unread: true,
+      url: ofertaUrl
+    }
+  ];
+
+  if (friends.length) {
+    const selectedFriends = friends.length > 1
+      ? [getRandomItem(friends), getRandomItem(friends.filter((f) => f !== friends[0]))]
+      : [friends[0]];
+
+    const friendNotifications = selectedFriends.map((friend) => {
+      const friendName = getFriendName(friend);
+      const friendGames = getFriendCollectionGames(friend);
+      const chosenGame = friendGames.length ? getRandomItem(friendGames) : getRandomItem(juegos);
+      const gameTitle = chosenGame?.name || chosenGame?.titulo || chosenGame?.title || 'un juego';
+      const gameUrl = chosenGame?.appid ? `/juego/${chosenGame.appid}` : '';
+
+      return {
+        icon: 'fa-user-check',
+        title: `${friendName} ha añadido ${gameTitle} a su colección`,
+        time: 'Hace poco',
+        unread: true,
+        url: gameUrl
+      };
+    });
+
+    notificaciones.push(...friendNotifications);
+  }
+
+  listaNotificaciones.innerHTML = notificaciones.map(buildNotificationHTML).join('');
+};
+
+const setupNotificaciones = async () => {
   const botonNotificaciones = document.getElementById('boton-notificaciones');
   const menuNotificaciones = document.getElementById('menu-notificaciones');
 
@@ -241,10 +362,25 @@ const setupNotificaciones = () => {
   });
 
   const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
+  const listaNotificaciones = menuNotificaciones.querySelector('.lista-notificaciones');
+
   if (btnMarcarLeidas) {
     btnMarcarLeidas.addEventListener('click', () => {
       const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
       notificaciones.forEach(n => n.classList.remove('no-leida'));
+    });
+  }
+
+  await loadDynamicNotificaciones();
+
+  if (listaNotificaciones) {
+    listaNotificaciones.addEventListener('click', (event) => {
+      const notification = event.target.closest('.notificacion');
+      if (!notification) return;
+      const url = notification.dataset.url;
+      if (url) {
+        window.location.href = url;
+      }
     });
   }
 };
@@ -313,7 +449,7 @@ async function main() {
   }
   await loadSidebar();
   renderProfileUsuario();
-  actualizarContadorCarrito(2);
+  actualizarContadorCarrito(getCartCount());
   setupNotificaciones();
   fetchJuegos();
 }

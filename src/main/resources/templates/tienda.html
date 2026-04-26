@@ -89,58 +89,146 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      // Existing code
       const actualizarContadorCarrito = (cantidad) => {
         const badge = document.getElementById('badge-carrito');
         if (badge) {
           if (cantidad > 0) {
-            badge.style.display = 'flex'; 
+            badge.style.display = 'flex';
             badge.textContent = cantidad;
           } else {
-            badge.style.display = 'none'; 
+            badge.style.display = 'none';
           }
         }
       };
 
-      // Obtener cantidad de items del carrito (solo contar items, no cantidad)
       const CARRITO_KEY = 'solarSistemCart';
       const cart = JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
-      const itemsEnCarrito = cart.length;
-      actualizarContadorCarrito(itemsEnCarrito);
+      actualizarContadorCarrito(cart.length);
 
-      // NEW: Tienda Games Fetch + Pagination
       const gamesContainer = document.getElementById('games-container');
       const paginationContainer = document.getElementById('pagination');
       const PAGE_SIZE = 18;
       let allGames = [];
+      let filteredGames = [];
 
-      // Parse URL param page
       const urlParams = new URLSearchParams(window.location.search);
       let currentPage = parseInt(urlParams.get('page')) || 1;
+      const filtro = urlParams.get('filtro');
+      const genero = urlParams.get('genero');
 
-      // Fetch games
-      try {
-        const response = await fetch('/JSON/steam_top_1000_sellers.json');
-        if (!response.ok) throw new Error('Failed to fetch games');
-        const rawGames = await response.json();
-        // Filtrar elementos vacíos y válidos
-        allGames = rawGames.filter(j => j && j.appid && j.name && j.header_image && j.price);
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('games-container').style.display = 'grid';
-        console.log(`✅ ${allGames.length} juegos cargados y validados`);
-      } catch (error) {
-        console.error('❌ Error loading games:', error);
-        document.getElementById('loading').style.display = 'none';
-        gamesContainer.innerHTML = '<p style="color: #ff6b6b; text-align: center; padding: 50px;">⚠️ Error cargando juegos. Por favor, recarga la página.</p>';
-        return;
-      }
+      let sidebarReady = false;
 
-      // Render function
+      const getTopGenres = (games, count) => {
+        const genreCount = games.reduce((acc, game) => {
+          if (Array.isArray(game.genres)) {
+            game.genres.forEach((genre) => {
+              const normalized = String(genre).trim();
+              if (normalized) {
+                acc[normalized] = (acc[normalized] || 0) + 1;
+              }
+            });
+          }
+          return acc;
+        }, {});
+
+        return Object.entries(genreCount)
+          .sort(([, a], [, b]) => b - a)
+          .slice(0, count)
+          .map(([genre]) => genre);
+      };
+
+      const tryPopulateGenres = () => {
+        if (!sidebarReady || allGames.length === 0) {
+          return;
+        }
+        const genreMenu = document.getElementById('lista-generos');
+        if (!genreMenu) {
+          return;
+        }
+
+        const topGenres = getTopGenres(allGames, 6);
+        if (topGenres.length === 0) {
+          genreMenu.innerHTML = '<li>No hay géneros disponibles</li>';
+          return;
+        }
+
+        genreMenu.innerHTML = topGenres
+          .map((genre) => `<li><a href="/tienda?genero=${encodeURIComponent(genre)}">${genre}</a></li>`)
+          .join('');
+      };
+
+      document.addEventListener('sidebarLoaded', () => {
+        sidebarReady = true;
+        tryPopulateGenres();
+      });
+
+      const getPageTitle = () => {
+        if (filtro === 'ofertas') {
+          return 'Ofertas - Juegos con 50% o más de descuento';
+        }
+        if (filtro === 'populares') {
+          return 'Populares';
+        }
+        if (genero) {
+          return `Género: ${decodeURIComponent(genero)}`;
+        }
+        return 'Todos los Juegos';
+      };
+
+      const filterGames = (games) => {
+        if (filtro === 'ofertas') {
+          return games.filter((game) => {
+            const discount = Number(game.price?.discount_percent) || 0;
+            return discount >= 50;
+          });
+        }
+        if (genero) {
+          const expectedGenre = genero.toLowerCase();
+          return games.filter((game) =>
+            Array.isArray(game.genres) && game.genres.some((genreItem) => String(genreItem).toLowerCase() === expectedGenre)
+          );
+        }
+        return games;
+      };
+
+      const updateTitle = () => {
+        const title = document.querySelector('h2');
+        if (title) {
+          title.textContent = getPageTitle();
+        }
+      };
+
+      const updateUrl = () => {
+        const url = new URL(window.location);
+        if (currentPage === 1) {
+          url.searchParams.delete('page');
+        } else {
+          url.searchParams.set('page', currentPage);
+        }
+        if (filtro) {
+          url.searchParams.set('filtro', filtro);
+        } else {
+          url.searchParams.delete('filtro');
+        }
+        if (genero) {
+          url.searchParams.set('genero', genero);
+        } else {
+          url.searchParams.delete('genero');
+        }
+        window.history.pushState({}, '', url);
+      };
+
       function renderGames(games) {
-        gamesContainer.innerHTML = games.map(game => {
-          const finalPrice = Number(game.price.final) || 0;
-          const priceDisplay = (finalPrice === 0) ? 'Gratis' : 
-                               `${finalPrice.toFixed(2)}€`;
+        if (games.length === 0) {
+          gamesContainer.innerHTML = '<p style="color: #ffffff; text-align: center; padding: 40px;">No hay juegos para este filtro.</p>';
+          return;
+        }
+
+        gamesContainer.innerHTML = games.map((game) => {
+          const finalPrice = Number(game.price?.final) || 0;
+          const priceDisplay = finalPrice === 0 ? 'Gratis' : `${finalPrice.toFixed(2)}€`;
+          const discountPercent = Number(game.price?.discount_percent) || 0;
+
           return `
             <a href="/juego/${game.appid}" class="tarjeta">
               <img src="${game.header_image}" alt="${game.name}" loading="lazy">
@@ -148,7 +236,7 @@
                 <span class="titulo-juego">${game.name}</span>
                 <div class="etiquetas">${(game.genres || []).slice(0, 2).join(', ')}</div>
                 <div class="precio-container">
-                  ${Number(game.price.discount_percent) > 0 ? `<span class="descuento">-${game.price.discount_percent}%</span>` : ''}
+                  ${discountPercent > 0 ? `<span class="descuento">-${discountPercent}%</span>` : ''}
                   <span class="precio">${priceDisplay}</span>
                 </div>
               </div>
@@ -157,49 +245,76 @@
         }).join('');
       }
 
-      // Pagination
       function renderPagination() {
-        const totalPages = Math.ceil(allGames.length / PAGE_SIZE);
+        const totalPages = Math.ceil(filteredGames.length / PAGE_SIZE);
+        if (totalPages <= 1) {
+          paginationContainer.innerHTML = '';
+          return;
+        }
+
         let paginationHTML = '';
         if (currentPage > 1) {
           paginationHTML += `<button onclick="changePage(${currentPage - 1})">‹ Prev</button>`;
         }
+
         for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
           paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
         }
+
         if (currentPage < totalPages) {
           paginationHTML += `<button onclick="changePage(${currentPage + 1})">Next ›</button>`;
         }
-        paginationContainer.innerHTML = paginationHTML || '<p>No hay juegos disponibles</p>';
+
+        paginationContainer.innerHTML = paginationHTML;
       }
 
-      // Change page
       window.changePage = function(page) {
-        const totalPages = Math.ceil(allGames.length / PAGE_SIZE);
+        const totalPages = Math.ceil(filteredGames.length / PAGE_SIZE);
         if (page < 1 || page > totalPages) return;
-        
-        currentPage = page;
-        const start = (page - 1) * PAGE_SIZE;
-        const end = start + PAGE_SIZE;
-        renderGames(allGames.slice(start, end));
-        renderPagination();
 
-        // Update URL
-        const url = new URL(window.location);
-        if (page === 1) {
-          url.searchParams.delete('page');
-        } else {
-          url.searchParams.set('page', page);
-        }
-        window.history.pushState({}, '', url);
-        
-        // Scroll to top
+        currentPage = page;
+        updateUrl();
+        renderPage();
         document.querySelector('.scroll-contenido').scrollTop = 0;
       };
 
-      // Initial render
-      renderGames(allGames.slice(0, PAGE_SIZE));
-      renderPagination();
+      function renderPage() {
+        const totalPages = Math.ceil(filteredGames.length / PAGE_SIZE);
+        if (currentPage > totalPages) {
+          currentPage = 1;
+        }
+
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+        renderGames(filteredGames.slice(start, end));
+        renderPagination();
+      }
+
+      try {
+        const response = await fetch('/JSON/steam_top_1000_sellers.json');
+        if (!response.ok) throw new Error('Failed to fetch games');
+        const rawGames = await response.json();
+        allGames = rawGames.filter((j) => j && j.appid && j.name && j.header_image && j.price);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('games-container').style.display = 'grid';
+        console.log(`✅ ${allGames.length} juegos cargados y validados`);
+
+        updateTitle();
+        tryPopulateGenres();
+
+        filteredGames = filterGames(allGames);
+        if (filteredGames.length === 0) {
+          gamesContainer.innerHTML = '<p style="color: #ffffff; text-align: center; padding: 40px;">No se encontraron juegos para este filtro.</p>';
+          paginationContainer.innerHTML = '';
+          return;
+        }
+
+        renderPage();
+      } catch (error) {
+        console.error('❌ Error loading games:', error);
+        document.getElementById('loading').style.display = 'none';
+        gamesContainer.innerHTML = '<p style="color: #ff6b6b; text-align: center; padding: 50px;">⚠️ Error cargando juegos. Por favor, recarga la página.</p>';
+      }
     });
   </script>
   <script src="/js/auth.js"></script>
