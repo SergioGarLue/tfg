@@ -122,4 +122,29 @@ public class AmigoService {
         amistad.setEstado(EstadoPeticion.RECHAZADA);
         save(amistad);
     }
+
+    /**
+     * Obtener lista de amigos aceptados de un usuario
+     */
+    public List<Usuario> obtenerAmigosAceptados(Long usuarioId) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        List<Amistad> amistades = amigoRepository.findAll().stream()
+            .filter(a -> a.getEstado().equals(EstadoPeticion.ACEPTADO))
+            .filter(a -> a.getSolicitante().equals(usuario) || a.getDestinatario().equals(usuario))
+            .toList();
+
+        return amistades.stream()
+            .map(a -> a.getSolicitante().equals(usuario) ? a.getDestinatario() : a.getSolicitante())
+            .toList();
+    }
+
+    /**
+     * Obtener solicitudes pendientes recibidas por un usuario
+     */
+    public List<Amistad> obtenerSolicitudesPendientes(Long usuarioId) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        return amigoRepository.findByDestinatario(usuario).stream()
+            .filter(a -> a.getEstado().equals(EstadoPeticion.PENDIENTE))
+            .toList();
+    }
 }
