@@ -97,6 +97,19 @@ public class ControladoraBiblioteca {
         }
     }
 
+    @GetMapping("/usuario/{usuarioId}/recientes")
+    public ResponseEntity<List<ColeccionFavoritos>> getRecentPurchasedGames(@PathVariable Long usuarioId) {
+        try {
+            List<ColeccionFavoritos> recientes = coleccionService.findRecentByUsuario(usuarioId, 3);
+            if (recientes.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(recientes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     /**
      * Obtiene los juegos marcados como favoritos de un usuario.
      * 

@@ -39,7 +39,6 @@ public class ColeccionFavoritos {
 
     @ManyToOne
     @JoinColumn(name = "id_juego", nullable = false)
-    @JsonIgnore
     private Juego juego;
 
     @Column(nullable = false)

@@ -154,6 +154,7 @@ const renderProfileUsuario = async () => {
   const profileId = urlParams.get('id');
   const currentUser = getUsuarioLogueado();
   const currentUserId = currentUser ? parseInt(currentUser.idUsuario, 10) : null;
+  const profileOwnerId = profileId ? parseInt(profileId, 10) : currentUserId;
   
   let usuario = currentUser;
   
@@ -189,6 +190,170 @@ const renderProfileUsuario = async () => {
   if (correoUsuario) {
     correoUsuario.textContent = usuario?.correoElectronico || 'usuario@ejemplo.com';
   }
+
+  const perfilPais = document.getElementById('perfil-pais');
+  const perfilBiografia = document.getElementById('perfil-biografia');
+  const perfilJuegosCount = document.getElementById('perfil-juegos-count');
+  const perfilAmigosCount = document.getElementById('perfil-amigos-count');
+  const perfilHorasCount = document.getElementById('perfil-horas-count');
+  const logrosGrid = document.getElementById('logros-grid');
+  const logrosEmpty = document.getElementById('logros-empty');
+  let horasJugadasCalculadas = 0;
+
+  const renderAchievements = ({ juegos = 0, amigos = 0, horas = 0 } = {}) => {
+    if (!logrosGrid) return;
+
+    if (juegos === 0) {
+      logrosGrid.innerHTML = '';
+      if (logrosEmpty) {
+        logrosEmpty.style.display = 'block';
+      }
+      return;
+    }
+
+    const achievements = [];
+    achievements.push({ icon: 'fa-solid fa-trophy', label: 'Primer juego completado' });
+    if (juegos >= 5) {
+      achievements.push({ icon: 'fa-solid fa-layer-group', label: '5 Juegos en biblioteca' });
+    }
+    if (juegos >= 10) {
+      achievements.push({ icon: 'fa-solid fa-star', label: '10 Juegos en biblioteca' });
+    }
+    if (amigos >= 10) {
+      achievements.push({ icon: 'fa-solid fa-user-group', label: '10 Amigos' });
+    }
+    if (horas >= 50) {
+      achievements.push({ icon: 'fa-solid fa-gamepad', label: '50 Horas de juego' });
+    }
+    if (achievements.length === 0) {
+      achievements.push({ icon: 'fa-solid fa-gamepad', label: 'Has empezado tu colección' });
+    }
+
+    if (logrosEmpty) {
+      logrosEmpty.style.display = 'none';
+    }
+    logrosGrid.innerHTML = achievements.map((logro) => `
+      <div class="logro">
+        <i class="${logro.icon}"></i>
+        <span>${logro.label}</span>
+      </div>
+    `).join('');
+  };
+
+  const aplicarDatosPerfil = (perfil) => {
+    if (!perfil) return;
+    if (avatarPreview && perfil.imagenUsuario) {
+      avatarPreview.src = perfil.imagenUsuario;
+    }
+    const cabeceraPerfil = document.querySelector('.cabecera-perfil');
+    if (cabeceraPerfil && perfil.imagenFondoPerfil) {
+      cabeceraPerfil.style.backgroundImage = `linear-gradient(135deg, rgba(27,40,56,0.3) 0%, rgba(10,14,39,0.4) 100%), url('${perfil.imagenFondoPerfil}')`;
+      cabeceraPerfil.style.backgroundSize = 'cover';
+      cabeceraPerfil.style.backgroundPosition = 'center';
+    }
+    if (perfilPais) {
+      perfilPais.textContent = perfil.pais || 'No especificado';
+    }
+    if (perfilBiografia) {
+      perfilBiografia.textContent = perfil.biografia || 'Este usuario aún no ha completado su biografía.';
+    }
+    if (perfilJuegosCount && currentUserId) {
+      try {
+        const juegosTotal = perfil.juegosTotal ?? null;
+        if (juegosTotal !== null) {
+          perfilJuegosCount.textContent = juegosTotal;
+        }
+      } catch (error) {
+        console.warn('No se pudo actualizar el conteo de juegos desde el perfil:', error);
+      }
+    }
+  };
+
+  const generarHorasJugadas = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const actualizarHorasJugadas = async (usuarioId) => {
+    if (!perfilHorasCount || !usuarioId) return 0;
+    try {
+      const response = await fetch(`/api/biblioteca/usuario/${usuarioId}/cantidad`, {
+        headers: { 'Authorization': `Bearer ${AUTH.getAccessToken()}` }
+      });
+      if (!response.ok) {
+        perfilHorasCount.textContent = '0';
+        horasJugadasCalculadas = 0;
+        return 0;
+      }
+
+      const cantidad = await response.json();
+      if (Number(cantidad) > 0) {
+        const horas = generarHorasJugadas(15, 150);
+        perfilHorasCount.textContent = `${horas}`;
+        horasJugadasCalculadas = horas;
+        return horas;
+      }
+      perfilHorasCount.textContent = '0';
+      horasJugadasCalculadas = 0;
+      return 0;
+    } catch (error) {
+      console.warn('Error calculando horas jugadas:', error);
+      perfilHorasCount.textContent = '0';
+      horasJugadasCalculadas = 0;
+      return 0;
+    }
+  };
+
+  const actualizarContadoresPerfil = async () => {
+    let juegosCount = 0;
+    let amigosCount = 0;
+    let horasCount = 0;
+
+    if (perfilJuegosCount && usuario?.idUsuario) {
+      try {
+        const response = await fetch(`/api/biblioteca/usuario/${usuario.idUsuario}/cantidad`, {
+          headers: { 'Authorization': `Bearer ${AUTH.getAccessToken()}` }
+        });
+        if (response.ok) {
+          const cantidad = await response.json();
+          juegosCount = Number(cantidad) || 0;
+          perfilJuegosCount.textContent = juegosCount;
+        }
+      } catch (error) {
+        console.warn('Error calculando juegos de perfil:', error);
+      }
+    }
+
+    if (perfilAmigosCount && usuario?.idUsuario) {
+      const amigosAceptados = await fetchAcceptedFriendList(usuario.idUsuario);
+      amigosCount = amigosAceptados.length;
+      perfilAmigosCount.textContent = amigosCount;
+    }
+
+    horasCount = await actualizarHorasJugadas(profileOwnerId);
+    renderAchievements({ juegos: juegosCount, amigos: amigosCount, horas: horasCount });
+  };
+
+  const perfilInfo = usuario?.perfilUsuario;
+  if (perfilInfo) {
+    aplicarDatosPerfil(perfilInfo);
+  }
+
+  if (currentUserId && (!profileId || parseInt(profileId, 10) === currentUserId)) {
+    try {
+      const response = await fetch('/api/perfil', {
+        headers: { 'Authorization': `Bearer ${AUTH.getAccessToken()}` }
+      });
+      if (response.ok) {
+        const perfilData = await response.json();
+        aplicarDatosPerfil(perfilData);
+      }
+    } catch (error) {
+      console.warn('Error cargando datos dinámicos de perfil:', error);
+    }
+  }
+
+  await renderRecentGames(profileOwnerId);
+  actualizarContadoresPerfil();
 
   // Update section headings when viewing another user's profile
   if (document.body.classList.contains('perfil-externo')) {
@@ -289,12 +454,83 @@ const getFriendList = () => {
   return Array.isArray(storedFriends) ? storedFriends : [];
 };
 
+const getCurrentUserId = () => {
+  const usuario = getUsuarioLogueado();
+  return usuario?.idUsuario ? parseInt(usuario.idUsuario, 10) : null;
+};
+
+const fetchAcceptedFriendList = async (usuarioId) => {
+  if (!usuarioId) return [];
+  try {
+    const response = await fetch(`/api/amistades/usuario/${usuarioId}/aceptadas`, {
+      headers: { 'Authorization': `Bearer ${AUTH.getAccessToken()}` }
+    });
+    if (!response.ok || response.status === 204) return [];
+    return await response.json();
+  } catch (error) {
+    console.warn('No se pudo cargar lista de amigos del servidor:', error);
+    return [];
+  }
+};
+
 const getFriendName = (friend) => {
   if (typeof friend === 'string') return friend;
   if (typeof friend === 'object' && friend !== null) {
-    return friend.nombre || friend.name || friend.username || friend.usuario || 'Amigo';
+    return friend.nombre || friend.name || friend.nombreUsuario || friend.username || friend.usuario || 'Amigo';
   }
   return 'Amigo';
+};
+
+const fetchRecentPurchasedGames = async (usuarioId) => {
+  if (!usuarioId) return [];
+  try {
+    const response = await fetch(`/api/biblioteca/usuario/${usuarioId}/recientes`, {
+      headers: { 'Authorization': `Bearer ${AUTH.getAccessToken()}` }
+    });
+    if (!response.ok || response.status === 204) return [];
+    return await response.json();
+  } catch (error) {
+    console.warn('Error cargando compras recientes:', error);
+    return [];
+  }
+};
+
+const formatPurchaseDate = (fechaStr) => {
+  if (!fechaStr) return '';
+  const date = new Date(fechaStr);
+  return date.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+};
+
+const renderRecentGames = async (usuarioId) => {
+  const container = document.querySelector('.actividad-reciente');
+  if (!container) return;
+
+  const recientes = await fetchRecentPurchasedGames(usuarioId);
+  if (!Array.isArray(recientes) || recientes.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = recientes.map(item => {
+    const juego = item?.juego || {};
+    const titulo = juego.titulo || 'Juego reciente';
+    const imagenUrl = juego.imagen || 'https://via.placeholder.com/100x60';
+    const fecha = formatPurchaseDate(item.fechaAdquisicion);
+
+    return `
+      <div class="juego-actividad">
+        <img src="${imagenUrl}" alt="${titulo}" onerror="this.onerror=null;this.src='https://via.placeholder.com/100x60';">
+        <div class="info-actividad">
+          <span class="titulo-juego">${titulo}</span>
+          <span class="detalle-actividad">Comprado ${fecha}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
 };
 
 const getFriendCollectionGames = (friend) => {
@@ -322,7 +558,11 @@ const loadDynamicNotificaciones = async () => {
   const listaNotificaciones = document.querySelector('.lista-notificaciones');
   if (!listaNotificaciones) return;
 
-  const friends = getFriendList();
+  const currentUserId = getCurrentUserId();
+  let friends = currentUserId ? await fetchAcceptedFriendList(currentUserId) : [];
+  if (!friends.length) {
+    friends = getFriendList();
+  }
 
   let juegos = [];
   try {

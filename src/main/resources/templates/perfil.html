@@ -37,80 +37,79 @@
 
       <div class="scroll-contenido">
         <div class="contenedor-perfil">
-            <div class="cabecera-perfil">
-                <div class="avatar-grande">
-                    <img id="avatar-preview" src="https://i.pravatar.cc/150?img=11" alt="Avatar">
-                    <label for="file-upload" class="btn-cambiar-avatar">
-                        <i class="fa-solid fa-camera"></i>
-                    </label>
-                    <input type="file" id="file-upload" accept="image/*" style="display: none;">
-                    <button id="confirm-avatar" class="btn-confirmar-avatar" style="display: none;">Confirmar Cambio</button>
-                </div>
-                <div class="info-usuario">
-                    <h1 id="perfil-nombre-usuario" class="nombre-usuario">Paco Leon</h1>
-                    <p id="perfil-correo-usuario" class="correo-usuario">paco.leon@email.com</p>
-                    <div class="estadisticas-usuario">
-                        <div class="estadistica">
-                            <span class="valor-estadistica">42</span>
-                            <span class="etiqueta-estadistica">Juegos</span>
-                        </div>
-                        <div class="estadistica">
-                            <span class="valor-estadistica">156</span>
-                            <span class="etiqueta-estadistica">Amigos</span>
-                        </div>
-                        <div class="estadistica">
-                            <span class="valor-estadistica">840</span>
-                            <span class="etiqueta-estadistica">Horas</span>
-                        </div>
-                </div>
+          <div class="cabecera-perfil">
+            <div class="avatar-grande">
+              <img id="avatar-preview" src="https://i.pravatar.cc/150?img=11" alt="Avatar">
+              <label for="file-upload" class="btn-cambiar-avatar">
+                <i class="fa-solid fa-camera"></i>
+              </label>
+              <input type="file" id="file-upload" accept="image/*" style="display: none;">
+              <button id="confirm-avatar" class="btn-confirmar-avatar" style="display: none;">Confirmar Cambio</button>
+            </div>
 
-            <nav class="profile-nav">
+            <div class="info-usuario">
+              <h1 id="perfil-nombre-usuario" class="nombre-usuario">Paco Leon</h1>
+              <p id="perfil-correo-usuario" class="correo-usuario">paco.leon@email.com</p>
+              <p id="perfil-pais" class="pais-usuario">España</p>
+              <p id="perfil-biografia" class="descripcion-usuario">Aquí puedes ver tu biografía y detalles personales. Actualiza tu perfil para mostrar más información.</p>
+
+              <div class="estadisticas-usuario">
+                <div class="estadistica">
+                  <span id="perfil-juegos-count" class="valor-estadistica">42</span>
+                  <span class="etiqueta-estadistica">Juegos</span>
+                </div>
+                <div class="estadistica">
+                  <span id="perfil-amigos-count" class="valor-estadistica">156</span>
+                  <span class="etiqueta-estadistica">Amigos</span>
+                </div>
+                <div class="estadistica">
+                  <span id="perfil-horas-count" class="valor-estadistica">840</span>
+                  <span class="etiqueta-estadistica">Horas</span>
+                </div>
+              </div>
+
+              <nav class="profile-nav">
                 <a href="#" class="active" data-target="actividad">Última actividad</a>
                 <a href="#" data-target="logros">Logros</a>
-            </nav>
-
-            <div class="contenido-secciones">
-                <section id="actividad" class="profile-section active">
-                    <h3>Recientes</h3>
-                    <div class="actividad-reciente">
-                        <div class="juego-actividad">
-                            <img src="https://picsum.photos/100/60?random=1" alt="Juego">
-                            <div class="info-actividad">
-                                <span class="titulo-juego">Elden Ring</span>
-                                <span class="detalle-actividad">Jugando ahora - 25 horas</span>
-                            </div>
-                        <div class="juego-actividad">
-                            <img src="https://picsum.photos/100/60?random=2" alt="Juego">
-                            <div class="info-actividad">
-                                <span class="titulo-juego">Hollow Knight</span>
-                                <span class="detalle-actividad">Completado - 60 horas</span>
-                            </div>
-                        <div class="juego-actividad">
-                            <img src="https://picsum.photos/100/60?random=3" alt="Juego">
-                            <div class="info-actividad">
-                                <span class="titulo-juego">Stardew Valley</span>
-                                <span class="detalle-actividad">120 horas jugadas</span>
-                            </div>
-                    </div>
-                </section>
-
-                <section id="logros" class="profile-section">
-                    <h3>Tus Logros</h3>
-                    <div class="logros-grid">
-                        <div class="logro">
-                            <i class="fa-solid fa-trophy"></i>
-                            <span>Primer juego completado</span>
-                        </div>
-                        <div class="logro">
-                            <i class="fa-solid fa-user-group"></i>
-                            <span>10 Amigos</span>
-                        </div>
-                        <div class="logro">
-                            <i class="fa-solid fa-gamepad"></i>
-                            <span>50 Horas de juego</span>
-                        </div>
-                </section>
+              </nav>
             </div>
+          </div>
+
+          <div class="contenido-secciones">
+            <section id="actividad" class="profile-section active">
+              <h3>Recientes</h3>
+              <div class="actividad-reciente">
+                <div class="juego-actividad">
+                  <img src="https://picsum.photos/100/60?random=1" alt="Juego">
+                  <div class="info-actividad">
+                    <span class="titulo-juego">Elden Ring</span>
+                    <span class="detalle-actividad">Jugando ahora - 25 horas</span>
+                  </div>
+                </div>
+                <div class="juego-actividad">
+                  <img src="https://picsum.photos/100/60?random=2" alt="Juego">
+                  <div class="info-actividad">
+                    <span class="titulo-juego">Hollow Knight</span>
+                    <span class="detalle-actividad">Completado - 60 horas</span>
+                  </div>
+                </div>
+                <div class="juego-actividad">
+                  <img src="https://picsum.photos/100/60?random=3" alt="Juego">
+                  <div class="info-actividad">
+                    <span class="titulo-juego">Stardew Valley</span>
+                    <span class="detalle-actividad">120 horas jugadas</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="logros" class="profile-section">
+              <h3>Tus Logros</h3>
+              <div class="logros-grid" id="logros-grid"></div>
+              <p class="logros-empty" id="logros-empty">No hay logros porque aún no tienes juegos en tu biblioteca.</p>
+            </section>
+          </div>
+        </div>
       </div>
     </main>
   </div>
