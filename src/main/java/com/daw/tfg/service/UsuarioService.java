@@ -128,6 +128,11 @@ throw new IllegalArgumentException("El usuario ya existe");
         usuarioRepository.delete(usuario);
     }
 
+    @Transactional(readOnly = true)
+    public List<Usuario> findByNombreUsuarioContainingIgnoreCase(String nombreParte) {
+        return usuarioRepository.findByNombreUsuarioContainingIgnoreCase(nombreParte);
+    }
+
     public Optional<Usuario> authenticate(String username, String password) {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return Optional.empty();
@@ -213,4 +218,3 @@ throw new IllegalArgumentException("El usuario ya existe");
         }
     }
 }
-
