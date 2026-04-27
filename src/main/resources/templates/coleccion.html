@@ -42,6 +42,9 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      let juegosColeccion = []; // Guardar los juegos para búsqueda
+      const searchInput = document.querySelector('.contenedor-busqueda input');
+
       // --- Cargar juegos para la colección ---
       const cargarColeccionJuegos = async () => {
         try {
@@ -75,28 +78,51 @@
           localStorage.setItem('coleccionJuegos', JSON.stringify(idsColeccion));
           console.log('Colección guardada en localStorage:', idsColeccion);
           
+          // Guardar los juegos para búsqueda
+          juegosColeccion = juegosSeleccionados;
+          
           // Renderizar los juegos
-          const contenedor = document.getElementById('coleccion-juegos');
-          if (contenedor) {
-            contenedor.innerHTML = '';
-            juegosSeleccionados.forEach(juego => {
-              const imagenUrl = juego.header_image || `https://cdn.akamai.steamstatic.com/steam/apps/${juego.appid}/header.jpg`;
-              const tarjeta = document.createElement('a');
-              tarjeta.href = `/juego/${juego.appid}`;
-              tarjeta.className = 'tarjeta';
-              tarjeta.innerHTML = `
-                <img src="${imagenUrl}" alt="${juego.name}">
-                <div class="info-tarjeta">
-                  <span class="titulo-juego">${juego.name}</span>
-                  <div class="etiquetas">Instalado</div>
-                </div>
-              `;
-              contenedor.appendChild(tarjeta);
+          renderizarColeccion(juegosSeleccionados);
+
+          // Configurar búsqueda
+          if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+              const query = e.target.value.toLowerCase();
+              const juegosFilltrados = juegosColeccion.filter(juego => 
+                (juego.name || '').toLowerCase().includes(query)
+              );
+              renderizarColeccion(juegosFilltrados);
             });
           }
         } catch (error) {
           console.error("Error al cargar la colección:", error);
         }
+      };
+
+      const renderizarColeccion = (juegos) => {
+        const contenedor = document.getElementById('coleccion-juegos');
+        if (!contenedor) return;
+
+        if (juegos.length === 0) {
+          contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No se encontraron juegos</p>';
+          return;
+        }
+
+        contenedor.innerHTML = '';
+        juegos.forEach(juego => {
+          const imagenUrl = juego.header_image || `https://cdn.akamai.steamstatic.com/steam/apps/${juego.appid}/header.jpg`;
+          const tarjeta = document.createElement('a');
+          tarjeta.href = `/juego/${juego.appid}`;
+          tarjeta.className = 'tarjeta';
+          tarjeta.innerHTML = `
+            <img src="${imagenUrl}" alt="${juego.name}">
+            <div class="info-tarjeta">
+              <span class="titulo-juego">${juego.name}</span>
+              <div class="etiquetas">Instalado</div>
+            </div>
+          `;
+          contenedor.appendChild(tarjeta);
+        });
       };
       
       // Llamar la función

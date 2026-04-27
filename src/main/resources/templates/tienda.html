@@ -107,9 +107,11 @@
 
       const gamesContainer = document.getElementById('games-container');
       const paginationContainer = document.getElementById('pagination');
+      const searchInput = document.querySelector('.contenedor-busqueda input');
       const PAGE_SIZE = 18;
       let allGames = [];
       let filteredGames = [];
+      let searchTerm = '';
 
       const urlParams = new URLSearchParams(window.location.search);
       let currentPage = parseInt(urlParams.get('page')) || 1;
@@ -162,25 +164,38 @@
       };
 
       const filterGames = (games) => {
+        let filtered = games;
+        
+        // Aplicar filtros de categoría
         if (filtro === 'ofertas') {
-          return games.filter((game) => {
+          filtered = filtered.filter((game) => {
             const discount = Number(game.porcentaje ?? game.price?.discount_percent) || 0;
             return discount >= 50;
           });
         }
         if (filtro === 'gratis' || filtro === 'free') {
-          return games.filter((game) => Number(game.precio ?? game.price?.final) === 0);
+          filtered = filtered.filter((game) => Number(game.precio ?? game.price?.final) === 0);
         }
         if (genero) {
           const expectedGenre = genero.toLowerCase();
-          return games.filter((game) => {
+          filtered = filtered.filter((game) => {
             const genresArray = Array.isArray(game.generos)
               ? game.generos.map((g) => typeof g === 'object' ? g.nombre : g)
               : game.genres;
             return Array.isArray(genresArray) && genresArray.some((genreItem) => String(genreItem).toLowerCase() === expectedGenre);
           });
         }
-        return games;
+        
+        // Aplicar filtro de búsqueda
+        if (searchTerm.trim()) {
+          const query = searchTerm.toLowerCase();
+          filtered = filtered.filter((game) => {
+            const title = (game.titulo || game.name || game.title || '').toLowerCase();
+            return title.includes(query);
+          });
+        }
+        
+        return filtered;
       };
 
       const updateTitle = () => {
@@ -313,6 +328,21 @@
         allGames = Array.isArray(rawGames) ? rawGames : [];
         document.getElementById('loading').style.display = 'none';
         document.getElementById('games-container').style.display = 'grid';
+
+        // Configurar búsqueda
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            currentPage = 1;
+            filteredGames = filterGames(allGames);
+            if (filteredGames.length === 0) {
+              gamesContainer.innerHTML = '<p style="color: #ffffff; text-align: center; padding: 40px;">No se encontraron juegos que coincidan con tu búsqueda.</p>';
+              paginationContainer.innerHTML = '';
+            } else {
+              renderPage();
+            }
+          });
+        }
         console.log(`✅ ${allGames.length} juegos cargados y validados`);
 
         updateTitle();
