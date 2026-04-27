@@ -237,41 +237,6 @@
     font-size: 0.95rem;
 }
 
-/* Reseñas */
-.resenas-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.resena {
-    padding: 20px;
-    background-color: var(--steam-card-bg);
-    border-radius: 5px;
-}
-
-.cabecera-resena {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.juego-resena {
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.puntuacion {
-    color: #f1c40f;
-}
-
-.texto-resena {
-    color: var(--texto-gris);
-    line-height: 1.6;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .cabecera-perfil {

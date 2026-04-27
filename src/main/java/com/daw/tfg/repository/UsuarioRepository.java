@@ -11,8 +11,7 @@ import com.daw.tfg.models.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    Optional<Usuario> findByNombreUsuario(String nombreUsuario); // para encontrar usuarios y poder agregarlos, tmb para
-                                                                 // login y reseñas.
+    Optional<Usuario> findByNombreUsuario(String nombreUsuario); // para encontrar usuarios y poder agregarlos, tmb para login.
 
     List<Usuario> findByNombreUsuarioContainingIgnoreCase(String nombreParte); // para buscar nombres parecidos
 

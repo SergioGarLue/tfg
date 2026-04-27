@@ -197,9 +197,6 @@ const renderProfileUsuario = async () => {
 
     const logrosHeader = document.querySelector('#logros h3');
     if (logrosHeader) logrosHeader.textContent = 'Logros';
-
-    const resenasHeader = document.querySelector('#resenas h3');
-    if (resenasHeader) resenasHeader.textContent = 'Reseñas';
   }
 };
 
@@ -285,7 +282,6 @@ const buildNotificationHTML = ({ icon, title, time, unread, url }) => `
       <p class="texto-notificacion">${title}</p>
       <span class="tiempo-notificacion">${time}</span>
     </div>
-  </div>
 `;
 
 const getFriendList = () => {
@@ -466,7 +462,6 @@ const renderizarJuegos = (juegos) => {
           <div class="precio-container">
             <span class="precio">${precioTexto}</span>
           </div>
-        </div>
       </a>
     `;
 

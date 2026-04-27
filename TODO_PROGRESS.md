@@ -19,6 +19,5 @@
 ## TAREA 2: NOTIFICACIONES (Pendiente)
 ...
 
-## TAREA 3: RESEÑAS (Pendiente)
-...
+
 

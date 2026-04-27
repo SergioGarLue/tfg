@@ -46,7 +46,7 @@ Pasos:
 
 1. Clic **Colección** en sidebar.
 2. Ve juegos comprados.
-3. Clic juego para detalles/reseña.
+3. Clic juego para detalles.
    Resultado esperado: Lista personal de juegos, progreso visible.
 
 **Funcionalidad 3: Lista de Deseados**

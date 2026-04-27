@@ -20,7 +20,7 @@
 **Demo:** `./mvnw spring-boot:run` → localhost:8080
 [... resto igual, pero change all ./mvnw to ./mvnw in code blocks]
 
-**Xyron** es una **plataforma web completa de compra de videojuegos** con funcionalidades sociales y de gestión personal. Inspirada en Steam, permite **comprar juegos con Stripe**, gestionar **bibliotecas/colecciones**, **listas de deseados**, **amistades**, **reseñas** y más. Fullstack monolith con backend REST + frontend server-rendered (Vanilla JS).
+**Xyron** es una **plataforma web completa de compra de videojuegos** con funcionalidades sociales y de gestión personal. Inspirada en Steam, permite **comprar juegos con Stripe**, gestionar **bibliotecas/colecciones**, **listas de deseados**, **amistades** y más. Fullstack monolith con backend REST + frontend server-rendered (Vanilla JS).
 
 [![Screenshot Tienda](https://via.placeholder.com/800x400/1e3a8a/ffffff?text=Tienda+de+Videojuegos)](https://via.placeholder.com/) [![Screenshot Carrito](https://via.placeholder.com/800x400/0f766e/ffffff?text=Carrito+y+Stripe)](https://via.placeholder.com/)
 
@@ -34,7 +34,6 @@
 | 💖 **Lista Deseados**       | Wishlist (`/deseados.html`).                                                          |
 | 👥 **Amigos**               | Amigos/conectados (`/amigos.html`).                                                   |
 | 👤 **Perfil**               | Configuración/pagos (`/perfil.html`, `/configuracion.html`).                          |
-| ⭐ **Reseñas**              | Valoraciones usuarios.                                                                |
 | 🔔 **Notificaciones**       | Compras/actividad.                                                                    |
 | 🏢 **Desarrollador**        | Info devs (`/desarrollador.html`).                                                    |
 | 🔧 **Admin**                | Panel gestión ([ADMIN_PANEL_GUIDE.md](ADMIN_PANEL_GUIDE.md)) (`/administrador.html`). |
@@ -145,7 +144,7 @@ TFG-/
 
 ## 🗄️ Base de Datos
 
-- **Tablas**: usuario, juego (precio, generos[], plataformas[], screenshots), carrito (juegos m2m), compra (paymentIntentId), lista_deseados, coleccion_favoritos, resena, notificacion, genero.
+- **Tablas**: usuario, juego (precio, generos[], plataformas[], screenshots), carrito (juegos m2m), compra (paymentIntentId), lista_deseados, coleccion_favoritos, notificacion, genero.
 - Init: data.sql + JPA create-drop.
 
 ## 👥 Desarrolladores
