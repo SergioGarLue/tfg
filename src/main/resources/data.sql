@@ -1,12 +1,12 @@
 
--- IDENTITY restart
-ALTER TABLE perfil_usuario ALTER COLUMN id_usuario_perfil RESTART WITH 3;
-ALTER TABLE usuario ALTER COLUMN id_usuario RESTART WITH 3;
-ALTER TABLE desarrollador ALTER COLUMN id_desarrollador RESTART WITH 3;
-ALTER TABLE editor ALTER COLUMN id_editor RESTART WITH 3;
-ALTER TABLE genero ALTER COLUMN id_genero RESTART WITH 4;
-ALTER TABLE juego ALTER COLUMN id_juego RESTART WITH 4;
-ALTER TABLE carrito ALTER COLUMN id_carrito RESTART WITH 2;
+-- -- IDENTITY restart
+-- ALTER TABLE perfil_usuario ALTER COLUMN id_usuario_perfil RESTART WITH 3;
+-- ALTER TABLE usuario ALTER COLUMN id_usuario RESTART WITH 3;
+-- ALTER TABLE desarrollador ALTER COLUMN id_desarrollador RESTART WITH 3;
+-- ALTER TABLE editor ALTER COLUMN id_editor RESTART WITH 3;
+-- ALTER TABLE genero ALTER COLUMN id_genero RESTART WITH 4;
+-- ALTER TABLE juego ALTER COLUMN id_juego RESTART WITH 4;
+-- ALTER TABLE carrito ALTER COLUMN id_carrito RESTART WITH 2;
 
 -- ============================================
 -- ADMIN READY - ACCESS GUIDE
