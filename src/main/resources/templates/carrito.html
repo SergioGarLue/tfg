@@ -11,9 +11,6 @@
       // Configuración de Stripe - Reemplaza con tu clave pública real
       const stripePublishableKey = 'pk_test_51TMrrrIb8MnvXMnGCxTXQKV35JpANjDfGEWjYLJdzimX70cACNpLvIMkDE02YRy36ozQ09X1LkOTXTlEGMOl0JVt00iRjprsD4'; // Clave pública de Stripe
       const stripe = Stripe(stripePublishableKey);
-      
-      // Asumiendo que el usuarioId está disponible (puedes obtenerlo de localStorage, una variable global, o un endpoint)
-      const usuarioId = 1; // Reemplaza con el ID real del usuario logueado
     </script>
   </head>
   <body>
@@ -82,16 +79,24 @@
     document.addEventListener("DOMContentLoaded", () => {
       // Carrito funcional con localStorage
       const CARRITO_KEY = 'solarSistemCart';
-      
+
+      function normalizePrice(price) {
+        const p = Number(price) || 0;
+        if (p >= 100 && Number.isInteger(p)) {
+          return p / 100;
+        }
+        return p;
+      }
+
       function getCart() {
         return JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
       }
-      
+
       function saveCart(cart) {
         localStorage.setItem(CARRITO_KEY, JSON.stringify(cart));
         updateBadges();
       }
-      
+
       function updateBadges() {
         const totalItems = getCart().length; // Contar solo items, no cantidad
         document.querySelectorAll('#badge-carrito').forEach(badge => {
@@ -103,25 +108,25 @@
           }
         });
       }
-      
+
       function removeFromCart(appid) {
         let cart = getCart();
         cart = cart.filter(item => item.appid !== appid);
         saveCart(cart);
         renderCart();
       }
-      
+
       function renderCart() {
         const listaProductos = document.querySelector('.lista-productos');
         const valorTotal = document.querySelector('.valor-total');
         const cart = getCart();
-        
+
         if (cart.length === 0) {
           listaProductos.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Carrito vacío</p>';
           valorTotal.textContent = '0€';
           return;
         }
-        
+
         listaProductos.innerHTML = cart.map(item => `
           <div class="item-carrito">
             <div class="imagen-producto" style="background-image: url('${item.header_image || 'https://picsum.photos/120/70?random=20'}');"></div>
@@ -132,39 +137,48 @@
               </div>
             </div>
             <button class="btn-eliminar" onclick="removeFromCart(${item.appid})"><i class="fa-solid fa-trash"></i></button>
-            <div class="precio-producto">${item.finalPrice.toFixed(2)}€</div>
+            <div class="precio-producto">${normalizePrice(item.finalPrice).toFixed(2)}€</div>
           </div>
         `).join('');
-        
-        const total = cart.reduce((sum, item) => sum + item.finalPrice, 0);
+
+        const total = cart.reduce((sum, item) => sum + normalizePrice(item.finalPrice), 0);
         valorTotal.textContent = `${total.toFixed(2)}€`;
       }
-      
+
       window.removeFromCart = removeFromCart;
-      
+
       // Función para enviar el carrito al checkout
       async function sendToCheckout() {
         const cart = getCart();
-        
+
         if (cart.length === 0) {
           alert('El carrito está vacío');
           return;
         }
-        
+
+        // Obtener usuario autenticado
+        const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
+        if (!usuario || !usuario.idUsuario) {
+          alert('Debes iniciar sesión para realizar el pago');
+          window.location.href = '/login';
+          return;
+        }
+        const usuarioId = usuario.idUsuario;
+
         // Calcular el total
-        const total = cart.reduce((sum, item) => sum + item.finalPrice, 0);
+        const total = cart.reduce((sum, item) => sum + normalizePrice(item.finalPrice), 0);
         console.log('💰 Total del carrito: ' + total.toFixed(2) + '€');
-        
+
         // Extraer ID de cada juego (cantidad siempre 1)
         const productos = cart.map(item => ({
           juegoId: item.appid,
           cantidad: 1
         }));
-        
+
         // *** SI EL CARRITO ES GRATUITO ***
         if (total === 0 || total < 0.01) {
           console.log('🎁 Carrito gratuito detectado - añadiendo juegos a colección');
-          
+
           const datos = {
             usuarioId: usuarioId,
             productos: productos
