@@ -21,36 +21,15 @@
       <div class="scroll-contenido">
         <div class="contenedor-config">
           <section class="seccion-config">
-            <h2 data-lang="sect-account">Cuenta</h2>
-            <form class="form-config">
-              <div class="campo-form">
-                <label data-lang="lbl-email">Correo Electrónico</label>
-                <input type="email" value="paco.leon@email.com" readonly>
-              </div>
-              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
-            </form>
-          </section>
-
-          <section class="seccion-config">
             <h2 data-lang="sect-storage">Almacenamiento</h2>
-            <form class="form-config">
+            <form id="storage-form" class="form-config">
               <div class="campo-form">
                 <label data-lang="lbl-storage">Ruta de instalación</label>
-                <input type="text" value="C:\Games\SolarSistem">
-              </div>
-              <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
-            </form>
-          </section>
-
-          <section class="seccion-config">
-            <h2 data-lang="sect-interface">Interfaz</h2>
-            <form class="form-config">
-              <div class="campo-form">
-                <label data-lang="lbl-lang">Idioma</label>
-                <select id="idioma-select">
-                  <option value="es">Español</option>
-                  <option value="en">English</option>
-                </select>
+                <div class="ruta-input-group">
+                  <input type="text" id="ruta-instalacion" readonly placeholder="Selecciona la ruta de instalación" aria-label="Ruta de instalación">
+                  <button type="button" id="btn-elegir-ruta" class="btn-select" data-lang="btn-select-path">Elegir ruta</button>
+                </div>
+                <input type="file" id="directory-picker" webkitdirectory directory mozdirectory msdirectory hidden>
               </div>
               <button type="submit" class="btn-save" data-lang="btn-save">Guardar Cambios</button>
             </form>
@@ -78,8 +57,7 @@
           "lbl-email": "Correo Electrónico",
           "sect-storage": "Almacenamiento",
           "lbl-storage": "Ruta de instalación",
-          "sect-interface": "Interfaz",
-          "lbl-lang": "Idioma",
+          "btn-select-path": "Elegir ruta",
           "btn-logout": "Cerrar Sesión",
           "btn-save": "Guardar Cambios"
         },
@@ -91,8 +69,7 @@
           "lbl-email": "Email Address",
           "sect-storage": "Storage",
           "lbl-storage": "Installation Path",
-          "sect-interface": "Interface",
-          "lbl-lang": "Language",
+          "btn-select-path": "Select Path",
           "btn-logout": "Log Out",
           "btn-save": "Save Changes"
         }
@@ -112,8 +89,86 @@
           });
         });
       }
+
+      const storageKey = 'storage_installation_path';
+      const rutaInput = document.getElementById('ruta-instalacion');
+      const btnElegirRuta = document.getElementById('btn-elegir-ruta');
+      const storageForm = document.getElementById('storage-form');
+
+      if (rutaInput) {
+        const rutaGuardada = localStorage.getItem(storageKey);
+        if (rutaGuardada) {
+          rutaInput.value = rutaGuardada;
+        }
+      }
+
+      const directoryPickerInput = document.getElementById('directory-picker');
+
+      const getDirectoryPathFromFile = (file) => {
+        const relative = file.webkitRelativePath || file.mozRelativePath || file.relativePath;
+        if (relative) {
+          const parts = relative.split('/');
+          return parts.length > 1 ? parts[0] : relative;
+        }
+        return file.name;
+      };
+
+      if (btnElegirRuta) {
+        btnElegirRuta.addEventListener('click', async () => {
+          if (window.showDirectoryPicker) {
+            try {
+              const directoryHandle = await window.showDirectoryPicker();
+              rutaInput.value = directoryHandle.name;
+              localStorage.setItem(storageKey, directoryHandle.name);
+            } catch (error) {
+              if (error.name !== 'AbortError') {
+                console.error('Error seleccionando carpeta:', error);
+              }
+            }
+            return;
+          }
+
+          if (directoryPickerInput) {
+            directoryPickerInput.click();
+          } else {
+            alert('No se puede abrir el selector de carpetas en este navegador.');
+          }
+        });
+      }
+
+      if (directoryPickerInput) {
+        directoryPickerInput.addEventListener('change', (event) => {
+          const files = event.target.files;
+          if (files.length > 0 && rutaInput) {
+            rutaInput.value = getDirectoryPathFromFile(files[0]);
+          }
+        });
+      }
+
+      if (storageForm) {
+        storageForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const ruta = rutaInput ? rutaInput.value.trim() : '';
+          if (!ruta) {
+            alert('Debes elegir una ruta de almacenamiento.');
+            rutaInput?.focus();
+            return;
+          }
+          localStorage.setItem(storageKey, ruta);
+          alert('Ruta de almacenamiento guardada.');
+        });
+      }
+
+      const logoutButton = document.querySelector('.btn-logout');
+      if (logoutButton) {
+        logoutButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          logoutUsuario();
+        });
+      }
     });
   </script>
+  <script src="/js/auth.js"></script>
   <script src='/js/script.js'></script>
 </body>
 </html>
