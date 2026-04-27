@@ -444,8 +444,8 @@ const renderizarJuegos = (juegos) => {
 
   juegos.forEach((juego, index) => {
     const id = juego.idJuego || juego.appid || juego.id;
-    const titulo = juego.titulo || juego.name;
-    const imagenUrl = id ? `https://cdn.akamai.steamstatic.com/steam/apps/${id}/header.jpg` : 'https://via.placeholder.com/300x200';
+    const titulo = juego.titulo || juego.name || juego.title || 'Juego';
+    const imagenUrl = juego.imagen || juego.header_image || juego.image || (id ? `https://cdn.akamai.steamstatic.com/steam/apps/${id}/header.jpg` : 'https://via.placeholder.com/300x200');
     let precioNum = juego.precio !== undefined ? juego.precio : (juego.price ? juego.price.final : 0);
     const precioTexto = precioNum === 0 ? 'Gratis' : `${precioNum}€`;
     const generosRaw = juego.generos || juego.genres;
@@ -455,13 +455,14 @@ const renderizarJuegos = (juegos) => {
 
     const tarjetaHTML = `
       <a href="/juego/${id}" class="tarjeta">
-        <img src="${imagenUrl}" alt="${titulo}">
+        <img src="${imagenUrl}" alt="${titulo}" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x200';">
         <div class="info-tarjeta">
           <span class="titulo-juego">${titulo}</span>
           <div class="etiquetas">${etiquetas}</div>
           <div class="precio-container">
             <span class="precio">${precioTexto}</span>
           </div>
+        </div>
       </a>
     `;
 

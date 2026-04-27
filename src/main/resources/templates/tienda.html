@@ -245,7 +245,7 @@
           const genres = normalizeGenres(game).slice(0, 2).join(', ');
           const gameId = game.idJuego || game.appid || game.id || '';
           const title = game.titulo || game.name || game.title || 'Juego';
-          const imageUrl = game.imagen || game.header_image || game.image || 'https://via.placeholder.com/300x200';
+          const imageUrl = game.imagen || game.header_image || game.image || (gameId ? `https://cdn.akamai.steamstatic.com/steam/apps/${gameId}/header.jpg` : 'https://via.placeholder.com/300x200');
 
           return `
             <a href="/juego/${gameId}" class="tarjeta">

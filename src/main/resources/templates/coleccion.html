@@ -115,7 +115,8 @@
 
         contenedor.innerHTML = '';
         juegos.forEach(juego => {
-          const imagenUrl = juego.imagen || `https://via.placeholder.com/300x200`;
+          const juegoId = juego.appid || juego.idJuego || juego.id || '';
+          const imagenUrl = juego.imagen || juego.header_image || juego.image || (juegoId ? `https://cdn.akamai.steamstatic.com/steam/apps/${juegoId}/header.jpg` : 'https://via.placeholder.com/300x200');
           const tarjeta = document.createElement('div');
           tarjeta.className = 'tarjeta';
           tarjeta.innerHTML = `
