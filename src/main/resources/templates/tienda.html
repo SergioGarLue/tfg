@@ -118,27 +118,19 @@
 
       let sidebarReady = false;
 
-      const getTopGenres = (games, count) => {
-        const genreCount = games.reduce((acc, game) => {
-          if (Array.isArray(game.genres)) {
-            game.genres.forEach((genre) => {
-              const normalized = String(genre).trim();
-              if (normalized) {
-                acc[normalized] = (acc[normalized] || 0) + 1;
-              }
-            });
-          }
-          return acc;
-        }, {});
-
-        return Object.entries(genreCount)
-          .sort(([, a], [, b]) => b - a)
-          .slice(0, count)
-          .map(([genre]) => genre);
-      };
+        const STATIC_GENRES = [
+        'Acción',
+        'Aventura',
+        'RPG',
+        'Estrategia',
+        'Indie',
+        'Simulación',
+        'Deportes',
+        'Carreras'
+      ];
 
       const tryPopulateGenres = () => {
-        if (!sidebarReady || allGames.length === 0) {
+        if (!sidebarReady) {
           return;
         }
         const genreMenu = document.getElementById('lista-generos');
@@ -146,13 +138,7 @@
           return;
         }
 
-        const topGenres = getTopGenres(allGames, 6);
-        if (topGenres.length === 0) {
-          genreMenu.innerHTML = '<li>No hay géneros disponibles</li>';
-          return;
-        }
-
-        genreMenu.innerHTML = topGenres
+        genreMenu.innerHTML = STATIC_GENRES
           .map((genre) => `<li><a href="/tienda?genero=${encodeURIComponent(genre)}">${genre}</a></li>`)
           .join('');
       };
@@ -178,15 +164,21 @@
       const filterGames = (games) => {
         if (filtro === 'ofertas') {
           return games.filter((game) => {
-            const discount = Number(game.price?.discount_percent) || 0;
+            const discount = Number(game.porcentaje ?? game.price?.discount_percent) || 0;
             return discount >= 50;
           });
         }
+        if (filtro === 'gratis' || filtro === 'free') {
+          return games.filter((game) => Number(game.precio ?? game.price?.final) === 0);
+        }
         if (genero) {
           const expectedGenre = genero.toLowerCase();
-          return games.filter((game) =>
-            Array.isArray(game.genres) && game.genres.some((genreItem) => String(genreItem).toLowerCase() === expectedGenre)
-          );
+          return games.filter((game) => {
+            const genresArray = Array.isArray(game.generos)
+              ? game.generos.map((g) => typeof g === 'object' ? g.nombre : g)
+              : game.genres;
+            return Array.isArray(genresArray) && genresArray.some((genreItem) => String(genreItem).toLowerCase() === expectedGenre);
+          });
         }
         return games;
       };
@@ -224,17 +216,28 @@
           return;
         }
 
+        const normalizeGenres = (game) => {
+          if (Array.isArray(game.generos)) {
+            return game.generos.map((g) => typeof g === 'object' ? g.nombre : g);
+          }
+          return Array.isArray(game.genres) ? game.genres : [];
+        };
+
         gamesContainer.innerHTML = games.map((game) => {
-          const finalPrice = Number(game.price?.final) || 0;
+          const finalPrice = Number(game.precio ?? game.price?.final) || 0;
           const priceDisplay = finalPrice === 0 ? 'Gratis' : `${finalPrice.toFixed(2)}€`;
-          const discountPercent = Number(game.price?.discount_percent) || 0;
+          const discountPercent = Number(game.porcentaje ?? game.price?.discount_percent) || 0;
+          const genres = normalizeGenres(game).slice(0, 2).join(', ');
+          const gameId = game.idJuego || game.appid || game.id || '';
+          const title = game.titulo || game.name || game.title || 'Juego';
+          const imageUrl = game.imagen || game.header_image || game.image || 'https://via.placeholder.com/300x200';
 
           return `
-            <a href="/juego/${game.appid}" class="tarjeta">
-              <img src="${game.header_image}" alt="${game.name}" loading="lazy">
+            <a href="/juego/${gameId}" class="tarjeta">
+              <img src="${imageUrl}" alt="${title}" loading="lazy">
               <div class="info-tarjeta">
-                <span class="titulo-juego">${game.name}</span>
-                <div class="etiquetas">${(game.genres || []).slice(0, 2).join(', ')}</div>
+                <span class="titulo-juego">${title}</span>
+                <div class="etiquetas">${genres}</div>
                 <div class="precio-container">
                   ${discountPercent > 0 ? `<span class="descuento">-${discountPercent}%</span>` : ''}
                   <span class="precio">${priceDisplay}</span>
@@ -291,10 +294,23 @@
       }
 
       try {
-        const response = await fetch('/JSON/steam_top_1000_sellers.json');
-        if (!response.ok) throw new Error('Failed to fetch games');
+        const params = new URLSearchParams();
+        if (filtro) params.set('filtro', filtro);
+        if (genero) params.set('genero', genero);
+        const response = await fetch(`/api/tienda${params.toString() ? `?${params.toString()}` : ''}`);
+
+        if (response.status === 204) {
+          document.getElementById('loading').style.display = 'none';
+          gamesContainer.style.display = 'grid';
+          gamesContainer.innerHTML = '<p style="color: #ffffff; text-align: center; padding: 40px;">No hay juegos para este filtro.</p>';
+          paginationContainer.innerHTML = '';
+          return;
+        }
+
+        if (!response.ok) throw new Error('Failed to fetch games from store API');
+
         const rawGames = await response.json();
-        allGames = rawGames.filter((j) => j && j.appid && j.name && j.header_image && j.price);
+        allGames = Array.isArray(rawGames) ? rawGames : [];
         document.getElementById('loading').style.display = 'none';
         document.getElementById('games-container').style.display = 'grid';
         console.log(`✅ ${allGames.length} juegos cargados y validados`);

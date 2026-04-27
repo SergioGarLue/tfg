@@ -81,11 +81,26 @@ public class JuegoService {
         if (nombreGenero == null || nombreGenero.isBlank()) {
             throw new IllegalArgumentException("Nombre de género inválido");
         }
-        List<Juego> juego = juegoRepository.findByGenerosNombre(nombreGenero);
+        List<Juego> juego = juegoRepository.findByGenerosNombreIgnoreCase(nombreGenero);
         if (juego.isEmpty()) {
             throw new IllegalArgumentException("No se encontraron juegos con el género: " + nombreGenero);
         }
         return juego;
+    }
+
+    public List<Juego> findTop100() {
+        return juegoRepository.findTop100ByOrderByIdJuegoAsc();
+    }
+
+    public List<Juego> findFreeGames() {
+        return juegoRepository.findByPrecio(0.0);
+    }
+
+    public List<Juego> findByDescuentoMayorIgual(int porcentajeMinimo) {
+        if (porcentajeMinimo < 0) {
+            throw new IllegalArgumentException("Porcentaje inválido");
+        }
+        return juegoRepository.findByPorcentajeGreaterThanEqual(porcentajeMinimo);
     }
 
     public List<Juego> findByPrecioBetween(Double min, Double max) {
