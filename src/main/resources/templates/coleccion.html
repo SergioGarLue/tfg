@@ -45,57 +45,61 @@
       let juegosColeccion = []; // Guardar los juegos para búsqueda
       const searchInput = document.querySelector('.contenedor-busqueda input');
 
-      // --- Cargar juegos para la colección ---
+      // --- Cargar juegos de la colección del usuario ---
       const cargarColeccionJuegos = async () => {
         try {
-          const response = await fetch('JSON/steam_top_1000_sellers.json');
-          if (!response.ok) throw new Error("Error al cargar el JSON");
-          const juegos = await response.json();
+          // Obtener el usuario autenticado
+          const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
           
-          // Seleccionar 5 juegos específicos por nombre
-          const nombresJuegos = ["ELDEN RING", "Baldur's Gate 3", "Palworld", "Cyberpunk 2077", "Counter-Strike 2"];
-          const juegosSeleccionados = [];
-          
-          nombresJuegos.forEach(nombre => {
-            const juego = juegos.find(j => j.name === nombre);
-            if (juego) {
-              juegosSeleccionados.push(juego);
+          if (!usuario || !usuario.idUsuario) {
+            console.error('Usuario no autenticado o sin ID');
+            const contenedor = document.getElementById('coleccion-juegos');
+            if (contenedor) {
+              contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No estás autenticado</p>';
             }
-          });
-          
-          // Si no encontramos suficientes, agregamos los primeros disponibles
-          if (juegosSeleccionados.length < 5) {
-            const diferencia = 5 - juegosSeleccionados.length;
-            for (let i = 0; i < diferencia && i < juegos.length; i++) {
-              if (!juegosSeleccionados.some(j => j.appid === juegos[i].appid)) {
-                juegosSeleccionados.push(juegos[i]);
-              }
-            }
+            return;
           }
+
+          console.log('Cargando colección para usuario:', usuario.idUsuario);
           
-          // Guardar los IDs en localStorage
-          const idsColeccion = juegosSeleccionados.map(j => j.appid);
-          localStorage.setItem('coleccionJuegos', JSON.stringify(idsColeccion));
-          console.log('Colección guardada en localStorage:', idsColeccion);
+          // Cargar los juegos de la colección desde el backend
+          const response = await fetch(`/api/coleccion/${usuario.idUsuario}`);
+          
+          if (response.status === 404) {
+            const contenedor = document.getElementById('coleccion-juegos');
+            if (contenedor) {
+              contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No tienes juegos en tu colección</p>';
+            }
+            return;
+          }
+
+          if (!response.ok) throw new Error("Error al cargar la colección");
+          
+          const juegos = await response.json();
+          console.log('Juegos en colección:', juegos.length);
           
           // Guardar los juegos para búsqueda
-          juegosColeccion = juegosSeleccionados;
+          juegosColeccion = juegos;
           
           // Renderizar los juegos
-          renderizarColeccion(juegosSeleccionados);
+          renderizarColeccion(juegos);
 
           // Configurar búsqueda
           if (searchInput) {
             searchInput.addEventListener('input', (e) => {
               const query = e.target.value.toLowerCase();
               const juegosFilltrados = juegosColeccion.filter(juego => 
-                (juego.name || '').toLowerCase().includes(query)
+                (juego.titulo || juego.name || '').toLowerCase().includes(query)
               );
               renderizarColeccion(juegosFilltrados);
             });
           }
         } catch (error) {
           console.error("Error al cargar la colección:", error);
+          const contenedor = document.getElementById('coleccion-juegos');
+          if (contenedor) {
+            contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff6b6b;">Error al cargar la colección</p>';
+          }
         }
       };
 
@@ -110,14 +114,14 @@
 
         contenedor.innerHTML = '';
         juegos.forEach(juego => {
-          const imagenUrl = juego.header_image || `https://cdn.akamai.steamstatic.com/steam/apps/${juego.appid}/header.jpg`;
+          const imagenUrl = juego.imagen || `https://via.placeholder.com/300x200`;
           const tarjeta = document.createElement('a');
-          tarjeta.href = `/juego/${juego.appid}`;
+          tarjeta.href = `/juego/${juego.idJuego}`;
           tarjeta.className = 'tarjeta';
           tarjeta.innerHTML = `
-            <img src="${imagenUrl}" alt="${juego.name}">
+            <img src="${imagenUrl}" alt="${juego.titulo}">
             <div class="info-tarjeta">
-              <span class="titulo-juego">${juego.name}</span>
+              <span class="titulo-juego">${juego.titulo}</span>
               <div class="etiquetas">Instalado</div>
             </div>
           `;
@@ -128,7 +132,7 @@
       // Llamar la función
       cargarColeccionJuegos();
 
-      // Lógica del Carrito (Simulada)
+      // Lógica del Carrito
       const actualizarContadorCarrito = (cantidad) => {
         const badge = document.getElementById('badge-carrito');
         if (badge) {

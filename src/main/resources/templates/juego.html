@@ -86,6 +86,7 @@
     </main>
   </div>
 
+  <script src="/js/auth.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // --- Lógica de Menús Desplegables ---
@@ -93,6 +94,14 @@
       const badge = document.getElementById('badge-carrito');
       if (badge) {
         badge.style.display = 'none';
+      }
+
+      function normalizePrice(price) {
+        const p = Number(price) || 0;
+        if (p >= 100 && Number.isInteger(p)) {
+          return p / 100;
+        }
+        return p;
       }
 
       // CARGAR DATOS DEL JUEGO
@@ -109,7 +118,7 @@
         // FETCH JSON
         const response = await fetch('/JSON/steam_top_1000_sellers.json');
         if (!response.ok) throw new Error('No se pudo cargar el JSON');
-        
+
         const juegos = await response.json();
         console.log('Juegos cargados:', juegos.length);
 
@@ -135,11 +144,11 @@
 
         const miniaturasContainer = document.querySelector('#miniaturas-container');
         if (juego.screenshots && juego.screenshots.length > 0) {
-          const miniaturasHTML = juego.screenshots.slice(0, 3).map((src, idx) => 
+          const miniaturasHTML = juego.screenshots.slice(0, 3).map((src, idx) =>
             `<img src="${src}" alt="Miniatura ${idx + 1}" class="miniatura ${idx === 0 ? 'active' : ''}" loading="lazy">`
           ).join('');
           miniaturasContainer.innerHTML = miniaturasHTML;
-          
+
           // Agregar eventos de click a las miniaturas
           document.querySelectorAll('.miniatura').forEach((img, index) => {
             img.addEventListener('click', () => {
@@ -155,7 +164,7 @@
 
         const etiquetasContainer = document.querySelector('.etiquetas-juego');
         if (juego.genres && juego.genres.length > 0) {
-          etiquetasContainer.innerHTML = juego.genres.map(g => 
+          etiquetasContainer.innerHTML = juego.genres.map(g =>
             `<span class="etiqueta">${g}</span>`
           ).join('');
         }
@@ -165,11 +174,11 @@
 
         const gridCapturas = document.querySelector('#capturas-container');
         if (juego.screenshots && juego.screenshots.length > 3) {
-          gridCapturas.innerHTML = juego.screenshots.slice(3, 7).map(src => 
+          gridCapturas.innerHTML = juego.screenshots.slice(3, 7).map(src =>
             `<img src="${src}" alt="Captura" loading="lazy">`
           ).join('');
         } else if (juego.screenshots && juego.screenshots.length > 0) {
-          gridCapturas.innerHTML = juego.screenshots.map(src => 
+          gridCapturas.innerHTML = juego.screenshots.map(src =>
             `<img src="${src}" alt="Captura" loading="lazy">`
           ).join('');
         }
@@ -178,7 +187,7 @@
         if (fechaElement) fechaElement.textContent = juego.release_date || 'Por confirmar';
 
         const price = juego.price || { final: 0, discount_percent: 0 };
-        const finalPrice = Number(price.final) || 0;
+        const finalPrice = normalizePrice(price.final);
         const discount = Number(price.discount_percent) || 0;
 
         const priceFinalElem = document.querySelector('.precio-final');
@@ -211,16 +220,16 @@
 
         // Funciones comunes carrito
         const CARRITO_KEY = 'solarSistemCart';
-        
+
         function getCart() {
           return JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
         }
-        
+
         function saveCart(cart) {
           localStorage.setItem(CARRITO_KEY, JSON.stringify(cart));
           updateBadges();
         }
-        
+
         function addToCart(juego) {
           let cart = getCart();
           const existing = cart.find(item => item.appid === juego.appid);
@@ -234,14 +243,14 @@
               appid: juego.appid,
               name: juego.name,
               header_image: juego.header_image,
-              finalPrice: Number(juego.price?.final || 0),
+              finalPrice: normalizePrice(juego.price?.final),
               quantity: 1
             });
           }
           saveCart(cart);
           return true;
         }
-        
+
         function updateBadges() {
           const totalItems = getCart().length; // Contar solo items, no cantidad
           document.querySelectorAll('#badge-carrito').forEach(badge => {
@@ -253,12 +262,23 @@
             }
           });
         }
-        
-        // Verificar si el juego ya está en la colección
-        const coleccionJuegos = JSON.parse(localStorage.getItem('coleccionJuegos')) || [];
-        const juegoEnColeccion = coleccionJuegos.includes(juego.appid);
-        console.log('Juego en colección:', juegoEnColeccion, 'Colección:', coleccionJuegos);
-        
+
+        // Verificar si el juego ya está en la colección (desde el backend)
+        let juegoEnColeccion = false;
+        const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
+        if (usuario && usuario.idUsuario) {
+          try {
+            const response = await fetch(`/api/coleccion/${usuario.idUsuario}`);
+            if (response.ok) {
+              const juegosColeccion = await response.json();
+              juegoEnColeccion = juegosColeccion.some(j => Number(j.idJuego) === Number(juego.appid));
+              console.log('Juego en colección (backend):', juegoEnColeccion);
+            }
+          } catch (e) {
+            console.error('Error consultando colección:', e);
+          }
+        }
+
         // Bind buttons
         const btnComprar = document.querySelector('.btn-comprar');
         if (btnComprar && juego) {
@@ -295,16 +315,16 @@
           // Verificar si el juego ya está en deseados al cargar
           const listaDeseadosInit = JSON.parse(localStorage.getItem('listaDeseados')) || [];
           const estaEnDeseados = listaDeseadosInit.includes(juego.appid);
-          
+
           if (estaEnDeseados) {
             btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Quitar de deseados';
             btnDeseados.style.background = '#ffc107';
           }
-          
+
           btnDeseados.onclick = () => {
             // Obtener la lista actual de deseados
             const listaDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
-            
+
             // Verificar si ya está en la lista
             if (!listaDeseados.includes(juego.appid)) {
               // Agregar a deseados
