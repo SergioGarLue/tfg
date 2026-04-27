@@ -9,11 +9,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daw.tfg.dtos.AsignarRolDesarrolladorDTO;
+import com.daw.tfg.enums.RolesUsuarios;
+import com.daw.tfg.models.Desarrollador;
 import com.daw.tfg.models.Usuario;
+import com.daw.tfg.service.DesarrolladorService;
 import com.daw.tfg.service.SteamImportService;
 import com.daw.tfg.service.UsuarioService;
 
@@ -27,10 +33,12 @@ public class AdminController {
 
     private final SteamImportService steamImportService;
     private final UsuarioService usuarioService;
+    private final DesarrolladorService desarrolladorService;
 
-    public AdminController(SteamImportService steamImportService, UsuarioService usuarioService) {
+    public AdminController(SteamImportService steamImportService, UsuarioService usuarioService, DesarrolladorService desarrolladorService) {
         this.steamImportService = steamImportService;
         this.usuarioService = usuarioService;
+        this.desarrolladorService = desarrolladorService;
     }
 
     /**
@@ -82,7 +90,8 @@ public class AdminController {
                     usuario.getIdUsuario(),
                     usuario.getNombreUsuario(),
                     usuario.getCorreoElectronico(),
-                    usuario.getRol().toString()));
+                    usuario.getRol().toString(),
+                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -106,7 +115,8 @@ public class AdminController {
                     usuario.getIdUsuario(),
                     usuario.getNombreUsuario(),
                     usuario.getCorreoElectronico(),
-                    usuario.getRol().toString()));
+                    usuario.getRol().toString(),
+                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -130,7 +140,8 @@ public class AdminController {
                             usuario.getIdUsuario(),
                             usuario.getNombreUsuario(),
                             usuario.getCorreoElectronico(),
-                            usuario.getRol().toString()))
+                            usuario.getRol().toString(),
+                            usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
@@ -164,6 +175,52 @@ public class AdminController {
     }
 
     /**
+     * Asigna un rol y empresa desarrolladora a un usuario.
+     * ⚠️ SOLO ADMINS PUEDEN ACCEDER
+     * 
+     * @param idUsuario ID del usuario
+     * @param dto DTO con rol y opcional idDesarrollador
+     * @return ResponseEntity con mensaje de confirmación
+     */
+    @PutMapping("/usuario/{idUsuario}/rol")
+    public ResponseEntity<String> asignarRolDesarrollador(
+            @PathVariable Long idUsuario,
+            @RequestBody AsignarRolDesarrolladorDTO dto) {
+        try {
+            Usuario usuario = usuarioService.findById(idUsuario);
+            usuario.setRol(RolesUsuarios.valueOf(dto.getRol()));
+
+            if (dto.getIdDesarrollador() != null) {
+                Desarrollador desarrollador = desarrolladorService.findById(dto.getIdDesarrollador())
+                        .orElseThrow(() -> new IllegalArgumentException("Desarrollador no encontrado"));
+                usuario.setDesarrollador(desarrollador);
+            } else {
+                usuario.setDesarrollador(null);
+            }
+
+            usuarioService.save(usuario);
+            return ResponseEntity.ok("✅ Rol actualizado correctamente para " + usuario.getNombreUsuario());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("❌ " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("❌ Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Lista todos los desarrolladores (empresas) disponibles.
+     */
+    @GetMapping("/desarrolladores")
+    public ResponseEntity<List<Desarrollador>> listarDesarrolladores() {
+        try {
+            List<Desarrollador> desarrolladores = desarrolladorService.findAll();
+            return ResponseEntity.ok(desarrolladores);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    /**
      * DTO simple para devolver información del usuario en las respuestas
      */
     public static class UsuarioResponseDTO {
@@ -171,12 +228,14 @@ public class AdminController {
         public String nombreUsuario;
         public String correoElectronico;
         public String rol;
+        public String nombreDesarrollador;
 
-        public UsuarioResponseDTO(Long idUsuario, String nombreUsuario, String correoElectronico, String rol) {
+        public UsuarioResponseDTO(Long idUsuario, String nombreUsuario, String correoElectronico, String rol, String nombreDesarrollador) {
             this.idUsuario = idUsuario;
             this.nombreUsuario = nombreUsuario;
             this.correoElectronico = correoElectronico;
             this.rol = rol;
+            this.nombreDesarrollador = nombreDesarrollador;
         }
     }
 }

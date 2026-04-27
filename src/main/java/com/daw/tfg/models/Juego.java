@@ -40,6 +40,12 @@ public class Juego {
     @Column(name = "porcentaje")
     private Integer porcentaje;
 
+    @Column(name = "precio_rebajado")
+    private Double precioRebajado;
+
+    @Column(nullable = false, name = "disponible")
+    private Boolean disponible = true;
+
     @Column(length = 1000, name = "descripcion")
     private String descripcion;
 
@@ -107,6 +113,7 @@ public class Juego {
         this.porcentaje = porcentaje;
         this.tipo = tipo;
         this.titulo = titulo;
+        this.disponible = true;
     }
 
     

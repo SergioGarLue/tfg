@@ -25,6 +25,9 @@ public interface JuegoRepository extends JpaRepository<Juego, Long> {
     // Buscar por desarrollador (exacto o case-insensitive)
     List<Juego> findByDesarrolladorNombreIgnoreCase(String nombreDesarrollador);
 
+    // Buscar juegos por ID del desarrollador (empresa)
+    List<Juego> findByDesarrolladorIdDesarrollador(Long idDesarrollador);
+
     // Buscar por editor (exacto o case-insensitive)
     List<Juego> findByEditorNombreIgnoreCase(String nombreEditor);
 

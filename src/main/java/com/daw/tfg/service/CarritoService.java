@@ -76,6 +76,20 @@ public class CarritoService {
     // Logica de negocio
 
     /**
+     * Obtiene el precio efectivo de un juego (rebajado si existe y es mayor que 0, sino el normal).
+     * Si el juego no está disponible o es gratis (precio 0), devuelve 0.
+     */
+    private Double getPrecioEfectivo(Juego juego) {
+        if (Boolean.FALSE.equals(juego.getDisponible())) {
+            return 0.0;
+        }
+        if (juego.getPrecioRebajado() != null && juego.getPrecioRebajado() > 0) {
+            return juego.getPrecioRebajado();
+        }
+        return juego.getPrecio();
+    }
+
+    /**
      * Obtiene todos los juegos en el carrito de un usuario.
      * 
      * @param usuarioId ID del usuario
@@ -172,7 +186,8 @@ public class CarritoService {
     }
 
     /**
-     * Calcula el precio total del carrito de un usuario.
+     * Calcula el precio total del carrito de un usuario usando precios efectivos
+     * (considera precio rebajado y disponibilidad).
      * 
      * @param usuarioId ID del usuario
      * @return Precio total del carrito
@@ -187,10 +202,9 @@ public class CarritoService {
             return 0.0f;
         }
 
-        // Calcular total filtrando juegos sin precio para evitar NullPointerException
+        // Calcular total usando precio efectivo (rebajado si aplica)
         return (float) carrito.getJuegos().stream()
-                .filter(juego -> juego.getPrecio() != null)
-                .mapToDouble(Juego::getPrecio)
+                .mapToDouble(this::getPrecioEfectivo)
                 .sum();
     }
 

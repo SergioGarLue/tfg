@@ -1,0 +1,991 @@
+[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/flywaydb/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/cyclonedx/maven-metadata.xml
+Progress (1): 234 BProgress (2): 234 B | 243 BProgress (3): 234 B | 243 B | 255 BProgress (4): 234 B | 243 B | 255 B | 249 B                                           Downloaded from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/maven-metadata.xml (255 B at 586 B/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/flywaydb/maven-metadata.xml (234 B at 533 B/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/jooq/maven-metadata.xml
+Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/maven-metadata.xml (249 B at 565 B/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/cyclonedx/maven-metadata.xml (243 B at 552 B/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/liquibase/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/maven-metadata.xml
+Progress (1): 242 BProgress (2): 242 B | 398 BProgress (3): 242 B | 398 B | 394 B                                   Downloaded from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/maven-metadata.xml (242 B at 7.8 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jooq/maven-metadata.xml (398 B at 11 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml
+Downloaded from central: https://repo.maven.apache.org/maven2/org/liquibase/maven-metadata.xml (394 B at 12 kB/s)
+Progress (1): 4.6 kBProgress (1): 9.7 kBProgress (1): 14 kB Progress (2): 14 kB | 3.4 kBProgress (2): 14 kB | 7.3 kBProgress (2): 14 kB | 12 kB Progress (2): 14 kB | 16 kBProgress (2): 14 kB | 20 kBProgress (2): 14 kB | 21 kBProgress (3): 14 kB | 21 kB | 375 B                                   Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml (14 kB at 397 kB/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/maven-metadata.xml (375 B at 5.6 kB/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml (21 kB at 275 kB/s)
+[INFO] 
+[INFO] ----------------------------< com.daw:tfg >-----------------------------
+[INFO] Building tfg 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.6:run (default-cli) > test-compile @ tfg >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ tfg ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 5728 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ tfg ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 110 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ tfg ---
+[INFO] skip non existing resourceDirectory C:\Users\Usuario\OneDrive\Documentos\GitHub\TFG-\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ tfg ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:4.0.6:run (default-cli) < test-compile @ tfg <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.6:run (default-cli) @ tfg ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.6)
+
+2026-04-27T18:36:22.308+01:00  INFO 41448 --- [tfg] [  restartedMain] com.daw.tfg.TfgApplication               : Starting TfgApplication using Java 21.0.10 with PID 41448 (C:\Users\Usuario\OneDrive\Documentos\GitHub\TFG-\target\classes started by Usuario in C:\Users\Usuario\OneDrive\Documentos\GitHub\TFG-)
+2026-04-27T18:36:22.312+01:00  INFO 41448 --- [tfg] [  restartedMain] com.daw.tfg.TfgApplication               : No active profile set, falling back to 1 default profile: "default"
+2026-04-27T18:36:22.403+01:00  INFO 41448 --- [tfg] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-27T18:36:22.407+01:00  INFO 41448 --- [tfg] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-27T18:36:23.967+01:00  INFO 41448 --- [tfg] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-27T18:36:24.132+01:00  INFO 41448 --- [tfg] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 151 ms. Found 14 JPA repository interfaces.
+2026-04-27T18:36:25.562+01:00  INFO 41448 --- [tfg] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-04-27T18:36:25.588+01:00  INFO 41448 --- [tfg] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-27T18:36:25.588+01:00  INFO 41448 --- [tfg] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-04-27T18:36:25.695+01:00  INFO 41448 --- [tfg] [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3287 ms
+2026-04-27T18:36:26.223+01:00  INFO 41448 --- [tfg] [  restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-27T18:36:26.315+01:00  INFO 41448 --- [tfg] [  restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-04-27T18:36:26.993+01:00  INFO 41448 --- [tfg] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-27T18:36:27.048+01:00  INFO 41448 --- [tfg] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-27T18:36:27.398+01:00  INFO 41448 --- [tfg] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:tfgdb user=SA
+2026-04-27T18:36:27.404+01:00  INFO 41448 --- [tfg] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-27T18:36:27.450+01:00  WARN 41448 --- [tfg] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-27T18:36:27.493+01:00  INFO 41448 --- [tfg] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:tfgdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TFGDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-27T18:36:29.580+01:00  INFO 41448 --- [tfg] [  restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    drop table if exists amistad cascade 
+Hibernate: 
+    drop table if exists carrito cascade 
+Hibernate: 
+    drop table if exists coleccion_favoritos cascade 
+Hibernate: 
+    drop table if exists compra cascade 
+Hibernate: 
+    drop table if exists desarrollador cascade 
+Hibernate: 
+    drop table if exists editor cascade 
+Hibernate: 
+    drop table if exists genero cascade 
+Hibernate: 
+    drop table if exists juego cascade 
+Hibernate: 
+    drop table if exists juego_genero cascade 
+Hibernate: 
+    drop table if exists juego_plataforma cascade 
+Hibernate: 
+    drop table if exists juego_screenshot cascade 
+Hibernate: 
+    drop table if exists juegos_carrito cascade 
+Hibernate: 
+    drop table if exists lista_deseados_juegos cascade 
+Hibernate: 
+    drop table if exists metodo_pago cascade 
+Hibernate: 
+    drop table if exists notificacion cascade 
+Hibernate: 
+    drop table if exists perfil_usuario cascade 
+Hibernate: 
+    drop table if exists refresh_token cascade 
+Hibernate: 
+    drop table if exists usuario cascade 
+Hibernate: 
+    drop table if exists usuario_lista_deseados cascade 
+Hibernate: 
+    create table amistad (
+        fecha_peticion timestamp(6),
+        id_amistad bigint generated by default as identity,
+        id_destinatario bigint not null,
+        id_solicitante bigint not null,
+        estado enum ('ACEPTADO','PENDIENTE','RECHAZADA') not null,
+        primary key (id_amistad)
+    )
+Hibernate: 
+    create table carrito (
+        id_carrito bigint generated by default as identity,
+        id_compra bigint unique,
+        id_usuario bigint not null unique,
+        primary key (id_carrito)
+    )
+Hibernate: 
+    create table coleccion_favoritos (
+        es_favorito boolean not null,
+        fecha_adquisicion timestamp(6) not null,
+        id_coleccion_juego bigint generated by default as identity,
+        id_juego bigint not null,
+        id_usuario bigint not null,
+        primary key (id_coleccion_juego)
+    )
+Hibernate: 
+    create table compra (
+        estado tinyint not null check ((estado between 0 and 2)),
+        total float(53) not null,
+        fecha_compra timestamp(6) not null,
+        id_carrito bigint not null unique,
+        id_compra bigint generated by default as identity,
+        id_metodo_pago bigint,
+        id_usuario bigint not null,
+        payment_intent_id varchar(255) unique,
+        primary key (id_compra)
+    )
+Hibernate: 
+    create table desarrollador (
+        id_desarrollador bigint generated by default as identity,
+        imagen varchar(255) not null unique,
+        nombre varchar(255) not null unique,
+        primary key (id_desarrollador)
+    )
+Hibernate: 
+    create table editor (
+        id_editor bigint generated by default as identity,
+        imagen varchar(255) not null unique,
+        nombre varchar(255) not null unique,
+        primary key (id_editor)
+    )
+Hibernate: 
+    create table genero (
+        id_genero bigint generated by default as identity,
+        nombre varchar(255) not null unique,
+        primary key (id_genero)
+    )
+Hibernate: 
+    create table juego (
+        disponible boolean not null,
+        peso_juego float(24),
+        porcentaje integer,
+        precio float(53) not null,
+        precio_rebajado float(53),
+        id_desarrollador bigint not null,
+        id_editor bigint,
+        id_juego bigint not null,
+        id_juego_padre bigint,
+        descripcion varchar(1000),
+        fecha_lanzamiento varchar(255) not null,
+        imagen varchar(255) not null,
+        tipo varchar(255),
+        titulo varchar(255) not null unique,
+        primary key (id_juego)
+    )
+Hibernate: 
+    create table juego_genero (
+        id_genero bigint not null,
+        id_juego bigint not null,
+        primary key (id_genero, id_juego)
+    )
+Hibernate: 
+    create table juego_plataforma (
+        id_juego bigint not null,
+        plataforma varchar(255)
+    )
+Hibernate: 
+    create table juego_screenshot (
+        id_juego bigint not null,
+        screenshot varchar(255)
+    )
+Hibernate: 
+    create table juegos_carrito (
+        id_carrito bigint not null,
+        id_juego bigint not null,
+        primary key (id_carrito, id_juego)
+    )
+Hibernate: 
+    create table lista_deseados_juegos (
+        id_juego bigint not null,
+        id_lista_deseados bigint not null,
+        primary key (id_juego, id_lista_deseados)
+    )
+Hibernate: 
+    create table metodo_pago (
+        activo boolean not null,
+        fecha_creacion timestamp(6) not null,
+        id_metodo_pago bigint generated by default as identity,
+        id_usuario bigint not null,
+        descripcion varchar(255),
+        referencia_externa varchar(255),
+        proveedor enum ('BIZUM','MONEDERO','PAYPAL','STRIPE') not null,
+        tipo enum ('DOMICILIACION','TARJETA','WALLET') not null,
+        primary key (id_metodo_pago)
+    )
+Hibernate: 
+    create table notificacion (
+        id_compra bigint not null unique,
+        id_notificacion bigint generated by default as identity,
+        id_usuario bigint not null,
+        primary key (id_notificacion)
+    )
+Hibernate: 
+    create table perfil_usuario (
+        estado boolean not null,
+        id_usuario_perfil bigint generated by default as identity,
+        biografia varchar(500) not null,
+        imagen_fondo_perfil TEXT not null,
+        imagen_usuario TEXT not null,
+        pais varchar(255) not null,
+        primary key (id_usuario_perfil)
+    )
+Hibernate: 
+    create table refresh_token (
+        revoked boolean not null,
+        expiry_date timestamp(6) with time zone not null,
+        id bigint generated by default as identity,
+        user_id bigint not null,
+        token varchar(255) not null unique,
+        primary key (id)
+    )
+Hibernate: 
+    create table usuario (
+        id_desarrollador_usuario bigint,
+        id_usuario bigint generated by default as identity,
+        id_usuario_perfil bigint not null unique,
+        contraseña_cifrada varchar(255) not null,
+        correo_electronico varchar(255) not null unique,
+        nombre_usuario varchar(255) not null unique,
+        conexion enum ('ACTIVO','AUSENTE','DESCONECTADO') not null,
+        rol enum ('ADMIN','DESARROLLADOR','DEVELOPER','EDITOR','USER') not null,
+        primary key (id_usuario)
+    )
+Hibernate: 
+    create table usuario_lista_deseados (
+        id_lista_deseados bigint generated by default as identity,
+        id_usuario bigint not null unique,
+        primary key (id_lista_deseados)
+    )
+Hibernate: 
+    alter table if exists amistad 
+       add constraint FK5vwii4q9spbihamn8n4neqkyn 
+       foreign key (id_destinatario) 
+       references usuario
+Hibernate: 
+    alter table if exists amistad 
+       add constraint FKlbrf8i2achqg0lx0ldq75bpb3 
+       foreign key (id_solicitante) 
+       references usuario
+Hibernate: 
+    alter table if exists carrito 
+       add constraint FK1yophbw7rkheo9nqptwfegfno 
+       foreign key (id_compra) 
+       references compra
+Hibernate: 
+    alter table if exists carrito 
+       add constraint FKsbqpxk63xrpyck17xawl195dt 
+       foreign key (id_usuario) 
+       references usuario
+Hibernate: 
+    alter table if exists coleccion_favoritos 
+       add constraint FKli7pxmeuugkn8wn0gpwyvsyqd 
+       foreign key (id_juego) 
+       references juego
+Hibernate: 
+    alter table if exists coleccion_favoritos 
+       add constraint FK6hvo3u4s2n8df7eia0tob1mhr 
+       foreign key (id_usuario) 
+       references usuario
+Hibernate: 
+    alter table if exists compra 
+       add constraint FK1g6hytc6y1gtjwp9ha1d0094y 
+       foreign key (id_carrito) 
+       references carrito
+Hibernate: 
+    alter table if exists compra 
+       add constraint FKg9whjcoi6bxqx4wikfqcf6d27 
+       foreign key (id_metodo_pago) 
+       references metodo_pago
+Hibernate: 
+    alter table if exists compra 
+       add constraint FK7vjgaittxfg45av262pewhxi0 
+       foreign key (id_usuario) 
+       references usuario
+Hibernate: 
+    alter table if exists juego 
+       add constraint FK7q6sw9ahdhqopfectk7ufwtbr 
+       foreign key (id_desarrollador) 
+       references desarrollador
+Hibernate: 
+    alter table if exists juego 
+       add constraint FKj71ilrbpa92a8v9wobrm32wct 
+       foreign key (id_editor) 
+       references editor
+Hibernate: 
+    alter table if exists juego 
+       add constraint FKpe24m2yqo19bunp4ya8oqnjfx 
+       foreign key (id_juego_padre) 
+       references juego
+Hibernate: 
+    alter table if exists juego_genero 
+       add constraint FK3hxrqeh16levcp71bqmjguck7 
+       foreign key (id_genero) 
+       references genero
+Hibernate: 
+    alter table if exists juego_genero 
+       add constraint FKpql6wg6aa4fvtng7h8nec1hfv 
+       foreign key (id_juego) 
+       references juego
+Hibernate: 
+    alter table if exists juego_plataforma 
+       add constraint FKcmescx1pdyid55211q0ihiwmq 
+       foreign key (id_juego) 
+       references juego
+Hibernate: 
+    alter table if exists juego_screenshot 
+       add constraint FKg3h4qy5ddbttoiby64mm5ot7l 
+       foreign key (id_juego) 
+       references juego
+Hibernate: 
+    alter table if exists juegos_carrito 
+       add constraint FKhmaadk3xoqti8lfidw3kwr2a0 
+       foreign key (id_juego) 
+       references juego
+Hibernate: 
+    alter table if exists juegos_carrito 
+       add constraint FKmkc74jh9g8ku4oua200dbmaa4 
+       foreign key (id_carrito) 
+       references carrito
+Hibernate: 
+    alter table if exists lista_deseados_juegos 
+       add constraint FKlf4gdvbcnyyh4te44r1l3xh9o 
+       foreign key (id_juego) 
+       references juego
+Hibernate: 
+    alter table if exists lista_deseados_juegos 
+       add constraint FK6u9ybwh3nyfjqac1y69wi57m7 
+       foreign key (id_lista_deseados) 
+       references usuario_lista_deseados
+Hibernate: 
+    alter table if exists metodo_pago 
+       add constraint FKjscgs1sgenij48kfishh7cg6y 
+       foreign key (id_usuario) 
+       references usuario
+Hibernate: 
+    alter table if exists notificacion 
+       add constraint FK26q718n8ihb320106rg151chm 
+       foreign key (id_compra) 
+       references compra
+Hibernate: 
+    alter table if exists notificacion 
+       add constraint FKcl7wnfwly3cree0u7ghsy10tu 
+       foreign key (id_usuario) 
+       references usuario
+Hibernate: 
+    alter table if exists refresh_token 
+       add constraint FKenvguqmt5g4sywplefd88osg 
+       foreign key (user_id) 
+       references usuario
+Hibernate: 
+    alter table if exists usuario 
+       add constraint FKnn84wpegtne8t15wilnw09qhl 
+       foreign key (id_desarrollador_usuario) 
+       references desarrollador
+Hibernate: 
+    alter table if exists usuario 
+       add constraint FKh4b743c2o80r06291g659y7k1 
+       foreign key (id_usuario_perfil) 
+       references perfil_usuario
+Hibernate: 
+    alter table if exists usuario_lista_deseados 
+       add constraint FKup308naqnkc17vxth0prkfio 
+       foreign key (id_usuario) 
+       references usuario
+2026-04-27T18:36:29.810+01:00  INFO 41448 --- [tfg] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-27T18:36:29.950+01:00  INFO 41448 --- [tfg] [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0
+Hibernate: 
+    select
+        u1_0.id_usuario 
+    from
+        usuario u1_0 
+    where
+        u1_0.nombre_usuario=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        perfil_usuario
+        (biografia, estado, imagen_fondo_perfil, imagen_usuario, pais, id_usuario_perfil) 
+    values
+        (?, ?, ?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        usuario
+        (conexion, contraseña_cifrada, correo_electronico, id_desarrollador_usuario, nombre_usuario, id_usuario_perfil, rol, id_usuario) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0 
+    where
+        u1_0.nombre_usuario=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        d1_0.id_desarrollador,
+        d1_0.imagen,
+        d1_0.nombre,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais,
+        u1_0.rol 
+    from
+        usuario u1_0 
+    left join
+        desarrollador d1_0 
+            on d1_0.id_desarrollador=u1_0.id_desarrollador_usuario 
+    join
+        perfil_usuario pu1_0 
+            on pu1_0.id_usuario_perfil=u1_0.id_usuario_perfil 
+    where
+        u1_0.id_usuario=?
+Hibernate: 
+    update
+        usuario 
+    set
+        conexion=?,
+        contraseña_cifrada=?,
+        correo_electronico=?,
+        id_desarrollador_usuario=?,
+        nombre_usuario=?,
+        id_usuario_perfil=?,
+        rol=? 
+    where
+        id_usuario=?
+Usuario creado: admin / Admin@123! (rol: ADMIN)
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        u1_0.id_usuario 
+    from
+        usuario u1_0 
+    where
+        u1_0.nombre_usuario=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        perfil_usuario
+        (biografia, estado, imagen_fondo_perfil, imagen_usuario, pais, id_usuario_perfil) 
+    values
+        (?, ?, ?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        usuario
+        (conexion, contraseña_cifrada, correo_electronico, id_desarrollador_usuario, nombre_usuario, id_usuario_perfil, rol, id_usuario) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0 
+    where
+        u1_0.nombre_usuario=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        d1_0.id_desarrollador,
+        d1_0.imagen,
+        d1_0.nombre,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais,
+        u1_0.rol 
+    from
+        usuario u1_0 
+    left join
+        desarrollador d1_0 
+            on d1_0.id_desarrollador=u1_0.id_desarrollador_usuario 
+    join
+        perfil_usuario pu1_0 
+            on pu1_0.id_usuario_perfil=u1_0.id_usuario_perfil 
+    where
+        u1_0.id_usuario=?
+Usuario creado: testuser / Test@123! (rol: USER)
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        u1_0.id_usuario 
+    from
+        usuario u1_0 
+    where
+        u1_0.nombre_usuario=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        perfil_usuario
+        (biografia, estado, imagen_fondo_perfil, imagen_usuario, pais, id_usuario_perfil) 
+    values
+        (?, ?, ?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        usuario
+        (conexion, contraseña_cifrada, correo_electronico, id_desarrollador_usuario, nombre_usuario, id_usuario_perfil, rol, id_usuario) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0 
+    where
+        u1_0.nombre_usuario=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        d1_0.id_desarrollador,
+        d1_0.imagen,
+        d1_0.nombre,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais,
+        u1_0.rol 
+    from
+        usuario u1_0 
+    left join
+        desarrollador d1_0 
+            on d1_0.id_desarrollador=u1_0.id_desarrollador_usuario 
+    join
+        perfil_usuario pu1_0 
+            on pu1_0.id_usuario_perfil=u1_0.id_usuario_perfil 
+    where
+        u1_0.id_usuario=?
+Usuario creado: testuser1 / Test@123! (rol: USER)
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        d1_0.id_desarrollador,
+        d1_0.imagen,
+        d1_0.nombre 
+    from
+        desarrollador d1_0 
+    where
+        d1_0.nombre=?
+Hibernate: 
+    insert 
+    into
+        desarrollador
+        (imagen, nombre, id_desarrollador) 
+    values
+        (?, ?, default)
+Hibernate: 
+    insert 
+    into
+        perfil_usuario
+        (biografia, estado, imagen_fondo_perfil, imagen_usuario, pais, id_usuario_perfil) 
+    values
+        (?, ?, ?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        usuario
+        (conexion, contraseña_cifrada, correo_electronico, id_desarrollador_usuario, nombre_usuario, id_usuario_perfil, rol, id_usuario) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, default)
+Usuario DEVELOPER creado: developer1 / Dev@123! vinculado a FromSoftware
+Hibernate: 
+    select
+        u1_0.id_usuario,
+        u1_0.conexion,
+        u1_0.contraseña_cifrada,
+        u1_0.correo_electronico,
+        u1_0.id_desarrollador_usuario,
+        u1_0.nombre_usuario,
+        u1_0.id_usuario_perfil,
+        u1_0.rol 
+    from
+        usuario u1_0
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        d1_0.id_desarrollador,
+        d1_0.imagen,
+        d1_0.nombre 
+    from
+        desarrollador d1_0 
+    where
+        d1_0.id_desarrollador=?
+Hibernate: 
+    select
+        pu1_0.id_usuario_perfil,
+        pu1_0.biografia,
+        pu1_0.estado,
+        pu1_0.imagen_fondo_perfil,
+        pu1_0.imagen_usuario,
+        pu1_0.pais 
+    from
+        perfil_usuario pu1_0 
+    where
+        pu1_0.id_usuario_perfil=?
+Hibernate: 
+    select
+        d1_0.id_desarrollador,
+        d1_0.imagen,
+        d1_0.nombre 
+    from
+        desarrollador d1_0 
+    where
+        d1_0.nombre=?
+Hibernate: 
+    insert 
+    into
+        desarrollador
+        (imagen, nombre, id_desarrollador) 
+    values
+        (?, ?, default)
+Hibernate: 
+    insert 
+    into
+        perfil_usuario
+        (biografia, estado, imagen_fondo_perfil, imagen_usuario, pais, id_usuario_perfil) 
+    values
+        (?, ?, ?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        usuario
+        (conexion, contraseña_cifrada, correo_electronico, id_desarrollador_usuario, nombre_usuario, id_usuario_perfil, rol, id_usuario) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, default)
+Usuario DEVELOPER creado: developer2 / Dev@123! vinculado a Valve
+2026-04-27T18:36:31.787+01:00  INFO 41448 --- [tfg] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetails
+2026-04-27T18:36:32.022+01:00  INFO 41448 --- [tfg] [  restartedMain] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page template: index
+2026-04-27T18:36:33.520+01:00  INFO 41448 --- [tfg] [  restartedMain] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:tfgdb'
+2026-04-27T18:36:33.622+01:00  INFO 41448 --- [tfg] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-04-27T18:36:33.698+01:00  WARN 41448 --- [tfg] [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-04-27T18:36:33.702+01:00  INFO 41448 --- [tfg] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+Hibernate: 
+    drop table if exists amistad cascade 
+Hibernate: 
+    drop table if exists carrito cascade 
+Hibernate: 
+    drop table if exists coleccion_favoritos cascade 
+Hibernate: 
+    drop table if exists compra cascade 
+Hibernate: 
+    drop table if exists desarrollador cascade 
+Hibernate: 
+    drop table if exists editor cascade 
+Hibernate: 
+    drop table if exists genero cascade 
+Hibernate: 
+    drop table if exists juego cascade 
+Hibernate: 
+    drop table if exists juego_genero cascade 
+Hibernate: 
+    drop table if exists juego_plataforma cascade 
+Hibernate: 
+    drop table if exists juego_screenshot cascade 
+Hibernate: 
+    drop table if exists juegos_carrito cascade 
+Hibernate: 
+    drop table if exists lista_deseados_juegos cascade 
+Hibernate: 
+    drop table if exists metodo_pago cascade 
+Hibernate: 
+    drop table if exists notificacion cascade 
+Hibernate: 
+    drop table if exists perfil_usuario cascade 
+Hibernate: 
+    drop table if exists refresh_token cascade 
+Hibernate: 
+    drop table if exists usuario cascade 
+Hibernate: 
+    drop table if exists usuario_lista_deseados cascade 
+2026-04-27T18:36:33.718+01:00  WARN 41448 --- [tfg] [  restartedMain] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+2026-04-27T18:36:33.718+01:00  INFO 41448 --- [tfg] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-27T18:36:33.720+01:00  INFO 41448 --- [tfg] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-27T18:36:33.731+01:00  INFO 41448 --- [tfg] [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-04-27T18:36:33.745+01:00 ERROR 41448 --- [tfg] [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  28.676 s
+[INFO] Finished at: 2026-04-27T18:36:33+01:00
+[INFO] ------------------------------------------------------------------------

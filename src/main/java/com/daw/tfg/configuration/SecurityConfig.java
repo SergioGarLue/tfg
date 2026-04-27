@@ -42,7 +42,7 @@ public class SecurityConfig {
 .authorizeHttpRequests(auth -> auth
                         // Rutas públicas de vistas
                         .requestMatchers(
-                                "/", "/index.html",
+                                "/",
                                 "/login", "/login.html",
                                 "/registro", "/registro.html",
                                 "/tienda", "/tienda/**", "/juego/**",
