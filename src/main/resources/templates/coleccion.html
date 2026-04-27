@@ -6,6 +6,7 @@
   <title>Mi Colección</title>
       <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/index.css" />
+    <link rel="stylesheet" href="/estilos/coleccion.css" />
 </head>
 <body>
 
@@ -115,14 +116,14 @@
         contenedor.innerHTML = '';
         juegos.forEach(juego => {
           const imagenUrl = juego.imagen || `https://via.placeholder.com/300x200`;
-          const tarjeta = document.createElement('a');
-          tarjeta.href = `/juego/${juego.idJuego}`;
+          const tarjeta = document.createElement('div');
           tarjeta.className = 'tarjeta';
           tarjeta.innerHTML = `
             <img src="${imagenUrl}" alt="${juego.titulo}">
             <div class="info-tarjeta">
               <span class="titulo-juego">${juego.titulo}</span>
               <div class="etiquetas">Instalado</div>
+              <button class="boton-jugar" onclick="alert('Iniciando juego...')">Jugar</button>
             </div>
           `;
           contenedor.appendChild(tarjeta);
