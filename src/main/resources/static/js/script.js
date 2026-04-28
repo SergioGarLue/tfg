@@ -447,6 +447,7 @@ const buildNotificationHTML = ({ icon, title, time, unread, url }) => `
       <p class="texto-notificacion">${title}</p>
       <span class="tiempo-notificacion">${time}</span>
     </div>
+  </div>
 `;
 
 const getFriendList = () => {
