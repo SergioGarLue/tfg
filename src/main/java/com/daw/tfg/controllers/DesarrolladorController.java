@@ -18,7 +18,7 @@ import com.daw.tfg.service.DesarrolladorB2BService;
 
 @RestController
 @RequestMapping("/api/desarrollador")
-@PreAuthorize("hasRole('DEVELOPER')")
+@PreAuthorize("hasAnyRole('DEVELOPER','DESARROLLADOR')")
 public class DesarrolladorController {
 
     private final DesarrolladorB2BService desarrolladorB2BService;

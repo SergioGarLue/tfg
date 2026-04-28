@@ -191,7 +191,7 @@ throw new IllegalArgumentException("El usuario ya existe");
                 dto.getImagenUsuario() != null ? dto.getImagenUsuario() : "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500&fit=crop&crop=center",
                 dto.getImagenFondoPerfil() != null ? dto.getImagenFondoPerfil() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=400&fit=crop",
                 dto.getPais() != null ? dto.getPais() : "España",
-                dto.getBiografia() != null ? dto.getBiografia() : "¡Hola! Soy un nuevo usuario de Solar Sistem.",
+                dto.getBiografia() != null ? dto.getBiografia() : "¡Hola! Soy un nuevo usuario de Xyron.",
                 dto.getEstado() != null ? dto.getEstado() : true
             );
             usuario.setPerfilUsuario(perfil);

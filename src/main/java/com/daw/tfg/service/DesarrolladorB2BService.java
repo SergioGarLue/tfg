@@ -69,8 +69,9 @@ public class DesarrolladorB2BService {
         Usuario usuario = usuarioRepository.findByNombreUsuario(nombreUsuario)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-        if (usuario.getRol() == null || !usuario.getRol().name().equals("DEVELOPER")) {
-            throw new SecurityException("El usuario no tiene rol DEVELOPER");
+        if (usuario.getRol() == null ||
+            (!usuario.getRol().name().equals("DEVELOPER") && !usuario.getRol().name().equals("DESARROLLADOR"))) {
+            throw new SecurityException("El usuario no tiene rol DEVELOPER/DESARROLLADOR");
         }
 
         if (usuario.getDesarrollador() == null) {

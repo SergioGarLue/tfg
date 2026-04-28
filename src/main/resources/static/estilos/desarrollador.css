@@ -236,3 +236,21 @@
 .toast-b2b.error {
   background: rgba(255,59,48,0.9);
 }
+
+/* Sidebar active link highlight */
+.nav-link.activo,
+#dev-link.activo {
+  color: #76b900;
+  font-weight: 600;
+}
+
+.nav-link.activo i,
+#dev-link.activo i {
+  color: #76b900;
+}
+
+.input-precio.input-error,
+.select-disponible.input-error {
+  border-color: #ff3b30 !important;
+  box-shadow: 0 0 0 2px rgba(255,59,48,0.3);
+}
