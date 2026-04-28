@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-juego-title="Elden Ring - Solar Sistem">Elden Ring - Solar Sistem</title>
+  <title data-juego-title="Elden Ring - Xyron">Elden Ring - Xyron</title>
 <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
 <link rel="stylesheet" href="/estilos/index.css" />
 <link rel="stylesheet" href="/estilos/juego.css" />
@@ -244,7 +244,7 @@
           
           // Actualizar elementos DOM (ajustar campos según modelo Juego)
           document.querySelector('[data-juego-titulo]').textContent = juego.titulo || 'Juego desconocido';
-          document.title = `${juego.titulo || 'Juego'} - Solar Sistem`;
+          document.title = `${juego.titulo || 'Juego'} - Xyron`;
           
           const imgPrincipal = document.querySelector('[data-juego-img-principal]');
           if (juego.imagenPrincipal) imgPrincipal.src = juego.imagenPrincipal;
@@ -265,11 +265,17 @@
           
           // Precio
           const precioContainer = document.querySelector('[data-juego-precio]');
-          if (juego.precio) {
+          if (juego.precio != null) {
+            const precioBase = juego.precio;
+            const precioRebajado = juego.precioRebajado;
+            const porcentaje = juego.porcentaje || 0;
+            const tieneRebaja = precioRebajado != null && precioRebajado > 0 && precioRebajado < precioBase;
+            const precioFinal = tieneRebaja ? precioRebajado : precioBase;
+
             precioContainer.innerHTML = `
-              <span class="precio-original">${juego.precio}€</span>
-              ${juego.precioDescuento ? `<span class="precio-descuento">${juego.precioDescuento}%</span>` : ''}
-              <span class="precio-final">${(juego.precio * (1 - (juego.precioDescuento || 0)/100)).toFixed(2)}€</span>
+              ${tieneRebaja ? `<span class="precio-original">${precioBase.toFixed(2)}€</span>` : ''}
+              ${porcentaje > 0 ? `<span class="precio-descuento">-${porcentaje}%</span>` : ''}
+              <span class="precio-final">${precioFinal === 0 ? 'Gratis' : precioFinal.toFixed(2) + '€'}</span>
             `;
           }
           

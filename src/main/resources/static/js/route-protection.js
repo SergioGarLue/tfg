@@ -20,7 +20,7 @@ const ROUTE_PROTECTION = (() => {
   // Rutas protegidas por rol (requieren un rol específico)
   const ROLE_PROTECTED_ROUTES = {
     '/admin': ['ROLE_ADMIN'],
-    '/desarrollador': ['ROLE_DEVELOPER'],
+    '/desarrollador': ['ROLE_DEVELOPER', 'ROLE_DESARROLLADOR'],
 
     '/editor': ['ROLE_EDITOR']
   };

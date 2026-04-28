@@ -109,7 +109,8 @@ const renderSidebarUserState = async () => {
   const isAdmin = typeof AUTH !== 'undefined' && AUTH && typeof AUTH.hasRole === 'function' && AUTH.hasRole('ROLE_ADMIN');
   const devSection = document.getElementById('dev-section');
   const devLink = document.getElementById('dev-link');
-  const isDeveloper = typeof AUTH !== 'undefined' && AUTH && typeof AUTH.hasRole === 'function' && AUTH.hasRole('ROLE_DEVELOPER');
+  const isDeveloper = typeof AUTH !== 'undefined' && AUTH && typeof AUTH.hasRole === 'function' &&
+                      (AUTH.hasRole('ROLE_DEVELOPER') || AUTH.hasRole('ROLE_DESARROLLADOR'));
 
   if (avatar) {
     avatar.src = getAvatarUrl(usuario);
@@ -182,7 +183,7 @@ const renderProfileUsuario = async () => {
       if (response.ok) {
         usuario = await response.json();
         document.body.classList.add('perfil-externo');
-        document.title = `${usuario.nombreUsuario} - Perfil - Solar Sistem`;
+        document.title = `${usuario.nombreUsuario} - Perfil - Xyron`;
       } else {
         console.error('Error cargando perfil externo:', response.status);
       }

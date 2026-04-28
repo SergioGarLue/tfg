@@ -2,7 +2,6 @@ package com.daw.tfg.configuration;
 
 
 import com.daw.tfg.dtos.UsuarioDTO;
-import com.daw.tfg.enums.EstadoUsuario;
 import com.daw.tfg.enums.RolesUsuarios;
 import com.daw.tfg.models.Desarrollador;
 import com.daw.tfg.models.Usuario;
