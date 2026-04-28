@@ -14,8 +14,10 @@ window.fetch = async function(...args) {
   }
 
   // Si hay un token válido, agregarlo al header Authorization
+  // No agregar si es un endpoint de autenticación (login/register/refresh)
   const token = AUTH.getAccessToken();
-  if (token && !config.headers['Authorization']) {
+  const isAuthEndpoint = typeof resource === 'string' && resource.includes('/api/auth/');
+  if (token && !isAuthEndpoint && !config.headers['Authorization']) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
 

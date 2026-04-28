@@ -66,15 +66,27 @@ public class SteamImportService {
      * @throws IOException Si hay error en la ejecución
      * @throws InterruptedException Si se interrumpe la ejecución
      */
+    private static final String[] PYTHON_COMMANDS = {"python", "python3", "py"};
+
     private String ejecutarPython() throws IOException, InterruptedException {
         // Ruta al script Python
-        String rutaScript = "src/main/resources/static/JSON/siis.py";
+        String rutaScript = Paths.get("src", "main", "resources", "static", "JSON", "siis.py")
+                .toAbsolutePath().toString();
 
-        // Crear el comando: python siis.py
-        ProcessBuilder pb = new ProcessBuilder("python", rutaScript);
+        String comandoPython = encontrarComandoPython();
+        if (comandoPython == null) {
+            return "❌ No se encontró un intérprete Python en el sistema. Instale Python o configure el comando 'python', 'python3' o 'py'.";
+        }
+
+        // Crear el comando: python -u siis.py
+        ProcessBuilder pb = new ProcessBuilder(comandoPython, "-u", rutaScript);
 
         // Establecer el directorio de trabajo (raíz del proyecto)
         pb.directory(new File("."));
+
+        // Forzar UTF-8 en la salida del proceso Python en Windows
+        pb.environment().put("PYTHONIOENCODING", "utf-8");
+        pb.environment().put("PYTHONUTF8", "1");
 
         // Redirigir los flujos de salida
         pb.redirectErrorStream(true);
@@ -101,6 +113,23 @@ public class SteamImportService {
             return "❌ Error en la ejecución del script Python (código: " + codigoSalida + ")\n"
                     + output.toString();
         }
+    }
+
+    private String encontrarComandoPython() throws InterruptedException {
+        for (String comando : PYTHON_COMMANDS) {
+            try {
+                ProcessBuilder pb = new ProcessBuilder(comando, "--version");
+                pb.redirectErrorStream(true);
+                Process proceso = pb.start();
+                int codigoSalida = proceso.waitFor();
+                if (codigoSalida == 0) {
+                    return comando;
+                }
+            } catch (IOException e) {
+                // Comando no disponible, probar el siguiente
+            }
+        }
+        return null;
     }
 
     /**

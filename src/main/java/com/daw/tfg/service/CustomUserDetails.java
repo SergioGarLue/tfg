@@ -22,10 +22,14 @@ public class CustomUserDetails implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByNombreUsuario(username)
                                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado" + username));
+        
+        if (usuario.getDesarrollador() != null) {
+            usuario.getDesarrollador().getNombre();
+        }
+        
         return User.builder()
                 .username(usuario.getNombreUsuario())
                 .password(usuario.getContraseñaCifrada())
-                //pasa los roles a 'ROLE_'+nombreDelRol para que Spring enienda los roles   
                 .authorities("ROLE_"+usuario.getRol().name())
                 .build();
         

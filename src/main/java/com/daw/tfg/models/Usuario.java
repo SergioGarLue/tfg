@@ -43,6 +43,12 @@ public class Usuario {
     @Column(nullable = false, name = "rol")
     private RolesUsuarios rol;
 
+    // Relacion muchos a uno con el desarrollador (empresa) para usuarios con rol DESARROLLADOR
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_desarrollador_usuario", nullable = true)
+    @JsonIgnore
+    private Desarrollador desarrollador;
+
     /*
         Relacion uno a uno con el perfil del usuario enlazando la columna
         con su perfil para poder acceder a el posteriormente

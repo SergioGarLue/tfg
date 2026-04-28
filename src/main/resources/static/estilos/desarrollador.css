@@ -1,266 +1,238 @@
-/* Desarrollador styles - extending base index.css */
+/* Estilos del Panel B2B para Desarrolladores */
 
-/* Perfil del desarrollador */
-.perfil-desarrollador {
-    margin-bottom: 30px;
+.panel-b2b-contenedor {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.banner-desarrollador {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 5px;
-    margin-bottom: 20px;
+.panel-b2b-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.banner-desarrollador img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.panel-b2b-cabecera h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.info-desarrollador {
-    display: flex;
-    gap: 25px;
-    align-items: flex-start;
-    padding: 20px;
-    background-color: var(--steam-card-bg);
-    border-radius: 5px;
+.panel-b2b-cabecera h1 i {
+  color: #76b900;
 }
 
-.avatar-desarrollador {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid var(--steam-light-blue);
-    flex-shrink: 0;
+.estadisticas-b2b {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.avatar-desarrollador img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.tarjeta-stat {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 16px 24px;
+  min-width: 120px;
 }
 
-.detalles-desarrollador {
-    flex-grow: 1;
+.tarjeta-stat .valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #76b900;
+  display: block;
 }
 
-.detalles-desarrollador h1 {
-    font-size: 2rem;
-    color: white;
-    margin-bottom: 10px;
+.tarjeta-stat .etiqueta {
+  font-size: 0.8rem;
+  color: #b0b0b0;
 }
 
-.detalles-desarrollador .descripcion {
-    color: var(--texto-gris);
-    margin-bottom: 20px;
-    line-height: 1.5;
+.tabla-juegos-wrapper {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.estadisticas-desarrollador {
-    display: flex;
-    gap: 30px;
+.tabla-juegos {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.estadistica {
-    text-align: center;
+.tabla-juegos th {
+  background: rgba(0,0,0,0.3);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.8rem;
+  color: #b0b0b0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.estadistica .valor {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--steam-light-blue);
+.tabla-juegos td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  vertical-align: middle;
 }
 
-.estadistica .etiqueta {
-    font-size: 0.9rem;
-    color: var(--texto-gris);
+.tabla-juegos tr:hover td {
+  background: rgba(255,255,255,0.03);
 }
 
-/* Filtros */
-.filtros-desarrollador {
-    margin-bottom: 25px;
+.celda-juego {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.filtros {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.celda-juego img {
+  width: 48px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
-.filtro-btn {
-    background-color: rgba(42, 71, 94, 0.6);
-    border: 1px solid var(--steam-card-bg);
-    color: var(--steam-text);
-    padding: 8px 18px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s;
+.celda-juego .titulo {
+  font-weight: 500;
+  color: #fff;
 }
 
-.filtro-btn:hover {
-    background-color: var(--steam-card-bg);
-    border-color: var(--steam-light-blue);
+.input-precio {
+  width: 80px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 0.85rem;
 }
 
-.filtro-btn.active {
-    background-color: var(--steam-light-blue);
-    color: var(--steam-dark);
-    border-color: var(--steam-light-blue);
-    font-weight: 600;
+.input-descuento {
+  width: 60px;
 }
 
-/* Grid de juegos */
-.grid-juegos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+.select-disponible {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 0.85rem;
 }
 
-/* Tarjeta de juego */
-.tarjeta-juego {
-    background-color: var(--steam-card-bg);
-    border-radius: 5px;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+.select-disponible option {
+  background: #1a1a2e;
+  color: #fff;
 }
 
-.tarjeta-juego:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+.badge-disponible {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.juego-imagen {
-    position: relative;
-    width: 100%;
-    height: 130px;
-    overflow: hidden;
+.badge-disponible.activo {
+  background: rgba(118,185,0,0.15);
+  color: #76b900;
 }
 
-.juego-imagen img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
+.badge-disponible.no-disponible {
+  background: rgba(255,59,48,0.15);
+  color: #ff3b30;
 }
 
-.tarjeta-juego:hover .juego-imagen img {
-    transform: scale(1.05);
+.badge-disponible.gratis {
+  background: rgba(0,122,255,0.15);
+  color: #007aff;
 }
 
-.juego-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s;
+.btn-guardar {
+  background: #76b900;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
 }
 
-.tarjeta-juego:hover .juego-overlay {
-    opacity: 1;
+.btn-guardar:hover {
+  background: #8fd916;
 }
 
-.btn-ver {
-    background: linear-gradient(90deg, #06BFFF 0%, #2D73FF 100%);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 3px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s;
+.btn-guardar:disabled {
+  background: #4a4a4a;
+  color: #888;
+  cursor: not-allowed;
 }
 
-.btn-ver:hover {
-    transform: scale(1.05);
+.panel-b2b-vacio {
+  text-align: center;
+  padding: 48px 24px;
+  color: #888;
 }
 
-.juego-info {
-    padding: 15px;
+.panel-b2b-vacio i {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  color: #555;
 }
 
-.juego-titulo {
-    color: white;
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.spinner-carga {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: #76b900;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.juego-etiquetas {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.juego-etiquetas span {
-    font-size: 0.75rem;
-    color: var(--texto-gris);
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 3px 8px;
-    border-radius: 2px;
+.toast-b2b {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.9rem;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
 }
 
-.juego-precio {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: flex-end;
+.toast-b2b.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.precio-original {
-    color: var(--texto-gris);
-    font-size: 0.85rem;
-    text-decoration: line-through;
+.toast-b2b.exito {
+  background: rgba(118,185,0,0.9);
 }
 
-.precio-descuento {
-    background-color: #4c6b22;
-    color: var(--steam-green);
-    padding: 2px 6px;
-    border-radius: 2px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.precio-final {
-    color: var(--steam-text);
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .info-desarrollador {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    
-    .avatar-desarrollador {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .estadisticas-desarrollador {
-        justify-content: center;
-    }
-    
-    .grid-juegos {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 15px;
-    }
+.toast-b2b.error {
+  background: rgba(255,59,48,0.9);
 }

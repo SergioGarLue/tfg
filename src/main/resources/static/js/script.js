@@ -107,6 +107,9 @@ const renderSidebarUserState = async () => {
   const adminLink = document.getElementById('admin-link');
   const adminSection = document.getElementById('admin-section');
   const isAdmin = typeof AUTH !== 'undefined' && AUTH && typeof AUTH.hasRole === 'function' && AUTH.hasRole('ROLE_ADMIN');
+  const devSection = document.getElementById('dev-section');
+  const devLink = document.getElementById('dev-link');
+  const isDeveloper = typeof AUTH !== 'undefined' && AUTH && typeof AUTH.hasRole === 'function' && AUTH.hasRole('ROLE_DEVELOPER');
 
   if (avatar) {
     avatar.src = getAvatarUrl(usuario);
@@ -130,6 +133,18 @@ const renderSidebarUserState = async () => {
       }
     } else {
       adminSection.style.display = 'none';
+    }
+  }
+
+  // Mostrar/ocultar enlace developer según rol
+  if (devSection) {
+    if (usuario && isDeveloper) {
+      devSection.style.display = 'block';
+      if (devLink) {
+        devLink.href = '/desarrollador';
+      }
+    } else {
+      devSection.style.display = 'none';
     }
   }
 

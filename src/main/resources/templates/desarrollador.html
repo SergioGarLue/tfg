@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desarrollador - Solar Sistem</title>
+  <title>Panel Desarrollador - Solar Sistem</title>
   <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
   <link rel="stylesheet" href="/estilos/index.css" />
   <link rel="stylesheet" href="/estilos/desarrollador.css" />
@@ -11,8 +11,7 @@
 <body>
 
   <div class="contenedor-principal">
-    
-        <div id="sidebar-container"></div>
+    <div id="sidebar-container"></div>
 
     <main class="contenido">
       <header class="barra-superior">
@@ -27,171 +26,57 @@
       </header>
 
       <div class="scroll-contenido">
-        <section class="perfil-desarrollador">
-          <div class="banner-desarrollador">
-            <img src="https://picsum.photos/1200/300?random=200" alt="Banner">
+        <div class="panel-b2b-contenedor">
+          <div class="panel-b2b-cabecera">
+            <h1><i class="fa-solid fa-code"></i> Panel de Desarrollador</h1>
           </div>
-          <div class="info-desarrollador">
-            <div class="avatar-desarrollador">
-              <img src="https://picsum.photos/150/150?random=201" alt="Avatar">
+
+          <div class="estadisticas-b2b" id="estadisticas">
+            <div class="tarjeta-stat">
+              <span class="valor" id="stat-total">0</span>
+              <span class="etiqueta">Juegos</span>
             </div>
-            <div class="detalles-desarrollador">
-              <h1>FromSoftware</h1>
-              <p class="descripcion">Desarrollador japonés de videojuegos conocido por la serie Dark Souls, Elden Ring y Bloodborne.</p>
-              <div class="estadisticas-desarrollador">
-                <div class="estadistica">
-                  <span class="valor">15</span>
-                  <span class="etiqueta">Juegos</span>
-                </div>
-                <div class="estadistica">
-                  <span class="valor">4.8M</span>
-                  <span class="etiqueta">Seguidores</span>
-                </div>
-              </div>
+            <div class="tarjeta-stat">
+              <span class="valor" id="stat-activos">0</span>
+              <span class="etiqueta">Activos</span>
             </div>
+            <div class="tarjeta-stat">
+              <span class="valor" id="stat-descuentos">0</span>
+              <span class="etiqueta">En oferta</span>
+            </div>
+
+          <div class="tabla-juegos-wrapper">
+            <table class="tabla-juegos">
+              <thead>
+                <tr>
+                  <th>Juego</th>
+                  <th>Precio base (€)</th>
+                  <th>Descuento (%)</th>
+                  <th>Precio rebajado (€)</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-juegos-body">
+                <tr><td colspan="6" style="text-align:center;padding:24px;"><div class="spinner-carga"></div> Cargando juegos...</td></tr>
+              </tbody>
+            </table>
           </div>
-        </section>
 
-        <section class="filtros-desarrollador">
-          <div class="filtros">
-            <button class="filtro-btn active">Todos</button>
-            <button class="filtro-btn">Populares</button>
-            <button class="filtro-btn">Nuevos</button>
-            <button class="filtro-btn">Ofertas</button>
+          <div class="panel-b2b-vacio" id="panel-vacio" style="display:none;">
+            <i class="fa-solid fa-gamepad"></i>
+            <p>No tienes juegos asociados a tu cuenta de desarrollador.</p>
           </div>
-        </section>
-
-        <section class="juegos-desarrollador">
-          <div class="grid-juegos">
-            <!-- Tarjeta de Juego 1 -->
-            <div class="tarjeta-juego">
-              <div class="juego-imagen">
-                <img src="https://picsum.photos/300/200?random=202" alt="Juego">
-                <div class="juego-overlay">
-                  <button class="btn-ver" onclick="window.location.href='juego'">Ver Juego</button>
-                </div>
-              </div>
-              <div class="juego-info">
-                <h3 class="juego-titulo">Elden Ring</h3>
-                <div class="juego-etiquetas">
-                  <span>Acción</span>
-                  <span>RPG</span>
-                </div>
-                <div class="juego-precio">
-                  <span class="precio-original">79.99€</span>
-                  <span class="precio-descuento">-25%</span>
-                  <span class="precio-final">59.99€</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tarjeta de Juego 2 -->
-            <div class="tarjeta-juego">
-              <div class="juego-imagen">
-                <img src="https://picsum.photos/300/200?random=203" alt="Juego">
-                <div class="juego-overlay">
-                  <button class="btn-ver" onclick="window.location.href='juego'">Ver Juego</button>
-                </div>
-              </div>
-              <div class="juego-info">
-                <h3 class="juego-titulo">Dark Souls III</h3>
-                <div class="juego-etiquetas">
-                  <span>RPG</span>
-                  <span>Difícil</span>
-                </div>
-                <div class="juego-precio">
-                  <span class="precio-final">59.99€</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tarjeta de Juego 3 -->
-            <div class="tarjeta-juego">
-              <div class="juego-imagen">
-                <img src="https://picsum.photos/300/200?random=204" alt="Juego">
-                <div class="juego-overlay">
-                  <button class="btn-ver" onclick="window.location.href='juego'">Ver Juego</button>
-                </div>
-              </div>
-              <div class="juego-info">
-                <h3 class="juego-titulo">Sekiro</h3>
-                <div class="juego-etiquetas">
-                  <span>Acción</span>
-                  <span>Sigilo</span>
-                </div>
-                <div class="juego-precio">
-                  <span class="precio-final">59.99€</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tarjeta de Juego 4 -->
-            <div class="tarjeta-juego">
-              <div class="juego-imagen">
-                <img src="https://picsum.photos/300/200?random=205" alt="Juego">
-                <div class="juego-overlay">
-                  <button class="btn-ver" onclick="window.location.href='juego'">Ver Juego</button>
-                </div>
-              </div>
-              <div class="juego-info">
-                <h3 class="juego-titulo">Armored Core VI</h3>
-                <div class="juego-etiquetas">
-                  <span>Acción</span>
-                  <span>Mecha</span>
-                </div>
-                <div class="juego-precio">
-                  <span class="precio-final">49.99€</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tarjeta de Juego 5 -->
-            <div class="tarjeta-juego">
-              <div class="juego-imagen">
-                <img src="https://picsum.photos/300/200?random=206" alt="Juego">
-                <div class="juego-overlay">
-                  <button class="btn-ver" onclick="window.location.href='juego'">Ver Juego</button>
-                </div>
-              </div>
-              <div class="juego-info">
-                <h3 class="juego-titulo">Bloodborne</h3>
-                <div class="juego-etiquetas">
-                  <span>RPG</span>
-                  <span>Horror</span>
-                </div>
-                <div class="juego-precio">
-                  <span class="precio-final">19.99€</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
       </div>
     </main>
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Simulación contador carrito
-      const badge = document.getElementById('badge-carrito');
-      if (badge) {
-        badge.style.display = 'none';
-      }
+  <div id="toast-b2b" class="toast-b2b"></div>
 
-      // Filtros
-      const filtros = document.querySelectorAll('.filtro-btn');
-      filtros.forEach(filtro => {
-        filtro.addEventListener('click', () => {
-          filtros.forEach(f => f.classList.remove('active'));
-          filtro.classList.add('active');
-        });
-      });
-    });
-  </script>
-  <script src='/js/script.js'></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/sidebar-loader.js"></script>
+  <script src="/js/desarrollador.js"></script>
 </body>
 </html>
-
-
-
