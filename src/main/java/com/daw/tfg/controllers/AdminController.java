@@ -75,7 +75,34 @@ public class AdminController {
     }
 
     /**
-     * Busca el ID de un usuario por su nombre de usuario.
+     * Busca usuarios por nombre de usuario (búsqueda parcial, case-insensitive).
+     * ⚠️ SOLO ADMINS PUEDEN ACCEDER
+     * 
+     * @param nombreUsuario Nombre o parte del nombre a buscar
+     * @return ResponseEntity con la lista de usuarios encontrados
+     */
+    @GetMapping("/usuarios/buscar")
+    // @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarUsuariosPorNombre(@RequestParam String nombreUsuario) {
+        try {
+            List<Usuario> usuarios = usuarioService.findByNombreUsuarioContainingIgnoreCase(nombreUsuario);
+            List<UsuarioResponseDTO> dtos = usuarios.stream()
+                    .map(usuario -> new UsuarioResponseDTO(
+                            usuario.getIdUsuario(),
+                            usuario.getNombreUsuario(),
+                            usuario.getCorreoElectronico(),
+                            usuario.getRol().toString(),
+                            usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null,
+                            usuario.getDesarrollador() != null ? usuario.getDesarrollador().getIdDesarrollador() : null))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    /**
+     * Busca un usuario exacto por nombre de usuario.
      * ⚠️ SOLO ADMINS PUEDEN ACCEDER
      * 
      * @param nombreUsuario Nombre del usuario a buscar
@@ -91,7 +118,8 @@ public class AdminController {
                     usuario.getNombreUsuario(),
                     usuario.getCorreoElectronico(),
                     usuario.getRol().toString(),
-                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null));
+                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null,
+                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getIdDesarrollador() : null));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -116,7 +144,8 @@ public class AdminController {
                     usuario.getNombreUsuario(),
                     usuario.getCorreoElectronico(),
                     usuario.getRol().toString(),
-                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null));
+                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null,
+                    usuario.getDesarrollador() != null ? usuario.getDesarrollador().getIdDesarrollador() : null));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -141,7 +170,8 @@ public class AdminController {
                             usuario.getNombreUsuario(),
                             usuario.getCorreoElectronico(),
                             usuario.getRol().toString(),
-                            usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null))
+                            usuario.getDesarrollador() != null ? usuario.getDesarrollador().getNombre() : null,
+                            usuario.getDesarrollador() != null ? usuario.getDesarrollador().getIdDesarrollador() : null))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
@@ -229,13 +259,15 @@ public class AdminController {
         public String correoElectronico;
         public String rol;
         public String nombreDesarrollador;
+        public Long idDesarrollador;
 
-        public UsuarioResponseDTO(Long idUsuario, String nombreUsuario, String correoElectronico, String rol, String nombreDesarrollador) {
+        public UsuarioResponseDTO(Long idUsuario, String nombreUsuario, String correoElectronico, String rol, String nombreDesarrollador, Long idDesarrollador) {
             this.idUsuario = idUsuario;
             this.nombreUsuario = nombreUsuario;
             this.correoElectronico = correoElectronico;
             this.rol = rol;
             this.nombreDesarrollador = nombreDesarrollador;
+            this.idDesarrollador = idDesarrollador;
         }
     }
 }
