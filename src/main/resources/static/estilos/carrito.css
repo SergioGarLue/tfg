@@ -188,8 +188,8 @@ body {
 
 .barra-superior {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
     margin-bottom: 40px;
 }
 
