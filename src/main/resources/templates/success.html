@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pago Exitoso - GameStore</title>
+    <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css" />
+    <link rel="stylesheet" href="/estilos/index.css" />
+    <style>
+      /* Estilos específicos para el mensaje de éxito */
+      .mensaje-exito {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: var(--steam-card-bg);
+        padding: 60px;
+        border-radius: 10px;
+        max-width: 700px;
+        margin: 50px auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .icono-check {
+        font-size: 5rem;
+        color: var(--steam-green);
+        margin-bottom: 20px;
+      }
+
+      .loader {
+        border: 5px solid rgba(255, 255, 255, 0.1);
+        border-left: 5px solid var(--steam-light-blue);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contenedor-principal">
+      <div id="sidebar-container"></div>
+
+      <main class="contenido">
+        <header class="barra-superior">
+          <div class="contenedor-busqueda">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Buscar en la tienda..." />
+          </div>
+        </header>
+
+        <div class="scroll-contenido">
+          <section id="status-pago" class="mensaje-exito">
+            <div class="loader" id="pago-loader"></div>
+            <h2 id="pago-titulo">Procesando tu pedido...</h2>
+            <p id="pago-subtitulo">
+              Estamos confirmando el pago con Stripe, no cierres esta ventana.
+            </p>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/fetch-interceptor.js"></script>
+    <script src="/js/route-protection.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        // 1. Cargar el sidebar (como haces en el index)
+        const sidebarContainer = document.getElementById("sidebar-container");
+        if (sidebarContainer) {
+          const resp = await fetch("/sidebar.html");
+          const html = await resp.text();
+          sidebarContainer.innerHTML = html;
+          // Aquí llamarías a la función que inicializa los eventos del sidebar si existe en script.js
+        }
+
+        // 2. Lógica de confirmación de Stripe
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get("session_id");
+
+        const titulo = document.getElementById("pago-titulo");
+        const subtitulo = document.getElementById("pago-subtitulo");
+        const loader = document.getElementById("pago-loader");
+        const section = document.getElementById("status-pago");
+
+        if (!sessionId) {
+          mostrarError("No se ha encontrado una sesión de pago válida.");
+          return;
+        }
+
+        try {
+          // El fetch-interceptor añadirá el JWT automáticamente aquí
+          const response = await fetch(
+            `/api/pago/confirmar?session_id=${sessionId}`,
+            {
+              method: "POST",
+            },
+          );
+
+          if (response.ok) {
+            // Éxito total
+            loader.style.display = "none";
+            section.innerHTML = `
+                    <i class="fa-solid fa-circle-check icono-check"></i>
+                    <h2>¡Gracias por tu compra!</h2>
+                    <p>El pago se ha confirmado y los juegos ya están en tu biblioteca.</p>
+                    <div style="margin-top: 30px;">
+                        <a href="/coleccion" class="btn-hero">VER MI COLECCIÓN</a>
+                        <a href="/index.html" class="btn-hero" style="background: var(--steam-dark-blue); margin-left:10px;">VOLVER A LA TIENDA</a>
+                    </div>
+                `;
+            // Limpiar carrito si lo guardas en localStorage
+            localStorage.removeItem("carrito");
+          } else {
+            mostrarError(
+              "El servidor no pudo validar el pago. Contacta con soporte.",
+            );
+          }
+        } catch (error) {
+          mostrarError("Error de conexión al procesar el pedido.");
+        }
+
+        function mostrarError(msg) {
+          loader.style.display = "none";
+          section.innerHTML = `
+                <i class="fa-solid fa-circle-xmark icono-check" style="color: #ff3b30;"></i>
+                <h2>Algo ha salido mal</h2>
+                <p>${msg}</p>
+                <a href="/carrito" class="btn-hero" style="margin-top:20px;">VOLVER AL CARRITO</a>
+            `;
+        }
+      });
+    </script>
+  </body>
+</html>

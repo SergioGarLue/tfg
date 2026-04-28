@@ -18,56 +18,65 @@ import com.daw.tfg.security.JwtAuthenticationFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
+        private final JwtAuthenticationFilter jwtAuthFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
-        this.jwtAuthFilter = jwtAuthFilter;
-    }
+        public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
+                this.jwtAuthFilter = jwtAuthFilter;
+        }
 
-    @Bean
-    public PasswordEncoder passwdEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwdEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        // creamos los filtros
-        http
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(headers -> headers
-                        .frameOptions(fo -> fo.disable())
-                )
-.authorizeHttpRequests(auth -> auth
-                        // Rutas públicas de vistas
-                        .requestMatchers(
-                                "/", "/index.html",
-                                "/login", "/login.html",
-                                "/registro", "/registro.html",
-                                "/tienda", "/tienda/**", "/juego/**",
-                                "/perfil", "/coleccion", "/deseados",
-                                "/carrito", "/amigos", "/configuracion",
-                                "/desarrollador/**", "/admin/**"
-                        ).permitAll()
-                        // Endpoints de autenticación
-                        .requestMatchers("/api/auth/**").permitAll()
-                        // Recursos estáticos
-                        .requestMatchers("/static/**", "/sidebar.html", "/stripe-payment.html", "/js/**", "/css/**", "/estilos/**", "/fontawesome-free-7.1.0-web/**", "/images/**", "/JSON/**", "/favicon.ico").permitAll()
-                        // Tienda pública
-                        .requestMatchers("/api/tienda/**").permitAll()
-                        // H2-Console
-                        .requestMatchers("/h2-console/**").permitAll()
-                        // Admin endpoints
-                        .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
-                        // APIs por defecto requieren autenticación
-                        .requestMatchers("/api/**").authenticated()
-                        // Cualquier otra petición requiere autenticación
-                        .anyRequest().authenticated())
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                // creamos los filtros
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .headers(headers -> headers
+                                                .frameOptions(fo -> fo.disable()))
+                                .authorizeHttpRequests(auth -> auth
+                                                // Rutas públicas de vistas
+                                                .requestMatchers(
+                                                                "/", "/index.html",
+                                                                "/login", "/login.html",
+                                                                "/registro", "/registro.html",
+                                                                "/tienda", "/tienda/**", "/juego/**",
+                                                                "/perfil", "/coleccion", "/deseados",
+                                                                "/carrito", "/amigos", "/configuracion",
+                                                                "/desarrollador/**", "/admin/**",
+                                                                "/success", "/success/**", "/success.html",
+                                                                "/pago-exitoso", "/pago-exitoso/**")
+                                                .permitAll()
+                                                // Endpoints de autenticación
+                                                .requestMatchers("/api/auth/**").permitAll()
+                                                // Recursos estáticos
+                                                .requestMatchers("/static/**", "/sidebar.html", "/stripe-payment.html",
+                                                                "/js/**", "/css/**", "/estilos/**",
+                                                                "/fontawesome-free-7.1.0-web/**", "/images/**",
+                                                                "/JSON/**", "/favicon.ico")
+                                                .permitAll()
+                                                // Tienda pública
+                                                .requestMatchers("/api/tienda/**").permitAll()
+                                                // H2-Console
+                                                .requestMatchers("/h2-console/**").permitAll()
+                                                // Admin endpoints
+                                                .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
+                                                // Webhook de Stripe (debe ir ANTES de /api/**)
+                                                .requestMatchers("/api/stripe/webhook").permitAll()
+                                                // APIs por defecto requieren autenticación
+                                                .requestMatchers("/api/**").authenticated()
+                                                // Cualquier otra petición requiere autenticación
+                                                .anyRequest().authenticated())
+                                .exceptionHandling(exception -> exception
+                                                .authenticationEntryPoint(
+                                                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build(); // devolvemos los filtros que hemos creado
-    }
+                return http.build(); // devolvemos los filtros que hemos creado
+        }
 }

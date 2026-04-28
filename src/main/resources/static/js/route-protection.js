@@ -12,6 +12,10 @@ const ROUTE_PROTECTION = (() => {
     '/juego',
     '/juego/**',
     '/tienda',
+    '/success',
+    '/success/**',
+    '/pago-exitoso',
+    '/pago-exitoso/**',
     '/index.html',
     '/login.html',
     '/registro.html'
