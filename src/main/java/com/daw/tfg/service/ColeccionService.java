@@ -105,6 +105,15 @@ public class ColeccionService {
                 .toList();
     }
 
+    public List<ColeccionFavoritos> findRecentByUsuario(Long usuarioId, int limit) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        List<ColeccionFavoritos> recientes = coleccionFavoritosRepository.findByUsuarioOrderByFechaAdquisicionDesc(usuario);
+        if (recientes.size() > limit) {
+            return recientes.subList(0, limit);
+        }
+        return recientes;
+    }
+
     /**
      * Añade un juego a la colección del usuario con fecha actual.
      * 

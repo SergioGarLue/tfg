@@ -237,6 +237,15 @@
     font-size: 0.95rem;
 }
 
+.logros-empty {
+    display: none;
+    color: var(--texto-gris);
+    font-size: 0.95rem;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .cabecera-perfil {
