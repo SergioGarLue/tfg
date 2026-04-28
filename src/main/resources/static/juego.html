@@ -265,11 +265,17 @@
           
           // Precio
           const precioContainer = document.querySelector('[data-juego-precio]');
-          if (juego.precio) {
+          if (juego.precio != null) {
+            const precioBase = juego.precio;
+            const precioRebajado = juego.precioRebajado;
+            const porcentaje = juego.porcentaje || 0;
+            const tieneRebaja = precioRebajado != null && precioRebajado > 0 && precioRebajado < precioBase;
+            const precioFinal = tieneRebaja ? precioRebajado : precioBase;
+
             precioContainer.innerHTML = `
-              <span class="precio-original">${juego.precio}€</span>
-              ${juego.precioDescuento ? `<span class="precio-descuento">${juego.precioDescuento}%</span>` : ''}
-              <span class="precio-final">${(juego.precio * (1 - (juego.precioDescuento || 0)/100)).toFixed(2)}€</span>
+              ${tieneRebaja ? `<span class="precio-original">${precioBase.toFixed(2)}€</span>` : ''}
+              ${porcentaje > 0 ? `<span class="precio-descuento">-${porcentaje}%</span>` : ''}
+              <span class="precio-final">${precioFinal === 0 ? 'Gratis' : precioFinal.toFixed(2) + '€'}</span>
             `;
           }
           

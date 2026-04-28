@@ -239,13 +239,16 @@
         };
 
         gamesContainer.innerHTML = games.map((game) => {
-          const finalPrice = Number(game.precio ?? game.price?.final) || 0;
+          const precioBase = Number(game.precio ?? game.price?.final) || 0;
+          const precioRebajado = Number(game.precioRebajado) || null;
+          const finalPrice = (precioRebajado != null && precioRebajado > 0) ? precioRebajado : precioBase;
           const priceDisplay = finalPrice === 0 ? 'Gratis' : `${finalPrice.toFixed(2)}€`;
           const discountPercent = Number(game.porcentaje ?? game.price?.discount_percent) || 0;
           const genres = normalizeGenres(game).slice(0, 2).join(', ');
           const gameId = game.idJuego || game.appid || game.id || '';
           const title = game.titulo || game.name || game.title || 'Juego';
           const imageUrl = game.imagen || game.header_image || game.image || (gameId ? `https://cdn.akamai.steamstatic.com/steam/apps/${gameId}/header.jpg` : 'https://via.placeholder.com/300x200');
+          const tieneOfertaReal = (precioRebajado != null && precioRebajado > 0 && precioRebajado < precioBase) || discountPercent > 0;
 
           return `
             <a href="/juego/${gameId}" class="tarjeta">
@@ -254,7 +257,8 @@
                 <span class="titulo-juego">${title}</span>
                 <div class="etiquetas">${genres}</div>
                 <div class="precio-container">
-                  ${discountPercent > 0 ? `<span class="descuento">-${discountPercent}%</span>` : ''}
+                  ${tieneOfertaReal ? `<span class="descuento">${discountPercent > 0 ? `-${discountPercent}%` : 'Oferta'}</span>` : ''}
+                  ${(precioRebajado != null && precioRebajado > 0 && precioRebajado < precioBase) ? `<span style="text-decoration: line-through; color: #888; font-size: 0.85rem; margin-right: 4px;">${precioBase.toFixed(2)}€</span>` : ''}
                   <span class="precio">${priceDisplay}</span>
                 </div>
               </div>
