@@ -41,7 +41,7 @@ public class DesarrolladorController {
     }
 
     @PutMapping("/juego/{idJuego}")
-    public ResponseEntity<Juego> actualizarJuego(
+    public ResponseEntity<?> actualizarJuego(
             Principal principal,
             @PathVariable Long idJuego,
             @RequestBody ActualizarJuegoDesarrolladorDTO dto) {
@@ -50,11 +50,12 @@ public class DesarrolladorController {
             Juego juegoActualizado = desarrolladorB2BService.actualizarJuego(nombreUsuario, idJuego, dto);
             return ResponseEntity.ok(juegoActualizado);
         } catch (SecurityException e) {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(403).body(e.getMessage());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(500).body("Error interno del servidor");
         }
     }
+
 }

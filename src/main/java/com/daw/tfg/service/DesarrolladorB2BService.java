@@ -46,6 +46,8 @@ public class DesarrolladorB2BService {
             throw new SecurityException("No tienes permiso para modificar este juego");
         }
 
+        validarDTO(dto, juego);
+
         if (dto.getPrecio() != null) {
             juego.setPrecio(dto.getPrecio());
         }
@@ -54,13 +56,48 @@ public class DesarrolladorB2BService {
         }
         if (dto.getPrecioRebajado() != null) {
             juego.setPrecioRebajado(dto.getPrecioRebajado());
+        } else if (dto.getPrecio() != null && dto.getPrecio() == 0.0) {
+            // Si el precio pasa a 0 (gratis), limpiar precio rebajado
+            juego.setPrecioRebajado(null);
         }
         if (dto.getDisponible() != null) {
             juego.setDisponible(dto.getDisponible());
         }
 
+        // Si el juego es gratis (precio = 0), asegurar que no hay descuento ni precio rebajado
+        if (juego.getPrecio() != null && juego.getPrecio() == 0.0) {
+            juego.setPorcentaje(null);
+            juego.setPrecioRebajado(null);
+        }
+
         return juegoRepository.save(juego);
     }
+
+    /**
+     * Valida los datos del DTO antes de aplicar cambios.
+     */
+    private void validarDTO(ActualizarJuegoDesarrolladorDTO dto, Juego juegoActual) {
+        Double precio = dto.getPrecio() != null ? dto.getPrecio() : juegoActual.getPrecio();
+        Integer porcentaje = dto.getPorcentaje() != null ? dto.getPorcentaje() : juegoActual.getPorcentaje();
+        Double precioRebajado = dto.getPrecioRebajado() != null ? dto.getPrecioRebajado() : juegoActual.getPrecioRebajado();
+
+        if (precio != null && precio < 0) {
+            throw new IllegalArgumentException("El precio base no puede ser negativo");
+        }
+
+        if (porcentaje != null && (porcentaje < 0 || porcentaje > 100)) {
+            throw new IllegalArgumentException("El descuento debe estar entre 0 y 100");
+        }
+
+        if (precioRebajado != null && precio != null && precioRebajado > precio) {
+            throw new IllegalArgumentException("El precio rebajado no puede ser mayor que el precio base");
+        }
+
+        if (precio != null && precio == 0.0 && porcentaje != null && porcentaje > 0) {
+            throw new IllegalArgumentException("Un juego gratis no puede tener descuento");
+        }
+    }
+
 
     /**
      * Valida que el usuario tenga rol DEVELOPER y esté vinculado a una empresa.
