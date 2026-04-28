@@ -27,8 +27,8 @@ public class AdminInitializer {
         crearUsuarioSiNoExiste("admin", "admin@platform.com", "Admin@123!", RolesUsuarios.ADMIN);
         crearUsuarioSiNoExiste("testuser", "test@platform.com", "Test@123!", RolesUsuarios.USER);
         crearUsuarioSiNoExiste("testuser1", "test1@platform.com", "Test@123!", RolesUsuarios.USER);
-        crearDeveloperSiNoExiste("developer1", "dev1@platform.com", "Dev@123!", "FromSoftware");
-        crearDeveloperSiNoExiste("developer2", "dev2@platform.com", "Dev@123!", "Valve");
+        crearDeveloperSiNoExiste("developer1", "dev1@platform.com", "Dev@123!", "-- None --");
+        crearDeveloperSiNoExiste("developer2", "dev2@platform.com", "Dev@123!", "-- None --");
     }
 
     private void crearUsuarioSiNoExiste(String username, String email, String password, RolesUsuarios rol) {
