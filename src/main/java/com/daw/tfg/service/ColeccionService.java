@@ -105,6 +105,15 @@ public class ColeccionService {
                 .toList();
     }
 
+    public List<ColeccionFavoritos> findRecentByUsuario(Long usuarioId, int limit) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        List<ColeccionFavoritos> recientes = coleccionFavoritosRepository.findByUsuarioOrderByFechaAdquisicionDesc(usuario);
+        if (recientes.size() > limit) {
+            return recientes.subList(0, limit);
+        }
+        return recientes;
+    }
+
     /**
      * Añade un juego a la colección del usuario con fecha actual.
      * 
@@ -115,6 +124,27 @@ public class ColeccionService {
     @Transactional
     public void addJuegoToCollection(Long usuarioId, Long juegoId) {
         addJuegoToCollection(usuarioId, juegoId, new Date());
+    }
+
+    @Transactional
+    public void addJuegoToCollectionIfAbsent(Long usuarioId, Long juegoId, Date fechaAdquisicion) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        Juego juego = juegoService.findById(juegoId);
+
+        if (fechaAdquisicion == null) {
+            fechaAdquisicion = new Date();
+        }
+
+        if (coleccionFavoritosRepository.findByUsuarioAndJuego(usuario, juego).isPresent()) {
+            return;
+        }
+
+        ColeccionFavoritos item = new ColeccionFavoritos(usuario, juego, fechaAdquisicion);
+        save(item);
+    }
+
+    public void añadirJuegoAColeccion(Long usuarioId, Long juegoId) {
+        addJuegoToCollection(usuarioId, juegoId);
     }
 
     /**

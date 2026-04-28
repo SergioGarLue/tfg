@@ -3,109 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Perfil - Solar Sistem</title>
+<title>Mi Perfil - Xyron</title>
     <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/index.css" />
-    <link rel="stylesheet" href="/estilos/perfil.css" />
+  <link rel="stylesheet" href="/estilos/perfil.css" />
+  <style>
+    /* Hide edit controls when viewing another user's profile */
+    body.perfil-externo .btn-cambiar-avatar,
+    body.perfil-externo #file-upload,
+    body.perfil-externo #confirm-avatar {
+      display: none !important;
+    }
+  </style>
 </head>
+
 <body>
 
   <div class="contenedor-principal">
     
-    <aside class="barra-lateral">
-      <div class="zona-superior">
-        <div class="logo">
-          <a href="index"><i class="fa-solid fa-dragon"></i></a>
-        </div>
-        
-        <nav>
-          <ul>
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-tienda">
-             <a href="tienda"><i class="fa-solid fa-store icono"></i></a>
-                <span class="texto-enlace">Tienda</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
-                <ul class="lista-subitems">
-                  <li>Ofertas</li>
-                  <li>Populares</li>
-                </ul>
-              </div>
-            </li>
-
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="coleccion"><i class="fa-solid fa-book-open icono"></i></a>
-                <span class="texto-enlace">Coleccion</span>
-              </div>
-              
-              <div class="contenedor-sublista cerrado" id="menu-coleccion">
-                <div class="rama-arbol">
-                  <span class="titulo-rama">Generos</span>
-                  <ul class="lista-subitems">
-                    <li>Metroidvania</li>
-                    <li>Souls</li>
-                    <li>Estrategia</li>
-                    <li class="enlace-mas">Mostrar mas</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-
-            
-          </ul>
-        </nav>
-      </div>
-
-      <div class="pie-barra-lateral">
-        <div class="iconos-inferiores">
-          <div class="contenedor-notificaciones">
-            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
-            <div class="menu-notificaciones" id="menu-notificaciones">
-              <div class="cabecera-notificaciones">
-                <span>Notificaciones</span>
-                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
-              </div>
-              <div class="lista-notificaciones">
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
-                    <span class="tiempo-notificacion">Hace 2 horas</span>
-                  </div>
-                </div>
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
-                    <span class="tiempo-notificacion">Ayer</span>
-                  </div>
-                </div>
-                <div class="notificacion">
-                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
-                    <span class="tiempo-notificacion">Hace 3 días</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div><a href="amigos"><i class="fa-solid fa-user"></i></a></div>
-          <div><i class="fa-solid fa-star"></i></div>
-        </div>
-        <div class="separador-lateral"></div>
-        <div class="perfil-usuario">
-          <a href="perfil" style="text-decoration: none; color: inherit; display: contents;">
-            <div class="avatar">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
-            </div>
-            <span class="nombre-usuario">Paco Leon</span>
-          </a>
-          <a href="configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
-        </div>
-      </div>
-    </aside>
+        <div id="sidebar-container"></div>
 
     <main class="contenido">
       <header class="barra-superior">
@@ -121,105 +37,78 @@
 
       <div class="scroll-contenido">
         <div class="contenedor-perfil">
-            <div class="cabecera-perfil">
-                <div class="avatar-grande">
-                    <img id="avatar-preview" src="https://i.pravatar.cc/150?img=11" alt="Avatar">
-                    <label for="file-upload" class="btn-cambiar-avatar">
-                        <i class="fa-solid fa-camera"></i>
-                    </label>
-                    <input type="file" id="file-upload" accept="image/*" style="display: none;">
-                </div>
-                <div class="info-usuario">
-                    <h1 class="nombre-usuario">Paco Leon</h1>
-                    <p class="correo-usuario">paco.leon@email.com</p>
-                    <div class="estadisticas-usuario">
-                        <div class="estadistica">
-                            <span class="valor-estadistica">42</span>
-                            <span class="etiqueta-estadistica">Juegos</span>
-                        </div>
-                        <div class="estadistica">
-                            <span class="valor-estadistica">156</span>
-                            <span class="etiqueta-estadistica">Amigos</span>
-                        </div>
-                        <div class="estadistica">
-                            <span class="valor-estadistica">840</span>
-                            <span class="etiqueta-estadistica">Horas</span>
-                        </div>
-                    </div>
-                </div>
+          <div class="cabecera-perfil">
+            <div class="avatar-grande">
+              <img id="avatar-preview" src="https://i.pravatar.cc/150?img=11" alt="Avatar">
+              <label for="file-upload" class="btn-cambiar-avatar">
+                <i class="fa-solid fa-camera"></i>
+              </label>
+              <input type="file" id="file-upload" accept="image/*" style="display: none;">
+              <button id="confirm-avatar" class="btn-confirmar-avatar" style="display: none;">Confirmar Cambio</button>
             </div>
 
-            <nav class="profile-nav">
+            <div class="info-usuario">
+              <h1 id="perfil-nombre-usuario" class="nombre-usuario">Paco Leon</h1>
+              <p id="perfil-correo-usuario" class="correo-usuario">paco.leon@email.com</p>
+              <p id="perfil-pais" class="pais-usuario">España</p>
+              <p id="perfil-biografia" class="descripcion-usuario">Aquí puedes ver tu biografía y detalles personales. Actualiza tu perfil para mostrar más información.</p>
+
+              <div class="estadisticas-usuario">
+                <div class="estadistica">
+                  <span id="perfil-juegos-count" class="valor-estadistica">42</span>
+                  <span class="etiqueta-estadistica">Juegos</span>
+                </div>
+                <div class="estadistica">
+                  <span id="perfil-amigos-count" class="valor-estadistica">156</span>
+                  <span class="etiqueta-estadistica">Amigos</span>
+                </div>
+                <div class="estadistica">
+                  <span id="perfil-horas-count" class="valor-estadistica">840</span>
+                  <span class="etiqueta-estadistica">Horas</span>
+                </div>
+              </div>
+
+              <nav class="profile-nav">
                 <a href="#" class="active" data-target="actividad">Última actividad</a>
                 <a href="#" data-target="logros">Logros</a>
-                <a href="#" data-target="resenas">Reseñas</a>
-            </nav>
-
-            <div class="contenido-secciones">
-                <section id="actividad" class="profile-section active">
-                    <h3>Recientes</h3>
-                    <div class="actividad-reciente">
-                        <div class="juego-actividad">
-                            <img src="https://picsum.photos/100/60?random=1" alt="Juego">
-                            <div class="info-actividad">
-                                <span class="titulo-juego">Elden Ring</span>
-                                <span class="detalle-actividad">Jugando ahora - 25 horas</span>
-                            </div>
-                        </div>
-                        <div class="juego-actividad">
-                            <img src="https://picsum.photos/100/60?random=2" alt="Juego">
-                            <div class="info-actividad">
-                                <span class="titulo-juego">Hollow Knight</span>
-                                <span class="detalle-actividad">Completado - 60 horas</span>
-                            </div>
-                        </div>
-                        <div class="juego-actividad">
-                            <img src="https://picsum.photos/100/60?random=3" alt="Juego">
-                            <div class="info-actividad">
-                                <span class="titulo-juego">Stardew Valley</span>
-                                <span class="detalle-actividad">120 horas jugadas</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="logros" class="profile-section">
-                    <h3>Tus Logros</h3>
-                    <div class="logros-grid">
-                        <div class="logro">
-                            <i class="fa-solid fa-trophy"></i>
-                            <span>Primer juego completado</span>
-                        </div>
-                        <div class="logro">
-                            <i class="fa-solid fa-user-group"></i>
-                            <span>10 Amigos</span>
-                        </div>
-                        <div class="logro">
-                            <i class="fa-solid fa-gamepad"></i>
-                            <span>50 Horas de juego</span>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="resenas" class="profile-section">
-                    <h3>Tus Reseñas</h3>
-                    <div class="resenas-lista">
-                        <div class="resena">
-                            <div class="cabecera-resena">
-                                <span class="juego-resena">Elden Ring</span>
-                                <div class="puntuacion">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                            <p class="texto-resena">Juego increíble, la mejor experiencia Souls que he jugado.</p>
-                        </div>
-                    </div>
-                </section>
+              </nav>
             </div>
+          </div>
+
+          <div class="contenido-secciones">
+            <section id="actividad" class="profile-section active">
+              <h3>Recientes</h3>
+              <div class="actividad-reciente">
+                <div class="juego-actividad">
+                  <img src="https://picsum.photos/100/60?random=1" alt="Juego">
+                  <div class="info-actividad">
+                    <span class="titulo-juego">Elden Ring</span>
+                    <span class="detalle-actividad">Jugando ahora - 25 horas</span>
+                  </div>
+                </div>
+                <div class="juego-actividad">
+                  <img src="https://picsum.photos/100/60?random=2" alt="Juego">
+                  <div class="info-actividad">
+                    <span class="titulo-juego">Hollow Knight</span>
+                    <span class="detalle-actividad">Completado - 60 horas</span>
+                  </div>
+                </div>
+                <div class="juego-actividad">
+                  <img src="https://picsum.photos/100/60?random=3" alt="Juego">
+                  <div class="info-actividad">
+                    <span class="titulo-juego">Stardew Valley</span>
+                    <span class="detalle-actividad">120 horas jugadas</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="logros" class="profile-section">
+              <h3>Tus Logros</h3>
+              <div class="logros-grid" id="logros-grid"></div>
+              <p class="logros-empty" id="logros-empty">No hay logros porque aún no tienes juegos en tu biblioteca.</p>
+            </section>
+          </div>
         </div>
       </div>
     </main>
@@ -227,56 +116,61 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-        if (boton && menu) {
-          boton.addEventListener("click", () => {
-            menu.classList.toggle("cerrado");     
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
 
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
-      }
       
-      // Script para previsualizar la imagen de perfil al seleccionarla
+      // Script para previsualizar y guardar imagen de perfil al seleccionarla
       const fileInput = document.getElementById('file-upload');
       const avatarPreview = document.getElementById('avatar-preview');
+      const confirmButton = document.getElementById('confirm-avatar');
+      let selectedImageData = null;
 
       if (fileInput) {
           fileInput.addEventListener('change', function(e) {
               const file = e.target.files[0];
-              if (file) {
+              if (file && avatarPreview) {
                   const reader = new FileReader();
-                  reader.onload = function(e) {
-                      if (avatarPreview) avatarPreview.src = e.target.result;
+                  reader.onload = function(readerEvent) {
+                      avatarPreview.src = readerEvent.target.result;
+                      selectedImageData = readerEvent.target.result;
+                      confirmButton.style.display = 'block'; // Show confirm button
                   }
                   reader.readAsDataURL(file);
+              }
+          });
+      }
+
+      if (confirmButton) {
+          confirmButton.addEventListener('click', async function() {
+              if (!selectedImageData) return;
+
+              const fileInput = document.getElementById('file-upload');
+              const file = fileInput.files[0];
+              if (!file) return;
+
+              const formData = new FormData();
+              formData.append('avatar', file);
+
+              try {
+                  const response = await fetch('/api/perfil/avatar', {
+                      method: 'PUT',
+                      body: formData
+                  });
+                  if (response.ok) {
+                      console.log('Avatar guardado en servidor');
+                      // Update localStorage
+                      const usuario = getUsuarioLogueado() || {};
+                      usuario.imagenUsuario = selectedImageData;
+                      saveUsuarioLogueado(usuario);
+                      confirmButton.style.display = 'none'; // Hide confirm button
+                      selectedImageData = null;
+                      alert('Avatar actualizado correctamente');
+                  } else {
+                      const errorText = await response.text();
+                      alert('Error al guardar avatar: ' + errorText);
+                  }
+              } catch (error) {
+                  console.error('Error saving avatar:', error);
+                  alert('Error al guardar avatar');
               }
           });
       }
@@ -301,7 +195,10 @@
       });
     });
   </script>
+  <!-- Scripts de autenticación JWT -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
+  <script src='/js/script.js'></script>
 </body>
 </html>
-
-

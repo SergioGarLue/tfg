@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.daw.tfg.enums.ProveedorMetodoPago;
+import com.daw.tfg.enums.TipoMetodoPago;
 import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.MetodoPagoRepository;
@@ -34,13 +36,19 @@ public class MetodoPagoService {
         if (u == null) {
             throw new IllegalArgumentException("Usuario inválido");
         }
-        List<MetodoPago> list = metodoPagoRepository.findByUsuario(u);
-        return list;
+        return metodoPagoRepository.findByUsuario(u);
     }
 
-    public List<MetodoPago> findByTipo(String tipo) {
-        if (tipo == null || tipo.isBlank()) {
-            throw new IllegalArgumentException("Tipo de método de pago inválido");
+    public List<MetodoPago> findByProveedor(ProveedorMetodoPago proveedor) {
+        if (proveedor == null) {
+            throw new IllegalArgumentException("Proveedor inválido");
+        }
+        return metodoPagoRepository.findByProveedor(proveedor);
+    }
+
+    public List<MetodoPago> findByTipo(TipoMetodoPago tipo) {
+        if (tipo == null) {
+            throw new IllegalArgumentException("Tipo inválido");
         }
         return metodoPagoRepository.findByTipo(tipo);
     }
@@ -52,16 +60,21 @@ public class MetodoPagoService {
         return metodoPagoRepository.findByActivo(activo);
     }
 
+    // /**
+    //  * @deprecated Uso de métodos de pago manuales para tarjetas en desuso.
+    //  *             Se recomienda migrar a Stripe PaymentIntent y tokens seguros.
+    //  */
+    // @Deprecated
     public MetodoPago save(MetodoPago metodoPago) {
         if (metodoPago == null) {
             throw new IllegalArgumentException("MetodoPago inválido");
         }
-        // Validaciones básicas: proveedor y token obligatorios
-        if (metodoPago.getProveedor() == null || metodoPago.getProveedor().isBlank()) {
+        // Validaciones básicas
+        if (metodoPago.getProveedor() == null) {
             throw new IllegalArgumentException("Proveedor del método de pago es obligatorio");
         }
-        if (metodoPago.getToken() == null || metodoPago.getToken().isBlank()) {
-            throw new IllegalArgumentException("Token del método de pago es obligatorio");
+        if (metodoPago.getTipo() == null) {
+            throw new IllegalArgumentException("Tipo del método de pago es obligatorio");
         }
         return metodoPagoRepository.save(metodoPago);
     }

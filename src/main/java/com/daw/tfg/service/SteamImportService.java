@@ -30,16 +30,13 @@ public class SteamImportService {
     private final JuegoRepository juegoRepository;
     private final DesarrolladorRepository desarrolladorRepository;
     private final GeneroRepository generoRepository;
-    private final JuegoService juegoService;
 
     public SteamImportService(JuegoRepository juegoRepository,
             DesarrolladorRepository desarrolladorRepository,
-            GeneroRepository generoRepository,
-            JuegoService juegoService) {
+            GeneroRepository generoRepository) {
         this.juegoRepository = juegoRepository;
         this.desarrolladorRepository = desarrolladorRepository;
         this.generoRepository = generoRepository;
-        this.juegoService = juegoService;
     }
 
     /**

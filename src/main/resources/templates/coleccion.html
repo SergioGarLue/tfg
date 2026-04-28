@@ -6,105 +6,13 @@
   <title>Mi Colección</title>
       <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/index.css" />
+    <link rel="stylesheet" href="/estilos/coleccion.css" />
 </head>
 <body>
 
   <div class="contenedor-principal">
     
-    <aside class="barra-lateral">
-      <div class="zona-superior">
-        <div class="logo">
-          <a href="index"><i class="fa-solid fa-dragon"></i></a>
-        </div>
-        
-        <nav>
-          
-          <ul>
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-tienda">
-             <a href="tienda"><i class="fa-solid fa-store icono"></i></a>
-                <span class="texto-enlace">Tienda</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
-                <ul class="lista-subitems">
-                  <li>Ofertas</li>
-                  <li>Populares</li>
-                </ul>
-              </div>
-            </li>
-
-            <li class="item-desplegable activo"> <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="coleccion"><i class="fa-solid fa-book-open icono"></i></a>
-                <span class="texto-enlace">Coleccion</span>
-              </div>
-              
-              <div class="contenedor-sublista" id="menu-coleccion">
-                <div class="rama-arbol">
-                  <span class="titulo-rama">Generos</span>
-                  <ul class="lista-subitems">
-                    <li>Metroidvania</li>
-                    <li>Souls</li>
-                    <li>Estrategia</li>
-                    <li class="enlace-mas">Mostrar mas</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-
-            
-          </ul>
-        </nav>
-      </div>
-
-      <div class="pie-barra-lateral">
-        <div class="iconos-inferiores">
-          <div class="contenedor-notificaciones">
-            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
-            <div class="menu-notificaciones" id="menu-notificaciones">
-              <div class="cabecera-notificaciones">
-                <span>Notificaciones</span>
-                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
-              </div>
-              <div class="lista-notificaciones">
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
-                    <span class="tiempo-notificacion">Hace 2 horas</span>
-                  </div>
-                </div>
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
-                    <span class="tiempo-notificacion">Ayer</span>
-                  </div>
-                </div>
-                <div class="notificacion">
-                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
-                    <span class="tiempo-notificacion">Hace 3 días</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div><a href="amigos"><i class="fa-solid fa-user"></i></a></div>
-          <div><i class="fa-solid fa-star"></i></div>
-        </div>
-        <div class="separador-lateral"></div>
-        <div class="perfil-usuario">
-          <a href="perfil" style="text-decoration: none; color: inherit; display: contents;">
-            <div class="avatar">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
-            </div>
-            <span class="nombre-usuario">Paco Leon</span>
-          </a>
-          <a href="configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
-        </div>
-      </div>
-    </aside>
+        <div id="sidebar-container"></div>
 
     <main class="contenido">
       <header class="barra-superior">
@@ -113,7 +21,7 @@
           <input type="text" placeholder="Buscar en tu colección...">
         </div>
         <div class="boton-carrito">
-           <a href="carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+           <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
            <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
@@ -124,16 +32,8 @@
              <h3>Tus juegos</h3>
           </div>
         
-          <div class="cuadricula-grande">
-            <!-- Generamos tarjetas con contenido para que se vea la estética -->
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=10" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Elden Ring</span><div class="etiquetas">Instalado</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=11" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">God of War</span><div class="etiquetas">Listo para jugar</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=12" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Cyberpunk 2077</span><div class="etiquetas">Actualizando...</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=13" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">The Witcher 3</span><div class="etiquetas">Instalado</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=14" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Hades</span><div class="etiquetas">Jugado hoy</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=15" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Stardew Valley</span><div class="etiquetas">Instalado</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=16" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Terraria</span><div class="etiquetas">Sin instalar</div></div></a>
-            <a href="juego" class="tarjeta"><img src="https://picsum.photos/300/200?random=17" alt="Juego"><div class="info-tarjeta"><span class="titulo-juego">Minecraft</span><div class="etiquetas">Instalado</div></div></a>
+          <div class="cuadricula-grande" id="coleccion-juegos">
+            <!-- Los juegos se cargarán dinámicamente desde el JSON -->
           </div>
         </section>
       </div>
@@ -143,19 +43,98 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-        if (boton && menu) {
-          boton.addEventListener("click", () => {
-            menu.classList.toggle("cerrado");     
-          });
+      let juegosColeccion = []; // Guardar los juegos para búsqueda
+      const searchInput = document.querySelector('.contenedor-busqueda input');
+
+      // --- Cargar juegos de la colección del usuario ---
+      const cargarColeccionJuegos = async () => {
+        try {
+          // Obtener el usuario autenticado
+          const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
+          
+          if (!usuario || !usuario.idUsuario) {
+            console.error('Usuario no autenticado o sin ID');
+            const contenedor = document.getElementById('coleccion-juegos');
+            if (contenedor) {
+              contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No estás autenticado</p>';
+            }
+            return;
+          }
+
+          console.log('Cargando colección para usuario:', usuario.idUsuario);
+          
+          // Cargar los juegos de la colección desde el backend
+          const response = await fetch(`/api/coleccion/${usuario.idUsuario}`);
+          
+          if (response.status === 404) {
+            const contenedor = document.getElementById('coleccion-juegos');
+            if (contenedor) {
+              contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No tienes juegos en tu colección</p>';
+            }
+            return;
+          }
+
+          if (!response.ok) throw new Error("Error al cargar la colección");
+          
+          const juegos = await response.json();
+          console.log('Juegos en colección:', juegos.length);
+          
+          // Guardar los juegos para búsqueda
+          juegosColeccion = juegos;
+          
+          // Renderizar los juegos
+          renderizarColeccion(juegos);
+
+          // Configurar búsqueda
+          if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+              const query = e.target.value.toLowerCase();
+              const juegosFilltrados = juegosColeccion.filter(juego => 
+                (juego.titulo || juego.name || '').toLowerCase().includes(query)
+              );
+              renderizarColeccion(juegosFilltrados);
+            });
+          }
+        } catch (error) {
+          console.error("Error al cargar la colección:", error);
+          const contenedor = document.getElementById('coleccion-juegos');
+          if (contenedor) {
+            contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff6b6b;">Error al cargar la colección</p>';
+          }
         }
       };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
 
-      // Lógica del Carrito (Simulada)
+      const renderizarColeccion = (juegos) => {
+        const contenedor = document.getElementById('coleccion-juegos');
+        if (!contenedor) return;
+
+        if (juegos.length === 0) {
+          contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No se encontraron juegos</p>';
+          return;
+        }
+
+        contenedor.innerHTML = '';
+        juegos.forEach(juego => {
+          const juegoId = juego.appid || juego.idJuego || juego.id || '';
+          const imagenUrl = juego.imagen || juego.header_image || juego.image || (juegoId ? `https://cdn.akamai.steamstatic.com/steam/apps/${juegoId}/header.jpg` : 'https://via.placeholder.com/300x200');
+          const tarjeta = document.createElement('div');
+          tarjeta.className = 'tarjeta';
+          tarjeta.innerHTML = `
+            <img src="${imagenUrl}" alt="${juego.titulo}">
+            <div class="info-tarjeta">
+              <span class="titulo-juego">${juego.titulo}</span>
+              <div class="etiquetas">Instalado</div>
+              <button class="boton-jugar" onclick="alert('Iniciando juego...')">Jugar</button>
+            </div>
+          `;
+          contenedor.appendChild(tarjeta);
+        });
+      };
+      
+      // Llamar la función
+      cargarColeccionJuegos();
+
+      // Lógica del Carrito
       const actualizarContadorCarrito = (cantidad) => {
         const badge = document.getElementById('badge-carrito');
         if (badge) {
@@ -166,34 +145,21 @@
           }
         }
       };
-      actualizarContadorCarrito(2);
+      
+      // Obtener cantidad de items del carrito (solo contar items, no cantidad)
+      const CARRITO_KEY = 'solarSistemCart';
+      const cart = JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+      const itemsEnCarrito = cart.length;
+      actualizarContadorCarrito(itemsEnCarrito);
 
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
-      }
     });
   </script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
+  <script src='/js/script.js'></script>
 </body>
 </html>
+
+
 

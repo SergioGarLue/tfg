@@ -8,105 +8,8 @@
     <link rel="stylesheet" href="/estilos/index.css" />
 </head>
 <body>
-
   <div class="contenedor-principal">
-    <aside class="barra-lateral">
-      <div class="zona-superior">
-        <div class="logo">
-          <a href="/"><i class="fa-solid fa-dragon"></i></a>
-        </div>
-        
-        <nav>
-          
-          <ul>
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-tienda">
-              <a href="tienda"><i class="fa-solid fa-store icono"></i></a>
-                <span class="texto-enlace">Tienda</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-tienda">
-                <ul class="lista-subitems">
-                  <li>Ofertas</li>
-                  <li>Populares</li>
-                  <li>Próximamente</li>
-                </ul>
-              </div>
-            </li>
-
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="coleccion"><i class="fa-solid fa-book-open icono"></i></a><span class="texto-enlace">Colección</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-coleccion">
-                <ul class="lista-subitems">
-                  <li>Metroidvania</li>
-                  <li>Souls</li>
-                  <li>Estrategia</li>
-                  <li class="enlace-mas">Mostrar más <i class="fa-solid fa-chevron-down"></i></li>
-                </ul>
-              </div>
-            </li>
-
-          </ul>
-        </nav>
-      </div>
-
-      <div class="pie-barra-lateral">
-        <div class="iconos-inferiores">
-          <div class="contenedor-notificaciones">
-            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
-            <div class="menu-notificaciones" id="menu-notificaciones">
-              <div class="cabecera-notificaciones">
-                <span>Notificaciones</span>
-                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
-              </div>
-              <div class="lista-notificaciones">
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
-                    <span class="tiempo-notificacion">Hace 2 horas</span>
-                  </div>
-                </div>
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
-                    <span class="tiempo-notificacion">Ayer</span>
-                  </div>
-                </div>
-                <div class="notificacion">
-                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
-                    <span class="tiempo-notificacion">Hace 3 días</span>
-                  </div>
-                </div>
-                <div class="notificacion">
-                  <div class="icono-notificacion"><i class="fa-solid fa-tag"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">Nuevo juego disponible: Hollow Knight</p>
-                    <span class="tiempo-notificacion">Hace una semana</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a href="amigos"><i class="fa-solid fa-user"></i></a>
-          <div><i class="fa-solid fa-star"></i></div>
-        </div>
-        <div class="separador-lateral"></div>
-        <div class="perfil-usuario">
-          <a href="perfil" style="text-decoration: none; color: inherit; display: contents;">
-            <div class="avatar">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
-            </div>
-            <span class="nombre-usuario">Paco Leon</span>
-          </a>
-          <a href="configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
-        </div>
-      </div>
-    </aside>
+    <div id="sidebar-container"></div>
 
     <main class="contenido">
       <header class="barra-superior">
@@ -115,7 +18,7 @@
           <input type="text" placeholder="Buscar en la tienda...">
         </div>
         <div class="boton-carrito">
-          <a href="carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
           <span class="contador-carrito" id="badge-carrito">0</span>
         </div>
       </header>
@@ -123,10 +26,13 @@
       <div class="scroll-contenido">
 
         <!-- Sección Hero Destacada -->
-        <section class="hero-banner">
-          <h2>ELDEN RING</h2>
-          <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
-          <button class="btn-hero">COMPRAR AHORA</button>
+        <section class="hero-banner" id="hero-elden-ring">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h2>ELDEN RING</h2>
+            <p>Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en el Señor del Círculo en las Tierras Intermedias.</p>
+            <button class="btn-hero">COMPRAR AHORA</button>
+          </div>
         </section>
         
         <section class="seccion-categoria">
@@ -151,149 +57,10 @@
         </section>
 
       </div>
-    </main>
-  </div>
-
-  <script>
-    // Tu Script Original intacto
-    document.addEventListener("DOMContentLoaded", () => {
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-    
-        if (boton && menu) {
-          boton.addEventListener("click", () => {
-            menu.classList.toggle("cerrado");     
-            const estaAbierto = !menu.classList.contains("cerrado");
-            const items = menu.querySelectorAll("li"); 
-            items.forEach((item, index) => {
-              if (estaAbierto) {
-                item.style.transitionDelay = `${index * 0.1}s`; 
-              } else {
-                item.style.transitionDelay = "0s";
-              }
-            });
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
-
-      // --- Lógica del Carrito ---
-      const actualizarContadorCarrito = (cantidad) => {
-        const badge = document.getElementById('badge-carrito');
-        if (badge) {
-          if (cantidad > 0) {
-            badge.style.display = 'flex'; // Mostrar si hay items
-            badge.textContent = cantidad;
-          } else {
-            badge.style.display = 'none'; // Ocultar si es 0
-          }
-        }
-      };
-
-      // SIMULACIÓN: Aquí pondrías la cantidad real que viene de tu base de datos o localStorage
-      // Por ejemplo, cambiamos el valor a 2 para probar:
-      let itemsEnCarrito = 2; 
-      actualizarContadorCarrito(itemsEnCarrito);
-
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        // Cerrar al hacer clic fuera
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        // Marcar todas como leídas
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
-        }
-      }
-
-      // --- Lógica para cargar juegos de la API ---
-      const fetchJuegos = async () => {
-        try {
-          const response = await fetch('/api/tienda');
-          if (!response.ok) throw new Error("Error al obtener juegos");
-          const juegos = await response.json();
-          
-          renderizarJuegos(juegos);
-        } catch (error) {
-          console.error("Hubo un problema con la petición fetch:", error);
-        }
-      };
-
-      const renderizarJuegos = (juegos) => {
-        const contenedorNovedades = document.getElementById('fila-novedades');
-        const contenedorRecomendados = document.getElementById('fila-recomendados');
-        const contenedorRecientes = document.getElementById('fila-recientes');
-
-        if (!contenedorNovedades || !contenedorRecomendados || !contenedorRecientes) return;
-
-        // Limpiar contenidos actuales
-        contenedorNovedades.innerHTML = '';
-        contenedorRecomendados.innerHTML = '';
-        contenedorRecientes.innerHTML = '';
-
-        juegos.forEach((juego, index) => {
-          // Extraer propiedades manejando tanto los nombres del JSON de Steam como los de tu API Java
-          const id = juego.idJuego || juego.appid || juego.id;
-          const titulo = juego.titulo || juego.name;
-          
-          // Al no existir campos de imagen en el objeto, construimos la URL usando el ID de Steam (appid)
-          const imagenUrl = id ? `https://cdn.akamai.steamstatic.com/steam/apps/${id}/header.jpg` : 'https://via.placeholder.com/300x200';
-          
-          // Precio: busca en 'precio' o en el objeto 'price.final' del JSON
-          let precioNum = juego.precio !== undefined ? juego.precio : (juego.price ? juego.price.final : 0);
-          const precioTexto = precioNum === 0 ? 'Gratis' : `${precioNum}€`;
-
-          // Géneros: maneja array de objetos (de la BD) o array de strings (del JSON)
-          const generosRaw = juego.generos || juego.genres;
-          const etiquetas = Array.isArray(generosRaw) 
-            ? generosRaw.map(g => typeof g === 'object' ? g.nombre : g).join(', ') 
-            : 'Acción';
-
-          const tarjetaHTML = `
-            <a href="/juego/${id}" class="tarjeta">
-              <img src="${imagenUrl}" alt="${titulo}">
-              <div class="info-tarjeta">
-                <span class="titulo-juego">${titulo}</span>
-                <div class="etiquetas">${etiquetas}</div>
-                <div class="precio-container">
-                  <span class="precio">${precioTexto}</span>
-                </div>
-              </div>
-            </a>
-          `;
-
-          // Distribuir juegos en las secciones (ejemplo simple por índice)
-          if (index < 4) {
-            contenedorNovedades.innerHTML += tarjetaHTML;
-          } else if (index < 8) {
-            contenedorRecomendados.innerHTML += tarjetaHTML;
-          } else if (index < 12) {
-            contenedorRecientes.innerHTML += tarjetaHTML;
-          }
-        });
-      };
-
-      // Llamada inicial
-      fetchJuegos();
-    });
-  </script>
+  <!-- Scripts de autenticación JWT -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
+  <script src="/js/script.js"></script>
 </body>
 </html>

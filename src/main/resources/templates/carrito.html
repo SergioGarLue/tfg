@@ -6,113 +6,18 @@
     <title>Carrito </title>
     <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
     <link rel="stylesheet" href="/estilos/index.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      // Configuración de Stripe
+      const stripePublishableKey = 'pk_test_51TMrrrIb8MnvXMnGCxTXQKV35JpANjDfGEWjYLJdzimX70cACNpLvIMkDE02YRy36ozQ09X1LkOTXTlEGMOl0JVt00iRjprsD4'; // Clave pública de Stripe
+      const stripe = Stripe(stripePublishableKey);
+    </script>
   </head>
   <body>
 
     <div class="contenedor-principal">
 
-      <aside class="barra-lateral">
-        <div class="zona-superior">
-          <div class="logo">
-<a href="/"><i class="fa-solid fa-dragon"></i></a>
-          </div>
-
-          <nav>
-
-            <ul>
-              <li class="item-desplegable">
-                <div class="cabecera-desplegable" id="boton-tienda">
-                  <a href="tienda"><i
-                      class="fa-solid fa-store icono"></i></a>
-                  <span class="texto-enlace">Tienda</span>
-                </div>
-                <div class="contenedor-sublista cerrado" id="menu-tienda">
-                  <ul class="lista-subitems">
-                    <li>Ofertas</li>
-                    <li>Populares</li>
-                  </ul>
-                </div>
-              </li>
-
-              <li class="item-desplegable">
-                <div class="cabecera-desplegable" id="boton-coleccion">
-                  <a href="coleccion"><i
-                      class="fa-solid fa-book-open icono"></i></a>
-                  <span class="texto-enlace">Coleccion</span>
-                </div>
-                <div class="contenedor-sublista cerrado" id="menu-coleccion">
-                  <ul class="lista-subitems">
-                    <li>Metroidvania</li>
-                    <li>Souls</li>
-                    <li>Estrategia</li>
-                    <li class="enlace-mas">Mostrar mas</li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <div class="pie-barra-lateral">
-          <div class="iconos-inferiores">
-            <div class="contenedor-notificaciones">
-              <button id="boton-notificaciones" class="boton-notificaciones"><i
-                  class="fa-solid fa-bell"></i></button>
-              <div class="menu-notificaciones" id="menu-notificaciones">
-                <div class="cabecera-notificaciones">
-                  <span>Notificaciones</span>
-                  <button class="btn-marcar-leidas">Marcar todas como
-                    leídas</button>
-                </div>
-                <div class="lista-notificaciones">
-                  <div class="notificacion no-leida">
-                    <div class="icono-notificacion"><i
-                        class="fa-solid fa-gift"></i></div>
-                    <div class="contenido-notificacion">
-                      <p class="texto-notificacion">¡Oferta especial! 50% de
-                        descuento en Dark Souls III</p>
-                      <span class="tiempo-notificacion">Hace 2 horas</span>
-                    </div>
-                  </div>
-                  <div class="notificacion no-leida">
-                    <div class="icono-notificacion"><i
-                        class="fa-solid fa-user-plus"></i></div>
-                    <div class="contenido-notificacion">
-                      <p class="texto-notificacion">María García te ha enviado
-                        una solicitud de amistad</p>
-                      <span class="tiempo-notificacion">Ayer</span>
-                    </div>
-                  </div>
-                  <div class="notificacion">
-                    <div class="icono-notificacion"><i
-                        class="fa-solid fa-check-circle"></i></div>
-                    <div class="contenido-notificacion">
-                      <p class="texto-notificacion">Tu compra de Elden Ring se
-                        ha completado</p>
-                      <span class="tiempo-notificacion">Hace 3 días</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div><a href="amigos"><i
-                  class="fa-solid fa-user"></i></a></div>
-            <div><i class="fa-solid fa-star"></i></div>
-          </div>
-          <div class="separador-lateral"></div>
-          <div class="perfil-usuario">
-            <a href="perfil"
-              style="text-decoration: none; color: inherit; display: contents;">
-              <div class="avatar">
-                <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
-              </div>
-              <span class="nombre-usuario">Paco Leon</span>
-            </a>
-            <a href="configuracion" id="conf"><i
-                class="fa-solid fa-gear"></i></a>
-          </div>
-        </div>
-      </aside>
+          <div id="sidebar-container"></div>
 
       <main class="contenido">
         <header class="barra-superior">
@@ -131,35 +36,13 @@
             <h2>Carrito</h2>
 
             <div class="lista-productos">
-
-              <div class="item-carrito">
-                <div class="imagen-producto"
-                  style="background-image: url('https://picsum.photos/120/70?random=20');"></div>
-                <div class="info-producto">
-                  <span class="nombre-juego">Bigger hunter</span>
-                </div>
-                <button class="btn-eliminar"><i
-                    class="fa-solid fa-trash"></i></button>
-                <div class="precio-producto">59.99€</div>
-              </div>
-
-              <div class="item-carrito">
-                <div class="imagen-producto"
-                  style="background-image: url('https://picsum.photos/120/70?random=21');"></div>
-                <div class="info-producto">
-                  <span class="nombre-juego">Femboys love</span>
-                </div>
-                <button class="btn-eliminar"><i
-                    class="fa-solid fa-trash"></i></button>
-                <div class="precio-producto">39.99€</div>
-              </div>
-
+              <!-- Se llena dinámicamente -->
             </div>
 
             <div class="zona-pago">
               <div class="total-resumen">
                 <span class="etiqueta-total">Total:</span>
-                <span class="valor-total">99,98€</span>
+                <span class="valor-total">0€</span>
               </div>
               <button class="boton-ir-pago">Ir al pago</button>
             </div>
@@ -172,56 +55,294 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-        if (boton && menu) {
-          boton.addEventListener("click", () => {
-            menu.classList.toggle("cerrado");     
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
+      const CARRITO_KEY = 'solarSistemCart';
+      let currentGamesMap = {};
 
-      // Lógica del Carrito (Simulada)
-      const actualizarContadorCarrito = (cantidad) => {
-        const badge = document.getElementById('badge-carrito');
-        if (badge) {
-          if (cantidad > 0) {
-            badge.style.display = 'flex'; badge.textContent = cantidad;
+      function normalizePrice(price) {
+        const p = Number(price) || 0;
+        if (p >= 100 && Number.isInteger(p)) {
+          return p / 100;
+        }
+        return p;
+      }
+
+      function getCart() {
+        return JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+      }
+
+      function saveCart(cart) {
+        localStorage.setItem(CARRITO_KEY, JSON.stringify(cart));
+        updateBadges();
+      }
+
+      function updateBadges() {
+        const totalItems = getCart().length;
+        document.querySelectorAll('#badge-carrito').forEach(badge => {
+          if (totalItems > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = totalItems;
           } else {
             badge.style.display = 'none';
           }
+        });
+      }
+
+      function removeFromCart(appid) {
+        let cart = getCart();
+        cart = cart.filter(item => item.appid !== appid);
+        saveCart(cart);
+        renderCart();
+      }
+
+      // Obtener precio efectivo de un juego (consulta el mapa cargado del backend)
+      function getPrecioEfectivo(appid) {
+        const juego = currentGamesMap[appid];
+        if (!juego) return null;
+        if (juego.disponible === false) return 0;
+        if (juego.precioRebajado != null && juego.precioRebajado > 0) {
+          return juego.precioRebajado;
         }
-      };
-      actualizarContadorCarrito(2);
+        return juego.precio || 0;
+      }
 
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
+      function getGameInfo(appid) {
+        const juego = currentGamesMap[appid];
+        if (!juego) return null;
+        return {
+          titulo: juego.titulo || 'Juego',
+          imagen: juego.imagen || juego.header_image || 'https://picsum.photos/120/70?random=20',
+          precioOriginal: juego.precio || 0,
+          precioRebajado: juego.precioRebajado,
+          porcentaje: juego.porcentaje || 0,
+          disponible: juego.disponible !== false
+        };
+      }
 
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
+      async function fetchCurrentGames() {
+        try {
+          const response = await fetch('/api/tienda');
+          if (!response.ok) return;
+          const juegos = await response.json();
+          currentGamesMap = {};
+          juegos.forEach(g => {
+            const id = g.idJuego || g.appid || g.id;
+            if (id) currentGamesMap[id] = g;
           });
+        } catch (e) {
+          console.warn('No se pudieron cargar precios actuales:', e);
         }
       }
+
+      async function renderCart() {
+        const listaProductos = document.querySelector('.lista-productos');
+        const valorTotal = document.querySelector('.valor-total');
+        const cart = getCart();
+
+        if (cart.length === 0) {
+          listaProductos.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Carrito vacío</p>';
+          valorTotal.textContent = '0€';
+          return;
+        }
+
+        // Sincronizar precios con backend
+        await fetchCurrentGames();
+
+        // Actualizar cart con datos frescos
+        const updatedCart = cart.map(item => {
+          const info = getGameInfo(item.appid);
+          if (info) {
+            const precioActual = getPrecioEfectivo(item.appid);
+            return {
+              ...item,
+              name: info.titulo,
+              header_image: info.imagen,
+              finalPrice: precioActual,
+              precioOriginal: info.precioOriginal,
+              precioRebajado: info.precioRebajado,
+              porcentaje: info.porcentaje,
+              disponible: info.disponible
+            };
+          }
+          return item;
+        });
+
+        // Guardar actualizaciones en localStorage
+        saveCart(updatedCart);
+
+        listaProductos.innerHTML = updatedCart.map(item => {
+          const precio = normalizePrice(item.finalPrice);
+          const tieneDescuento = item.porcentaje > 0 || (item.precioRebajado != null && item.precioRebajado > 0 && item.precioRebajado < item.precioOriginal);
+          const precioOriginalDisplay = tieneDescuento ? `<span style="text-decoration: line-through; color: #888; font-size: 0.85rem; margin-right: 6px;">${normalizePrice(item.precioOriginal).toFixed(2)}€</span>` : '';
+          const badgeDescuento = item.porcentaje > 0 ? `<span style="background: #76b900; color: #000; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; margin-right: 6px;">-${item.porcentaje}%</span>` : '';
+          const noDisponible = item.disponible === false ? '<span style="color: #ff3b30; font-size: 0.8rem; display: block;">No disponible</span>' : '';
+
+          return `
+            <div class="item-carrito">
+              <div class="imagen-producto" style="background-image: url('${item.header_image || 'https://picsum.photos/120/70?random=20'}');"></div>
+              <div class="info-producto">
+                <span class="nombre-juego">${item.name}</span>
+                <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #999;">
+                  Cantidad: 1
+                </div>
+                ${noDisponible}
+              </div>
+              <button class="btn-eliminar" onclick="removeFromCart(${item.appid})"><i class="fa-solid fa-trash"></i></button>
+              <div class="precio-producto">
+                ${badgeDescuento}${precioOriginalDisplay}${precio.toFixed(2)}€
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const total = updatedCart.reduce((sum, item) => sum + normalizePrice(item.finalPrice), 0);
+        valorTotal.textContent = `${total.toFixed(2)}€`;
+      }
+
+      window.removeFromCart = removeFromCart;
+
+      // Función para enviar el carrito al checkout
+      async function sendToCheckout() {
+        const cart = getCart();
+
+        if (cart.length === 0) {
+          alert('El carrito está vacío');
+          return;
+        }
+
+        // Obtener usuario autenticado
+        const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
+        if (!usuario || !usuario.idUsuario) {
+          alert('Debes iniciar sesión para realizar el pago');
+          window.location.href = '/login';
+          return;
+        }
+        const usuarioId = usuario.idUsuario;
+
+        // Sincronizar precios antes de checkout
+        await fetchCurrentGames();
+
+        // Calcular el total con precios actualizados
+        const total = cart.reduce((sum, item) => {
+          const precioActual = getPrecioEfectivo(item.appid);
+          return sum + normalizePrice(precioActual != null ? precioActual : item.finalPrice);
+        }, 0);
+        console.log('💰 Total del carrito: ' + total.toFixed(2) + '€');
+
+        // Extraer ID de cada juego (cantidad siempre 1)
+        const productos = cart.map(item => ({
+          juegoId: item.appid,
+          cantidad: 1
+        }));
+
+        // *** SI EL CARRITO ES GRATUITO ***
+        if (total === 0 || total < 0.01) {
+          console.log('🎁 Carrito gratuito detectado - añadiendo juegos a colección');
+
+          const datos = {
+            usuarioId: usuarioId,
+            productos: productos
+          };
+          
+          try {
+            const response = await fetch('/api/v1/coleccion/add-gratis', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(datos)
+            });
+            
+            if (!response.ok) {
+              throw new Error(`Error HTTP: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('✅ Juegos añadidos a colección:', data);
+            
+            // Limpiar carrito
+            localStorage.removeItem('solarSistemCart');
+            alert('✨ ¡Juegos añadidos a tu colección!');
+            
+            // Recargar página
+            window.location.reload();
+          } catch (error) {
+            console.error('❌ Error al añadir juegos gratuitos:', error);
+            alert('Error: ' + error.message);
+          }
+          return;
+        }
+        
+        // *** SI TIENE COSTO, PROCESAR CON STRIPE ***
+        const datos = {
+          usuarioId: usuarioId,
+          productos: productos,
+          successUrl: window.location.origin + '/success',
+          cancelUrl: window.location.origin + '/carrito'
+        };
+        
+        console.log('📦 Carrito contiene ' + cart.length + ' juego(s)');
+        console.log('📦 Datos enviados al backend:');
+        console.log(JSON.stringify(datos, null, 2));
+        console.log('📦 Detalles del carrito:');
+        cart.forEach(item => {
+          const precioActual = getPrecioEfectivo(item.appid);
+          console.log(`  - ${item.name} (ID: ${item.appid}): ${precioActual != null ? precioActual.toFixed(2) : item.finalPrice}€`);
+        });
+        
+        try {
+          const response = await fetch('/api/v1/payments/create-checkout-session-v2', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(datos)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          console.log('✅ Respuesta del servidor:', data);
+          
+          // Redirigir a la URL de pago
+          if (data.url) {
+            console.log('🔄 Redirigiendo a Stripe:', data.url);
+            window.location.href = data.url;
+          } else if (data.sessionId) {
+            // Alternativa con Stripe.redirectToCheckout
+            const result = await stripe.redirectToCheckout({
+              sessionId: data.sessionId
+            });
+            
+            if (result.error) {
+              alert('Error de Stripe: ' + result.error.message);
+            }
+          } else {
+            alert('Respuesta del servidor incompleta');
+          }
+        } catch (error) {
+          console.error('❌ Error al procesar el pago:', error);
+          alert('Error: ' + error.message);
+        }
+      }
+      
+      // Exponer la función globalmente
+      window.sendToCheckout = sendToCheckout;
+      
+      // Event listener para el botón de pago
+      document.querySelector('.boton-ir-pago').addEventListener('click', sendToCheckout);
+      
+      // Init
+      updateBadges();
+      renderCart();
+
     });
   </script>
-  </body>
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
+    <script src='/js/script.js'></script>
+</body>
 </html>
+

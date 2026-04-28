@@ -25,4 +25,6 @@ public class CompraDTO {
     private Double total;
 
     private String estado; // or EstadoCompra enum as String
+
+    private String paymentIntentId;
 }

@@ -1,0 +1,118 @@
+<aside class="barra-lateral">
+  <div class="zona-superior">
+    <div class="logo">
+      <a href="/" class="logo-link"><img src="/images/logo.png" alt="XYRON"></a>
+    </div>
+    <button class="sidebar-toggle" type="button" aria-expanded="false" aria-label="Abrir menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav>
+    <ul>
+      <li class="item-desplegable">
+        <div class="cabecera-desplegable" id="boton-tienda">
+          <i class="fa-solid fa-store icono link-icon"></i>
+          <span class="texto-link">
+            <a href="/tienda" class="nav-link"><span class="texto-enlace">Tienda</span></a>
+            <i class="fa-solid fa-chevron-down flecha-dropdown"></i>
+          </span>
+        </div>
+        <div class="contenedor-sublista cerrado" id="menu-tienda">
+          <ul class="lista-subitems">
+            <li><a href="/tienda?filtro=ofertas">Ofertas</a></li>
+            <li><a href="/tienda?filtro=populares">Populares</a></li>
+            <li><a href="/tienda?filtro=gratis">Gratis</a></li>
+            <li class="item-desplegable">
+              <div class="cabecera-desplegable">
+                <span class="texto-link">
+                  <span class="texto-enlace">Géneros</span>
+                  <i class="fa-solid fa-chevron-down flecha-dropdown"></i>
+                </span>
+              </div>
+              <div class="contenedor-sublista cerrado">
+                <ul class="lista-subitems" id="lista-generos">
+                  <li><a href="/tienda?genero=Acción">Acción</a></li>
+                  <li><a href="/tienda?genero=Aventura">Aventura</a></li>
+                  <li><a href="/tienda?genero=RPG">RPG</a></li>
+                  <li><a href="/tienda?genero=Estrategia">Estrategia</a></li>
+                  <li><a href="/tienda?genero=Indie">Indie</a></li>
+                  <li><a href="/tienda?genero=Simulación">Simulación</a></li>
+                  <li><a href="/tienda?genero=Deportes">Deportes</a></li>
+                  <li><a href="/tienda?genero=Carreras">Carreras</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <div class="cabecera-desplegable">
+          <i class="fa-solid fa-book-open icono link-icon"></i>
+          <span class="texto-link">
+            <a href="/coleccion" class="nav-link"><span class="texto-enlace">Colección</span></a>
+          </span>
+        </div>
+      </li>
+
+      <li id="admin-section" style="display: none;">
+        <div class="cabecera-desplegable">
+          <i class="fa-solid fa-shield-halved icono link-icon"></i>
+          <span class="texto-link">
+            <a href="/admin" id="admin-link" class="nav-link"><span class="texto-enlace">Administración</span></a>
+          </span>
+        </div>
+      </li>
+
+      <li id="dev-section" style="display: none;">
+        <div class="cabecera-desplegable">
+          <i class="fa-solid fa-code icono link-icon"></i>
+          <span class="texto-link">
+            <a href="/desarrollador" id="dev-link" class="nav-link"><span class="texto-enlace">Panel Desarrollador</span></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  </div>
+
+
+  <div class="pie-barra-lateral">
+    <div class="iconos-inferiores">
+      <div class="contenedor-notificaciones">
+        <button id="boton-notificaciones" class="boton-notificaciones sidebar-icon" aria-label="Notificaciones"><i class="fa-solid fa-bell"></i></button>
+        <div class="menu-notificaciones" id="menu-notificaciones">
+          <div class="cabecera-notificaciones">
+            <span>Notificaciones</span>
+            <button class="btn-marcar-leidas" aria-label="Marcar todas como leídas"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <div class="lista-notificaciones">
+            <div class="notificacion">
+              <div class="icono-notificacion"><i class="fa-solid fa-spinner fa-spin"></i></div>
+              <div class="contenido-notificacion">
+                <p class="texto-notificacion">Cargando notificaciones...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="sidebar-icon" data-href="/amigos" aria-label="Amigos">
+        <i class="fa-solid fa-user"></i>
+        <span class="badge-sidebar" id="badge-amistades" style="display:none;"></span>
+      </button>
+      <button class="sidebar-icon" data-href="/deseados" aria-label="Deseados"><i class="fa-solid fa-star"></i></button>
+    </div>
+    <div class="separador-lateral"></div>
+    <div class="perfil-usuario" id="sidebar-user-card">
+      <a href="/login" class="perfil-link" id="sidebar-profile-link">
+        <div class="avatar">
+          <img id="sidebar-avatar" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png" alt="Usuario">
+        </div>
+        <span class="nombre-usuario" id="sidebar-username">Iniciar sesion</span>
+      </a>
+      <div class="perfil-acciones">
+        <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
+      </div>
+    </div>
+  </div>
+</aside>

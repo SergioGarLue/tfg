@@ -21,10 +21,10 @@ public class PerfilUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario_perfil;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String imagenUsuario;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String imagenFondoPerfil;
 
     @Column(nullable = false)

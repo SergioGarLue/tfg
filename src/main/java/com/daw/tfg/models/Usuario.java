@@ -1,17 +1,15 @@
 package com.daw.tfg.models;
 
-import java.util.Set;
-
 import com.daw.tfg.enums.EstadoUsuario;
 import com.daw.tfg.enums.RolesUsuarios;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 
 @Entity
 @Getter @Setter @NoArgsConstructor @ToString
@@ -28,6 +26,7 @@ public class Usuario {
 
     //almacenara la contraseña cifrada 
     @Column(nullable = false)
+    @JsonIgnore
     private String contraseñaCifrada;
 
     //almacena el correoELectronico del usuario
@@ -44,40 +43,34 @@ public class Usuario {
     @Column(nullable = false, name = "rol")
     private RolesUsuarios rol;
 
-
-    /*  Relacion para las amistades, Usuario con Usurio 
-        pudiendo rechazar, aceptar, estar pendiente la peticion de amistad
-        al aceptarla se guardara como Amistad donde aparecera  
-        fecha de peticion, un id unico de cada amistad,  y los dos usuarios que la componen
-    */
-@JsonIgnore
-    @ManyToMany
-    @JoinTable(
-        name="amistad",
-        joinColumns= @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_amigo")
-    )
-    private Set<Usuario> amigos;
+    // Relacion muchos a uno con el desarrollador (empresa) para usuarios con rol DESARROLLADOR
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_desarrollador_usuario", nullable = true)
+    @JsonIgnore
+    private Desarrollador desarrollador;
 
     /*
         Relacion uno a uno con el perfil del usuario enlazando la columna
         con su perfil para poder acceder a el posteriormente
     */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+
     @JoinColumn(name = "id_usuario_perfil", nullable = false, unique = true)
     @JsonIgnore
     private PerfilUsuario perfilUsuario;
 
     public Usuario(String nombreUsuario, String contraseñaCifrada, String correoElectronico, EstadoUsuario conexion,
-            RolesUsuarios rol, Set<Usuario> amigos, PerfilUsuario perfilUsuario) {
+            RolesUsuarios rol, PerfilUsuario perfilUsuario) {
         this.nombreUsuario = nombreUsuario;
         this.contraseñaCifrada = contraseñaCifrada;
         this.correoElectronico = correoElectronico;
         this.conexion = conexion;
         this.rol = rol;
-        this.amigos = amigos;
         this.perfilUsuario = perfilUsuario;
     }
 
-    
+    @JsonProperty("imagenUsuario")
+    public String getImagenUsuario() {
+        return perfilUsuario != null ? perfilUsuario.getImagenUsuario() : null;
+    }
 }

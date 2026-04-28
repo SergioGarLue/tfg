@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "jwt.refresh.expiration",
+    "type": "java.lang.String",
+    "description": "JWT refresh token expiration time (e.g., '7d' for 7 days)"
+  },
+  {
+    "name": "jwt.access.expiration",
+    "type": "java.lang.String",
+    "description": "JWT access token expiration time (e.g., '1h' for 1 hour)"
+  },
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "JWT secret key"
+  },
+  {
+    "name": "stripe.webhook.secret",
+    "type": "java.lang.String",
+    "description": "Stripe webhook secret key"
+  },
+  {
+    "name": "stripe.key.secret",
+    "type": "java.lang.String",
+    "description": "Stripe secret key"
+  },
+  {
+    "name": "server.tomcat.max-http-header-size",
+    "type": "java.lang.String",
+    "description": "A description for 'server.tomcat.max-http-header-size'"
+  }
+]}

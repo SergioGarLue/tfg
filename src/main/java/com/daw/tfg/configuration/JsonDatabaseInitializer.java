@@ -7,15 +7,20 @@ import java.util.List;
 import java.util.Set;
 
 import com.daw.tfg.dtos.JuegoDTO;
+import com.daw.tfg.enums.EstadoUsuario;
+import com.daw.tfg.enums.RolesUsuarios;
 import com.daw.tfg.mappers.DtoMapper;
 import com.daw.tfg.models.Desarrollador;
 import com.daw.tfg.models.Editor;
 import com.daw.tfg.models.Genero;
 import com.daw.tfg.models.Juego;
+import com.daw.tfg.models.PerfilUsuario;
+import com.daw.tfg.models.Usuario;
 import com.daw.tfg.service.DesarrolladorService;
 import com.daw.tfg.service.EditorService;
 import com.daw.tfg.service.GeneroService;
 import com.daw.tfg.service.JuegoService;
+import com.daw.tfg.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
@@ -36,24 +41,25 @@ public class JsonDatabaseInitializer {
     private final DesarrolladorService desarrolladorService;
     private final EditorService editorService;
     private final GeneroService generoService;
+    private final UsuarioService usuarioService;
 
     public JsonDatabaseInitializer(
             JuegoService juegoService,
             DesarrolladorService desarrolladorService,
             EditorService editorService,
-            GeneroService generoService) {
+            GeneroService generoService,
+            UsuarioService usuarioService) {
         this.juegoService = juegoService;
         this.desarrolladorService = desarrolladorService;
         this.editorService = editorService;
         this.generoService = generoService;
+        this.usuarioService = usuarioService;
     }
 
     @Bean
     public ApplicationRunner initDatabaseFromJson() {
         return args -> {
             Resource resource = new ClassPathResource("static/JSON/steam_top_1000_sellers.json");
-            Double precio = 0.0;
-            Integer porcentaje = 0;
 
             if (!resource.exists()) {
                 logger.warn("No se encontró steam_top_1000_sellers.json en static/JSON");
@@ -70,6 +76,8 @@ public class JsonDatabaseInitializer {
                 logger.error("Error leyendo JSON de juegos", e);
                 return;
             }
+
+            List<Desarrollador> desarrolladoresCreados = new ArrayList<>();
 
             for (JuegoDTO dto : juegosDto) {
                 try {
@@ -88,15 +96,6 @@ public class JsonDatabaseInitializer {
                         continue;
                     }
 
-                    if (dto.getPrice() != null) {
-                        if (dto.getPrice().getFinalPrice() != null) {
-                            precio = dto.getPrice().getFinalPrice();
-                        }
-                        if (dto.getPrice().getPorcentaje() != null) {
-                            porcentaje = dto.getPrice().getPorcentaje();
-                        }
-                    }
-
                     Desarrollador desarrollador = null;
                     if (dto.getDeveloper() != null && !dto.getDeveloper().isBlank()) {
                         desarrollador = desarrolladorService.findByNombre(dto.getDeveloper())
@@ -105,6 +104,9 @@ public class JsonDatabaseInitializer {
                                     nuevo.setNombre(dto.getDeveloper());
                                     return desarrolladorService.save(nuevo);
                                 });
+                        if (!desarrolladoresCreados.contains(desarrollador)) {
+                            desarrolladoresCreados.add(desarrollador);
+                        }
                     }
 
                     Editor editor = null;
@@ -157,6 +159,53 @@ public class JsonDatabaseInitializer {
                     logger.error("Fallo al importar juego JSON id={} nombre={}", dto.getIdJuego(), dto.getTitulo(), e);
                 }
             }
+
+            // Crear 2+ usuarios DEVELOPER vinculados a desarrolladores existentes
+            if (desarrolladoresCreados.size() >= 2) {
+                crearUsuarioDeveloperSiNoExiste("devuser", "jsondev@platform.com", desarrolladoresCreados.get(0));
+                crearUsuarioDeveloperSiNoExiste("devuser2", "jsondev2@platform.com", desarrolladoresCreados.get(1));
+
+            } else if (desarrolladoresCreados.size() == 1) {
+                crearUsuarioDeveloperSiNoExiste("devuser", "jsondev@platform.com", desarrolladoresCreados.get(0));
+            }
+
         };
+    }
+
+    private void crearUsuarioDeveloperSiNoExiste(String username, String email, Desarrollador desarrollador) {
+        if (usuarioService.findAll().stream().anyMatch(u -> u.getNombreUsuario().equals(username))) {
+            Usuario existente = usuarioService.findByNombreUsuario(username);
+            if (existente.getRol() != RolesUsuarios.DEVELOPER || existente.getDesarrollador() == null) {
+                existente.setRol(RolesUsuarios.DEVELOPER);
+                existente.setDesarrollador(desarrollador);
+                usuarioService.save(existente);
+                logger.info("Usuario {} actualizado a DEVELOPER vinculado a {}", username, desarrollador.getNombre());
+            }
+            return;
+        }
+
+        try {
+            PerfilUsuario perfil = new PerfilUsuario(
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png",
+                "https://via.placeholder.com/1200x400",
+                "España",
+                "Desarrollador de " + desarrollador.getNombre(),
+                true
+            );
+
+            Usuario usuario = new Usuario(
+                username,
+                "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjXdOeKjQwBW9jDkEJHGKjgxKjLwJxS",
+                email,
+                EstadoUsuario.DESCONECTADO,
+                RolesUsuarios.DEVELOPER,
+                perfil
+            );
+            usuario.setDesarrollador(desarrollador);
+            usuarioService.save(usuario);
+            logger.info("Usuario DEVELOPER creado: {} / Dev@123! vinculado a {}", username, desarrollador.getNombre());
+        } catch (Exception e) {
+            logger.error("Error creando usuario developer: {}", e.getMessage());
+        }
     }
 }

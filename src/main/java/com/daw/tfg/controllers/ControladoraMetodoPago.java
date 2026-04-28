@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daw.tfg.enums.TipoMetodoPago;
 import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.service.MetodoPagoService;
@@ -88,7 +89,8 @@ public class ControladoraMetodoPago {
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<MetodoPago>> getMetodosPagoByTipo(@PathVariable String tipo) {
         try {
-            List<MetodoPago> metodos = metodoPagoService.findByTipo(tipo);
+            TipoMetodoPago tipoEnum = TipoMetodoPago.valueOf(tipo.toUpperCase());
+            List<MetodoPago> metodos = metodoPagoService.findByTipo(tipoEnum);
             if (metodos.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }

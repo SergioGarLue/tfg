@@ -15,8 +15,9 @@ import java.util.List;
  * Controladora REST para la gestión del carrito de compras.
  * Proporciona endpoints para operaciones CRUD y lógica de negocio del carrito.
  */
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/carrito")
+@RequestMapping("/api/v1/carrito")
 public class ControladoraCarrito {
 
     private final CarritoService carritoService;
@@ -148,18 +149,19 @@ public class ControladoraCarrito {
 
     /**
      * Procesa el checkout del carrito de un usuario.
-     * Crea una compra, vacía el carrito y asocia el método de pago.
+     * Crea una compra, vacía el carrito y asocia el método de pago o el paymentIntentId de Stripe.
      * 
-     * @param usuarioId    Identificador del usuario
-     * @param metodoPagoId Identificador del método de pago (opcional, puede ser
-     *                     null)
+     * @param usuarioId       Identificador del usuario
+     * @param metodoPagoId    Identificador del método de pago tradicional (opcional)
+     * @param paymentIntentId Identificador de Stripe PaymentIntent (opcional)
      * @return Respuesta 200 si el checkout es exitoso, 400 si hay error
      */
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestParam Long usuarioId,
-            @RequestParam(required = false) Long metodoPagoId) {
+            @RequestParam(required = false) Long metodoPagoId,
+            @RequestParam(required = false) String paymentIntentId) {
         try {
-            carritoService.checkout(usuarioId, metodoPagoId);
+            carritoService.checkout(usuarioId, metodoPagoId, paymentIntentId);
             return ResponseEntity.ok("Compra realizada correctamente");
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

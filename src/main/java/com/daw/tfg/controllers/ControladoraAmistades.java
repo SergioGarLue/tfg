@@ -127,5 +127,31 @@ public class ControladoraAmistades {
                     .body("Error interno al eliminar la amistad");
         }
     }
+
+    @GetMapping("/usuario/{usuarioId}/aceptadas")
+    public ResponseEntity<List<Usuario>> obtenerAmigosAceptados(@PathVariable Long usuarioId) {
+        try {
+            List<Usuario> amigos = amigoService.obtenerAmigosAceptados(usuarioId);
+            if (amigos.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(amigos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/usuario/{usuarioId}/pendientes")
+    public ResponseEntity<List<Amistad>> obtenerSolicitudesPendientes(@PathVariable Long usuarioId) {
+        try {
+            List<Amistad> solicitudes = amigoService.obtenerSolicitudesPendientes(usuarioId);
+            if (solicitudes.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(solicitudes);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
 

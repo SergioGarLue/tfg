@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.daw.tfg.enums.EstadoCompra;
+import com.daw.tfg.enums.ProveedorMetodoPago;
+import com.daw.tfg.enums.TipoMetodoPago;
 import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Compra;
-import com.daw.tfg.service.CompraServiceImpl;
 import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.MetodoPago;
 import com.daw.tfg.models.Usuario;
@@ -75,12 +76,27 @@ public class CarritoService {
     // Logica de negocio
 
     /**
+     * Obtiene el precio efectivo de un juego (rebajado si existe y es mayor que 0, sino el normal).
+     * Si el juego no está disponible o es gratis (precio 0), devuelve 0.
+     */
+    private Double getPrecioEfectivo(Juego juego) {
+        if (Boolean.FALSE.equals(juego.getDisponible())) {
+            return 0.0;
+        }
+        if (juego.getPrecioRebajado() != null && juego.getPrecioRebajado() > 0) {
+            return juego.getPrecioRebajado();
+        }
+        return juego.getPrecio();
+    }
+
+    /**
      * Obtiene todos los juegos en el carrito de un usuario.
      * 
      * @param usuarioId ID del usuario
      * @return Lista de juegos en el carrito
      * @throws IllegalArgumentException si el usuario no tiene carrito
      */
+    @Transactional
     public List<Juego> getAllGamesInCart(Long usuarioId) {
         Usuario usuario = usuarioService.findById(usuarioId);
         Carrito carrito = findByUsuario(usuario);
@@ -170,7 +186,8 @@ public class CarritoService {
     }
 
     /**
-     * Calcula el precio total del carrito de un usuario.
+     * Calcula el precio total del carrito de un usuario usando precios efectivos
+     * (considera precio rebajado y disponibilidad).
      * 
      * @param usuarioId ID del usuario
      * @return Precio total del carrito
@@ -185,10 +202,9 @@ public class CarritoService {
             return 0.0f;
         }
 
-        // Calcular total filtrando juegos sin precio para evitar NullPointerException
+        // Calcular total usando precio efectivo (rebajado si aplica)
         return (float) carrito.getJuegos().stream()
-                .filter(juego -> juego.getPrecio() != null)
-                .mapToDouble(Juego::getPrecio)
+                .mapToDouble(this::getPrecioEfectivo)
                 .sum();
     }
 
@@ -197,13 +213,14 @@ public class CarritoService {
      * el método de pago.
      * 
      * @param usuarioId    ID del usuario
-     * @param metodoPagoId ID del método de pago (puede ser null)
+     * @param metodoPagoId    ID del método de pago (puede ser null)
+     * @param paymentIntentId ID de Stripe PaymentIntent (opcional)
      * @throws IllegalArgumentException si el usuario no existe o no tiene carrito
      * @throws IllegalStateException    si el carrito está vacío o no tiene juegos
      *                                  inicializados
      */
     @Transactional
-    public void checkout(Long usuarioId, Long metodoPagoId) {
+    public void checkout(Long usuarioId, Long metodoPagoId, String paymentIntentId) {
         Usuario usuario = usuarioService.findById(usuarioId);
         Carrito carrito = findByUsuario(usuario);
 
@@ -220,6 +237,10 @@ public class CarritoService {
         MetodoPago metodoPago = null;
         if (metodoPagoId != null) {
             metodoPago = metodoPagoService.findById(metodoPagoId);
+        } else if (paymentIntentId != null) {
+            // Para pagos con Stripe, crear un MetodoPago genérico si no se proporciona uno
+            metodoPago = new MetodoPago(ProveedorMetodoPago.STRIPE, TipoMetodoPago.TARJETA, null, "Pago con Stripe", true, usuario);
+            metodoPago = metodoPagoService.save(metodoPago);
         }
 
         Double total = getTotalPrice(usuarioId).doubleValue();
@@ -230,6 +251,7 @@ public class CarritoService {
         compra.setEstado(EstadoCompra.PENDIENTE);
         compra.setUsuario(usuario);
         compra.setMetodoPago(metodoPago);
+        compra.setPaymentIntentId(paymentIntentId);
 
         // 2. Guardamos la compra primero
         compra = compraServiceImpl.save(compra);

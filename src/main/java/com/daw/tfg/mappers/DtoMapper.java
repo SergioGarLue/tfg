@@ -87,6 +87,7 @@ public class DtoMapper {
         dto.setFechaCompra(compra.getFechaCompra());
         dto.setTotal(compra.getTotal());
         dto.setEstado(compra.getEstado().name());
+        dto.setPaymentIntentId(compra.getPaymentIntentId());
         return dto;
     }
 
@@ -96,6 +97,7 @@ public class DtoMapper {
         compra.setIdCompra(dto.getIdCompra());
         compra.setFechaCompra(dto.getFechaCompra());
         compra.setTotal(dto.getTotal());
+        compra.setPaymentIntentId(dto.getPaymentIntentId());
         // estado from string
         return compra;
     }

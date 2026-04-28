@@ -32,12 +32,39 @@ public class ControladoraTienda {
      * @return Lista de todos los juegos o 204 si no hay juegos disponibles
      */
     @GetMapping
-    public ResponseEntity<List<Juego>> getAll() {
-        List<Juego> juegos = juegoService.findAll();
-        if (juegos.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<List<Juego>> getAll(@RequestParam(required = false) String filtro,
+                                              @RequestParam(required = false) String genero) {
+        try {
+            List<Juego> juegos;
+            if (genero != null && !genero.isBlank()) {
+                juegos = juegoService.findByGenerosNombre(genero);
+            } else if (filtro != null && !filtro.isBlank()) {
+                switch (filtro.toLowerCase()) {
+                    case "populares":
+                        juegos = juegoService.findTop100();
+                        break;
+                    case "gratis":
+                    case "free":
+                        juegos = juegoService.findFreeGames();
+                        break;
+                    case "ofertas":
+                        juegos = juegoService.findByDescuentoMayorIgual(50);
+                        break;
+                    default:
+                        juegos = juegoService.findAll();
+                        break;
+                }
+            } else {
+                juegos = juegoService.findAll();
+            }
+
+            if (juegos.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(juegos);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.ok(juegos);
     }
 
     /**

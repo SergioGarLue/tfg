@@ -50,6 +50,25 @@
     background-color: var(--hovers);
 }
 
+.btn-confirmar-avatar {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--steam-light-blue);
+    color: var(--steam-dark);
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-confirmar-avatar:hover {
+    background-color: var(--hovers);
+}
+
 .info-usuario {
     flex-grow: 1;
 }
@@ -218,39 +237,13 @@
     font-size: 0.95rem;
 }
 
-/* Reseñas */
-.resenas-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.resena {
-    padding: 20px;
-    background-color: var(--steam-card-bg);
-    border-radius: 5px;
-}
-
-.cabecera-resena {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.juego-resena {
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.puntuacion {
-    color: #f1c40f;
-}
-
-.texto-resena {
+.logros-empty {
+    display: none;
     color: var(--texto-gris);
-    line-height: 1.6;
+    font-size: 0.95rem;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
 }
 
 /* Responsive */

@@ -48,13 +48,12 @@ throw new IllegalArgumentException("El usuario ya existe");
 
         // Create default profile
         PerfilUsuario perfilNuevo = new PerfilUsuario(
-            "default_avatar.png",
-            "default_background.jpg", 
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/500px-Default_pfp.svg.png",
+            "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500&fit=crop&crop=center",
             "España",
             "Bienvenido " + userDto.getUsername() + "!",
             true
         );
-        perfilNuevo = perfilUsuarioRepository.save(perfilNuevo);
 
         Usuario userNuevo = DtoMapper.fromUsuarioDTO(userDto);
         userNuevo.setContraseñaCifrada(passwordEncoder.encode(userDto.getPasswd())); // override
@@ -89,12 +88,18 @@ throw new IllegalArgumentException("El usuario ya existe");
         return user.get();
     }
 
+    @Transactional(readOnly = true)
     public Usuario findByNombreUsuario(String nombre) {
         Optional<Usuario> user = usuarioRepository.findByNombreUsuario(nombre);
         if (user.isEmpty()) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
-        return user.get();
+        Usuario usuario = user.get();
+        // Inicializar el perfil para evitar proxy detached al acceder después de cerrar la sesión
+        if (usuario.getPerfilUsuario() != null) {
+            usuario.getPerfilUsuario().getImagenUsuario();
+        }
+        return usuario;
         
     }
 
@@ -121,6 +126,11 @@ throw new IllegalArgumentException("El usuario ya existe");
         
         // Now delete Usuario (cascades PerfilUsuario)
         usuarioRepository.delete(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Usuario> findByNombreUsuarioContainingIgnoreCase(String nombreParte) {
+        return usuarioRepository.findByNombreUsuarioContainingIgnoreCase(nombreParte);
     }
 
     public Optional<Usuario> authenticate(String username, String password) {
@@ -170,18 +180,41 @@ throw new IllegalArgumentException("El usuario ya existe");
     /**
      * Actualiza el perfil del usuario usando DTO.
      */
+    @Transactional
     public void updatePerfilUsuario(Long userId, Perfil_UsuarioDTO dto) {
         Usuario usuario = findById(userId);
         PerfilUsuario perfil = usuario.getPerfilUsuario();
         
-        PerfilUsuario updatedPerfil = DtoMapper.fromPerfilUsuarioDTO(dto);
-        perfil.setImagenUsuario(updatedPerfil.getImagenUsuario());
-        perfil.setImagenFondoPerfil(updatedPerfil.getImagenFondoPerfil());
-        perfil.setPais(updatedPerfil.getPais());
-        perfil.setBiografia(updatedPerfil.getBiografia());
-        perfil.setEstado(updatedPerfil.getEstado());
-        
-        perfilUsuarioRepository.save(perfil);
+        if (perfil == null) {
+            // Crear perfil si no existe
+            perfil = new PerfilUsuario(
+                dto.getImagenUsuario() != null ? dto.getImagenUsuario() : "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500&fit=crop&crop=center",
+                dto.getImagenFondoPerfil() != null ? dto.getImagenFondoPerfil() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=400&fit=crop",
+                dto.getPais() != null ? dto.getPais() : "España",
+                dto.getBiografia() != null ? dto.getBiografia() : "¡Hola! Soy un nuevo usuario de Xyron.",
+                dto.getEstado() != null ? dto.getEstado() : true
+            );
+            usuario.setPerfilUsuario(perfil);
+            perfilUsuarioRepository.save(perfil);
+            usuarioRepository.save(usuario);
+        } else {
+            if (dto.getImagenUsuario() != null) {
+                perfil.setImagenUsuario(dto.getImagenUsuario());
+            }
+            if (dto.getImagenFondoPerfil() != null) {
+                perfil.setImagenFondoPerfil(dto.getImagenFondoPerfil());
+            }
+            if (dto.getPais() != null) {
+                perfil.setPais(dto.getPais());
+            }
+            if (dto.getBiografia() != null) {
+                perfil.setBiografia(dto.getBiografia());
+            }
+            if (dto.getEstado() != null) {
+                perfil.setEstado(dto.getEstado());
+            }
+            
+            perfilUsuarioRepository.save(perfil);
+        }
     }
 }
-

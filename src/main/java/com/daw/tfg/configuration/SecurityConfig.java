@@ -2,12 +2,14 @@ package com.daw.tfg.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.daw.tfg.security.JwtAuthenticationFilter;
@@ -31,9 +33,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         // creamos los filtros
-        // problema con los DELETE,PUT Y POST por el csrf deshabilidato para pruebas
-        // posteriormente se deberia cambiar para que compruebe si tienes un JWT(token)
-        // y en caso de tenerlo permitir estos metodos curl (por seguridad)
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -41,14 +40,32 @@ public class SecurityConfig {
                         .frameOptions(fo -> fo.disable())
                 )
 .authorizeHttpRequests(auth -> auth
-                        // Permitimos todos los endpoints de autenticación (/login, /register, /refresh)
-                        // .requestMatchers("/api/auth/**").permitAll()
-                        // // Permitimos la raíz y las páginas HTML principales
-                        // .requestMatchers("/", "/index.html", "/formulario.html", "/login.html", "/h2-console/**").permitAll()
-                        // // Permitimos recursos estáticos (JS, CSS, Imágenes) sin importar la carpeta
-                        // .requestMatchers("/*.js", "/*.css", "/js/**", "/css/**", "/static/**", "/estilos/**", "/favicon.ico").permitAll()
-                        // .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().permitAll())
+                        // Rutas públicas de vistas
+                        .requestMatchers(
+                                "/", "/index.html",
+                                "/login", "/login.html",
+                                "/registro", "/registro.html",
+                                "/tienda", "/tienda/**", "/juego/**",
+                                "/perfil", "/coleccion", "/deseados",
+                                "/carrito", "/amigos", "/configuracion",
+                                "/desarrollador/**", "/admin/**"
+                        ).permitAll()
+                        // Endpoints de autenticación
+                        .requestMatchers("/api/auth/**").permitAll()
+                        // Recursos estáticos
+                        .requestMatchers("/static/**", "/sidebar.html", "/stripe-payment.html", "/js/**", "/css/**", "/estilos/**", "/fontawesome-free-7.1.0-web/**", "/images/**", "/JSON/**", "/favicon.ico").permitAll()
+                        // Tienda pública
+                        .requestMatchers("/api/tienda/**").permitAll()
+                        // H2-Console
+                        .requestMatchers("/h2-console/**").permitAll()
+                        // Admin endpoints
+                        .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
+                        // APIs por defecto requieren autenticación
+                        .requestMatchers("/api/**").authenticated()
+                        // Cualquier otra petición requiere autenticación
+                        .anyRequest().authenticated())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build(); // devolvemos los filtros que hemos creado

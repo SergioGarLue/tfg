@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +40,12 @@ public class Juego {
     @Column(name = "porcentaje")
     private Integer porcentaje;
 
+    @Column(name = "precio_rebajado")
+    private Double precioRebajado;
+
+    @Column(nullable = false, name = "disponible")
+    private Boolean disponible = true;
+
     @Column(length = 1000, name = "descripcion")
     private String descripcion;
 
@@ -63,13 +68,8 @@ public class Juego {
     @Column(name = "screenshot")
     private List<String> screenshots;
 
-    @OneToMany(mappedBy = "juego")
-    @JsonIgnore
-    private Set<Resena> resenas;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "juego_genero", joinColumns = @JoinColumn(name = "id_juego"), inverseJoinColumns = @JoinColumn(name = "id_genero"))
-    @JsonIgnore
     private Set<Genero> generos;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -97,7 +97,7 @@ public class Juego {
     public Juego(Desarrollador desarrollador, String descripcion,
          Editor editor, String fechaLanzamiento, Float pesoJuego, List<String> plataformas, Set<Genero> generos,
          Long idJuego, String imagen, Juego juegoPadre, Double precio, Integer porcentaje,
-          Set<Resena> resenas, String tipo, String titulo) {
+         String tipo, String titulo) {
             
         this.desarrollador = desarrollador;
         this.descripcion = descripcion;
@@ -111,9 +111,9 @@ public class Juego {
         this.juegoPadre = juegoPadre;
         this.precio = precio;
         this.porcentaje = porcentaje;
-        this.resenas = resenas;
         this.tipo = tipo;
         this.titulo = titulo;
+        this.disponible = true;
     }
 
     

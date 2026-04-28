@@ -1,7 +1,17 @@
 TODO.md
 HELP.md
+
+### Documentos de Análisis y Desarrollo ###
+ANALISIS_PENDIENTES.md
+IMPLEMENTACION_CODIGO.md
+RESUMEN_EJECUTIVO.md
+REFACTOR_DESARROLLADOR_EDITOR.md
+QUICK_REFERENCE.md
+INDICE_DOCUMENTOS.md
+TODO_PROGRESS.md
+
 target/
-.mvn/wrapper/maven-wrapper.jar
+../mvnw/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 

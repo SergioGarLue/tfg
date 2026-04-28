@@ -15,4 +15,5 @@ public interface ColeccionFavoritosRepository extends JpaRepository<ColeccionFav
     Optional<ColeccionFavoritos> findByUsuarioAndJuego(Usuario usuario, Juego juego);
     List<ColeccionFavoritos> findByUsuario(Usuario usuario);
     List<ColeccionFavoritos> findByUsuarioAndEsFavorito(Usuario usuario, Boolean esFavorito);
+    List<ColeccionFavoritos> findByUsuarioOrderByFechaAdquisicionDesc(Usuario usuario);
 }

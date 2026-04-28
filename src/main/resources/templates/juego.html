@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego - Solar Sistem</title>
+  <title>Juego - Xyron</title>
 <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
 <link rel="stylesheet" href="/estilos/index.css" />
 <link rel="stylesheet" href="/estilos/juego.css" />
@@ -12,104 +12,10 @@
 
   <div class="contenedor-principal">
     
-    <aside class="barra-lateral">
-      <div class="zona-superior">
-        <div class="logo">
-          <a href="/index"><i class="fa-solid fa-dragon"></i></a>
-        </div>
-        
-        <nav>
-          <ul>
-            <li class="item-desplegable activo">
-              <div class="cabecera-desplegable" id="boton-tienda">
-                <a href="/tienda"><i class="fa-solid fa-store icono"></i></a>
-                <span class="texto-enlace">Tienda</span>
-              </div>
-              <div class="contenedor-sublista" id="menu-tienda">
-                <ul class="lista-subitems">
-                  <li>Ofertas</li>
-                  <li>Populares</li>
-                  <li>Próximamente</li>
-                </ul>
-              </div>
-            </li>
-
-            <li class="item-desplegable">
-              <div class="cabecera-desplegable" id="boton-coleccion">
-                <a href="/coleccion"><i class="fa-solid fa-book-open icono"></i></a>
-                <span class="texto-enlace">Coleccion</span>
-              </div>
-              <div class="contenedor-sublista cerrado" id="menu-coleccion">
-                <ul class="lista-subitems">
-                  <li>Metroidvania</li>
-                  <li>Souls</li>
-                  <li>Estrategia</li>
-                  <li class="enlace-mas">Mostrar mas</li>
-                </ul>
-              </div>
-            </li>
-
-            
-          </ul>
-        </nav>
-      </div>
-
-      <div class="pie-barra-lateral">
-        <div class="iconos-inferiores">
-          <div class="contenedor-notificaciones">
-            <button id="boton-notificaciones" class="boton-notificaciones"><i class="fa-solid fa-bell"></i></button>
-            <div class="menu-notificaciones" id="menu-notificaciones">
-              <div class="cabecera-notificaciones">
-                <span>Notificaciones</span>
-                <button class="btn-marcar-leidas">Marcar todas como leídas</button>
-              </div>
-              <div class="lista-notificaciones">
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-gift"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">¡Oferta especial! 50% de descuento en Dark Souls III</p>
-                    <span class="tiempo-notificacion">Hace 2 horas</span>
-                  </div>
-                </div>
-                <div class="notificacion no-leida">
-                  <div class="icono-notificacion"><i class="fa-solid fa-user-plus"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">María García te ha enviado una solicitud de amistad</p>
-                    <span class="tiempo-notificacion">Ayer</span>
-                  </div>
-                </div>
-                <div class="notificacion">
-                  <div class="icono-notificacion"><i class="fa-solid fa-check-circle"></i></div>
-                  <div class="contenido-notificacion">
-                    <p class="texto-notificacion">Tu compra de Elden Ring se ha completado</p>
-                    <span class="tiempo-notificacion">Hace 3 días</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div><a href="/amigos"><i class="fa-solid fa-user"></i></a></div>
-          <div><i class="fa-solid fa-star"></i></div>
-        </div>
-        <div class="separador-lateral"></div>
-        <div class="perfil-usuario">
-          <a href="/perfil" style="text-decoration: none; color: inherit; display: contents;">
-            <div class="avatar">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Usuario">
-            </div>
-            <span class="nombre-usuario">Paco Leon</span>
-          </a>
-          <a href="/configuracion" id="conf"><i class="fa-solid fa-gear"></i></a>
-        </div>
-      </div>
-    </aside>
+        <div id="sidebar-container"></div>
 
     <main class="contenido">
-      <header class="barra-superior">
-        <div class="contenedor-busqueda">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar en la tienda...">
-        </div>
+      <header class="barra-superior" style="display: flex; justify-content: flex-end; align-items: center; padding: 1rem;">
         <div class="boton-carrito">
           <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
           <span class="contador-carrito" id="badge-carrito">0</span>
@@ -122,10 +28,13 @@
             <div class="imagen-principal">
               <img src="https://picsum.photos/800/450?random=100" alt="Juego">
             </div>
-            <div class="miniaturas">
-              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1">
-              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2">
-              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3">
+            <div class="miniaturas" id="miniaturas-container">
+              <img src="https://picsum.photos/200/120?random=101" alt="Miniatura 1" class="miniatura">
+              <img src="https://picsum.photos/200/120?random=102" alt="Miniatura 2" class="miniatura">
+              <img src="https://picsum.photos/200/120?random=103" alt="Miniatura 3" class="miniatura">
+            </div>
+            <div class="descripcion-juego">
+              <p>Cargando descripción...</p>
             </div>
           </div>
 
@@ -143,13 +52,9 @@
               <span class="etiqueta">Mundo Abierto</span>
             </div>
 
-            <div class="descripcion-juego">
-              <p>Cargando descripción...</p>
-            </div>
-
             <div class="capturas-juego">
               <h3>Capturas</h3>
-              <div class="grid-capturas">
+              <div class="grid-capturas" id="capturas-container">
                 <img src="https://picsum.photos/300/170?random=104" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=105" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=106" alt="Captura">
@@ -174,11 +79,6 @@
               <button class="btn-comprar"><i class="fa-solid fa-cart-shopping"></i> Añadir al carrito</button>
               <button class="btn-deseados"><i class="fa-solid fa-heart"></i> Lista de deseados</button>
             </div>
-
-            <div class="etiquetas-compra">
-              <span class="etiqueta-compra"><i class="fa-solid fa-tag"></i> En oferta</span>
-              <span class="etiqueta-compra"><i class="fa-solid fa-percent"></i> -25%</span>
-            </div>
           </aside>
 
         </div>
@@ -186,50 +86,22 @@
     </main>
   </div>
 
+  <script src="/js/auth.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // --- Lógica de Menús Desplegables ---
-      const Desplegable = (idBoton, idMenu) => {
-        const boton = document.getElementById(idBoton);
-        const menu = document.getElementById(idMenu);
-        if (boton && menu) {
-          boton.addEventListener("click", () => {
-            menu.classList.toggle("cerrado");     
-          });
-        }
-      };
-      Desplegable("boton-tienda", "menu-tienda");
-      Desplegable("boton-coleccion", "menu-coleccion");
-
       // Simulación contador carrito
       const badge = document.getElementById('badge-carrito');
       if (badge) {
         badge.style.display = 'none';
       }
 
-      // --- Lógica de Notificaciones ---
-      const botonNotificaciones = document.getElementById('boton-notificaciones');
-      const menuNotificaciones = document.getElementById('menu-notificaciones');
-
-      if (botonNotificaciones && menuNotificaciones) {
-        botonNotificaciones.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menuNotificaciones.classList.toggle('activo');
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!menuNotificaciones.contains(e.target) && !botonNotificaciones.contains(e.target)) {
-            menuNotificaciones.classList.remove('activo');
-          }
-        });
-
-        const btnMarcarLeidas = menuNotificaciones.querySelector('.btn-marcar-leidas');
-        if (btnMarcarLeidas) {
-          btnMarcarLeidas.addEventListener('click', () => {
-            const notificaciones = menuNotificaciones.querySelectorAll('.notificacion.no-leida');
-            notificaciones.forEach(n => n.classList.remove('no-leida'));
-          });
+      function normalizePrice(price) {
+        const p = Number(price) || 0;
+        if (p >= 100 && Number.isInteger(p)) {
+          return p / 100;
         }
+        return p;
       }
 
       // CARGAR DATOS DEL JUEGO
@@ -246,7 +118,7 @@
         // FETCH JSON
         const response = await fetch('/JSON/steam_top_1000_sellers.json');
         if (!response.ok) throw new Error('No se pudo cargar el JSON');
-        
+
         const juegos = await response.json();
         console.log('Juegos cargados:', juegos.length);
 
@@ -265,16 +137,26 @@
 
         // RENDERIZAR DATOS
         document.querySelector('.titulo-juego').textContent = juego.name;
-        document.title = `${juego.name} - Solar Sistem`;
+        document.title = `${juego.name} - Xyron`;
 
         const imgPrincipal = document.querySelector('.imagen-principal img');
         if (imgPrincipal) imgPrincipal.src = juego.header_image;
 
-        const miniaturasContainer = document.querySelector('.miniaturas');
+        const miniaturasContainer = document.querySelector('#miniaturas-container');
         if (juego.screenshots && juego.screenshots.length > 0) {
-          miniaturasContainer.innerHTML = juego.screenshots.slice(0, 3).map(src => 
-            `<img src="${src}" alt="Miniatura" loading="lazy">`
+          const miniaturasHTML = juego.screenshots.slice(0, 3).map((src, idx) =>
+            `<img src="${src}" alt="Miniatura ${idx + 1}" class="miniatura ${idx === 0 ? 'active' : ''}" loading="lazy">`
           ).join('');
+          miniaturasContainer.innerHTML = miniaturasHTML;
+
+          // Agregar eventos de click a las miniaturas
+          document.querySelectorAll('.miniatura').forEach((img, index) => {
+            img.addEventListener('click', () => {
+              imgPrincipal.src = img.src;
+              document.querySelectorAll('.miniatura').forEach(m => m.classList.remove('active'));
+              img.classList.add('active');
+            });
+          });
         }
 
         const devLink = document.querySelector('.desarrollador-juego a');
@@ -282,7 +164,7 @@
 
         const etiquetasContainer = document.querySelector('.etiquetas-juego');
         if (juego.genres && juego.genres.length > 0) {
-          etiquetasContainer.innerHTML = juego.genres.map(g => 
+          etiquetasContainer.innerHTML = juego.genres.map(g =>
             `<span class="etiqueta">${g}</span>`
           ).join('');
         }
@@ -290,9 +172,13 @@
         const descContainer = document.querySelector('.descripcion-juego p');
         if (descContainer) descContainer.textContent = juego.description || 'Sin descripción';
 
-        const gridCapturas = document.querySelector('.grid-capturas');
-        if (juego.screenshots && juego.screenshots.length > 0) {
-          gridCapturas.innerHTML = juego.screenshots.slice(0, 4).map(src => 
+        const gridCapturas = document.querySelector('#capturas-container');
+        if (juego.screenshots && juego.screenshots.length > 3) {
+          gridCapturas.innerHTML = juego.screenshots.slice(3, 7).map(src =>
+            `<img src="${src}" alt="Captura" loading="lazy">`
+          ).join('');
+        } else if (juego.screenshots && juego.screenshots.length > 0) {
+          gridCapturas.innerHTML = juego.screenshots.map(src =>
             `<img src="${src}" alt="Captura" loading="lazy">`
           ).join('');
         }
@@ -301,7 +187,7 @@
         if (fechaElement) fechaElement.textContent = juego.release_date || 'Por confirmar';
 
         const price = juego.price || { final: 0, discount_percent: 0 };
-        const finalPrice = Number(price.final) || 0;
+        const finalPrice = normalizePrice(price.final);
         const discount = Number(price.discount_percent) || 0;
 
         const priceFinalElem = document.querySelector('.precio-final');
@@ -332,16 +218,140 @@
           }
         }
 
+        // Funciones comunes carrito
+        const CARRITO_KEY = 'solarSistemCart';
+
+        function getCart() {
+          return JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+        }
+
+        function saveCart(cart) {
+          localStorage.setItem(CARRITO_KEY, JSON.stringify(cart));
+          updateBadges();
+        }
+
+        function addToCart(juego) {
+          let cart = getCart();
+          const existing = cart.find(item => item.appid === juego.appid);
+          if (existing) {
+            // No permitir duplicados - el juego ya está en el carrito
+            console.log('El juego ya está en el carrito');
+            return false;
+          } else {
+            // Agregar con cantidad siempre = 1
+            cart.push({
+              appid: juego.appid,
+              name: juego.name,
+              header_image: juego.header_image,
+              finalPrice: normalizePrice(juego.price?.final),
+              quantity: 1
+            });
+          }
+          saveCart(cart);
+          return true;
+        }
+
+        function updateBadges() {
+          const totalItems = getCart().length; // Contar solo items, no cantidad
+          document.querySelectorAll('#badge-carrito').forEach(badge => {
+            if (totalItems > 0) {
+              badge.style.display = 'flex';
+              badge.textContent = totalItems;
+            } else {
+              badge.style.display = 'none';
+            }
+          });
+        }
+
+        // Verificar si el juego ya está en la colección (desde el backend)
+        let juegoEnColeccion = false;
+        const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
+        if (usuario && usuario.idUsuario) {
+          try {
+            const response = await fetch(`/api/coleccion/${usuario.idUsuario}`);
+            if (response.ok) {
+              const juegosColeccion = await response.json();
+              juegoEnColeccion = juegosColeccion.some(j => Number(j.idJuego) === Number(juego.appid));
+              console.log('Juego en colección (backend):', juegoEnColeccion);
+            }
+          } catch (e) {
+            console.error('Error consultando colección:', e);
+          }
+        }
+
+        // Bind buttons
         const btnComprar = document.querySelector('.btn-comprar');
-        if (btnComprar) {
-          btnComprar.onclick = () => alert(`"${juego.name}" añadido al carrito`);
+        if (btnComprar && juego) {
+          if (juegoEnColeccion) {
+            // Si ya está en la colección, deshabilitar el botón
+            btnComprar.disabled = true;
+            btnComprar.innerHTML = '<i class="fa-solid fa-check"></i> Ya está en tu colección';
+            btnComprar.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            btnComprar.style.cursor = 'not-allowed';
+            btnComprar.style.opacity = '0.7';
+          } else {
+            // Si no está, permitir la compra
+            btnComprar.onclick = () => {
+              const added = addToCart(juego);
+              if (added) {
+                btnComprar.textContent = '✓ Añadido';
+                btnComprar.style.background = '#28a745';
+                btnComprar.disabled = true;
+                setTimeout(() => {
+                  btnComprar.textContent = 'Añadir al carrito';
+                  btnComprar.style.background = '';
+                  btnComprar.disabled = false;
+                }, 2000);
+              } else {
+                // Juego ya está en el carrito
+                alert('Este juego ya está en tu carrito');
+              }
+            };
+          }
         }
 
         const btnDeseados = document.querySelector('.btn-deseados');
         if (btnDeseados) {
-          btnDeseados.onclick = () => alert(`"${juego.name}" añadido a deseados`);
+          // Verificar si el juego ya está en deseados al cargar
+          const listaDeseadosInit = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+          const estaEnDeseados = listaDeseadosInit.includes(juego.appid);
+
+          if (estaEnDeseados) {
+            btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Quitar de deseados';
+            btnDeseados.style.background = '#ffc107';
+          }
+
+          btnDeseados.onclick = () => {
+            // Obtener la lista actual de deseados
+            const listaDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+
+            // Verificar si ya está en la lista
+            if (!listaDeseados.includes(juego.appid)) {
+              // Agregar a deseados
+              listaDeseados.push(juego.appid);
+              localStorage.setItem('listaDeseados', JSON.stringify(listaDeseados));
+              btnDeseados.innerHTML = '<i class="fa-solid fa-check"></i> Añadido a deseados';
+              btnDeseados.style.background = '#ffc107';
+              setTimeout(() => {
+                btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Quitar de deseados';
+                btnDeseados.style.background = '#ffc107';
+              }, 2000);
+            } else {
+              // Eliminar de deseados
+              const listaActualizada = listaDeseados.filter(id => id !== juego.appid);
+              localStorage.setItem('listaDeseados', JSON.stringify(listaActualizada));
+              btnDeseados.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminado';
+              btnDeseados.style.background = '#dc3545';
+              setTimeout(() => {
+                btnDeseados.innerHTML = '<i class="fa-solid fa-heart"></i> Añadir a deseados';
+                btnDeseados.style.background = '';
+              }, 2000);
+            }
+          };
         }
 
+        // Init badge
+        updateBadges();
         console.log('✅ Juego cargado correctamente');
 
       } catch (error) {
@@ -351,5 +361,8 @@
     });
   </script>
 
+  <script src='/js/script.js'></script>
 </body>
 </html>
+
+

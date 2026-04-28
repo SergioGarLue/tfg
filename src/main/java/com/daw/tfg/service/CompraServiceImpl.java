@@ -11,7 +11,6 @@ import com.daw.tfg.models.Juego;
 import com.daw.tfg.models.Usuario;
 import com.daw.tfg.repository.CarritoRepository;
 import com.daw.tfg.repository.CompraRepository;
-import com.daw.tfg.repository.JuegoRepository;
 import com.daw.tfg.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,11 +25,14 @@ public class CompraServiceImpl implements ICompraService {
 
     private final CompraRepository compraRepository;
     private final UsuarioRepository usuarioRepository;
-    private final JuegoRepository juegoRepository;
     private final CarritoRepository carritoRepository;
     private final ColeccionService coleccionService;
-    private final DtoMapper dtoMapper;
 
+    /**
+     * @deprecated Este método procesa la compra inmediatamente y entrega juegos.
+     *             Para pagos con pasarelas como Stripe, usar checkout y esperar confirmación vía webhook.
+     */
+    @Deprecated
     @Override
     @Transactional
     public CompraDTO procesarCompra(Long usuarioId) {
@@ -77,7 +79,7 @@ public class CompraServiceImpl implements ICompraService {
         carrito.getJuegos().clear();
         carritoRepository.save(carrito);
 
-        return dtoMapper.toCompraDTO(compra);
+        return DtoMapper.toCompraDTO(compra);
     }
 
     @Override
@@ -85,19 +87,54 @@ public class CompraServiceImpl implements ICompraService {
         usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         List<Compra> compras = compraRepository.findByUsuarioIdUsuario(usuarioId);
-        return dtoMapper.toCompraDTOList(compras); // será agregado en mapper
+        return DtoMapper.toCompraDTOList(compras);
     }
 
     @Override
     public CompraDTO getDetalleCompra(Long compraId) {
         Compra compra = compraRepository.findById(compraId)
                 .orElseThrow(() -> new ResourceNotFoundException("Compra no encontrada con ID: " + compraId));
-        return dtoMapper.toCompraDTO(compra);
+        return DtoMapper.toCompraDTO(compra);
     }
 
     // CRUD básico mantenido opcional
     public Compra save(Compra compra) {
         return compraRepository.save(compra);
+    }
+
+    @Transactional
+    public Compra actualizarEstadoCompraPorPaymentIntent(String paymentIntentId, EstadoCompra estado) {
+        if (paymentIntentId == null || paymentIntentId.isBlank()) {
+            throw new BadRequestException("paymentIntentId es obligatorio para actualizar el estado de la compra");
+        }
+
+        Compra compra = compraRepository.findByPaymentIntentId(paymentIntentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Compra no encontrada para paymentIntentId: " + paymentIntentId));
+
+        if (compra.getEstado() == EstadoCompra.COMPLETADA) {
+            return compra;
+        }
+
+        if (estado == EstadoCompra.COMPLETADA) {
+            entregarJuegosDeCompra(compra);
+        }
+
+        compra.setEstado(estado);
+        return compraRepository.save(compra);
+    }
+
+    private void entregarJuegosDeCompra(Compra compra) {
+        if (compra == null || compra.getUsuario() == null || compra.getCarrito() == null) {
+            throw new BadRequestException("Compra inválida para entregar juegos");
+        }
+
+        List<Juego> juegos = compra.getCarrito().getJuegos() == null
+                ? List.of()
+                : compra.getCarrito().getJuegos().stream().toList();
+
+        for (Juego juego : juegos) {
+            coleccionService.addJuegoToCollectionIfAbsent(compra.getUsuario().getIdUsuario(), juego.getIdJuego(), null);
+        }
     }
 }
 

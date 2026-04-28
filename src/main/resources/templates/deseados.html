@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Lista de Deseados</title>
+  <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="/estilos/index.css" />
+</head>
+<body>
+
+  <div class="contenedor-principal">
+    
+        <div id="sidebar-container"></div>
+
+    <main class="contenido">
+      <header class="barra-superior">
+        <div class="contenedor-busqueda">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar en tu lista de deseados...">
+        </div>
+        <div class="boton-carrito">
+          <a href="/carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+          <span class="contador-carrito" id="badge-carrito">0</span>
+        </div>
+      </header>
+
+      <div class="scroll-contenido">
+        <section class="seccion-juegos-completa">
+          <div class="seccion-categoria">
+             <h3>Tu Lista de Deseados</h3>
+          </div>
+        
+          <div class="cuadricula-grande" id="deseados-juegos">
+            <!-- Los juegos deseados se cargarán dinámicamente -->
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let juegosDeseadosLista = []; // Guardar los juegos para búsqueda
+      const searchInput = document.querySelector('.contenedor-busqueda input');
+
+      // Lógica del Carrito
+      const actualizarContadorCarrito = (cantidad) => {
+        const badge = document.getElementById('badge-carrito');
+        if (badge) {
+          if (cantidad > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = cantidad;
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      };
+      
+      // Obtener cantidad de items del carrito (solo contar items, no cantidad)
+      const CARRITO_KEY = 'solarSistemCart';
+      const cart = JSON.parse(localStorage.getItem(CARRITO_KEY)) || [];
+      const itemsEnCarrito = cart.length;
+      actualizarContadorCarrito(itemsEnCarrito);
+
+      // --- Cargar juegos de la lista de deseados ---
+      const cargarDeseados = async () => {
+        try {
+          // Obtener los IDs guardados en localStorage
+          const idsDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+          console.log('IDs deseados:', idsDeseados);
+          
+          const contenedor = document.getElementById('deseados-juegos');
+          
+          if (idsDeseados.length === 0) {
+            contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No tienes juegos en tu lista de deseados</p>';
+            return;
+          }
+          
+          // Cargar el JSON
+          const response = await fetch('/JSON/steam_top_1000_sellers.json');
+          if (!response.ok) throw new Error("Error al cargar el JSON");
+          const juegos = await response.json();
+          
+          // Filtrar juegos que están en la lista de deseados
+          const juegosDeseados = juegos.filter(j => idsDeseados.includes(j.appid));
+          console.log('Juegos deseados encontrados:', juegosDeseados.length);
+          
+          // Guardar los juegos para búsqueda
+          juegosDeseadosLista = juegosDeseados;
+          
+          // Renderizar los juegos
+          renderizarDeseados(juegosDeseados);
+
+          // Configurar búsqueda
+          if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+              const query = e.target.value.toLowerCase();
+              const juegosFilltrados = juegosDeseadosLista.filter(juego => 
+                (juego.name || '').toLowerCase().includes(query)
+              );
+              renderizarDeseados(juegosFilltrados);
+            });
+          }
+        } catch (error) {
+          console.error("Error al cargar deseados:", error);
+        }
+      };
+
+      const renderizarDeseados = (juegos) => {
+        const contenedor = document.getElementById('deseados-juegos');
+        if (!contenedor) return;
+
+        if (juegos.length === 0) {
+          contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #a09ba6;">No se encontraron juegos</p>';
+          return;
+        }
+
+        contenedor.innerHTML = '';
+        juegos.forEach(juego => {
+          const imagenUrl = juego.header_image || `https://cdn.akamai.steamstatic.com/steam/apps/${juego.appid}/header.jpg`;
+          const tarjetaDiv = document.createElement('div');
+          tarjetaDiv.className = 'tarjeta-deseado';
+          tarjetaDiv.style.position = 'relative';
+          tarjetaDiv.innerHTML = `
+            <a href="/juego/${juego.appid}" class="tarjeta" style="text-decoration: none; color: inherit;">
+              <img src="${imagenUrl}" alt="${juego.name}">
+              <div class="info-tarjeta">
+                <span class="titulo-juego">${juego.name}</span>
+                <div class="etiquetas">${juego.price?.final === 0 ? 'Gratis' : (juego.price?.final || 'N/A') + '€'}</div>
+              </div>
+            </a>
+            <button class="btn-eliminar-deseado" data-appid="${juego.appid}" style="position: absolute; top: 10px; right: 10px; background: rgba(220, 53, 69, 0.9); color: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          `;
+          contenedor.appendChild(tarjetaDiv);
+        });
+        
+        // Agregar eventos a los botones de eliminar
+        document.querySelectorAll('.btn-eliminar-deseado').forEach(btn => {
+          btn.addEventListener('mouseover', () => {
+            btn.style.background = 'rgba(220, 53, 69, 1)';
+            btn.style.transform = 'scale(1.1)';
+          });
+          btn.addEventListener('mouseout', () => {
+            btn.style.background = 'rgba(220, 53, 69, 0.9)';
+            btn.style.transform = 'scale(1)';
+          });
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const appid = parseInt(btn.getAttribute('data-appid'));
+            let listaDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
+            listaDeseados = listaDeseados.filter(id => id !== appid);
+            localStorage.setItem('listaDeseados', JSON.stringify(listaDeseados));
+            console.log('Juego eliminado de deseados:', appid);
+            cargarDeseados(); // Recargar la lista
+          });
+        });
+      };
+      
+      // Llamar la función
+      cargarDeseados();
+
+    });
+  </script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
+  <script src="/js/route-protection.js"></script>
+  <script src='/js/script.js'></script>
+</body>
+</html>
+
+

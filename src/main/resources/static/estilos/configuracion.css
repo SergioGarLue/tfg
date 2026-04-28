@@ -62,6 +62,27 @@
     box-sizing: border-box;
 }
 
+.ruta-input-group {
+    display: grid;
+    gap: 10px;
+}
+
+.ruta-input-group button {
+    width: auto;
+    padding: 12px 18px;
+    background-color: #2e86de;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.ruta-input-group button:hover {
+    background-color: #3c97f0;
+}
+
 .campo-form input:focus,
 .campo-form select:focus {
     outline: none;
