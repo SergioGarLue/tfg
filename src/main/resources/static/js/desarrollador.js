@@ -82,7 +82,6 @@ function renderizarTabla(juegos) {
         <td>
           <select class="select-disponible" data-campo="disponible">
             <option value="disponible" ${estadoValor === 'disponible' ? 'selected' : ''}>Disponible</option>
-            <option value="no-disponible" ${estadoValor === 'no-disponible' ? 'selected' : ''}>No disponible</option>
             <option value="gratis" ${estadoValor === 'gratis' ? 'selected' : ''}>Gratis</option>
           </select>
         </td>
