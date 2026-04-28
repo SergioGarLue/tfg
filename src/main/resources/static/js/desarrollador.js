@@ -94,6 +94,63 @@ function renderizarTabla(juegos) {
       </tr>
     `;
   }).join('');
+
+  // Activar calculadora de descuentos en cada fila
+  juegos.forEach(juego => {
+    const fila = tbody.querySelector(`tr[data-id="${juego.idJuego}"]`);
+    if (fila) bindCalculadoraDescuento(fila);
+  });
+}
+
+/**
+ * Vincula los inputs de precio, porcentaje y precio rebajado para calcularse automáticamente.
+ */
+function bindCalculadoraDescuento(fila) {
+  const precioInput = fila.querySelector('input[data-campo="precio"]');
+  const porcentajeInput = fila.querySelector('input[data-campo="porcentaje"]');
+  const rebajadoInput = fila.querySelector('input[data-campo="precioRebajado"]');
+  const selectEstado = fila.querySelector('select[data-campo="disponible"]');
+
+  if (!precioInput || !porcentajeInput || !rebajadoInput) return;
+
+  // Al cambiar precio base: recalcular precio rebajado según porcentaje actual
+  precioInput.addEventListener('input', () => {
+    if (selectEstado.value === 'gratis') return;
+    const precio = parseFloat(precioInput.value) || 0;
+    const porcentaje = parseInt(porcentajeInput.value, 10);
+    if (precio > 0 && porcentaje > 0) {
+      const rebajado = precio * (1 - porcentaje / 100);
+      rebajadoInput.value = rebajado > 0 ? rebajado.toFixed(2) : '';
+    }
+  });
+
+  // Al cambiar porcentaje: calcular precio rebajado
+  porcentajeInput.addEventListener('input', () => {
+    if (selectEstado.value === 'gratis') return;
+    const precio = parseFloat(precioInput.value) || 0;
+    const porcentaje = parseInt(porcentajeInput.value, 10) || 0;
+    if (precio > 0) {
+      if (porcentaje === 0) {
+        rebajadoInput.value = '';
+      } else {
+        const rebajado = precio * (1 - porcentaje / 100);
+        rebajadoInput.value = rebajado > 0 ? rebajado.toFixed(2) : '';
+      }
+    }
+  });
+
+  // Al cambiar precio rebajado: calcular porcentaje
+  rebajadoInput.addEventListener('input', () => {
+    if (selectEstado.value === 'gratis') return;
+    const precio = parseFloat(precioInput.value) || 0;
+    const rebajado = parseFloat(rebajadoInput.value);
+    if (precio > 0 && rebajado >= 0 && rebajado < precio) {
+      const porcentaje = Math.round((1 - rebajado / precio) * 100);
+      porcentajeInput.value = porcentaje;
+    } else if (!rebajadoInput.value) {
+      porcentajeInput.value = 0;
+    }
+  });
 }
 
 function actualizarEstadisticas(juegos) {

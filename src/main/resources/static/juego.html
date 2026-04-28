@@ -236,7 +236,7 @@
           const id = match[1];
           console.log(`Cargando juego ID: ${id}`);
           
-          const response = await fetch(`/api/juego/${id}`);
+          const response = await fetch(`/api/juegos/${id}`);
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           
           const juego = await response.json();
