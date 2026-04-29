@@ -46,6 +46,12 @@
           transform: rotate(360deg);
         }
       }
+
+      .contador-redireccion {
+        font-size: 0.9rem;
+        color: var(--steam-text-secondary);
+        margin-top: 15px;
+      }
     </style>
   </head>
   <body>
@@ -78,13 +84,17 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
+        // 1. Elimina los productos del carrito del almacenamiento local
+        localStorage.removeItem("carrito");
+
+        // 2. Resetea el contador a cero
+        localStorage.setItem("carritoCount", "0");
         // 1. Cargar el sidebar (como haces en el index)
         const sidebarContainer = document.getElementById("sidebar-container");
         if (sidebarContainer) {
           const resp = await fetch("/sidebar.html");
           const html = await resp.text();
           sidebarContainer.innerHTML = html;
-          // Aquí llamarías a la función que inicializa los eventos del sidebar si existe en script.js
         }
 
         // 2. Lógica de confirmación de Stripe
@@ -111,25 +121,55 @@
           );
 
           if (response.ok) {
-            // Éxito total
+            const data = await response.json();
+            
+            // 3. Éxito total: limpiar carrito, actualizar UI y redirigir
             loader.style.display = "none";
+            
+            const juegosAnadidos = data.juegosAnadidos || 0;
+            const nombresJuegos = data.nombresJuegos || [];
+            
+            // Limpiar localStorage del carrito
+            localStorage.removeItem("carrito");
+            localStorage.setItem("carritoCount", "0");
+            
+            // Actualizar badge del carrito en el header si existe
+            actualizarBadgeCarrito(0);
+            
+            // Mostrar mensaje de éxito con detalles
+            let mensajeJuegos = "";
+            if (juegosAnadidos > 0) {
+              if (juegosAnadidos === 1) {
+                mensajeJuegos = `Se ha añadido 1 juego a tu biblioteca.`;
+              } else {
+                mensajeJuegos = `Se han añadido ${juegosAnadidos} juegos a tu biblioteca.`;
+              }
+            } else {
+              mensajeJuegos = "El pago se ha confirmado correctamente.";
+            }
+            
             section.innerHTML = `
                     <i class="fa-solid fa-circle-check icono-check"></i>
                     <h2>¡Gracias por tu compra!</h2>
-                    <p>El pago se ha confirmado y los juegos ya están en tu biblioteca.</p>
+                    <p>${mensajeJuegos}</p>
                     <div style="margin-top: 30px;">
                         <a href="/coleccion" class="btn-hero">VER MI COLECCIÓN</a>
                         <a href="/index.html" class="btn-hero" style="background: var(--steam-dark-blue); margin-left:10px;">VOLVER A LA TIENDA</a>
                     </div>
+                    <p class="contador-redireccion" id="contador-redireccion">
+                      Serás redirigido a tu colección en <span id="segundos">3</span> segundos...
+                    </p>
                 `;
-            // Limpiar carrito si lo guardas en localStorage
-            localStorage.removeItem("carrito");
+            
+            // Redirigir a /coleccion después de 3 segundos
+            iniciarCuentaRegresiva(3, "/coleccion");
+            
           } else {
-            mostrarError(
-              "El servidor no pudo validar el pago. Contacta con soporte.",
-            );
+            const errorData = await response.json().catch(() => ({}));
+            mostrarError(errorData.error || "El servidor no pudo validar el pago. Contacta con soporte.");
           }
         } catch (error) {
+          console.error("Error en confirmación de pago:", error);
           mostrarError("Error de conexión al procesar el pedido.");
         }
 
@@ -141,6 +181,48 @@
                 <p>${msg}</p>
                 <a href="/carrito" class="btn-hero" style="margin-top:20px;">VOLVER AL CARRITO</a>
             `;
+        }
+
+        /**
+         * Actualiza el badge del carrito en el header/sidebar si existe
+         */
+        function actualizarBadgeCarrito(cantidad) {
+          // Buscar elementos comunes de badge de carrito
+          const badges = document.querySelectorAll('.carrito-badge, .cart-badge, .badge-carrito, [data-badge="carrito"]');
+          badges.forEach(badge => {
+            badge.textContent = cantidad;
+            badge.style.display = cantidad > 0 ? 'inline-block' : 'none';
+          });
+          
+          // También buscar por ID comunes
+          const badgeById = document.getElementById('carrito-badge') || document.getElementById('cart-count');
+          if (badgeById) {
+            badgeById.textContent = cantidad;
+            badgeById.style.display = cantidad > 0 ? 'inline-block' : 'none';
+          }
+          
+          // Disparar evento personalizado para que otros scripts sepan que el carrito cambió
+          window.dispatchEvent(new CustomEvent('carritoActualizado', { detail: { cantidad } }));
+        }
+
+        /**
+         * Inicia una cuenta regresiva y redirige al terminar
+         */
+        function iniciarCuentaRegresiva(segundos, destino) {
+          const spanSegundos = document.getElementById('segundos');
+          let tiempoRestante = segundos;
+          
+          const intervalo = setInterval(() => {
+            tiempoRestante--;
+            if (spanSegundos) {
+              spanSegundos.textContent = tiempoRestante;
+            }
+            
+            if (tiempoRestante <= 0) {
+              clearInterval(intervalo);
+              window.location.href = destino;
+            }
+          }, 1000);
         }
       });
     </script>

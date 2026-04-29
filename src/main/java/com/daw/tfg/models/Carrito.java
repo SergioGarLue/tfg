@@ -1,5 +1,6 @@
 package com.daw.tfg.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,7 +40,7 @@ public class Carrito {
         joinColumns = @JoinColumn(name = "id_carrito"),
         inverseJoinColumns = @JoinColumn(name = "id_juego")) 
     @JsonIgnore
-    private Set<Juego> juegos;
+    private Set<Juego> juegos = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "id_compra", nullable = true)
