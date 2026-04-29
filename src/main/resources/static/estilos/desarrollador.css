@@ -107,7 +107,7 @@
 }
 
 .input-precio {
-  width: 80px;
+  width: 100px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 4px;
@@ -117,7 +117,7 @@
 }
 
 .input-descuento {
-  width: 60px;
+  width: 70px;
 }
 
 .select-disponible {
@@ -253,4 +253,36 @@
 .select-disponible.input-error {
   border-color: #ff3b30 !important;
   box-shadow: 0 0 0 2px rgba(255,59,48,0.3);
+}
+
+/* Filas con estado especial */
+.fila-gratis {
+  background: rgba(0, 122, 255, 0.05) !important;
+}
+
+.fila-gratis td {
+  color: #6bb3ff;
+}
+
+.fila-no-disponible {
+  background: rgba(255, 59, 48, 0.05) !important;
+  opacity: 0.7;
+}
+
+.fila-no-disponible td {
+  color: #888;
+}
+
+.fila-no-disponible .celda-juego .titulo {
+  color: #888;
+  text-decoration: line-through;
+}
+
+/* Inputs deshabilitados */
+.input-precio:disabled,
+.select-disponible:disabled {
+  background: rgba(255, 255, 255, 0.03);
+  color: #666;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.05);
 }

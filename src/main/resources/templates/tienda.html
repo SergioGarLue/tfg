@@ -243,7 +243,7 @@
           const precioRebajado = Number(game.precioRebajado) || null;
           const finalPrice = (precioRebajado != null && precioRebajado > 0) ? precioRebajado : precioBase;
           const priceDisplay = finalPrice === 0 ? 'Gratis' : `${finalPrice.toFixed(2)}€`;
-          const discountPercent = Number(game.porcentaje ?? game.price?.discount_percent) || 0;
+          const discountPercent = finalPrice === 0 ? 0 : (Number(game.porcentaje ?? game.price?.discount_percent) || 0);
           const genres = normalizeGenres(game).slice(0, 2).join(', ');
           const gameId = game.idJuego || game.appid || game.id || '';
           const title = game.titulo || game.name || game.title || 'Juego';

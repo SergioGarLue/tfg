@@ -75,4 +75,13 @@ public class ViewController {
     public String administrador() {
         return "administrador";
     }
+    @GetMapping("/success")
+    public String success() {
+        return "success";
+    }
+
+    @GetMapping("/pago-exitoso")
+    public String pagoExitoso() {
+        return "success";
+    }
 }

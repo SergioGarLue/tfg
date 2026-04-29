@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Juego - Xyron</title>
-<link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
-<link rel="stylesheet" href="/estilos/index.css" />
-<link rel="stylesheet" href="/estilos/juego.css" />
+  <link rel="stylesheet" href="/fontawesome-free-7.1.0-web/css/all.min.css">
+  <link rel="stylesheet" href="/estilos/index.css" />
+  <link rel="stylesheet" href="/estilos/juego.css" />
 </head>
 <body>
 
   <div class="contenedor-principal">
-    
-        <div id="sidebar-container"></div>
+    <div id="sidebar-container"></div>
 
     <main class="contenido">
       <header class="barra-superior" style="display: flex; justify-content: flex-end; align-items: center; padding: 1rem;">
@@ -60,14 +59,12 @@
                 <img src="https://picsum.photos/300/170?random=106" alt="Captura">
                 <img src="https://picsum.photos/300/170?random=107" alt="Captura">
               </div>
-            </div>
 
             <div class="info-fecha">
               <div class="info-item">
                 <span class="label">Fecha de lanzamiento:</span>
                 <span class="value">Por cargar</span>
               </div>
-            </div>
 
             <div class="precios">
               <span class="precio-original">79.99€</span>
@@ -82,29 +79,22 @@
           </aside>
 
         </div>
-      </div>
     </main>
   </div>
 
   <script src="/js/auth.js"></script>
+  <script src="/js/fetch-interceptor.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      // --- Lógica de Menús Desplegables ---
-      // Simulación contador carrito
       const badge = document.getElementById('badge-carrito');
-      if (badge) {
-        badge.style.display = 'none';
-      }
+      if (badge) badge.style.display = 'none';
 
       function normalizePrice(price) {
         const p = Number(price) || 0;
-        if (p >= 100 && Number.isInteger(p)) {
-          return p / 100;
-        }
+        if (p >= 100 && Number.isInteger(p)) return p / 100;
         return p;
       }
 
-      // CARGAR DATOS DEL JUEGO
       try {
         const pathParts = window.location.pathname.split('/').filter(p => p);
         const juegoAppId = parseInt(pathParts[pathParts.length - 1]);
@@ -115,42 +105,60 @@
           return;
         }
 
-        // FETCH JSON
-        const response = await fetch('/JSON/steam_top_1000_sellers.json');
-        if (!response.ok) throw new Error('No se pudo cargar el JSON');
+        // 1) CARGAR DESDE BD PRIMERO
+        let dbJuego = null;
+        try {
+          const dbResponse = await fetch(`/api/juegos/${juegoAppId}`);
+          if (dbResponse.ok) {
+            dbJuego = await dbResponse.json();
+            console.log('Juego cargado desde BD:', dbJuego);
+          }
+        } catch (e) {
+          console.warn('No se pudo cargar desde BD, usando JSON:', e);
+        }
 
-        const juegos = await response.json();
-        console.log('Juegos cargados:', juegos.length);
+        // 2) CARGAR JSON COMO FALLBACK
+        const jsonResponse = await fetch('/JSON/steam_top_1000_sellers.json');
+        if (!jsonResponse.ok) throw new Error('No se pudo cargar el JSON');
+        const juegosJson = await jsonResponse.json();
+        const jsonJuego = juegosJson.find(j => j && j.appid && Number(j.appid) === Number(juegoAppId));
 
-        // BUSCAR JUEGO
-        const juego = juegos.find(j => {
-          return j && j.appid && Number(j.appid) === Number(juegoAppId);
-        });
-
-        if (!juego) {
-          console.error('Juego no encontrado:', juegoAppId);
+        if (!dbJuego && !jsonJuego) {
           document.querySelector('.titulo-juego').textContent = 'Juego no encontrado';
           return;
         }
 
-        console.log('Juego encontrado:', juego.name);
+        // 3) FUSIONAR DATOS
+        const juego = {
+          appid: juegoAppId,
+          name: dbJuego?.titulo || jsonJuego?.name || 'Juego',
+          developer: dbJuego?.desarrollador?.nombre || jsonJuego?.developer || 'Desconocido',
+          description: jsonJuego?.description || dbJuego?.descripcion || 'Sin descripción',
+          header_image: dbJuego?.imagen || jsonJuego?.header_image || '',
+          screenshots: jsonJuego?.screenshots || [],
+          genres: jsonJuego?.genres || (dbJuego?.generos?.map(g => g.nombre)) || [],
+          release_date: jsonJuego?.release_date || dbJuego?.fechaLanzamiento || 'Por confirmar',
+          price_json: jsonJuego?.price || { final: 0, discount_percent: 0 },
+          precioBase: dbJuego?.precio ?? normalizePrice(jsonJuego?.price?.final) ?? 0,
+          precioRebajado: dbJuego?.precioRebajado ?? null,
+          porcentaje: dbJuego?.porcentaje ?? Number(jsonJuego?.price?.discount_percent) ?? 0,
+          disponible: dbJuego?.disponible !== false
+        };
 
-        // RENDERIZAR DATOS
+        // --- RENDERIZAR ---
         document.querySelector('.titulo-juego').textContent = juego.name;
         document.title = `${juego.name} - Xyron`;
 
         const imgPrincipal = document.querySelector('.imagen-principal img');
-        if (imgPrincipal) imgPrincipal.src = juego.header_image;
+        if (imgPrincipal && juego.header_image) imgPrincipal.src = juego.header_image;
 
         const miniaturasContainer = document.querySelector('#miniaturas-container');
         if (juego.screenshots && juego.screenshots.length > 0) {
-          const miniaturasHTML = juego.screenshots.slice(0, 3).map((src, idx) =>
+          miniaturasContainer.innerHTML = juego.screenshots.slice(0, 3).map((src, idx) =>
             `<img src="${src}" alt="Miniatura ${idx + 1}" class="miniatura ${idx === 0 ? 'active' : ''}" loading="lazy">`
           ).join('');
-          miniaturasContainer.innerHTML = miniaturasHTML;
 
-          // Agregar eventos de click a las miniaturas
-          document.querySelectorAll('.miniatura').forEach((img, index) => {
+          document.querySelectorAll('.miniatura').forEach((img) => {
             img.addEventListener('click', () => {
               imgPrincipal.src = img.src;
               document.querySelectorAll('.miniatura').forEach(m => m.classList.remove('active'));
@@ -160,65 +168,90 @@
         }
 
         const devLink = document.querySelector('.desarrollador-juego a');
-        if (devLink && juego.developer) devLink.textContent = juego.developer;
+        if (devLink) devLink.textContent = juego.developer;
 
         const etiquetasContainer = document.querySelector('.etiquetas-juego');
         if (juego.genres && juego.genres.length > 0) {
-          etiquetasContainer.innerHTML = juego.genres.map(g =>
-            `<span class="etiqueta">${g}</span>`
-          ).join('');
+          etiquetasContainer.innerHTML = juego.genres.map(g => `<span class="etiqueta">${g}</span>`).join('');
         }
 
         const descContainer = document.querySelector('.descripcion-juego p');
-        if (descContainer) descContainer.textContent = juego.description || 'Sin descripción';
+        if (descContainer) descContainer.textContent = juego.description;
 
         const gridCapturas = document.querySelector('#capturas-container');
         if (juego.screenshots && juego.screenshots.length > 3) {
-          gridCapturas.innerHTML = juego.screenshots.slice(3, 7).map(src =>
-            `<img src="${src}" alt="Captura" loading="lazy">`
-          ).join('');
+          gridCapturas.innerHTML = juego.screenshots.slice(3, 7).map(src => `<img src="${src}" alt="Captura" loading="lazy">`).join('');
         } else if (juego.screenshots && juego.screenshots.length > 0) {
-          gridCapturas.innerHTML = juego.screenshots.map(src =>
-            `<img src="${src}" alt="Captura" loading="lazy">`
-          ).join('');
+          gridCapturas.innerHTML = juego.screenshots.map(src => `<img src="${src}" alt="Captura" loading="lazy">`).join('');
         }
 
         const fechaElement = document.querySelector('.info-fecha .value');
-        if (fechaElement) fechaElement.textContent = juego.release_date || 'Por confirmar';
+        if (fechaElement) fechaElement.textContent = juego.release_date;
 
-        const price = juego.price || { final: 0, discount_percent: 0 };
-        const finalPrice = normalizePrice(price.final);
-        const discount = Number(price.discount_percent) || 0;
-
+        // --- PRECIOS ---
         const priceFinalElem = document.querySelector('.precio-final');
         const priceOriginalElem = document.querySelector('.precio-original');
         const discountElem = document.querySelector('.precio-descuento');
 
-        if (priceFinalElem) {
-          if (finalPrice === 0) {
-            priceFinalElem.textContent = 'Gratis';
-            if (priceOriginalElem) priceOriginalElem.style.display = 'none';
-            if (discountElem) discountElem.style.display = 'none';
-          } else {
-            priceFinalElem.textContent = `${finalPrice.toFixed(2)}€`;
-            if (discount > 0) {
-              const original = finalPrice / (1 - discount / 100);
-              if (priceOriginalElem) {
-                priceOriginalElem.textContent = `${original.toFixed(2)}€`;
-                priceOriginalElem.style.display = 'inline';
-              }
-              if (discountElem) {
-                discountElem.textContent = `-${discount}%`;
-                discountElem.style.display = 'inline';
-              }
-            } else {
+        if (dbJuego) {
+          const precioBase = Number(dbJuego.precio) || 0;
+          const precioRebajado = dbJuego.precioRebajado != null ? Number(dbJuego.precioRebajado) : null;
+          const porcentaje = Number(dbJuego.porcentaje) || 0;
+          const tieneRebaja = precioRebajado != null && precioRebajado > 0 && precioRebajado < precioBase;
+          const precioFinal = tieneRebaja ? precioRebajado : precioBase;
+
+          if (priceFinalElem) {
+            if (precioFinal === 0) {
+              priceFinalElem.textContent = 'Gratis';
               if (priceOriginalElem) priceOriginalElem.style.display = 'none';
               if (discountElem) discountElem.style.display = 'none';
+            } else {
+              priceFinalElem.textContent = `${precioFinal.toFixed(2)}€`;
+              if (tieneRebaja || porcentaje > 0) {
+                if (priceOriginalElem) {
+                  priceOriginalElem.textContent = `${precioBase.toFixed(2)}€`;
+                  priceOriginalElem.style.display = 'inline';
+                }
+                if (discountElem) {
+                  discountElem.textContent = porcentaje > 0 ? `-${porcentaje}%` : 'Oferta';
+                  discountElem.style.display = 'inline';
+                }
+              } else {
+                if (priceOriginalElem) priceOriginalElem.style.display = 'none';
+                if (discountElem) discountElem.style.display = 'none';
+              }
+            }
+          }
+        } else {
+          const finalPrice = normalizePrice(juego.price_json?.final);
+          const discount = Number(juego.price_json?.discount_percent) || 0;
+
+          if (priceFinalElem) {
+            if (finalPrice === 0) {
+              priceFinalElem.textContent = 'Gratis';
+              if (priceOriginalElem) priceOriginalElem.style.display = 'none';
+              if (discountElem) discountElem.style.display = 'none';
+            } else {
+              priceFinalElem.textContent = `${finalPrice.toFixed(2)}€`;
+              if (discount > 0) {
+                const original = finalPrice / (1 - discount / 100);
+                if (priceOriginalElem) {
+                  priceOriginalElem.textContent = `${original.toFixed(2)}€`;
+                  priceOriginalElem.style.display = 'inline';
+                }
+                if (discountElem) {
+                  discountElem.textContent = `-${discount}%`;
+                  discountElem.style.display = 'inline';
+                }
+              } else {
+                if (priceOriginalElem) priceOriginalElem.style.display = 'none';
+                if (discountElem) discountElem.style.display = 'none';
+              }
             }
           }
         }
 
-        // Funciones comunes carrito
+        // --- CARRITO ---
         const CARRITO_KEY = 'solarSistemCart';
 
         function getCart() {
@@ -234,16 +267,14 @@
           let cart = getCart();
           const existing = cart.find(item => item.appid === juego.appid);
           if (existing) {
-            // No permitir duplicados - el juego ya está en el carrito
             console.log('El juego ya está en el carrito');
             return false;
           } else {
-            // Agregar con cantidad siempre = 1
             cart.push({
               appid: juego.appid,
               name: juego.name,
               header_image: juego.header_image,
-              finalPrice: normalizePrice(juego.price?.final),
+              finalPrice: dbJuego?.precioRebajado ?? dbJuego?.precio ?? normalizePrice(juego.price_json?.final),
               quantity: 1
             });
           }
@@ -252,7 +283,7 @@
         }
 
         function updateBadges() {
-          const totalItems = getCart().length; // Contar solo items, no cantidad
+          const totalItems = getCart().length;
           document.querySelectorAll('#badge-carrito').forEach(badge => {
             if (totalItems > 0) {
               badge.style.display = 'flex';
@@ -263,7 +294,6 @@
           });
         }
 
-        // Verificar si el juego ya está en la colección (desde el backend)
         let juegoEnColeccion = false;
         const usuario = typeof AUTH !== 'undefined' && AUTH ? AUTH.getAuthenticatedUser() : null;
         if (usuario && usuario.idUsuario) {
@@ -272,38 +302,33 @@
             if (response.ok) {
               const juegosColeccion = await response.json();
               juegoEnColeccion = juegosColeccion.some(j => Number(j.idJuego) === Number(juego.appid));
-              console.log('Juego en colección (backend):', juegoEnColeccion);
             }
           } catch (e) {
             console.error('Error consultando colección:', e);
           }
         }
 
-        // Bind buttons
         const btnComprar = document.querySelector('.btn-comprar');
         if (btnComprar && juego) {
           if (juegoEnColeccion) {
-            // Si ya está en la colección, deshabilitar el botón
             btnComprar.disabled = true;
             btnComprar.innerHTML = '<i class="fa-solid fa-check"></i> Ya está en tu colección';
             btnComprar.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
             btnComprar.style.cursor = 'not-allowed';
             btnComprar.style.opacity = '0.7';
           } else {
-            // Si no está, permitir la compra
             btnComprar.onclick = () => {
               const added = addToCart(juego);
               if (added) {
-                btnComprar.textContent = '✓ Añadido';
+                btnComprar.innerHTML = '<i class="fa-solid fa-check"></i> Añadido';
                 btnComprar.style.background = '#28a745';
                 btnComprar.disabled = true;
                 setTimeout(() => {
-                  btnComprar.textContent = 'Añadir al carrito';
+                  btnComprar.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Añadir al carrito';
                   btnComprar.style.background = '';
                   btnComprar.disabled = false;
                 }, 2000);
               } else {
-                // Juego ya está en el carrito
                 alert('Este juego ya está en tu carrito');
               }
             };
@@ -312,7 +337,6 @@
 
         const btnDeseados = document.querySelector('.btn-deseados');
         if (btnDeseados) {
-          // Verificar si el juego ya está en deseados al cargar
           const listaDeseadosInit = JSON.parse(localStorage.getItem('listaDeseados')) || [];
           const estaEnDeseados = listaDeseadosInit.includes(juego.appid);
 
@@ -322,12 +346,8 @@
           }
 
           btnDeseados.onclick = () => {
-            // Obtener la lista actual de deseados
             const listaDeseados = JSON.parse(localStorage.getItem('listaDeseados')) || [];
-
-            // Verificar si ya está en la lista
             if (!listaDeseados.includes(juego.appid)) {
-              // Agregar a deseados
               listaDeseados.push(juego.appid);
               localStorage.setItem('listaDeseados', JSON.stringify(listaDeseados));
               btnDeseados.innerHTML = '<i class="fa-solid fa-check"></i> Añadido a deseados';
@@ -337,7 +357,6 @@
                 btnDeseados.style.background = '#ffc107';
               }, 2000);
             } else {
-              // Eliminar de deseados
               const listaActualizada = listaDeseados.filter(id => id !== juego.appid);
               localStorage.setItem('listaDeseados', JSON.stringify(listaActualizada));
               btnDeseados.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminado';
@@ -350,7 +369,6 @@
           };
         }
 
-        // Init badge
         updateBadges();
         console.log('✅ Juego cargado correctamente');
 
@@ -364,5 +382,3 @@
   <script src='/js/script.js'></script>
 </body>
 </html>
-
-

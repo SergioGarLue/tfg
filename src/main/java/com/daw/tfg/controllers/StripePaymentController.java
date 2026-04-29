@@ -7,11 +7,14 @@ import com.daw.tfg.dtos.StripePaymentIntentRequest;
 import com.daw.tfg.dtos.StripePaymentIntentResponse;
 import com.daw.tfg.dtos.CheckoutSessionRequest;
 import com.daw.tfg.enums.EstadoCompra;
+import com.daw.tfg.models.Carrito;
 import com.daw.tfg.models.Juego;
+import com.daw.tfg.models.Usuario;
 import com.daw.tfg.service.CarritoService;
 import com.daw.tfg.service.CompraServiceImpl;
 import com.daw.tfg.service.JuegoService;
 import com.daw.tfg.service.StripeService;
+import com.daw.tfg.service.UsuarioService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
@@ -20,6 +23,7 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,12 +49,15 @@ public class StripePaymentController {
     private final CompraServiceImpl compraService;
     private final CarritoService carritoService;
     private final JuegoService juegoService;
+    private final UsuarioService usuarioService;
 
-    public StripePaymentController(StripeService stripeService, CompraServiceImpl compraService, CarritoService carritoService, JuegoService juegoService) {
+    public StripePaymentController(StripeService stripeService, CompraServiceImpl compraService, 
+            CarritoService carritoService, JuegoService juegoService, UsuarioService usuarioService) {
         this.stripeService = stripeService;
         this.compraService = compraService;
         this.carritoService = carritoService;
         this.juegoService = juegoService;
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping("/create-intent")
@@ -97,6 +104,7 @@ public class StripePaymentController {
     /**
      * Endpoint específico para crear sesión de checkout con los juegos exactos del carrito del frontend.
      * El frontend envía los productos específicos que tiene en localStorage.
+     * Guarda los juegos en el carrito de la BD para que PagoController pueda procesarlos después del pago.
      */
     @PostMapping("/create-checkout-session-v2")
     public ResponseEntity<Object> createCheckoutSessionV2(
@@ -118,6 +126,22 @@ public class StripePaymentController {
             logger.info("Creando sesión de checkout para usuario {} con {} juego(s)", 
                     request.getUsuarioId(), juegos.size());
             juegos.forEach(j -> logger.info("  - {} (${} )", j.getTitulo(), j.getPrecio()));
+
+            // GUARDAR JUEGOS EN EL CARRITO DE LA BD para que PagoController pueda procesarlos después del pago
+            Usuario usuario = usuarioService.findById(request.getUsuarioId());
+            Carrito carrito;
+            try {
+                carrito = carritoService.findByUsuario(usuario);
+                carrito.getJuegos().clear(); // Limpiar carrito existente
+                logger.info("Carrito existente limpiado para usuario {}", request.getUsuarioId());
+            } catch (IllegalArgumentException e) {
+                carrito = new Carrito(usuario, new HashSet<>());
+                logger.info("Nuevo carrito creado para usuario {}", request.getUsuarioId());
+            }
+            carrito.getJuegos().addAll(juegos);
+            carritoService.save(carrito);
+            logger.info("Carrito guardado en BD para usuario {} con {} juego(s)", 
+                    request.getUsuarioId(), juegos.size());
 
             String finalSuccessUrl = request.getSuccessUrl() != null ? request.getSuccessUrl() : "http://localhost:8080/pago-exitoso";
             String finalCancelUrl = request.getCancelUrl() != null ? request.getCancelUrl() : "http://localhost:8080/carrito";

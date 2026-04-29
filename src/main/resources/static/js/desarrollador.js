@@ -94,6 +94,107 @@ function renderizarTabla(juegos) {
       </tr>
     `;
   }).join('');
+
+  // Activar calculadora de descuentos y estado visual en cada fila
+  juegos.forEach(juego => {
+    const fila = tbody.querySelector(`tr[data-id="${juego.idJuego}"]`);
+    if (fila) {
+      bindCalculadoraDescuento(fila);
+      actualizarEstadoVisual(fila);
+    }
+  });
+}
+
+/**
+ * Vincula los inputs de precio, porcentaje y precio rebajado para calcularse automaticamente.
+ */
+function bindCalculadoraDescuento(fila) {
+  const precioInput = fila.querySelector('input[data-campo="precio"]');
+  const porcentajeInput = fila.querySelector('input[data-campo="porcentaje"]');
+  const rebajadoInput = fila.querySelector('input[data-campo="precioRebajado"]');
+  const selectEstado = fila.querySelector('select[data-campo="disponible"]');
+
+  if (!precioInput || !porcentajeInput || !rebajadoInput) return;
+
+  // Al cambiar precio base: recalcular precio rebajado segun porcentaje actual
+  precioInput.addEventListener('input', () => {
+    if (selectEstado.value === 'gratis') return;
+    const precio = parseFloat(precioInput.value) || 0;
+    const porcentaje = parseInt(porcentajeInput.value, 10);
+    if (precio > 0 && porcentaje > 0) {
+      const rebajado = precio * (1 - porcentaje / 100);
+      rebajadoInput.value = rebajado > 0 ? rebajado.toFixed(2) : '';
+    }
+  });
+
+  // Al cambiar porcentaje: calcular precio rebajado
+  porcentajeInput.addEventListener('input', () => {
+    if (selectEstado.value === 'gratis') return;
+    const precio = parseFloat(precioInput.value) || 0;
+    const porcentaje = parseInt(porcentajeInput.value, 10) || 0;
+    if (precio > 0) {
+      if (porcentaje === 0) {
+        rebajadoInput.value = '';
+      } else {
+        const rebajado = precio * (1 - porcentaje / 100);
+        rebajadoInput.value = rebajado > 0 ? rebajado.toFixed(2) : '';
+      }
+    }
+  });
+
+  // Al cambiar precio rebajado: calcular porcentaje
+  rebajadoInput.addEventListener('input', () => {
+    if (selectEstado.value === 'gratis') return;
+    const precio = parseFloat(precioInput.value) || 0;
+    const rebajado = parseFloat(rebajadoInput.value);
+    if (precio > 0 && rebajado >= 0 && rebajado < precio) {
+      const porcentaje = Math.round((1 - rebajado / precio) * 100);
+      porcentajeInput.value = porcentaje;
+    } else if (!rebajadoInput.value) {
+      porcentajeInput.value = 0;
+    }
+  });
+
+  // Manejar cambio de estado visual
+  selectEstado.addEventListener('change', () => {
+    actualizarEstadoVisual(fila);
+  });
+}
+
+/**
+ * Actualiza el estado visual de los inputs segun el estado seleccionado:
+ * - 'gratis': precio=0, descuentos deshabilitados
+ * - 'no-disponible': todos los inputs deshabilitados
+ * - 'disponible': todos habilitados
+ */
+function actualizarEstadoVisual(fila) {
+  const select = fila.querySelector('select[data-campo="disponible"]');
+  const precioInput = fila.querySelector('input[data-campo="precio"]');
+  const porcentajeInput = fila.querySelector('input[data-campo="porcentaje"]');
+  const rebajadoInput = fila.querySelector('input[data-campo="precioRebajado"]');
+
+  if (!select) return;
+
+  const estado = select.value;
+
+  if (estado === 'no-disponible') {
+    precioInput && (precioInput.disabled = true);
+    porcentajeInput && (porcentajeInput.disabled = true);
+    rebajadoInput && (rebajadoInput.disabled = true);
+    fila.classList.add('fila-no-disponible');
+    fila.classList.remove('fila-gratis');
+  } else if (estado === 'gratis') {
+    precioInput && (precioInput.disabled = true, precioInput.value = '0.00');
+    porcentajeInput && (porcentajeInput.disabled = true, porcentajeInput.value = '0');
+    rebajadoInput && (rebajadoInput.disabled = true, rebajadoInput.value = '');
+    fila.classList.add('fila-gratis');
+    fila.classList.remove('fila-no-disponible');
+  } else {
+    precioInput && (precioInput.disabled = false);
+    porcentajeInput && (porcentajeInput.disabled = false);
+    rebajadoInput && (rebajadoInput.disabled = false);
+    fila.classList.remove('fila-no-disponible', 'fila-gratis');
+  }
 }
 
 function actualizarEstadisticas(juegos) {
@@ -182,7 +283,7 @@ async function guardarCambios(idJuego, btn) {
     }
   });
 
-  // Si es gratis, ignorar valores de inputs numéricos (ya fueron forzados arriba)
+  // Si es gratis, forzar valores
   if (estadoSeleccionado === 'gratis') {
     dto.precio = 0.0;
     dto.precioRebajado = null;
@@ -257,6 +358,9 @@ function actualizarFilaVisual(fila, juego) {
 
   // Quitar posible estado de error
   fila.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+
+  // Actualizar estado visual de inputs
+  actualizarEstadoVisual(fila);
 }
 
 function actualizarJuegoEnCache(juegoActualizado) {
@@ -279,4 +383,3 @@ function mostrarToast(mensaje, tipo) {
     toast.classList.remove('visible');
   }, 3000);
 }
-

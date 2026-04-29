@@ -21,10 +21,7 @@
 
       <main class="contenido">
         <header class="barra-superior">
-          <div class="contenedor-busqueda">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Buscar en la tienda...">
-          </div>
+          
           <div class="boton-carrito">
             <a href="carrito"><i class="fa-solid fa-cart-shopping"></i></a>
             <span class="contador-carrito" id="badge-carrito">0</span>
@@ -172,8 +169,8 @@
         listaProductos.innerHTML = updatedCart.map(item => {
           const precio = normalizePrice(item.finalPrice);
           const tieneDescuento = item.porcentaje > 0 || (item.precioRebajado != null && item.precioRebajado > 0 && item.precioRebajado < item.precioOriginal);
-          const precioOriginalDisplay = tieneDescuento ? `<span style="text-decoration: line-through; color: #888; font-size: 0.85rem; margin-right: 6px;">${normalizePrice(item.precioOriginal).toFixed(2)}€</span>` : '';
-          const badgeDescuento = item.porcentaje > 0 ? `<span style="background: #76b900; color: #000; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; margin-right: 6px;">-${item.porcentaje}%</span>` : '';
+          const precioOriginalDisplay = tieneDescuento  ? `<span style="text-decoration: line-through; color: #888; font-size: 0.85rem; margin-right: 6px;">${normalizePrice(item.precioOriginal).toFixed(2)}€</span>` : '';
+          const badgeDescuento = item.porcentaje > 0 && normalizePrice(item.finalPrice) < 0 ? `<span style="background: #76b900; color: #000; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; margin-right: 6px;">-${item.porcentaje}%</span>` : '';
           const noDisponible = item.disponible === false ? '<span style="color: #ff3b30; font-size: 0.8rem; display: block;">No disponible</span>' : '';
 
           return `
@@ -181,10 +178,6 @@
               <div class="imagen-producto" style="background-image: url('${item.header_image || 'https://picsum.photos/120/70?random=20'}');"></div>
               <div class="info-producto">
                 <span class="nombre-juego">${item.name}</span>
-                <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #999;">
-                  Cantidad: 1
-                </div>
-                ${noDisponible}
               </div>
               <button class="btn-eliminar" onclick="removeFromCart(${item.appid})"><i class="fa-solid fa-trash"></i></button>
               <div class="precio-producto">

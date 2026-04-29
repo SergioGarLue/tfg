@@ -14,15 +14,11 @@
     <div id="sidebar-container"></div>
 
     <main class="contenido">
-      <header class="barra-superior">
-        <div class="contenedor-busqueda">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar en la tienda...">
-        </div>
-        <div class="boton-carrito">
-          <a href="carrito"><i class="fa-solid fa-cart-shopping"></i></a>
+      <header class="barra-superior" style="justify-content: flex-end;">
+        <a href="carrito" class="boton-carrito" style="text-decoration: none;">
+          <i class="fa-solid fa-cart-shopping"></i>
           <span class="contador-carrito" id="badge-carrito">0</span>
-        </div>
+        </a>
       </header>
 
       <div class="scroll-contenido">
@@ -68,8 +64,10 @@
             <i class="fa-solid fa-gamepad"></i>
             <p>No tienes juegos asociados a tu cuenta de desarrollador.</p>
           </div>
+        </div>
       </div>
     </main>
+
   </div>
 
   <div id="toast-b2b" class="toast-b2b"></div>
